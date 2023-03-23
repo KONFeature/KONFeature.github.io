@@ -32,10 +32,10 @@ disableHugoGeneratorInject = false
     gitUrl = "https://github.com/KONFeature/KONFeature.github.io/commit/"
 
     # For the theme toggle
-    enableThemeToggle = false
+    enableThemeToggle = true
 
     # For the share buttons
-    enableSharingButtons = true
+    enableSharingButtons = false
 
     # For the language toggle
     enableGlobalLanguageMenu = false
