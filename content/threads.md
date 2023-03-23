@@ -6,7 +6,7 @@ date: 2023-03-23
 type: "post"
 featured_image: "/images/twitter-threads-thumbnail.jpg"
 tags: ["solidity", "gas optimisation", "smart contracts", "twitter threads"]
-url: "/threads-on-twitter/"
+url: "/threads/"
 ---
 
 Discover my latest Twitter threads on Solidity gas optimisations. Don't forget to follow me on [Twitter](https://twitter.com/QNivelais) and like the content if you find it helpful!
