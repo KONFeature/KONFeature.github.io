@@ -5,8 +5,8 @@ theme = 'nightfall'
 
 [params]
 author = "Quentin Nivelais"
-user = "KONFeature"
-hostname = "gohugo.io"
+user = "quentin"
+hostname = "nivelais.com"
 
 [[params.social]]
 key = 0
