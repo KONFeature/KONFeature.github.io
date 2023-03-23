@@ -1,0 +1,34 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+theme = 'nightfall'
+
+[params]
+author = "Quentin Nivelais"
+user = "KONFeature"
+hostname = "gohugo.io"
+
+[[params.social]]
+key = 0
+name = "github"
+url = "https://github.com/KONFeature"
+
+[[params.social]]
+key = 1
+name = "twitter"
+url = "https://twitter.com/QNivelais"
+
+[[params.social]]
+key = 2
+name = "medium"
+url = "https://medium.com/@quentin.nivelais"
+
+[[params.social]]
+key = 3
+name = "linkedin"
+url = "https://www.linkedin.com/in/quentin-nivelais-5081a4141/"
+
+[[params.social]]
+key = 4
+name = "email"
+url = "mailto:quentin@nivelais.com"
