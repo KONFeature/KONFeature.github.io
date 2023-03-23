@@ -1,34 +1,97 @@
-baseURL = 'http://example.org/'
+baseURL = 'http://nivelais.com/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'nightfall'
+title = 'Quentin Nivelais'
+theme = 'hello-friend-ng'
+
+enableRobotsTXT = true
+enableGitInfo   = true
+enableEmoji     = true
+enableMissingTranslationPlaceholders = true
+disableRSS     = false
+disableSitemap = false
+disable404     = false
+disableHugoGeneratorInject = false
+
+[author]
+    name = "Quentin Nivelais"
 
 [params]
-author = "Quentin Nivelais"
-user = "quentin"
-hostname = "nivelais.com"
+    dateform        = "Jan 2, 2006"
+    dateformShort   = "Jan 2"
+    dateformNum     = "2006-01-02"
+    dateformNumTime = "2006-01-02 15:04"
+
+    # Seo
+    description = "Explore in-depth articles, tutorials, and insights on Solidity, smart contract security, and gas optimisations."
+    keywords = "solidity, smart contracts, gas optimisation, security, blockchain, ethereum, programming, development, dApp, tutorials, articles, ERC-20, EIP-712, ERC-2612"
+
+    # Subtitle for the home page
+    homeSubtitle = "Head of Smart Contract @frak-id | Solidity Pro | Android Dev Enthusiast"
+
+    # For build info
+    gitUrl = "https://github.com/KONFeature/KONFeature.github.io/commit/"
+
+    # For the theme toggle
+    enableThemeToggle = false
+
+    # For the share buttons
+    enableSharingButtons = true
+
+    # For the language toggle
+    enableGlobalLanguageMenu = false
+
+    # For text alignment
+    justifyContent = true
+
+    # Import our custom css script
+    customCSS = ["/css/style.css"]
+
+# Header logo
+[params.logo]
+    logoMark     = ">"
+    logoText     = "$ cd /home/"
+    logoHomeLink = "/"
+    logoCursorPathname = true
+
+# Add portrait to home page
+[params.portrait]
+    path     = "/img/portrait.png"
+    alt      = "Portrait"
+    maxWidth = "200px"
+
+# Add footer
+[params.footer]
+    trademark = true
+    author = true
+
+[menu]
+    [[menu.main]]
+        identifier = "articles"
+        name       = "Articles"
+        url        = "articles/"
+    [[menu.main]]
+        identifier = "threads"
+        name       = "Threads"
+        url        = "threads/"
+
+
+# Social networks
+[[params.social]]
+    name = "github"
+    url = "https://github.com/KONFeature"
 
 [[params.social]]
-key = 0
-name = "github"
-url = "https://github.com/KONFeature"
+    name = "twitter"
+    url = "https://twitter.com/QNivelais"
 
 [[params.social]]
-key = 1
-name = "twitter"
-url = "https://twitter.com/QNivelais"
+    name = "medium"
+    url = "https://medium.com/@quentin.nivelais"
 
 [[params.social]]
-key = 2
-name = "medium"
-url = "https://medium.com/@quentin.nivelais"
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/quentin-nivelais-5081a4141/"
 
 [[params.social]]
-key = 3
-name = "linkedin"
-url = "https://www.linkedin.com/in/quentin-nivelais-5081a4141/"
-
-[[params.social]]
-key = 4
-name = "email"
-url = "mailto:quentin@nivelais.com"
+    name = "email"
+    url = "mailto:quentin@nivelais.com"
