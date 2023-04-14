@@ -10,6 +10,12 @@ url: "/articles/"
 Discover my latest Medium articles on Solidity and smart contracts. Don't forget to follow me on [Medium](https://medium.com/@quentin.nivelais) for more insights and advice!
 
 {{< box >}}
+[Solidity Gas Efficiency Unleashed: Revert with Error vs Revert with String — A Deep Dive](https://medium.com/frak-defi/solidity-gas-efficiency-unleashed-revert-with-error-vs-revert-with-string-a-deep-dive-248f2cf6bcf2) - 22/03/2023
+
+Maximize Gas Efficiency in Solidity: Explore the advantages of using revert with error messages over revert with strings.
+{{< /box >}}
+
+{{< box >}}
 [ERC-2612: Implementing Gasless ERC-20 Approvals with Solidity (Part 2)](https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-part-2-9c90c01eb69d) - 23/03/2023
 
 Dive into the practical implementation of ERC-2612 and EIP-712 in Solidity. Second article of a 4-part series on gasless ERC-20 approvals.
