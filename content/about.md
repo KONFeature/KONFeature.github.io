@@ -1,6 +1,6 @@
 ---
 title: "About"
-description: "Learn more about Quentin Nivelais, a senior Solidity developer and head of smart contracts at Frak."
+description: "Learn more about Quentin Nivelais, co-Founder at Frak, a senior Solidity developer and head of smart contracts."
 author: "Quentin Nivelais"
 date: 2023-03-23
 tags: ["about", "solidity developer", "smart contracts"]
@@ -9,7 +9,7 @@ url: "/about/"
 
 ## About Quentin Nivelais
 
-I'm Quentin Nivelais, a senior Solidity developer and head of smart contracts at Frak. 
+I'm Quentin Nivelais, coFounder at [Frak](https://frak-labs.com/), blockchain enthusiast, senior Solidity developer and head of smart contracts for Frak. 
 With years of experience in the blockchain industry, I've developed a deep understanding of smart contract development, security, and optimization.
 
 ### Fields of Competence

@@ -26,7 +26,7 @@ disableHugoGeneratorInject = false
     keywords = "solidity, smart contracts, gas optimisation, security, blockchain, ethereum, programming, development, dApp, tutorials, articles, ERC-20, EIP-712, ERC-2612"
 
     # Subtitle for the home page
-    homeSubtitle = "Head of Smart Contract @frak-id | Solidity Pro | Android Dev Enthusiast"
+    homeSubtitle = "coFounder @frak-labs | Head of Smart Contract @frak-id | Solidity Pro"
 
     # For build info
     gitUrl = "https://github.com/KONFeature/KONFeature.github.io/commit/"

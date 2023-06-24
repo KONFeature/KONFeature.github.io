@@ -2,7 +2,7 @@
 title: "Threads on Twitter"
 description: "Explore the latest Twitter threads by Quentin Nivelais, where he shares valuable insights on Solidity gas optimisations."
 author: "Quentin Nivelais"
-date: 2023-03-23
+date: 2023-06-25
 type: "post"
 featured_image: "/images/twitter-threads-thumbnail.jpg"
 tags: ["solidity", "gas optimisation", "smart contracts", "twitter threads"]

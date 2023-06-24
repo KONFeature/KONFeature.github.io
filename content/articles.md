@@ -2,7 +2,7 @@
 title: "Articles"
 description: "Explore Quentin Nivelais' latest Medium articles on Solidity, smart contracts, and blockchain technology."
 author: "Quentin Nivelais"
-date: 2023-03-23
+date: 2023-06-25
 tags: ["solidity", "smart contracts", "medium articles"]
 url: "/articles/"
 ---
@@ -13,6 +13,12 @@ Discover my latest Medium articles on Solidity and smart contracts. Don't forget
 [Solidity Gas Efficiency Unleashed: Revert with Error vs Revert with String — A Deep Dive](https://medium.com/frak-defi/solidity-gas-efficiency-unleashed-revert-with-error-vs-revert-with-string-a-deep-dive-248f2cf6bcf2) - 22/03/2023
 
 Maximize Gas Efficiency in Solidity: Explore the advantages of using revert with error messages over revert with strings.
+{{< /box >}}
+
+{{< box >}}
+[ERC-2612: Implementing Gasless ERC-20 Approvals with Solidity (Part 3)](https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-part-3-f4c8ebf75245) - 24/04/2023
+
+Perfecting ERC-2612: Boost Your DeFi Skills with Solidity Unit Testing in Hardhat and Forge. Third article of a 4-part series on gasless ERC-20 approvals.
 {{< /box >}}
 
 {{< box >}}
