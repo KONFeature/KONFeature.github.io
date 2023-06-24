@@ -2,7 +2,7 @@
 title: "Articles"
 description: "Explore Quentin Nivelais' latest Medium articles on Solidity, smart contracts, and blockchain technology."
 author: "Quentin Nivelais"
-date: 2023-06-25
+date: 2023-03-23
 tags: ["solidity", "smart contracts", "medium articles"]
 url: "/articles/"
 ---
