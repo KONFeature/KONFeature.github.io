@@ -1,4 +1,4 @@
-baseURL = 'http://nivelais.com/'
+baseURL = 'https://nivelais.com/'
 languageCode = 'en-us'
 title = 'Quentin Nivelais'
 theme = 'hello-friend-ng'
