@@ -4,7 +4,7 @@ description: "Learn more about Valéry Nivelais, CTO & Co-Founder at Frak, a sen
 author: "Valéry Nivelais"
 date: 2023-03-23
 tags: ["about", "solidity developer", "blockchain infrastructure", "smart contracts"]
-url: "/about/"
+url: "/info/"
 ---
 ## à propos de Valéry Nivelais
 
