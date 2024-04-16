@@ -49,13 +49,13 @@ disableHugoGeneratorInject = false
 # Header logo
 [params.logo]
     logoMark     = ">"
-    logoText     = "$  Netlor"
+    logoText     = "VN entreprise"
     logoHomeLink = "/"
     logoCursorPathname = true
 
 # Add portrait to home page
 [params.portrait]
-    path     = "/img/portrait.webp"
+    path     = "/img/photomoi.jpg"
     alt      = "Portrait"
     maxWidth = "200px"
 
