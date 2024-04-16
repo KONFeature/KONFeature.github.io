@@ -1,3 +1,3 @@
 +++
-author = "Quentin Nivelais"
+author = "Valéry Nivelais"
 +++
