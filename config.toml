@@ -66,9 +66,9 @@ disableHugoGeneratorInject = false
 
 [menu]
     [[menu.main]]
-        identifier = "Menu"
-        name       = "Menu"
-        url        = "Menu/"
+        identifier = "about"
+        name       = "info"
+        url        = "info/"
 
 
 # Social networks
