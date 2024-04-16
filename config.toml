@@ -1,6 +1,6 @@
-baseURL = 'https://nivelais.com/'
+baseURL = 'https://valery.nivelais.com/'
 languageCode = 'en-us'
-title = 'Quentin Nivelais'
+title = 'Valery Nivelais'
 theme = 'hello-friend-ng'
 
 enableRobotsTXT = true
@@ -13,7 +13,7 @@ disable404     = false
 disableHugoGeneratorInject = false
 
 [author]
-    name = "Quentin Nivelais"
+    name = "Valery Nivelais"
 
 [params]
     dateform        = "Jan 2, 2006"
@@ -26,10 +26,10 @@ disableHugoGeneratorInject = false
     keywords = "solidity, smart contracts, gas optimisation, security, blockchain, ethereum, programming, development, dApp, tutorials, articles, ERC-20, EIP-712, ERC-2612"
 
     # Subtitle for the home page
-    homeSubtitle = "CoFounder & CTO @frak-labs | Solidity Pro"
+    homeSubtitle = "Piscine & CTO @frak-labs"
 
     # For build info
-    gitUrl = "https://github.com/KONFeature/KONFeature.github.io/commit/"
+    gitUrl = "https://github.com/Rubikson/Rubikson.github.io/"
 
     # For the theme toggle
     enableThemeToggle = true
@@ -49,13 +49,13 @@ disableHugoGeneratorInject = false
 # Header logo
 [params.logo]
     logoMark     = ">"
-    logoText     = "$ cd /home/"
+    logoText     = "$  Netlor"
     logoHomeLink = "/"
     logoCursorPathname = true
 
 # Add portrait to home page
 [params.portrait]
-    path     = "/img/portrait.png"
+    path     = "/img/portrait.webp"
     alt      = "Portrait"
     maxWidth = "200px"
 
@@ -69,24 +69,12 @@ disableHugoGeneratorInject = false
         identifier = "articles"
         name       = "Articles"
         url        = "articles/"
-    [[menu.main]]
-        identifier = "threads"
-        name       = "Threads"
-        url        = "threads/"
 
 
 # Social networks
 [[params.social]]
-    name = "github"
-    url = "https://github.com/KONFeature"
-
-[[params.social]]
-    name = "twitter"
-    url = "https://twitter.com/QNivelais"
-
-[[params.social]]
-    name = "medium"
-    url = "https://medium.com/@quentin.nivelais"
+    name = "email"
+    url = "mailto:valery@nivelais.com"
 
 [[params.social]]
     name = "linkedin"
