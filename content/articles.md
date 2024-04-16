@@ -1,9 +1,9 @@
 ---
 title: "Articles"
-description: "Explore Valéry Nivelais' latest Medium articles on Solidity, smart contracts, and blockchain technology."
+description: "Explore Valéry Nivelais' "
 author: "Valéry Nivelais"
 date: 2023-03-23
-tags: ["solidity", "smart contracts", "medium articles"]
+tags: ["expertise, aquatique"]
 url: "/articles/"
 ---
 

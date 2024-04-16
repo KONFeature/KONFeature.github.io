@@ -8,9 +8,6 @@ url: "/info/"
 ---
 ## Qui suis je ?
 
- 
-
-
 
   
  ## Directeur expérimenté de centres aquatiques avec 18 ans d'expertise en gestion DSP et régie
