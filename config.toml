@@ -22,8 +22,8 @@ disableHugoGeneratorInject = false
     dateformNumTime = "2006-01-02 15:04"
 
     # Seo
-    description = "Explore in-depth articles, tutorials, and insights on Solidity, smart contract security, and gas optimisations."
-    keywords = "solidity, smart contracts, gas optimisation, security, blockchain, ethereum, programming, development, dApp, tutorials, articles, ERC-20, EIP-712, ERC-2612"
+    description = "Expertise en gestion de centres aquatiques"
+    keywords = "centre aquatique,audit, consultant,expert,management, conseil,Piscine,sport aquatique, maitre nageur"
 
     # Subtitle for the home page
     homeSubtitle = "Piscine & CTO @frak-labs"
@@ -78,4 +78,4 @@ disableHugoGeneratorInject = false
 
 [[params.social]]
     name = "linkedin"
-    url = "https://www.linkedin.com/in/quentin-nivelais-5081a4141/"
+    url = "https://www.linkedin.com/in/Valéry-nivelais-5081a4141/"

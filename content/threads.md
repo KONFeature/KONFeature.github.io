@@ -1,7 +1,7 @@
 ---
 title: "Threads on Twitter"
-description: "Explore the latest Twitter threads by Quentin Nivelais, where he shares valuable insights on Solidity gas optimisations."
-author: "Quentin Nivelais"
+description: "Explore the latest Twitter threads by Valéry Nivelais, where he shares valuable insights on Solidity gas optimisations."
+author: "Valéry Nivelais"
 date: 2023-03-23
 type: "post"
 featured_image: "/images/twitter-threads-thumbnail.jpg"
