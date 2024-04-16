@@ -19,7 +19,7 @@ With years of experience in the blockchain industry, I've developed a deep under
 ### Fields of Competence
 
   
-
+ "18 années de gestion de centre aquatique DSP /Régie"
 -  **Solidity Development**: Proficient in writing efficient and secure smart contracts using Solidity programming language.
 
 -  **Gas Optimisation**: Expert in optimising smart contract code to minimise gas consumption and reduce transaction costs.
