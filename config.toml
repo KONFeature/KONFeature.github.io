@@ -26,7 +26,7 @@ disableHugoGeneratorInject = false
     keywords = "centre aquatique,audit, consultant,expert,management, conseil,Piscine,sport aquatique, maitre nageur"
 
     # Subtitle for the home page
-    homeSubtitle = "Piscine & CTO @frak-labs"
+    homeSubtitle = "Consultant en gestion de centre aquatique"
 
     # For build info
     gitUrl = "https://github.com/Rubikson/Rubikson.github.io/"
@@ -66,9 +66,9 @@ disableHugoGeneratorInject = false
 
 [menu]
     [[menu.main]]
-        identifier = "articles"
-        name       = "Articles"
-        url        = "articles/"
+        identifier = "Menu"
+        name       = "Menu"
+        url        = "Menu/"
 
 
 # Social networks
@@ -78,4 +78,4 @@ disableHugoGeneratorInject = false
 
 [[params.social]]
     name = "linkedin"
-    url = "https://www.linkedin.com/in/Valéry-nivelais-5081a4141/"
+    url = "https://www.linkedin.com/in/valéry-n-1974985b/"
