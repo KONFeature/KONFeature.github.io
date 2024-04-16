@@ -9,6 +9,26 @@ url: "/articles/"
 
 Discover my latest Medium articles on Solidity and smart contracts. Don't forget to follow me on [Medium](https://medium.com/@quentin.nivelais) for more insights and advice!
 
+
+{{< box >}}
+
+[Unlocking the Future: WebAuthN Meets ERC-4337 Smart Wallets](https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b) - 26/03/2024
+
+In this piece, we’re diving deep into the nitty-gritty of leveraging WebAuthN signatures for validating user operations within the exciting world of ERC-4337 smart accounts.
+{{< /box >}}
+
+{{< box >}}
+[From Idea to Innovation: Unveiling Our WebAuthN Smart Wallet Demo](https://medium.com/frak-defi/from-idea-to-innovation-unveiling-our-webauthn-smart-wallet-demo-4310eae5ae66) - 23/02/2024
+
+Discover the new POC of Frak exploiting WebAuthN for secure and user-friendly smart wallet operations.
+{{< /box >}}
+
+{{< box >}}
+[Frak’s Vanguard: Pioneering the Account Abstraction Revolution in the Polygon Ecosystem](https://medium.com/frak-defi/fraks-vanguard-pioneering-the-account-abstraction-revolution-in-the-polygon-ecosystem-77876b8d9d52) - 13/12/2023
+
+Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon.
+{{< /box >}}
+
 {{< box >}}
 [Solidity Gas Efficiency Unleashed: Revert with Error vs Revert with String — A Deep Dive](https://medium.com/frak-defi/solidity-gas-efficiency-unleashed-revert-with-error-vs-revert-with-string-a-deep-dive-248f2cf6bcf2) - 22/03/2023
 

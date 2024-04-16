@@ -91,7 +91,3 @@ disableHugoGeneratorInject = false
 [[params.social]]
     name = "linkedin"
     url = "https://www.linkedin.com/in/quentin-nivelais-5081a4141/"
-
-[[params.social]]
-    name = "email"
-    url = "mailto:quentin@nivelais.com"
