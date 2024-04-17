@@ -1,39 +1,37 @@
 ---
-title: "About"
-description: "Learn more about Valéry Nivelais, ."
-author: "Valéry Nivelais"
-date: 2023-03-23
-tags: ["about"]
-url: "/info/"
+title: "Consultant en Gestion de Centres Aquatiques"
+description: "Professionnel expérimenté dans la gestion et l'ouverture de centres aquatiques, au service de vos projets."
+keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouverture de piscine", "expert piscine"]
 ---
-## Qui suis je ?
 
+## Présentation
 
-  
- ## Directeur expérimenté de centres aquatiques avec 18 ans d'expertise en gestion DSP et régie
+**Valéry Nivelais**, **consultant en gestion de centres aquatiques**, met à votre service ses **18 années d'expérience** dans le pilotage et l'ouverture de structures aquatiques, en délégation de service public comme en régie directe.
 
-> Avec un parcours riche de 18 années dans la gestion de centres aquatiques, *je suis un professionnel reconnu pour mes compétences en management opérationnel, mon sens de l'organisation et ma capacité à piloter des projets d'envergure.*
+Fort de ses **compétences techniques** dans les métiers de Maître-Nageur Sauveteur, d'accueil et d'entretien, ainsi que de sa **maîtrise des enjeux stratégiques RH**, Valéry vous accompagne dans la **conduite du changement** et la **réussite de vos projets aquatiques**.
 
-### DIRECTEUR AQUAPARC – (SAINT NAZAIRE AGGLO) -SEPT 2017/SEPT 2023
-- *Ouverture d'un centre aquatique de 30M€*, préparation des plannings, conventions, Plan d'organisation de la surveillance et des secours, Règlement intérieur
-- *350 000 entrées annuelles*, gestion de 5 bassins et 1 espace bien-être
-- *Management opérationnel* et recrutement des équipes (MNS, Entretien, Accueil, chefs d'équipes)
-- Création d'*outils de reporting et d'indicateurs de gestion*
+## Domaines d'expertise
 
-### DIRECTEUR DE PISCINE EN RÉGIE  (SAVENAY 44) – OCT 2011/SEPT 2017
-- *Ouverture de l'établissement* et mise en place du personnel
-- *Élaboration d'outils de reporting*, construction du planning d'occupation des bassins, gestion du budget
-- Participation aux *appels d'offres* et *interface avec les décideurs politiques et la direction générale*
-### COORDINATEUR, MNS, CHEF DE BASSIN- AVR IL 2010/SEPT 2011
-- *Expérience variée* au sein de différentes structures, DSP / régie, surveillance, cours, aquaforme
+- **Ouverture de centres aquatiques** : préparation des plannings, conventions, plan d'organisation, règlement intérieur
+- **Management opérationnel** des équipes (MNS, entretien, accueil, chefs d'équipe)
+- Création **d'outils de reporting** et d'**indicateurs de gestion**
+- **Élaboration d'outils de pilotage** : planning d'occupation, gestion budgétaire
+- **Participation aux appels d'offres** et interface avec les décideurs politiques
 
-### DIRECTEUR ADJOINT –MNS – BNSSA EN  DSP   LE MANS- MAI 2005/JUIN 2009
-- *Management, surveillance des bassins, **encadrement pédagogique*, aquagym
-- *Mise en place et suivi des indicateurs de gestion, reporting financiers*
+## Parcours professionnel
 
-> *Une expertise éprouvée dans la gestion de centres aquatiques, du développement à l'exploitation.*
+### Directeur Aquaparc - Saint Nazaire Agglo (2017-2023)
+- Ouverture d'un centre aquatique de 30M€, avec 350 000 entrées annuelles
+- Management d'une équipe pluridisciplinaire de 50 personnes
 
-  
+### Directeur de Piscine en Régie - Savenay (2011-2017)
+- Ouverture de l'établissement et mise en place de l'organisation
+- Élaboration d'outils de reporting et de gestion budgétaire
 
+## À propos
 
+**Passionné de sports aquatiques** (course à pied, natation, karaté), Valéry **prépare également un ironman** et envisage une **traversée à la nage entre Pornic et Noirmoutier** en septembre 2024.
 
+Ses **compétences techniques** et son **expérience terrain** en font un **interlocuteur privilégié** pour vos projets de centres aquatiques.
+
+N'hésitez pas à le **contacter** pour étudier ensemble vos besoins !
