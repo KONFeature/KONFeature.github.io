@@ -6,7 +6,7 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## Présentation
 
-**Valéry Nivelais**, **consultant en gestion de centres aquatiques**, met à votre service ses **18 années d'expérience** dans le pilotage et l'ouverture de structures aquatiques, en délégation de service public comme en régie directe. Fort de ses **compétences techniques** dans les métiers de Maître-Nageur Sauveteur, d'accueil et d'entretien, ainsi que de sa **maîtrise des enjeux stratégiques RH**, Valéry vous accompagne dans la **conduite du changement** et la **réussite de vos projets aquatiques**.
+**Valéry Nivelais**, **consultant en gestion de centres aquatiques**, met à votre service ses **18 années d'expérience** dans le pilotage et l'ouverture de structures aquatiques, en délégation de service public comme en régie directe. Fort de ses **compétences techniques** dans les métiers de Maître-Nageur Sauveteur, d'accueil et d'entretien, ainsi que de sa **maîtrise des enjeux stratégiques RH**, Je vous accompagne dans la **conduite du changement** et la **réussite de vos projets aquatiques**.
 
 ## Domaines d'expertise
 
@@ -32,4 +32,4 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## À propos
 
-**Passionné de sports aquatiques** (course à pied, natation, karaté), Valéry **prépare également un ironman** et envisage une **traversée à la nage entre Pornic et Noirmoutier** en septembre 2024. Ses **compétences techniques** et son **expérience terrain** dans le secteur aquatique et social en font un **interlocuteur privilégié** pour vos projets. N'hésitez pas à le **contacter** pour étudier ensemble vos besoins 
+**Passionné de sports aquatiques** (course à pied, natation, karaté), Je **prépare également un ironman** et envisage une **traversée à la nage entre Pornic et Noirmoutier** en septembre 2024. Ses **compétences techniques** et son **expérience terrain** dans le secteur aquatique et social en font un **interlocuteur privilégié** pour vos projets. N'hésitez pas à le **contacter** pour étudier ensemble vos besoins 
