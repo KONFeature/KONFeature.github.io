@@ -69,7 +69,7 @@ disableHugoGeneratorInject = false
         identifier = "about"
         name       = "info"
         url        = "info/"
-        identifier = "tarifs"
+        identifier = "about"
         name       = "tarifs"
         url        = "tarifs/"
         
