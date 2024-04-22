@@ -7,9 +7,10 @@ tags: ["expertise, aquatique"]
 url: "/tarifs/"
 ---
 
-**tarifs horaire sans retour écrit ou visio (selon souhait du client)**
+**tarifs horaire **
 
 -lecture et analyse de Cahier des charges,  plan d'occupation, plannings, reglements , POSS, Mémoire technique, ......: 60€ 
+retour par écrit synthètique au client 
 
 
 **tarif journalier:** 450 €
