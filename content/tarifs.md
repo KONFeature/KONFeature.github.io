@@ -8,7 +8,9 @@ url: "/tarifs/"
 ---
 
 ###tarif horaire:
--lecture de Cahier des charges : 30€
--lecture cahier des charges , analyse, retour ecrit et/ou visio : 60€
 
-###tarif journalier: 450 €
+-**lecture de Cahier des charges : 30€
+
+-**lecture cahier des charges , analyse, retour ecrit et/ou visio : 60€
+
+###**tarif journalier: 450 €
