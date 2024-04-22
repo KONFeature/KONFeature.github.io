@@ -49,7 +49,7 @@ disableHugoGeneratorInject = false
 # Header logo
 [params.logo]
     logoMark     = ">"
-    logoText     = "VN entreprise"
+    logoText     = "VN entreprise   Numéro d'immatriculation : 524 156 544 00024"
     logoHomeLink = "/"
     logoCursorPathname = true
 
@@ -70,7 +70,7 @@ disableHugoGeneratorInject = false
         name       = "info"
         url        = "info/"
        [[menu.main]]
-        identifier = "tarifs"
+        identifier = "about"
         name       = "tarifs"
         url        = "tarifs/"
         
