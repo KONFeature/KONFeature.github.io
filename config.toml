@@ -49,7 +49,7 @@ disableHugoGeneratorInject = false
 # Header logo
 [params.logo]
     logoMark     = ">"
-    logoText     = "VN entreprise" 
+    logoText     = "VN entreprise " 
     
     
     logoHomeLink = "/"
@@ -72,7 +72,7 @@ disableHugoGeneratorInject = false
         name       = "info"
         url        = "info/"
        [[menu.main]]
-        identifier = ""
+        identifier = "tarifs"
         name       = "tarifs"
         url        = "tarifs/"
         
