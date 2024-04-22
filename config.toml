@@ -49,8 +49,9 @@ disableHugoGeneratorInject = false
 # Header logo
 [params.logo]
     logoMark     = ">"
-    logoText     = "VN entreprise   "
-    logoText     = "siret 43229596200059  "
+    logoText     = "VN entreprise   
+    siret 43229596200059 "
+    
     logoHomeLink = "/"
     logoCursorPathname = true
 
