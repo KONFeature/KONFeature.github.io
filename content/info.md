@@ -33,3 +33,5 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 ## À propos
 
 **Passionné de sports ** (course à pied, natation, karaté), Je **prépare également un ironman** et envisage une **traversée à la nage entre Pornic et Noirmoutier** en septembre 2024 avec l'associaton swim for the planet. mes **compétences techniques** et mon **expérience terrain** dans le secteur aquatique et social  font de moi un **interlocuteur privilégié** pour vos projets. N'hésitez pas à me **contacter** pour étudier ensemble vos besoins 
+
+## siret 43229596200059

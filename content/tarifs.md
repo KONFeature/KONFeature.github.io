@@ -16,3 +16,4 @@ retour par écrit synthètique au client
 **tarif journalier:** 450 €
 
 **tarif journalier si intervention sur site, formation en présentiel avec support:** 1200 € 
+
