@@ -23,10 +23,10 @@ disableHugoGeneratorInject = false
 
     # Seo
     description = "Explore in-depth articles, tutorials, and insights on Solidity, smart contract security, and gas optimisations."
-    keywords = "solidity, smart contracts, gas optimisation, security, blockchain, ethereum, programming, development, dApp, tutorials, articles, ERC-20, EIP-712, ERC-2612"
+    keywords = "solidity, smart contracts, gas optimisation, security, blockchain, ethereum, programming, development"
 
     # Subtitle for the home page
-    homeSubtitle = "CoFounder & CTO @frak-labs | Solidity Pro"
+    homeSubtitle = "CoFounder & CTO @frak-labs | EVM Pro | Rust Learner"
 
     # For build info
     gitUrl = "https://github.com/KONFeature/KONFeature.github.io/commit/"
@@ -61,7 +61,7 @@ disableHugoGeneratorInject = false
 
 # Add footer
 [params.footer]
-    trademark = true
+    trademark = false
     author = true
 
 [menu]
@@ -81,8 +81,8 @@ disableHugoGeneratorInject = false
     url = "https://github.com/KONFeature"
 
 [[params.social]]
-    name = "twitter"
-    url = "https://twitter.com/QNivelais"
+    name = "X"
+    url = "https://x.com/QNivelais"
 
 [[params.social]]
     name = "medium"
