@@ -1,4 +1,4 @@
 +++
 author = "Valéry Nivelais"
 +++
-![moi](<../static/img/moi .jpg>)
+![moi](<../static/img/moi1 .jpg>)
