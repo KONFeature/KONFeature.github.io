@@ -22,11 +22,11 @@ disableHugoGeneratorInject = false
     dateformNumTime = "2006-01-02 15:04"
 
     # Seo
-    description = "Expertise en gestion de centres aquatiques"
+    description = "Expertise en management d'équipe"
     keywords = "centre aquatique,audit, consultant,expert,management, conseil,Piscine,sport aquatique, maitre nageur"
 
     # Subtitle for the home page
-    homeSubtitle = "Consultant en gestion de centre aquatique"
+    homeSubtitle = "Consultant en management d'équipe"
 
     # For build info
     gitUrl = "https://github.com/Rubikson/Rubikson.github.io/"
