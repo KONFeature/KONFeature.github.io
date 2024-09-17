@@ -19,7 +19,7 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## Parcours professionnel
 
-### Chef de service éducatif - association LINKIAA ( juin/aout 2024)
+### Chef de service éducatif - association LINKIAA (juin/aout 2024)
 - management de l'equipe de travailleurs sociaux en lien avec le projet éducatif des 8  jeunes  adolescents accueillis .
 -mise en adéquation des missions avec les fiches de postes.
 
