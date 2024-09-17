@@ -1,4 +1,4 @@
 +++
 author = "Valéry Nivelais"
 +++
-![moi](<../static/img/moi1 .jpg>)
+![moi](<Rubikson/Rubikson.github.io/static/moi1.jpg>)
