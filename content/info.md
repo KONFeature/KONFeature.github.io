@@ -6,21 +6,22 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## Présentation
 
-<<<<<<< HEAD
-**Valéry Nivelais**, **MANAGER DE PROXIMITE**, je mets à votre service mes **18 années d'expérience** dans le pilotage  de centres , le management d'équipes pluridisciplinaires ,dans des PME et dans la fonction publique territoriale. 
-=======
-**Valéry Nivelais**, **MANAGER DE PROXIMITE**, je mets à votre service mes **18 années d'expérience** dans le pilotage et le management d'équipes pluridisciplinaires, en délégation de service public comme en régie directe.je **maîtrise les enjeux stratégiques RH**, Je vous accompagne dans la **conduite du changement** 
->>>>>>> 3f4c1fe14497b667b84585c9814ee1c7e1445dd8
+**Valéry Nivelais**, **MANAGER DE PROXIMITE**, je mets à votre service mes **18 années d'expérience** dans le pilotage et le management d'équipes pluridisciplinaires. 
 
 ## Domaines d'expertise
 
-- **Ouverture de centres aquatiques** : préparation des plannings, conventions, plan d'organisation, règlement intérieur
+- **Ouverture de centres** : préparation des plannings, conventions, plan d'organisation, règlement intérieur
 - **Management opérationnel** des équipes (MNS, entretien, accueil, chefs d'équipe) 
 - Création **d'outils de reporting** et d'**indicateurs de gestion**
-- **Élaboration d'outils de pilotage** : planning d'occupation, gestion budgétaire
-- **Participation aux appels d'offres** et interface avec les décideurs politiques
+- **Élaboration d'outils de pilotage** 
+
 
 ## Parcours professionnel
+
+### Chef de service éducatif - association LINKIAA ( juin/aout 2024)
+- management de l'equipe de travailleurs sociaux en lien avec le projet éducatif des 8  jeunes  adolescents accueillis .
+-mise en adéquation des missions avec les fiches de postes.
+
 
 ### Directeur Aquaparc - Saint Nazaire Agglo (2017-2023)
 - Ouverture d'un centre aquatique de 30M€, avec 350 000 entrées annuelles
