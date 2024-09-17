@@ -6,7 +6,11 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## Présentation
 
+<<<<<<< HEAD
+**Valéry Nivelais**, **MANAGER DE PROXIMITE**, je mets à votre service mes **18 années d'expérience** dans le pilotage  de centres , le management d'équipes pluridisciplinaires ,dans des PME et dans la fonction publique territoriale. 
+=======
 **Valéry Nivelais**, **MANAGER DE PROXIMITE**, je mets à votre service mes **18 années d'expérience** dans le pilotage et le management d'équipes pluridisciplinaires, en délégation de service public comme en régie directe.je **maîtrise les enjeux stratégiques RH**, Je vous accompagne dans la **conduite du changement** 
+>>>>>>> 3f4c1fe14497b667b84585c9814ee1c7e1445dd8
 
 ## Domaines d'expertise
 
