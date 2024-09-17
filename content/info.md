@@ -6,7 +6,7 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## Présentation
 
-**Valéry Nivelais**, **consultant en gestion de centres aquatiques**, je mets à votre service mes **18 années d'expérience** dans le pilotage et l'ouverture de structures aquatiques, en délégation de service public comme en régie directe. Fort de mes **compétences techniques** dans les métiers de Maître-Nageur Sauveteur, d'accueil et d'entretien, ainsi que de ma **maîtrise des enjeux stratégiques RH**, Je vous accompagne dans la **conduite du changement** et la **réussite de vos projets aquatiques**.
+**Valéry Nivelais**, **MANAGER DE PROXIMITE**, je mets à votre service mes **18 années d'expérience** dans le pilotage et le management d'équipes pluridisciplinaires, en délégation de service public comme en régie directe.je **maîtrise les enjeux stratégiques RH**, Je vous accompagne dans la **conduite du changement** 
 
 ## Domaines d'expertise
 
@@ -32,6 +32,6 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ## À propos
 
-**Passionné de sports ** (course à pied, natation, karaté), Je **prépare également un ironman** et envisage une **traversée à la nage entre Pornic et Noirmoutier** en septembre 2024 avec l'associaton swim for the planet. mes **compétences techniques** et mon **expérience terrain** dans le secteur aquatique et social  font de moi un **interlocuteur privilégié** pour vos projets. N'hésitez pas à me **contacter** pour étudier ensemble vos besoins 
+
 
 ## siret 43229596200059
