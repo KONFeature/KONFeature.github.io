@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
 
 # Add portrait to home page
 [params.portrait]
-    path     = "/img/moi.jpeg"
+    path     = "static/img/val1.jpg"
     alt      = "portrait"
     maxWidth = "300px"
     maxHeight = "300px"
