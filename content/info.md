@@ -1,5 +1,5 @@
 ---
-title: "Consultant en Gestion de Centres Aquatiques"
+title: "MANAGER DE PROXIMITE"
 description: "Professionnel expérimenté dans la gestion et l'ouverture de centres aquatiques, au service de vos projets."
 keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouverture de piscine", "expert piscine"]
 ---
