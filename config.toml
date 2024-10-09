@@ -23,10 +23,10 @@ disableHugoGeneratorInject = false
 
     # Seo
     description = "Expertise en management d'équipe"
-    keywords = "centre aquatique,audit, consultant,expert,management, conseil,Piscine,sport aquatique, maitre nageur"
+    keywords = "centre aquatique,audit, consultant,expert,management,conseil,Piscine,sport aquatique, maitre nageur"
 
     # Subtitle for the home page
-    homeSubtitle = "Consultant en management d'équipe"
+    homeSubtitle = "Manager de proximité"
 
     # For build info
     gitUrl = "https://github.com/Rubikson/Rubikson.github.io/"
@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
 
 # Add portrait to home page
 [params.portrait]
-    path     = "/img/moi.jpeg"
+    path     = "Rubikson/Rubikson.github.io/static/img/moi.jpeg"
     alt      = "Portrait"
     maxWidth = "200px"
 
