@@ -53,7 +53,7 @@ disableHugoGeneratorInject = false
     
     
     logoHomeLink = "/"
-    logoCursorPathname = true
+    logoCursorPathname = false
 
 # Add portrait to home page
 [params.portrait]
