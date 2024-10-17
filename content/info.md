@@ -21,8 +21,8 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ### Chef de service éducatif - association LINKIAA (juin/aout 2024)
 - management de l'equipe de travailleurs sociaux en lien avec le projet éducatif des 8  jeunes  adolescents accueillis .
--lien avec les instances de décision, ASE DEF ...Procureur...
--mise en adéquation des missions avec les fiches de postes.
+- lien avec les instances de décision, ASE DEF ...Procureur...
+- mise en adéquation des missions avec les fiches de postes.
 
 
 ### Directeur Aquaparc - Saint Nazaire Agglo (2017-2023)
