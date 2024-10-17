@@ -12,7 +12,7 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 ## Domaines d'expertise
 
 - **Ouverture de centres** : préparation des plannings, conventions, plan d'organisation, règlement intérieur
-- **Management opérationnel** des équipes (MNS, entretien, accueil, chefs d'équipe) 
+- **Management opérationnel** des équipes (éducateurs, MNS, entretien, accueil, chefs d'équipe) 
 - Création **d'outils de reporting** et d'**indicateurs de gestion**
 - **Élaboration d'outils de pilotage** 
 
@@ -21,6 +21,7 @@ keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouvertu
 
 ### Chef de service éducatif - association LINKIAA (juin/aout 2024)
 - management de l'equipe de travailleurs sociaux en lien avec le projet éducatif des 8  jeunes  adolescents accueillis .
+-lien avec les instances de décision, ASE DEF ...Procureur...
 -mise en adéquation des missions avec les fiches de postes.
 
 
