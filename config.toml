@@ -75,7 +75,7 @@ disableHugoGeneratorInject = false
        [[menu.main]]
         identifier = "tarifs"
         name       = "tarifs"
-        url        = "tarifs/"
+        url        = "tarif/"
         
 
 
