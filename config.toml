@@ -23,7 +23,7 @@ disableHugoGeneratorInject = false
 
     # Seo
     description = "Expertise en management d'équipe"
-    keywords = "centre aquatique,audit, consultant,expert,management,conseil,Piscine,sport aquatique, maitre nageur"
+    keywords = "management, consultant,expert,management,conseil,Piscine,sport aquatique, maitre nageur"
 
     # Subtitle for the home page
     homeSubtitle = "Manager de proximité"
@@ -60,7 +60,7 @@ disableHugoGeneratorInject = false
     path     = "/img/val1.jpg"
     alt      = "portrait"
     maxWidth = "300px"
-    maxHeight = "300px"
+ 
 
 # Add footer
 [params.footer]
