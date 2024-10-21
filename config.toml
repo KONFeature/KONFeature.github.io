@@ -55,11 +55,15 @@ disableHugoGeneratorInject = false
     logoHomeLink = "/"
     logoCursorPathname = false
 
-# Add portrait to home page
-[params.portrait]
+# Add square portrait to home page
+[
+params.portrait
+]
     path     = "/img/val1.jpg"
     alt      = "portrait"
     maxWidth = "300px"
+    maxHeight = "300px"
+    style    = "object-fit: cover; width: 300px; height: 300px;"
  
 
 # Add footer
