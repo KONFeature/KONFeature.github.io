@@ -60,6 +60,7 @@ disableHugoGeneratorInject = false
     path     = "/img/val1.jpg"
     alt      = "portrait"
     maxWidth = "200px"
+    maxHeight = "300px"
  
 
 # Add footer
