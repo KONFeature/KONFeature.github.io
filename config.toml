@@ -26,7 +26,7 @@ disableHugoGeneratorInject = false
     keywords = "bricolage , assistance informatique, accompagnement handicap"
 
     # Subtitle for the home page
-    homeSubtitle = "Homme à tout faire "
+    homeSubtitle = " "
 
     # For build info
     gitUrl = "https://github.com/Rubikson/Rubikson.github.io/"
@@ -58,7 +58,7 @@ disableHugoGeneratorInject = false
 # Add square portrait to home page
 [params.portrait]
     path     = "/img/bricolage.jpg"
-    alt      = "portrait"
+    alt      = ""
     maxWidth = "200px"
     maxHeight = "300px"
     # Add square portrait to home page
