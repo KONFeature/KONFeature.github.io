@@ -62,16 +62,7 @@ disableHugoGeneratorInject = false
     maxWidth = "200px"
     maxHeight = "300px"
     # Add square portrait to home page
-[params.portrait]
-    path     = "Rubikson/Rubikson.github.io/static/img/informatique.png"
-    alt      = "portrait"
-    maxWidth = "200px"
-    maxHeight = "300px"
-    [params.portrait]
-    path     = "static/img/bois cassé.jpg"
-    alt      = "portrait"
-    maxWidth = "200px"
-    maxHeight = "300px"
+
  
  
  
