@@ -2,7 +2,7 @@
 title: ""
 description: "
 "
-keywords: ["consultant centres aquatiques", "gestion centre aquatique", "ouverture de piscine", "expert piscine"]
+keywords: ["homme à tout faire , bricolage, assistance informatique, accompagnement , handicap"]
 ---
 
 ## Présentation
