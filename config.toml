@@ -22,7 +22,7 @@ disableHugoGeneratorInject = false
     dateformNumTime = "2006-01-02 15:04"
 
     # Seo
-    description = ""
+    description = "VNentreprise"
     keywords = "bricolage , assistance informatique, accompagnement handicap"
 
     # Subtitle for the home page
