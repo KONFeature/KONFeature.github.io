@@ -58,9 +58,10 @@ disableHugoGeneratorInject = false
 # Add square portrait to home page
 [params.portrait]
     path     = "/img/bricolage.jpg"
+    border-radius: 0px
     alt      = ""
-    maxWidth = "300px"
-    maxHeight = "300px"
+    maxWidth = "500px"
+    maxHeight = "500px"
     # Add square portrait to home page
 
  
