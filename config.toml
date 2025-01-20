@@ -1,6 +1,6 @@
 baseURL = 'https://valery.nivelais.com/'
 languageCode = 'en-us'
-title = 'Valery Nivelais'
+"title = 'Valery Nivelais'
 theme = 'hello-friend-ng'
 
 enableRobotsTXT = true
@@ -12,8 +12,6 @@ disableSitemap = false
 disable404     = false
 disableHugoGeneratorInject = false
 
-[author]
-    name = "Valery Nivelais"
 
 [params]
     dateform        = "Jan 2, 2006"
@@ -57,7 +55,7 @@ disableHugoGeneratorInject = false
 
 # Add square portrait to home page
 [params.portrait]
-    path     = "/img/bricolage.jpg"
+    path     = "static/img/carte visite.jpg"
     border-radius: 0px
     alt      = ""
     maxWidth = "500px"
