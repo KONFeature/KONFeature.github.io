@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
 
 # Add square portrait to home page
 [params.portrait]
-    path     = "Rubikson/Rubikson.github.io/static/img/bricolage.jpg"
+    path     = "/img/bricolage.jpg"
     alt      = "portrait"
     maxWidth = "200px"
     maxHeight = "300px"
