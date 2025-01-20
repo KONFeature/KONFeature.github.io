@@ -93,7 +93,7 @@ disableHugoGeneratorInject = false
         
 
 
-# Social networks
+# Social networks  :
 [[params.social]]
     name = "email"
     url = "mailto:valery@nivelais.com"
