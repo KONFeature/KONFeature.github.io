@@ -1,15 +1,15 @@
 ---
 title: "About"
-description: "Learn more about Quentin Nivelais, CTO & Co-Founder at Frak, a senior Solidity developer."
+description: "Quentin Nivelais, Co-Founder & CTO & at Frak-Labs, senior Solidity developer."
 author: "Quentin Nivelais"
-date: 2023-03-23
-tags: ["about", "solidity developer", "blockchain infrastructure", "smart contracts"]
+date: 2025-03-10
+tags: ["about", "solidity", "blockchain", "smart contracts"]
 url: "/about/"
 ---
 
 ## About Quentin Nivelais
 
-I'm Quentin Nivelais, CTO & CoFounder at [Frak](https://frak-labs.com/), blockchain enthusiast, senior Solidity developer. 
+I'm Quentin Nivelais, CoFounder & CTO at [Frak Labs](https://frak-labs.com/), blockchain enthusiast, senior Solidity developer. 
 With years of experience in the blockchain industry, I've developed a deep understanding of smart contract development, security, and optimization.
 
 ### Fields of Competence
