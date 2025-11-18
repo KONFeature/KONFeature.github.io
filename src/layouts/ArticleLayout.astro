@@ -1,0 +1,53 @@
+---
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import BaseHead from '../components/BaseHead.astro';
+import Icon from '../components/Icon';
+import { SITE_TITLE } from '../consts';
+
+const { title, subtitle, icon, iconColor, readingTime, tags, category } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={`${title} - ${SITE_TITLE}`} description={subtitle} />
+	</head>
+	<body class="bg-[#0a0a0a] text-gray-300 font-sans selection:bg-green-500/30">
+        <Navigation client:load />
+
+        <main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
+             <article class="prose prose-invert prose-green max-w-none">
+                <div class="mb-12 not-prose">
+                    {icon && (
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class={`p-2 bg-white/5 rounded-lg border border-white/10 w-12 h-12 ${iconColor}`}>
+                                <Icon name={icon} />
+                            </div>
+                             <div class="flex flex-col">
+                                <span class="text-xs font-mono text-gray-500 uppercase tracking-wider">{category}</span>
+                                <span class="text-sm text-gray-400">{readingTime}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">{title}</h1>
+                    {subtitle && <p class="text-xl text-gray-400 leading-relaxed">{subtitle}</p>}
+
+                    {tags && (
+                         <div class="flex gap-2 mt-6">
+                            {tags.map((tag: string) => (
+                                <span class="text-[10px] font-mono uppercase tracking-wider bg-white/5 text-gray-400 px-2 py-1 rounded border border-white/10">
+                                    {tag}
+                                </span>
+                            ))}
+                         </div>
+                    )}
+                </div>
+                <slot />
+             </article>
+        </main>
+
+        <Footer />
+    </body>
+</html>
