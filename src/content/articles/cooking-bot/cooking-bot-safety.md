@@ -10,6 +10,7 @@ iconColor: "text-emerald-400"
 featured: false
 description: "A deep dive into the deterministic safety layer, Regex-based NLP pipeline, and queue architecture of Cooking Bot, demonstrating why some tasks are too critical for LLMs."
 githubUrl: "https://github.com/frak-id/cooking-bot"
+group: "cooking-bot"
 ---
 
 When building an AI product that impacts physical health—like a cooking assistant—"hallucination" isn't just a UX problem; it's a liability. If an LLM hallucinates that "seitan" is gluten-free, it could send a user to the hospital.

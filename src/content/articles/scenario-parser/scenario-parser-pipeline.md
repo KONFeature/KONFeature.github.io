@@ -10,6 +10,7 @@ iconColor: "text-purple-400"
 featured: false
 description: "A deep dive into the event-driven architecture, concurrency control, and graph theory algorithms powering scenario-parser's analysis engine."
 githubUrl: "https://github.com/KONFeature/scenario-parser"
+group: "scenario-parser"
 ---
 
 When building `scenario-parser`, the primary challenge wasn't just "calling an LLM." It was orchestration. A typical screenplay analysis involves processing hundreds of entities, thousands of interactions, and maintaining a coherent state across multiple asynchronous stages.

@@ -1,15 +1,16 @@
 ---
-title: "Pico Kiln: The \"Industrial\" React App"
-date: 2025-02-22T14:00:00Z
+title: "Pico Kiln — Part 3: React Native UI with Deep Expo Integration"
+date: 2025-11-19T09:00:00Z
 draft: false
-subtitle: "From Script to Product"
-category: "frontend"
-tags: ["React", "Tauri", "TanStack Query", "Data Visualization", "IoT"]
-icon: "layout"
+subtitle: "From Bare Metal to Polished UI"
+category: "mobile"
+tags: ["React Native", "Expo", "BLE", "IoT", "UI/UX"]
+icon: "smartphone"
 iconColor: "text-blue-400"
 featured: false
-description: "Building a robust, polling-based Single Page Application (SPA) for embedded systems using React Query, TanStack Router, and Python-based data analysis."
-githubUrl: "https://github.com/KONFeature/pico-kiln"
+description: "Building the React Native app for Pico Kiln: BLE communication, local-first state, and designing real-time temperature curves that felt native."
+githubUrl: "https://github.com/frak-id/pico-kiln-app"
+group: "kiln"
 ---
 
 Most embedded web interfaces are terrible. They are usually server-side rendered HTML pages that require a full refresh to update a temperature reading. They feel clunky, unresponsive, and fragile.

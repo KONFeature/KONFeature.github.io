@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import Navigation from './Navigation';
 import Footer from './Footer';
+import ArticleGroups from './ArticleGroups';
 
 interface ArticleData {
   id: string;
@@ -21,6 +22,7 @@ interface ArticleData {
   description: string;
   slug: string;
   githubUrl?: string;
+  group?: string;
 }
 
 interface LandingPageProps {
@@ -28,19 +30,12 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  // Get unique categories from articles
-  const categories = useMemo(() => {
-    const cats = new Set(articles.map(a => a.category));
-    return ['all', ...Array.from(cats).sort()];
+  // Show only the 5 most recent articles on landing page
+  const recentArticles = useMemo(() => {
+    return [...articles]
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5);
   }, [articles]);
-
-  // Filter articles by category
-  const filteredArticles = useMemo(() => {
-    if (selectedCategory === 'all') return articles;
-    return articles.filter(a => a.category === selectedCategory);
-  }, [articles, selectedCategory]);
 
   const projects = [
     {
@@ -112,33 +107,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
-        {/* Articles / Logs */}
+        {/* Recent Articles */}
         <section id="articles" className="mb-24">
           <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
             <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
-              Engineering Logs
+              Recent Articles
             </h2>
-          </div>
-
-          {/* Category Filter */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-3 py-1 text-xs font-mono rounded-md transition-all capitalize ${
-                  selectedCategory === category 
-                    ? 'bg-white/10 text-white border border-white/20' 
-                    : 'bg-white/5 text-gray-500 hover:text-gray-300 border border-white/10'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+            <a 
+              href="/articles" 
+              className="font-mono text-xs text-gray-500 hover:text-white transition-colors"
+            >
+              View all →
+            </a>
           </div>
 
           <div className="space-y-8">
-            {filteredArticles.map((article) => (
+            {recentArticles.map((article) => (
               <a 
                 key={article.id} 
                 href={`/articles/${article.slug}`}
@@ -165,6 +149,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
             ))}
           </div>
         </section>
+
+        {/* Article Groups */}
+        <ArticleGroups articles={articles} />
 
         {/* Projects */}
         <section id="projects">

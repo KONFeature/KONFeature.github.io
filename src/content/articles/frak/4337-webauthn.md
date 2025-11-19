@@ -10,6 +10,7 @@ iconColor: "text-red-400"
 featured: false
 description: "Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we’re diving deep into the nitty-gritty of leveraging **WebAuthN signatures for validating user operations** within the exc..."
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
+group: "frak"
 ---
 
 

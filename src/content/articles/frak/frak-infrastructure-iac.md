@@ -10,6 +10,7 @@ iconColor: "text-cyan-400"
 featured: false
 description: "A deep dive into Frak's infrastructure stack, detailing why we abandoned HCL for TypeScript, how we architect multi-cloud deployments with SST, and managing GKE clusters with Pulumi."
 githubUrl: "https://github.com/frak-id/infra-core"
+group: "frak"
 ---
 
 In the world of Platform Engineering, the "Terraform vs. Everyone Else" debate is eternal. At Frak, we made a deliberate choice to step away from the industry standard HCL (HashiCorp Configuration Language) and embrace a full TypeScript stack for our Infrastructure as Code (IaC).
@@ -195,7 +196,7 @@ if (isProd) {
 
 Automation is the heart of SRE. We don't run `pulumi up` from our laptops. We use a strict CI/CD pipeline powered by GitHub Actions.
 
-<div class="mermaid">
+```mermaid
 graph TD
     A[Developer Push] -->|feature-branch| B(GitHub Actions)
     B --> C{Lint & Type Check}
@@ -210,7 +211,7 @@ graph TD
     K -->|infra-core| L[AWS Control Plane]
     K -->|infra-core| M[GCP Kubernetes]
     K -->|infra-blockchain| N[Blockchain Nodes]
-</div>
+```
 
 ## Why This Matters for Reliability
 

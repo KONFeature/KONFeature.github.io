@@ -10,6 +10,7 @@ iconColor: "text-green-400"
 featured: false
 description: "A deep dive into the vector database strategy, schema design, and multi-cloud abstraction layer powering the Cooking Bot's semantic search engine."
 githubUrl: "https://github.com/frak-id/cooking-bot"
+group: "cooking-bot"
 ---
 
 Building a semantic search engine for culinary data requires more than just throwing text into an embedding model. In the **Cooking Bot** project, the vector search infrastructure is designed for high availability, multi-cloud portability, and rich semantic understanding.

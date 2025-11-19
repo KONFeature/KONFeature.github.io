@@ -9,6 +9,7 @@ icon: "zap"
 iconColor: "text-yellow-400"
 featured: true
 description: "A deep dive into rewiring a 1977 'Bretagne' pottery kiln. We cover converting 3-phase to single-phase, handling massive loads, and solving dangerous electrical noise issues."
+group: "kiln"
 ---
 
 Reviving an industrial tool is more than just plugging it in. It’s an exercise in electrical engineering, thermal physics, and heavy lifting.

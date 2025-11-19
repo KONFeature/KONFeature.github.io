@@ -10,6 +10,7 @@ iconColor: "text-yellow-400"
 featured: false
 description: "A case study in reducing gas costs by 99% through bitpacking, assembly, and specialized data structures. How to make on-chain Chess playable."
 githubUrl: "https://github.com/KONFeature/GasChess"
+group: "web3"
 ---
 
 The world of on-chain gaming is often limited by the harsh reality of Ethereum's gas costs. Complex logic like Chess, with its 64 squares and intricate movement rules, seems almost impossible to implement efficiently. However, the `GasChess` project provides a fascinating case study in the journey from "impossible" to "optimized."

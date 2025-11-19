@@ -10,6 +10,7 @@ iconColor: "text-red-400"
 featured: false
 description: "Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns thr..."
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
+group: "frak"
 ---
 
 

@@ -10,6 +10,7 @@ iconColor: "text-indigo-400"
 featured: false
 description: "How Frak achieved <100ms latency by splitting the wallet architecture, aggressive Nginx tuning, and implementing a custom Rolldown chunking strategy."
 githubUrl: "https://github.com/frak-id/wallet"
+group: "frak"
 ---
 
 Building a Web3 wallet is usually a trade-off between security and speed. Most wallets are heavy browser extensions that inject massive scripts into every page you visit.

@@ -10,6 +10,7 @@ iconColor: "text-red-500"
 featured: false
 description: "A technical retrospective on migrating the Frak Wallet from Next.js to TanStack Start, adopting Rolldown for lightning-fast builds, and unifying our entire monorepo stack."
 githubUrl: "https://github.com/frak-id/wallet"
+group: "frak"
 ---
 
 In software development, speed is a feature—not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.

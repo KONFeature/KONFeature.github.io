@@ -10,6 +10,7 @@ iconColor: "text-yellow-400"
 featured: false
 description: "How scenario-parser transforms raw PDF binaries into semantic screenplay data using PyMuPDF4LLM, heuristic state machines, and fuzzy string matching."
 githubUrl: "https://github.com/KONFeature/scenario-parser"
+group: "scenario-parser"
 ---
 
 Screenplays are notoriously difficult to parse. They are PDF files formatted for human eyes, not machines. A Scene Header looks distinct to us because it's in uppercase, but to a computer, it's just text.

@@ -10,6 +10,7 @@ iconColor: "text-red-400"
 featured: false
 description: "Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon."
 mediumUrl: "https://medium.com/frak-defi/fraks-vanguard-pioneering-the-account-abstraction-revolution-in-the-polygon-ecosystem-77876b8d9d52"
+group: "frak"
 ---
 
 

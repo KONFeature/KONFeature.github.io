@@ -10,6 +10,7 @@ iconColor: "text-red-400"
 featured: false
 description: "Setting up some free security tools, to prepare a security Audit"
 mediumUrl: "https://medium.com/frak-defi/securing-solidity-smart-contracts-61d070914886"
+group: "web3"
 ---
 
 

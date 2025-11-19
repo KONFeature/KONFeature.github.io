@@ -10,6 +10,7 @@ iconColor: "text-red-400"
 featured: false
 description: "Perfecting ERC-2612: Boost Your DeFi Skills with Solidity Unit Testing in Hardhat and Forge"
 mediumUrl: "https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-part-3-f4c8ebf75245"
+group: "web3"
 ---
 
 
