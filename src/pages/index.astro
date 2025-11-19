@@ -27,6 +27,7 @@ const processedArticles = articles.map(article => ({
   description: article.data.description,
   date: article.data.date,
   slug: article.id, // Using ID as slug for now, or article.slug if I rename files to match
+  githubUrl: article.data.githubUrl,
 }));
 
 // Sort by date if needed, though React code handles filtering. 

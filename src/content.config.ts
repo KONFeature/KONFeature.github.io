@@ -16,6 +16,7 @@ const articles = defineCollection({
 		featured: z.boolean().default(false),
 		description: z.string(),
 		mediumUrl: z.string().optional(),
+		githubUrl: z.string().optional(),
 	}),
 });
 

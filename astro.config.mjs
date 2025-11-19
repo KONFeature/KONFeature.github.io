@@ -4,9 +4,19 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeMermaid from 'rehype-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://nivelais.com',
   integrations: [mdx(), sitemap(), react(), tailwind()],
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex, rehypeMermaid],
+    syntaxHighlight: {
+      excludeLangs: ['mermaid'],
+    },
+  },
 });

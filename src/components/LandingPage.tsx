@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Github, 
   Twitter,
@@ -20,6 +20,7 @@ interface ArticleData {
   featured: boolean;
   description: string;
   slug: string;
+  githubUrl?: string;
 }
 
 interface LandingPageProps {
@@ -27,6 +28,20 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  // Get unique categories from articles
+  const categories = useMemo(() => {
+    const cats = new Set(articles.map(a => a.category));
+    return ['all', ...Array.from(cats).sort()];
+  }, [articles]);
+
+  // Filter articles by category
+  const filteredArticles = useMemo(() => {
+    if (selectedCategory === 'all') return articles;
+    return articles.filter(a => a.category === selectedCategory);
+  }, [articles, selectedCategory]);
+
   const projects = [
     {
       title: "Frak Labs",
@@ -99,12 +114,31 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
 
         {/* Articles / Logs */}
         <section id="articles" className="mb-24">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-white/10 pb-2">
-            Engineering Logs
-          </h2>
+          <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
+            <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
+              Engineering Logs
+            </h2>
+          </div>
+
+          {/* Category Filter */}
+          <div className="mb-8 flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-3 py-1 text-xs font-mono rounded-md transition-all capitalize ${
+                  selectedCategory === category 
+                    ? 'bg-white/10 text-white border border-white/20' 
+                    : 'bg-white/5 text-gray-500 hover:text-gray-300 border border-white/10'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
 
           <div className="space-y-8">
-            {articles.map((article) => (
+            {filteredArticles.map((article) => (
               <a 
                 key={article.id} 
                 href={`/articles/${article.slug}`}
@@ -118,7 +152,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
                       day: 'numeric'
                     })}
                   </time>
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-lg font-medium text-white group-hover:text-green-400 transition-colors mb-1">
                       {article.title}
                     </h3>
