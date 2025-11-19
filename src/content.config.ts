@@ -15,6 +15,7 @@ const articles = defineCollection({
 		iconColor: z.string().optional(),
 		featured: z.boolean().default(false),
 		description: z.string(),
+		mediumUrl: z.string().optional(),
 	}),
 });
 

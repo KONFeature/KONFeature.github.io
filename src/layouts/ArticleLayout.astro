@@ -5,7 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Icon from '../components/Icon';
 import { SITE_TITLE } from '../consts';
 
-const { title, subtitle, icon, iconColor, readingTime, tags, category } = Astro.props;
+const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,11 +13,11 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category } = Astro.
 	<head>
 		<BaseHead title={`${title} - ${SITE_TITLE}`} description={subtitle} />
 	</head>
-	<body class="bg-[#0a0a0a] text-gray-300 font-sans selection:bg-green-500/30">
+	<body class="bg-[#0a0a0a] text-gray-300 font-sans selection:bg-white/20">
         <Navigation client:load />
 
         <main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
-             <article class="prose prose-invert prose-green max-w-none">
+             <article class="prose prose-invert prose-neutral max-w-none">
                 <div class="mb-12 not-prose">
                     {icon && (
                         <div class="flex items-center gap-4 mb-6">
@@ -45,6 +45,19 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category } = Astro.
                     )}
                 </div>
                 <slot />
+                
+                {mediumUrl && (
+                    <div class="mt-12 pt-8 border-t border-white/10">
+                        <a href={mediumUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group">
+                            <div class="p-2 bg-white/5 rounded-lg border border-white/10 group-hover:border-white/20 transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+                                </svg>
+                            </div>
+                            <span class="font-mono text-sm">Read this article on Medium</span>
+                        </a>
+                    </div>
+                )}
              </article>
         </main>
 
