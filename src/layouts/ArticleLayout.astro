@@ -3,9 +3,10 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import BaseHead from '../components/BaseHead.astro';
 import Icon from '../components/Icon';
+import ArticleNavigation from '../components/ArticleNavigation';
 import { SITE_TITLE } from '../consts';
 
-const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl } = Astro.props;
+const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName } = Astro.props;
 ---
 
 <!doctype html>
@@ -102,6 +103,13 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
                     </div>
                 )}
              </article>
+             
+             <ArticleNavigation 
+                client:load
+                prevArticle={prevArticle}
+                nextArticle={nextArticle}
+                groupName={groupName}
+             />
         </main>
 
         <Footer />

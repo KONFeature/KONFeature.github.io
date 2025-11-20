@@ -1,109 +1,236 @@
 ---
-title: "Pico Kiln — Part 3: React Native UI with Deep Expo Integration"
-date: 2025-11-19T09:00:00Z
+title: "Pico Kiln — Part 3: From Web to Native with Tauri"
+date: 2025-11-16T12:00:00Z
 draft: false
-subtitle: "From Bare Metal to Polished UI"
+subtitle: "One React App, Three Platforms, Zero Mixed Content Drama"
 category: "mobile"
-tags: ["React Native", "Expo", "BLE", "IoT", "UI/UX"]
+tags: ["Kiln", "IoT", "React", "Tauri", "IoT", "Local-First"]
 icon: "smartphone"
 iconColor: "text-blue-400"
 featured: false
-description: "Building the React Native app for Pico Kiln: BLE communication, local-first state, and designing real-time temperature curves that felt native."
-githubUrl: "https://github.com/frak-id/pico-kiln-app"
+description: "Building a kiln controller UI that runs as a web app, macOS app, and Android APK—all from a single React codebase. Solving the HTTP/HTTPS mixed content nightmare without compromise."
+githubUrl: "https://github.com/frak-id/pico-kiln"
 group: "kiln"
 ---
 
-Most embedded web interfaces are terrible. They are usually server-side rendered HTML pages that require a full refresh to update a temperature reading. They feel clunky, unresponsive, and fragile.
+Most embedded web interfaces are terrible. They're server-side rendered HTML that requires a full page refresh to see a temperature update. For `pico-kiln`, I wanted instant state updates, smooth charts, and offline resilience—all from a microcontroller with 264KB of RAM.
 
-For `pico-kiln`, I wanted the UI to feel like a native desktop application: instant state updates, smooth charts, and offline resilience. We achieved this by decoupling the frontend entirely from the firmware, serving a static React SPA from the Pico's flash memory.
+The solution: a static React SPA served from the Pico's flash memory. But then we hit the **Mixed Content Problem**.
 
-## Architecture: Polling with Style
+## The HTTP/HTTPS Nightmare
 
-The Raspberry Pi Pico W is powerful, but it's not a server farm. While WebSockets are possible, they consume significant RAM and CPU on the Python side to maintain keep-alives.
+Modern browsers enforce a strict security policy: HTTPS pages cannot make HTTP requests. This is called **Mixed Content Blocking**, and it exists for good reason—but it's a disaster for local IoT devices.
 
-Instead, we use a **High-Frequency Polling** architecture. The frontend hits a lightweight `/api/status` JSON endpoint every 1-2 seconds.
+Here's the dilemma:
 
-To make this performant, we lean heavily on **TanStack Query (React Query)**. It manages the polling interval, caching, and—crucially—the "stale" state. If the WiFi drops, the UI doesn't crash; it simply greys out and shows a "Reconnecting..." badge, retaining the last known good state.
+1. **Host React app on HTTPS domain** (e.g., `https://kiln-app.com`) → Browser blocks all requests to `http://192.168.1.100` (the Pico)
+2. **Add HTTPS to the Pico** → Self-signed certificates trigger browser warnings. Let's Encrypt requires public DNS + port forwarding (absolutely not for a 1200°C device on your network).
+3. **Serve React over HTTP from the Pico** → Works locally, but can't deploy to modern hosting (Vercel, Netlify, etc. enforce HTTPS). Also breaks if the user's network does HTTPS-only DNS resolution.
 
-### The API Client
+Every option sucks. Except one.
 
-We wrap `fetch` in a strongly-typed `PicoAPIClient`. This ensures that our frontend code knows exactly what the firmware returns.
+## Enter Tauri: Native Apps, Zero Browser Bullshit
 
-```typescript
-// web/src/lib/pico/client.ts
+Tauri is a Rust-based framework that compiles web apps into native binaries. Think Electron, but the macOS app is **3.7 MB** (not 200 MB), and the Android APK is **29 MB** (not 500 MB).
 
-export class PicoAPIClient {
-    async getStatus(): Promise<KilnStatus> {
-        // Includes strict timeout handling to fail fast
-        return this.request<KilnStatus>("/api/status", { timeout: 2000 });
+More importantly: **Tauri apps bypass browser security policies entirely**. The frontend renders in a native WebView (WKWebView on macOS, Android WebView on mobile), but HTTP requests happen at the **OS network layer**. No Mixed Content errors. No CORS preflight spam. Just clean `fetch()` to `http://192.168.1.100:80`.
+
+### One Codebase, Three Platforms
+
+The same React app compiles to:
+
+| Platform | Size | Build Command | Notes |
+|----------|------|---------------|-------|
+| Browser | N/A | `bun dev` | Still works for quick access (served from local pc) |
+| macOS (Universal) | 3.7 MB | `bun run tauri:build` | Intel + Apple Silicon |
+| Android (ARM64) | 29 MB | `bun run tauri:android:build` | Supports Android 7.0+ |
+
+The Tauri config is trivial:
+
+```json
+// web/src-tauri/tauri.conf.json
+{
+  "productName": "kiln",
+  "identifier": "com.nivelais.kiln",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:3000"
+  },
+  "app": {
+    "security": {
+      "csp": null  // Allow HTTP to local devices
     }
-
-    async runProfile(profileName: string): Promise<RunProfileResponse> {
-        return this.request<RunProfileResponse>("/api/run", {
-            method: "POST",
-            body: JSON.stringify({ profile: profileName }),
-        });
-    }
+  }
 }
 ```
 
-### React Query Integration
+The Rust backend is 17 lines of boilerplate. No platform-specific code. No WebView APIs. The React app doesn't even know it's running in a native shell.
 
-By wrapping the client in a custom hook, we get automatic polling management. The `refetchInterval` is dynamic: fast when running, slow when idle.
+### Android: The Cleartext Challenge
+
+Android 9+ blocks HTTP by default (`usesCleartextTraffic=false`). Tauri handles this automatically by injecting a network security config:
+
+```xml
+<!-- Auto-generated by Tauri -->
+<network-security-config>
+  <base-config cleartextTrafficPermitted="true"/>
+</network-security-config>
+```
+
+This is why you **can't just wrap a web app in a WebView**. Without this config, the Android OS refuses to make HTTP requests. Browsers have the same restriction, but you can't override it. Tauri can.
+
+The APK signing is also critical. Android requires `apksigner` (not `jarsigner`) for apps with native libraries. Tauri's build chain handles this:
+
+```bash
+# Manual signing (if needed)
+$ANDROID_HOME/build-tools/36.0.0/apksigner sign \
+  --ks ~/kiln-release.keystore \
+  --out app-universal-release-signed.apk \
+  app-universal-release-unsigned.apk
+```
+
+The final APK includes:
+- Rust runtime (cross-compiled to ARM64)
+- WebView rendering engine
+- Embedded React app (static assets)
+- Network permissions + cleartext config
+
+All from `bun run tauri:android:build`.
+
+## Architecture: High-Frequency Polling
+
+WebSockets on the Pico are possible, but they're expensive. Each open socket consumes ~20KB of RAM (scarce on a microcontroller). Keep-alive packets eat CPU time that should be spent on PID calculations.
+
+Instead, we poll `/api/status` every 1-2 seconds via `fetch()`. React Query handles caching, stale state, and automatic retries. If the Pico reboots mid-firing, the UI greys out and shows "Reconnecting..." while preserving the last known state.
 
 ```typescript
 // web/src/lib/pico/hooks.ts
-
 export function useKilnStatus() {
   return useQuery({
     queryKey: ['status'],
     queryFn: () => client.getStatus(),
     refetchInterval: (query) => {
-      // Poll fast (1s) if running, slow (5s) if idle
+      // Poll fast (1s) when running, slow (5s) when idle
       const state = query.state?.data?.state;
       return state === 'RUNNING' ? 1000 : 5000;
     },
-    retry: false, // Fail fast to show connection error
+    retry: false, // Fail fast to show disconnect
   });
 }
 ```
 
-## Routing & Type Safety
+The client is a thin wrapper around `fetch()` with timeout handling:
 
-We use **TanStack Router** for file-based routing. This provides type safety for URL parameters. If we link to `/toolbox/visualizer/$fileId`, the compiler ensures that `$fileId` is handled. This prevents broken links and runtime 404s, which is vital when the "server" is a microcontroller that might be busy processing PID loops.
+```typescript
+// web/src/lib/pico/client.ts
+export class PicoAPIClient {
+  private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-## Hardcore Data Analysis
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      ...options,
+      signal: controller.signal,
+    });
 
-The app isn't just for control; it's for science. The `scripts/` directory contains a suite of Python tools that analyze CSV logs downloaded from the kiln.
+    clearTimeout(timeoutId);
+    if (!response.ok) throw new PicoAPIError(`HTTP ${response.status}`);
+    return response.json();
+  }
 
-### Physics-Based Phase Detection
+  async getStatus(): Promise<KilnStatus> {
+    return this.request<KilnStatus>("/api/status");
+  }
 
-One of the coolest features is the **Phase Detector** (`scripts/analyzer/data.py`). Instead of relying on the profile's *intended* steps, it looks at the *actual* physics to determine what the kiln was doing.
-
-It uses the SSR duty cycle and temperature derivative ($\frac{dT}{dt}$) to classify phases:
-
-1.  **Cooling:** SSR Output < 5% (Natural cooling).
-2.  **Heating:** SSR Output > 5% AND $\frac{dT}{dt}$ > Threshold.
-3.  **Plateau:** SSR Output > 5% AND $\frac{dT}{dt}$ $\approx$ 0.
-
-```python
-# scripts/analyzer/data.py
-
-def detect_phases(data, plateau_threshold=0.5):
-    # ... loop through data ...
-    
-    if avg_ssr < 5.0:
-        phase_type = 'cooling'
-    elif rate_per_min > plateau_threshold:
-        phase_type = 'heating'
-    elif abs(rate_per_min) <= plateau_threshold:
-        phase_type = 'plateau'
+  async runProfile(profileName: string): Promise<RunProfileResponse> {
+    return this.request<RunProfileResponse>("/api/run", {
+      method: "POST",
+      body: JSON.stringify({ profile: profileName }),
+    });
+  }
+}
 ```
 
-This allows us to generate "Heatmaps" of the firing performance, showing exactly where the kiln struggled to maintain rate (e.g., during the quartz inversion at 573°C).
+If the Pico doesn't respond in 10 seconds (e.g., it's busy writing a log file to flash), we abort and retry. The UI never hangs.
 
-## Visualization
+## Local-First State Management
 
-For live data, we use **Recharts** in the React app. It's lightweight enough to render thousands of data points without lagging the browser.
+The key insight: **the client is the source of truth, not the server**. The Pico is a dumb endpoint. It returns JSON. The React app decides what to render.
 
-For post-firing analysis, the Python scripts generate static `matplotlib` plots. These high-resolution images allow us to inspect the PID behavior tick-by-tick, revealing integral windup or derivative noise that isn't visible on the live dashboard.
+This is the opposite of traditional web apps, where the server renders HTML and the client is a thin display layer. Here, the Pico could crash mid-firing, and the UI would still show the last 5 minutes of temperature history (cached in React Query).
+
+The connection URL is stored in `localStorage`. On first launch, the user enters `http://192.168.1.100:80`. From then on, it persists across sessions. If the Pico's IP changes (DHCP, new network), they can update it in settings.
+
+This works identically in the browser, macOS app, and Android app. The only difference: Tauri apps don't enforce Mixed Content rules.
+
+## Why Not Just Use the Browser?
+
+You can. But only if you are okay with exposing the pico to the web, or if you have a small server that home that can run a proxy in fromt of the Pico with an SSL certificate.
+
+Because:
+- **Mobile Safari** on iOS blocks HTTP by default (no override)
+- **Chrome** on Android shows scary warnings for HTTP sites
+- **Desktop browsers** increasingly push HTTPS-only modes
+- **Network firewalls** sometimes block HTTP entirely (enterprise WiFi, etc.)
+
+The native apps bypass all of this. They're first-class OS citizens. No security warnings. No browser chrome. Just a clean, native UI that talks to a local device over HTTP.
+
+## The Build Process
+
+For macOS:
+```bash
+cd web
+bun run tauri:build:universal
+# Output: src-tauri/target/release/bundle/macos/kiln.app (3.7 MB)
+```
+
+Tauri compiles the React app to static assets, embeds them in a Rust binary, and cross-compiles to both Intel and Apple Silicon. The final `.app` bundle is **unsigned** (users right-click → Open on first launch). For distribution, sign with:
+
+```bash
+codesign --sign "Developer ID Application: Your Name" --deep kiln.app
+```
+
+For Android:
+```bash
+cd web
+# First time: install Rust Android targets
+rustup target add aarch64-linux-android armv7-linux-androideabi
+
+# Build APK
+bun run tauri:android:build
+# Output: src-tauri/gen/android/app/build/outputs/apk/universal/release/
+#         app-universal-release-unsigned.apk (29 MB)
+```
+
+The Android build is wild. Tauri:
+1. Compiles React to static assets
+2. Embeds assets in Rust binary
+3. Cross-compiles Rust to ARM64 via NDK
+4. Wraps in Android APK with WebView
+5. Injects cleartext network config
+6. Signs with `apksigner`
+
+All from one command.
+
+## What We Get
+
+A kiln controller UI that:
+- Installs as a **native macOS app** (3.7 MB, no warnings)
+- Installs as an **Android APK** (29 MB, no Google Play required)
+- Talks to a **local HTTP device** without Mixed Content errors
+- Works **offline** (last known state cached in React Query)
+- Updates **in real-time** (1-second polling when kiln is running)
+
+All from a single React codebase. No Electron bloat. No browser security theater. No certificate management.
+
+The Pico serves JSON over HTTP. The UI consumes it. The platform doesn't matter.
+
+---
+
+**Tech Stack:**
+- **Frontend:** React 19, TanStack Query, TanStack Router, Recharts, Tailwind, shadcn/ui
+- **Native Wrapper:** Tauri 2.9 (Rust + WebView)
+- **Build Tools:** Bun (TypeScript), Cargo (Rust), Gradle (Android)
+- **Platforms:** Web (any browser), macOS (Universal), Android 7.0+
+
+**Next up:** [Part 4: Physics-Based Data Analysis with Python](#) — Phase detection, PID tuning metrics, and thermal modeling from CSV logs.

@@ -15,9 +15,10 @@ const Navigation = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
-            <a href="/#about" className="hover:text-white transition-colors">About</a>
-            <a href="/#articles" className="hover:text-white transition-colors">Logs</a>
-            <a href="/#projects" className="hover:text-white transition-colors">Projects</a>
+            <a href="/#articles" className="hover:text-white transition-colors">Recent</a>
+            <a href="/#collections" className="hover:text-white transition-colors">Collections</a>
+            <a href="/#projects" className="hover:text-white transition-colors">Selected works</a>
+            <a href="/articles" className="hover:text-white transition-colors">All articles</a>
           </div>
 
           {/* Mobile Toggle */}
@@ -31,9 +32,10 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="fixed inset-0 z-40 bg-[#0a0a0a] pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6 text-xl font-medium text-gray-300">
-            <a href="/#about" onClick={() => setIsMenuOpen(false)}>About</a>
-            <a href="/#articles" onClick={() => setIsMenuOpen(false)}>Logs</a>
-            <a href="/#projects" onClick={() => setIsMenuOpen(false)}>Projects</a>
+            <a href="/#articles" onClick={() => setIsMenuOpen(false)}>Recent</a>
+            <a href="/#collections" onClick={() => setIsMenuOpen(false)}>Collections</a>
+            <a href="/#projects" onClick={() => setIsMenuOpen(false)}>Selected works</a>
+            <a href="/articles" onClick={() => setIsMenuOpen(false)}>All articles</a>
           </div>
         </div>
       )}

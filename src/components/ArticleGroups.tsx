@@ -52,7 +52,7 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 	}
 
 	return (
-		<section className="mb-24">
+		<section id="collections" className="mb-24">
 			<div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
 				<h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
 					Article Collections
