@@ -1,0 +1,13 @@
+# robots.txt for nivelais.com
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://nivelais.com/sitemap-index.xml
+
+# Crawl-delay for specific bots (optional)
+User-agent: GPTBot
+Crawl-delay: 2
+
+User-agent: ChatGPT-User
+Crawl-delay: 2

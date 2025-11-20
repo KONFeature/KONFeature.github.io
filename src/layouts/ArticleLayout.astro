@@ -5,15 +5,84 @@ import BaseHead from '../components/BaseHead.astro';
 import Icon from '../components/Icon';
 import ArticleNavigation from '../components/ArticleNavigation';
 import TableOfContents from '../components/TableOfContents';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, AUTHOR_NAME, SITE_URL } from '../consts';
 
-const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [] } = Astro.props;
+const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description } = Astro.props;
+
+// Create article URL
+const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Build JSON-LD structured data
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Article",
+	"headline": title,
+	"description": subtitle || description || title,
+	"author": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"url": SITE_URL
+	},
+	"datePublished": date?.toISOString(),
+	"dateModified": date?.toISOString(),
+	"publisher": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"url": SITE_URL
+	},
+	"mainEntityOfPage": {
+		"@type": "WebPage",
+		"@id": articleUrl
+	},
+	"keywords": tags?.join(', '),
+	"articleSection": category,
+	...(githubUrl && { "codeRepository": githubUrl })
+};
+
+// Build breadcrumb structured data
+const breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": SITE_URL
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Articles",
+			"item": `${SITE_URL}/articles`
+		},
+		{
+			"@type": "ListItem",
+			"position": 3,
+			"name": title,
+			"item": articleUrl
+		}
+	]
+};
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth overflow-x-hidden">
 	<head>
-		<BaseHead title={`${title} - ${SITE_TITLE}`} description={subtitle} />
+		<BaseHead 
+			title={`${title} - ${SITE_TITLE}`} 
+			description={subtitle || title} 
+			article={{
+				publishedTime: date,
+				section: category,
+				tags: tags,
+			}}
+		/>
+		
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+		
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 		<style>
 			/* Mermaid diagram styling for img-based rendering */

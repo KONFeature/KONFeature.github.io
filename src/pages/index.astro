@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import LandingPage from '../components/LandingPage';
 import { getCollection } from 'astro:content';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, SITE_URL, GITHUB_HANDLE, LINKEDIN_URL } from '../consts';
 
 const articles = await getCollection('articles');
 
@@ -38,12 +38,42 @@ processedArticles.sort((a, b) => {
     const dateB = articles.find(art => art.id === b.id)?.data.date.getTime() || 0;
     return dateB - dateA;
 });
+
+// JSON-LD for Person
+const personJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": AUTHOR_NAME,
+	"url": SITE_URL,
+	"jobTitle": "Co-Founder & CTO",
+	"worksFor": {
+		"@type": "Organization",
+		"name": "Frak Labs"
+	},
+	"description": SITE_DESCRIPTION,
+	"sameAs": [
+		`https://github.com/${GITHUB_HANDLE}`,
+		LINKEDIN_URL
+	],
+	"knowsAbout": [
+		"Ethereum Virtual Machine (EVM)",
+		"Smart Contracts",
+		"Blockchain Infrastructure",
+		"DevOps",
+		"Hardware Engineering",
+		"Account Abstraction",
+		"Solidity"
+	]
+};
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		
+		<!-- JSON-LD Structured Data for Person -->
+		<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a]">
 		<LandingPage client:load articles={processedArticles} />
