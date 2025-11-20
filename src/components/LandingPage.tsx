@@ -41,29 +41,29 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
       title: "Frak Labs",
       role: "Co-Founder & CTO",
       desc: "DeFi infrastructure & AMMs. Previously Polygon's top gas guzzler.",
-      link: "#",
+      link: "https://frak.id/",
       tech: ["Solidity", "SST", "TypeScript"]
     },
     {
       title: "Gas Golfing",
       role: "Ranked #2 Global",
       desc: "Extreme EVM optimization contest. Assembly & memory management.",
-      link: "#",
+      link: "https://x.com/QNivelais/status/1791490793913413832",
       tech: ["Yul", "Assembly", "EVM"]
-    },
-    {
-      title: "Open Source Infra",
-      role: "Contributor",
-      desc: "Core contributions to eRPC (Load Balancer), Ponder (Indexer), and SST.",
-      link: "#",
-      tech: ["Go", "TypeScript", "Infra"]
     },
     {
       title: "ERC-4337 SDKs",
       role: "Contributor",
-      desc: "SDK improvements for ZeroDev & Pimlico. WebAuthn validator impl.",
+      desc: "Wallet and SDK improvements for ZeroDev & Pimlico. WebAuthn validator impl.",
       link: "#",
-      tech: ["Cryptography", "AA"]
+      tech: ["Cryptography", "AA", "Solidity"]
+    },
+    {
+      title: "Open Source Infra",
+      role: "Contributor",
+      desc: "Contributors to eRPC (RPC Load Balancer), Ponder (Indexer), SST.",
+      link: "#",
+      tech: ["Go", "TypeScript", "Infra"]
     }
   ];
 
@@ -91,15 +91,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
 
           <div className="flex gap-6 text-sm font-mono">
-            <a href="#" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <a href="https://github.com/KONFeature" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Github size={16} />
               <span>GitHub</span>
             </a>
-            <a href="#" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <a href="https://x.com/QNivelais" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Twitter size={16} />
               <span>Twitter</span>
             </a>
-            <a href="#" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/in/quentin-nivelais-5081a4141/" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Linkedin size={16} />
               <span>LinkedIn</span>
             </a>
