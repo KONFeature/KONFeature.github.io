@@ -1,29 +1,55 @@
 ---
-title: "The DevX Revolution: Migrating Frak Wallet to TanStack Start & Rolldown"
+title: "The DevX Revolution: How We Cut Build Times by 10x at Frak"
 date: 2025-11-20T10:00:00Z
 draft: false
-subtitle: "How we cut build times by 10x"
+subtitle: "From Next.js to TanStack Start, Rollup to Rolldown, and 5-minute builds to 30 seconds"
 category: "devops"
-tags: ["DevX", "Rolldown", "Vite", "TanStack Start", "Vitest", "Performance"]
+tags: ["DevX", "Rolldown", "Vite", "TanStack Start", "Vitest", "Performance", "Monorepo"]
 icon: "rocket"
 iconColor: "text-red-500"
-description: "A technical retrospective on migrating the Frak Wallet from Next.js to TanStack Start, adopting Rolldown for lightning-fast builds, and unifying our entire monorepo stack."
+description: "A technical deep-dive into migrating our entire monorepo from Next.js to TanStack Start, adopting Rolldown across the stack, unifying on Vitest, and achieving a complete deployment pipeline in under 4 minutes."
 githubUrl: "https://github.com/frak-id/wallet"
 group: "frak"
 ---
 
 In software development, speed is a feature—not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.
 
-At Frak, we recently undertook a massive architectural migration to achieve state-of-the-art Developer Experience (DevX). We moved from a standard Next.js setup to a bleeding-edge stack powered by **TanStack Start (React Router v7)**, **Rolldown**, and **Vitest**.
+At Frak, we recently undertook a massive architectural migration to achieve state-of-the-art Developer Experience (DevX). We migrated our business dashboard from Next.js to **TanStack Start**, unified all routing on **TanStack Router**, adopted **Rolldown** for blazing-fast builds, moved our entire test suite to **Vitest**, and rebuilt our SDK pipeline with **tsdown**.
 
-Here is how we overhauled our stack to make our tooling scream.
+The result? Our business app build time dropped from **5 minutes to under 30 seconds**. Our complete deployment pipeline—including backend, 3 frontends, and all SDKs—now completes in **4 minutes**. And our 3,119 unit tests execute in **42 seconds**.
 
-## 1. Goodbye Next.js, Hello TanStack Start
+Here's how we overhauled our stack to make our tooling scream.
 
-We migrated our primary wallet application from Next.js to **TanStack Start** (now integrated into React Router v7). While Next.js is powerful, we found its "magic" often got in the way of the granular control we needed for an embedded wallet that lives in an iframe.
+## 1. Business Dashboard: From Next.js to TanStack Start + Nitro
 
-### Type-Safe Routing
-One of the biggest wins was the type-safe routing system. Instead of file-system conventions that are checked at runtime, we define our routes explicitly.
+Our primary business dashboard was built on Next.js, deployed to AWS Lambda via SST and OpenNext. While this setup worked, it had significant pain points:
+
+- **Build times**: 5+ minutes per deployment
+- **Vendor lock-in**: Tied to AWS Lambda and OpenNext's abstractions
+- **Limited control**: Next.js's "magic" made it hard to customize SSR behavior
+- **Deployment complexity**: SST + OpenNext added layers of indirection
+
+We migrated to **TanStack Start** with **Nitro** handling the SSR layer. This was a breath of fresh air:
+
+- **Build time**: Down from 5 minutes to **under 30 seconds** (10x improvement)
+- **DevX**: TanStack Start's explicit, type-safe routing is cleaner and more intuitive than Next.js's file-based conventions
+- **Deployment flexibility**: Nitro compiles to a portable format we can run anywhere—no vendor lock-in
+- **Infrastructure control**: We now deploy the business app to our existing Kubernetes cluster via Docker, alongside our backend
+
+The mental model is simpler, the builds are faster, and we have complete control over hosting.
+
+## 2. Routing Unification: Everything on TanStack Router
+
+We had a fragmented routing landscape: some apps used React Router v7, others used file-based routing. We unified everything on **TanStack Router** across:
+
+- `apps/wallet` (user wallet, embedded in iframes)
+- `apps/listener` (iframe communication layer)
+- `apps/dashboard-admin` (internal admin tools)
+- `example/` projects (SDK showcases)
+
+### Why TanStack Router?
+
+TanStack Router gives us **compile-time type safety** for routes, params, and loaders. Instead of file-system conventions checked at runtime, we define routes explicitly:
 
 ```typescript
 // app/routes.ts
@@ -46,13 +72,20 @@ export default [
 ] satisfies RouteConfig;
 ```
 
-This migration unlocked faster page loads and a significantly lighter bundle size, critical for our "embedded" use case.
+This unified approach means every developer on the team uses the same mental model, regardless of which app they're working on.
 
-## 2. The Rolldown Speedforce
+## 3. The Rolldown Revolution: 70-80% Build Time Reduction
 
-Vite is great, but as our codebase grew, the "Rollup" part of the production build started to slow down. Enter **Rolldown**, a Rust-based bundler designed to be the future of Vite.
+Vite is great, but as our codebase grew, the Rollup-based production build started to slow down. Enter **Rolldown**, a Rust-based bundler designed to be the future of Vite (and now integrated into Vite 6).
 
-We didn't just wait for Vite 6; we adopted `rolldown-vite` immediately to replace the internal bundler.
+We didn't wait for the stable release. We adopted `rolldown-vite` (the experimental fork) immediately and saw **70-80% reduction in build times** across the board.
+
+### Why Rolldown Matters
+
+Beyond speed, Rolldown gave us two critical improvements:
+
+1. **Unified configuration**: Since we now use Rolldown everywhere (apps, SDKs, packages), we can share configuration logic across the entire monorepo
+2. **Intelligent code splitting**: Much better chunking options compared to Rollup, essential for our wallet which loads heavy crypto dependencies (Viem, Wagmi, @noble/*)
 
 ### The "Override" Hack
 To enforce Rolldown across our entire monorepo without rewriting every package config, we used a package manager override:
@@ -98,11 +131,41 @@ export default defineConfig({
 
 This change alone reduced our cold start time by **~40%**.
 
-## 3. Testing at the Speed of Thought
+## 4. SDK Build Pipeline: From rslib to tsdown (Rolldown-powered)
 
-We migrated 100% of our unit and integration tests to **Vitest**. 
+Our SDK wasn't left behind. We previously used **rslib** (Rspack-based) to build our SDK packages, but maintaining two different build systems (Vite for apps, Rspack for libraries) was mentally taxing.
 
-Previously, running our full test suite (over 3,000 tests) took upwards of 5 minutes. By switching to Vitest, which shares the same configuration pipeline as Vite/Rolldown and runs natively in ESM, we cut execution time to **under 1 minute**.
+We migrated to **tsdown**, a zero-config bundler powered by Rolldown:
+
+- **Unified stack**: Same build tool everywhere—Rolldown under the hood
+- **30-40% faster builds**: All 4 SDK packages (plus shared packages) build in **under 10 seconds**
+- **Better output**: tsdown produces clean ESM + CJS + types for NPM, plus optimized IIFE/ESM bundles for CDN
+
+Our SDK structure:
+- `sdk/core` - Core SDK (NPM: ESM+CJS, CDN: IIFE bundle)
+- `sdk/react` - React hooks (NPM: ESM+CJS)
+- `sdk/components` - Web Components with Preact (NPM: ESM, CDN: ESM with code splitting)
+- `sdk/legacy` - Legacy IIFE bundle for backward compatibility
+
+One shared configuration, consistent build behavior, and blazing-fast iteration.
+
+## 5. Testing Unification: Everything on Vitest
+
+The final missing piece was testing. We had fragmented test runners:
+- **Frontend**: Vitest
+- **Backend**: Bun test
+
+While Bun test was fast, it lacked the ecosystem and configurability of Vitest. We migrated everything to **Vitest 4.0** with the Projects API.
+
+### The Numbers
+
+- **3,119 unit tests** across 7 projects
+- **42 seconds** to run the entire suite in parallel
+- **40% code coverage** target (lines, functions, branches, statements)
+
+### Vitest Projects API
+
+We use the Projects API to run all tests in a single command while keeping environment-specific configurations:
 
 ```typescript
 // vitest.config.ts
@@ -110,40 +173,83 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
     test: {
-        environment: 'happy-dom', // Faster than jsdom
+        projects: [
+            {
+                name: 'wallet-unit',
+                environment: 'jsdom',
+                include: ['apps/wallet/**/*.test.ts'],
+            },
+            {
+                name: 'backend-unit',
+                environment: 'node',
+                include: ['services/backend/test/**/*.test.ts'],
+            },
+            // 5 more projects...
+        ],
         pool: 'forks',            // Parallel execution
         restoreMocks: true,
-        alias: {
-            // Seamlessly resolve our internal packages
-            '@frak-labs/core-sdk': './packages/core-sdk/src',
-        },
     },
 });
 ```
 
-## 4. Unifying the SDK Build Pipeline
+Now we run `bun run test` once, and Vitest orchestrates everything—frontend tests with jsdom, backend tests with Node environment, all in parallel.
 
-It wasn't just the frontend. Our SDKs (`@frak-labs/frame-connector`, etc.) needed love too. We previously used `rsbuild` (Rspack), but maintaining two different build systems (Vite for Apps, Rspack for Libs) was mentally taxing.
+### Benefits
 
-We migrated our libraries to **tsdown**, a zero-config bundler powered by Rolldown.
+- **Unified configuration**: One test runner, one mental model
+- **Better tooling**: Coverage reports, watch mode, and UI dashboard work seamlessly
+- **Faster CI**: 42 seconds vs. the previous ~5 minutes with fragmented runners
 
-```json
-// packages/rpc/package.json
-{
-    "scripts": {
-        "build": "tsdown",
-        "build:watch": "tsdown --watch"
-    }
-}
-```
+## 6. Deployment Pipeline: 4 Minutes for Everything
 
-This unified our entire stack. Whether you are working on the Wallet App or the SDK, the tooling is identical: Rust-based, instant, and TypeScript-native.
+With all these optimizations in place, our deployment pipeline is now:
 
-## Conclusion
+1. **Build base Docker image** with all SDK packages (~1 min)
+2. **Push to private registry** (pause while this completes)
+3. **Build application images in parallel**:
+   - Backend (Elysia.js + Drizzle)
+   - Wallet frontend
+   - Listener frontend (iframe layer)
+   - Business SSR app (TanStack Start + Nitro)
+4. **Deploy to Kubernetes cluster**
 
-This overhaul wasn't just about chasing the "new shiny thing." It was a calculated move to solve specific bottlenecks:
-1.  **Build Time:** Rolldown reduced CI times drastically.
-2.  **Bundle Size:** TanStack Start + Advanced Chunking reduced our initial load.
-3.  **Maintenance:** Unifying on Rolldown/Vite means one config structure for everything.
+Total time: **4 minutes** from commit to production.
 
-Now, our developers can focus on building features, not waiting for Webpack to compile.
+This is a massive improvement from our previous setup:
+- Business app alone took **2+ minutes** to build and deploy via SST + OpenNext to AWS Lambda
+- Fragmented build tools meant no parallelization opportunities
+- Now everything runs in Docker on our Kubernetes cluster—unified, fast, and under our control
+
+## The Results: By The Numbers
+
+Here's what we achieved with this migration:
+
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| Business build time | 5 min | 30 sec | **10x faster** |
+| SDK build time | 35 sec | 10 sec | **75% faster** |
+| Full test suite | ~5 min | 42 sec | **7x faster** |
+| Deployment pipeline | N/A | 4 min | **Unified & streamlined** |
+| Vite build time | Baseline | -70-80% | **Rolldown speedup** |
+
+## Key Takeaways
+
+This overhaul wasn't about chasing the "new shiny thing." It was a calculated move to solve real bottlenecks:
+
+1. **Next.js → TanStack Start + Nitro**: Faster builds, better control, no vendor lock-in
+2. **Rollup → Rolldown**: 70-80% faster builds, better code splitting, unified configuration
+3. **rslib → tsdown**: SDK builds unified on Rolldown, 30-40% faster
+4. **Bun test → Vitest**: Unified test runner, better tooling, 7x faster execution
+5. **TanStack Router everywhere**: Consistent routing API across all apps
+
+### Unified Stack Philosophy
+
+The real win is **consistency**. Every package, every app, every test uses the same underlying tools:
+- **Build**: Rolldown (via Vite or tsdown)
+- **Test**: Vitest
+- **Routing**: TanStack Router
+- **Package manager**: Bun
+
+Whether you're working on the wallet, the business dashboard, or the SDK, the developer experience is identical. No context switching, no special cases, just build, test, ship.
+
+Now, our developers can focus on building features, not waiting for builds to complete.
