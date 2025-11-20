@@ -40,6 +40,9 @@ jobs:
       - name: '🔨 Install dependencies'
         run: bun install
 
+      - name: '🔨 Install Playwright browsers'
+        run: bunx playwright install --with-deps chromium
+
       - name: '📦️ Build with Astro'
         run: bun run build
 
