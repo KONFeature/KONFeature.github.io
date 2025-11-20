@@ -261,7 +261,12 @@ const breadcrumbJsonLd = {
 		</style>
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20 overflow-x-hidden">
-        <Navigation client:load />
+        <!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WMCVC2F"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		
+		<Navigation client:load />
 
         <main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
              <article id="article-content" class="prose dark:prose-invert prose-neutral max-w-none">
@@ -363,9 +368,9 @@ const breadcrumbJsonLd = {
 			</div>
 		</dialog>
 
-		<script>
+		<script is:inline>
 			let currentScale = 1;
-			const dialog = document.getElementById('mermaid-dialog') as HTMLDialogElement;
+			const dialog = document.getElementById('mermaid-dialog');
 			const dialogContent = document.getElementById('dialog-content');
 			const zoomLevel = document.getElementById('zoom-level');
 
@@ -375,31 +380,32 @@ const breadcrumbJsonLd = {
 				const pictures = document.querySelectorAll('picture');
 				
 				pictures.forEach((picture) => {
-					const darkSource = picture.querySelector('source[media*="prefers-color-scheme: dark"]') as HTMLSourceElement;
-					const lightImg = picture.querySelector('img') as HTMLImageElement;
+					// Look for source with id starting with "mermaid-" (dark version)
+					const darkSource = picture.querySelector('source[id^="mermaid-"]');
+					const img = picture.querySelector('img');
 					
-					if (darkSource && lightImg) {
-						// Store original sources if not already stored
-						if (!lightImg.hasAttribute('data-light-src')) {
-							lightImg.setAttribute('data-light-src', lightImg.src);
+					if (darkSource && img) {
+						// Get the dark source from srcset attribute
+						const darkSrc = darkSource.getAttribute('srcset');
+						
+						// Store original sources on first run if not already stored
+						if (!img.hasAttribute('data-light-src')) {
+							img.setAttribute('data-light-src', img.src);
 						}
-						if (!lightImg.hasAttribute('data-dark-src')) {
-							const darkSrc = darkSource.getAttribute('srcset');
-							if (darkSrc) {
-								lightImg.setAttribute('data-dark-src', darkSrc);
-							}
+						if (!img.hasAttribute('data-dark-src') && darkSrc) {
+							img.setAttribute('data-dark-src', darkSrc);
 						}
 
 						// Switch based on theme
 						if (isDark) {
-							const darkSrc = lightImg.getAttribute('data-dark-src');
-							if (darkSrc) {
-								lightImg.src = darkSrc;
+							const storedDarkSrc = img.getAttribute('data-dark-src');
+							if (storedDarkSrc) {
+								img.src = storedDarkSrc;
 							}
 						} else {
-							const lightSrc = lightImg.getAttribute('data-light-src');
-							if (lightSrc) {
-								lightImg.src = lightSrc;
+							const storedLightSrc = img.getAttribute('data-light-src');
+							if (storedLightSrc) {
+								img.src = storedLightSrc;
 							}
 						}
 					}
@@ -444,7 +450,7 @@ const breadcrumbJsonLd = {
 					expandBtn.className = 'mermaid-expand-btn';
 					expandBtn.title = 'Expand diagram';
 					expandBtn.onclick = () => {
-						const img = picture.querySelector('img') as HTMLImageElement;
+						const img = picture.querySelector('img');
 						if (!img) return;
 
 						const src = img.src;
