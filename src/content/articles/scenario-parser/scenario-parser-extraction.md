@@ -3,7 +3,7 @@ title: "From PDF to Structured Data: The Extraction Layer"
 date: 2025-10-18T15:00:00Z
 draft: false
 subtitle: "Solving the Screenplay Parsing Challenge"
-category: "data-engineering"
+category: "electronics"
 tags: ["Python", "PDF Parsing", "Regex", "Data Engineering", "ETL"]
 icon: "file-text"
 iconColor: "text-yellow-400"

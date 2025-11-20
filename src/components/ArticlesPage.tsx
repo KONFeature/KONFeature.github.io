@@ -31,7 +31,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 	}, [articles]);
 
 	const groups = useMemo(() => {
-		const grps = new Set(articles.map(a => a.group).filter(Boolean));
+		const grps = new Set(articles.map(a => a.group).filter((g): g is string => Boolean(g)));
 		return ['all', ...Array.from(grps).sort()];
 	}, [articles]);
 
@@ -47,8 +47,8 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 	return (
 		<section>
 			<div className="mb-12">
-				<h1 className="text-3xl font-bold text-white mb-4">All Articles</h1>
-				<p className="text-gray-400 leading-relaxed">
+				<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">All Articles</h1>
+				<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
 					A complete archive of engineering deep-dives, technical explorations, and project post-mortems.
 				</p>
 			</div>
@@ -67,8 +67,8 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 								onClick={() => setSelectedCategory(category)}
 								className={`px-3 py-1 text-xs font-mono rounded-md transition-all capitalize ${
 									selectedCategory === category 
-										? 'bg-white/10 text-white border border-white/20' 
-										: 'bg-white/5 text-gray-500 hover:text-gray-300 border border-white/10'
+										? 'bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white border border-gray-400 dark:border-white/20' 
+										: 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 border border-gray-300 dark:border-white/10'
 								}`}
 							>
 								{category}
@@ -89,8 +89,8 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 								onClick={() => setSelectedGroup(group)}
 								className={`px-3 py-1 text-xs font-mono rounded-md transition-all capitalize ${
 									selectedGroup === group 
-										? 'bg-white/10 text-white border border-white/20' 
-										: 'bg-white/5 text-gray-500 hover:text-gray-300 border border-white/10'
+										? 'bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white border border-gray-400 dark:border-white/20' 
+										: 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 border border-gray-300 dark:border-white/10'
 								}`}
 							>
 								{group}
@@ -100,7 +100,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 				</div>
 
 				{/* Results Count */}
-				<div className="pt-2 border-t border-white/10">
+				<div className="pt-2 border-t border-gray-300 dark:border-white/10">
 					<p className="text-xs font-mono text-gray-600">
 						Showing {filteredArticles.length} of {articles.length} articles
 					</p>
@@ -118,7 +118,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 						<a 
 							key={article.id} 
 							href={`/articles/${article.slug}`}
-							className="group block p-4 rounded-lg border border-transparent hover:border-white/10 hover:bg-white/5 transition-all"
+							className="group block p-4 rounded-lg border border-transparent hover:border-gray-300 dark:hover:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
 						>
 							<div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
 								<time className="font-mono text-xs text-gray-600 shrink-0 w-24">
@@ -129,7 +129,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 									})}
 								</time>
 								<div className="flex-1">
-									<h3 className="text-lg font-medium text-white group-hover:text-green-400 transition-colors mb-1">
+									<h3 className="text-lg font-medium text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1">
 										{article.title}
 									</h3>
 									{article.subtitle && (
@@ -138,11 +138,11 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 										</p>
 									)}
 									<div className="flex flex-wrap gap-2 items-center">
-										<span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono text-gray-500 uppercase">
+										<span className="px-2 py-0.5 bg-gray-100 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded text-[10px] font-mono text-gray-600 dark:text-gray-500 uppercase">
 											{article.category}
 										</span>
 										{article.group && (
-											<span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono text-gray-500">
+											<span className="px-2 py-0.5 bg-gray-100 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded text-[10px] font-mono text-gray-600 dark:text-gray-500">
 												{article.group}
 											</span>
 										)}

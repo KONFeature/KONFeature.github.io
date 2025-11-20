@@ -52,7 +52,7 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 
 	return (
 		<section id="collections" className="mb-24">
-			<div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
+			<div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
 				<h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
 					Article Collections
 				</h2>
@@ -67,17 +67,17 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 							{/* Group Header */}
 							<div className="mb-6">
 								<div className="flex items-center gap-3 mb-3">
-									<div className={`p-2 rounded-lg bg-white/5 ${group.iconColor}`}>
+									<div className={`p-2 rounded-lg bg-gray-100 dark:bg-white/5 ${group.iconColor}`}>
 										<Icon name={group.icon} className="w-5 h-5" />
 									</div>
-									<h3 className="text-xl font-bold text-white">
+									<h3 className="text-xl font-bold text-gray-900 dark:text-white">
 										{group.name}
 									</h3>
 									<span className="text-xs font-mono text-gray-600">
 										{groupArticles.length} {groupArticles.length === 1 ? 'article' : 'articles'}
 									</span>
 								</div>
-								<p className="text-gray-400 text-sm leading-relaxed max-w-2xl">
+								<p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-2xl">
 									{group.description}
 								</p>
 							</div>
@@ -90,7 +90,7 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 										href={`/articles/${article.slug}`}
 										className="block group/article"
 									>
-										<div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6 p-4 rounded-lg border border-white/5 hover:border-white/20 hover:bg-white/5 transition-all">
+										<div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6 p-4 rounded-lg border border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
 											<time className="font-mono text-xs text-gray-600 shrink-0 w-20">
 												{new Date(article.date).toLocaleDateString('en-US', { 
 													month: 'short', 
@@ -98,7 +98,7 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 												})}
 											</time>
 											<div className="flex-1">
-												<h4 className="text-base font-medium text-white group-hover/article:text-green-400 transition-colors mb-1">
+												<h4 className="text-base font-medium text-gray-900 dark:text-white group-hover/article:text-green-600 dark:group-hover/article:text-green-400 transition-colors mb-1">
 													{article.title}
 												</h4>
 												{article.subtitle && (
@@ -108,7 +108,7 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 												)}
 												<div className="flex flex-wrap gap-2 mt-2">
 													{article.tags.slice(0, 3).map((tag) => (
-														<span key={tag} className="text-[10px] font-mono text-gray-600 px-2 py-0.5 bg-black/30 border border-white/5 rounded">
+														<span key={tag} className="text-[10px] font-mono text-gray-600 px-2 py-0.5 bg-gray-100 dark:bg-black/30 border border-gray-300 dark:border-white/5 rounded">
 															{tag}
 														</span>
 													))}

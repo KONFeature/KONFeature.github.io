@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const post = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 function getReadingTime(content: string) {
   const wordsPerMinute = 200;
@@ -59,6 +59,7 @@ if (post.data.group) {
 	prevArticle={prevArticle}
 	nextArticle={nextArticle}
 	groupName={groupName}
+	headings={headings}
 >
 	<Content />
 </ArticleLayout>

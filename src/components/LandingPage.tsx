@@ -68,7 +68,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-gray-300 font-sans selection:bg-white/20">
+    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
       
       <Navigation />
 
@@ -76,11 +76,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
         
         {/* Hero Section */}
         <section className="mb-24">
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">
             Quentin Nivelais
           </h1>
           
-          <div className="prose prose-invert prose-lg text-gray-400 leading-relaxed mb-8">
+          <div className="prose dark:prose-invert prose-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
             <p>
               CTO at Frak Labs. I build sovereign infrastructure and optimize EVM bytecode.
               My work focuses on the intersection of high-performance distributed systems and cryptography.
@@ -91,15 +91,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
 
           <div className="flex gap-6 text-sm font-mono">
-            <a href="#" className="flex items-center gap-2 hover:text-white transition-colors">
+            <a href="#" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Github size={16} />
               <span>GitHub</span>
             </a>
-            <a href="#" className="flex items-center gap-2 hover:text-white transition-colors">
+            <a href="#" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Twitter size={16} />
               <span>Twitter</span>
             </a>
-            <a href="#" className="flex items-center gap-2 hover:text-white transition-colors">
+            <a href="#" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Linkedin size={16} />
               <span>LinkedIn</span>
             </a>
@@ -108,13 +108,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
 
         {/* Recent Articles */}
         <section id="articles" className="mb-24">
-          <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
+          <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
             <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
               Recent Articles
             </h2>
             <a 
               href="/articles" 
-              className="font-mono text-xs text-gray-500 hover:text-white transition-colors"
+              className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               View all →
             </a>
@@ -136,7 +136,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
                     })}
                   </time>
                   <div className="flex-1">
-                    <h3 className="text-lg font-medium text-white group-hover:text-green-400 transition-colors mb-1">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1">
                       {article.title}
                     </h3>
                     <p className="text-gray-500 text-sm leading-relaxed max-w-xl">
@@ -154,7 +154,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
 
         {/* Projects */}
         <section id="projects">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-white/10 pb-2">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
             Selected Works
           </h2>
 
@@ -162,7 +162,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
             {projects.map((project, i) => (
               <div key={i} className="group">
                 <div className="flex justify-between items-baseline mb-2">
-                  <h3 className="text-white font-medium group-hover:text-green-400 transition-colors">
+                  <h3 className="text-gray-900 dark:text-white font-medium group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                     {project.title}
                   </h3>
                   <span className="text-xs font-mono text-gray-600">

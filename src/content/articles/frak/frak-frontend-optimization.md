@@ -3,7 +3,7 @@ title: "Extreme Frontend Optimization: How We Cut 30% Off Our Wallet Size"
 date: 2025-11-19T14:00:00Z
 draft: false
 subtitle: "From Jotai to Zustand, AWS to Kubernetes, and achieving faster load times without a CDN"
-category: "performance"
+category: "devops"
 tags: ["Frontend", "Performance", "Nginx", "Vite", "Rolldown", "Web3", "Zustand", "Kubernetes"]
 icon: "zap"
 iconColor: "text-indigo-400"

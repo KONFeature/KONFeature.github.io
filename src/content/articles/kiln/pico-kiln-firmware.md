@@ -3,7 +3,7 @@ title: "Pico Kiln — Part 2: Firmware Architecture"
 date: 2025-11-15T12:00:00Z
 draft: false
 subtitle: "Industrial Control on a $6 Chip"
-category: "embedded"
+category: "electronics"
 tags: ["Kiln", "IoT", "Raspberry Pi Pico", "MicroPython", "PID Control", "Real-Time Systems", "Industrial Automation"]
 icon: "cpu"
 iconColor: "text-orange-400"

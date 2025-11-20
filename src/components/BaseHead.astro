@@ -28,6 +28,26 @@ const { title, description, image = '/favicon.svg' } = Astro.props;
 />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Theme Script (runs before page render to prevent flash) -->
+<script is:inline>
+	const theme = (() => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+			return localStorage.getItem('theme');
+		}
+		if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+			return 'light';
+		}
+		return 'dark';
+	})();
+	
+	if (theme === 'light') {
+		document.documentElement.classList.remove('dark');
+	} else {
+		document.documentElement.classList.add('dark');
+	}
+	window.localStorage.setItem('theme', theme);
+</script>
+
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
