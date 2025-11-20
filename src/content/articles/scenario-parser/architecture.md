@@ -7,7 +7,6 @@ category: "system-design"
 tags: ["architecture", "competitive-parsing", "multi-strategy", "quality-selection", "self-healing"]
 icon: "layout"
 iconColor: "text-blue-400"
-featured: true
 description: "A complete system architecture overview of scenario-parser's 3-stage competitive parsing pipeline: extraction, 4 parallel parsing strategies with quality selection, and graph-theory + LLM hybrid analysis."
 githubUrl: "https://github.com/KONFeature/scenario-parser"
 group: "scenario-parser"

@@ -7,7 +7,6 @@ category: "system-design"
 tags: ["architecture", "graph-theory", "typescript", "performance", "pipeline"]
 icon: "workflow"
 iconColor: "text-purple-400"
-featured: false
 description: "A deep dive into the event-driven architecture, concurrency control, and graph theory algorithms powering scenario-parser's analysis engine."
 githubUrl: "https://github.com/KONFeature/scenario-parser"
 group: "scenario-parser"

@@ -1,13 +1,12 @@
 ---
 title: "The DevX Revolution: Migrating Frak Wallet to TanStack Start & Rolldown"
-date: 2025-02-26T10:00:00Z
+date: 2025-11-20T10:00:00Z
 draft: false
 subtitle: "How we cut build times by 10x"
 category: "devops"
 tags: ["DevX", "Rolldown", "Vite", "TanStack Start", "Vitest", "Performance"]
 icon: "rocket"
 iconColor: "text-red-500"
-featured: false
 description: "A technical retrospective on migrating the Frak Wallet from Next.js to TanStack Start, adopting Rolldown for lightning-fast builds, and unifying our entire monorepo stack."
 githubUrl: "https://github.com/frak-id/wallet"
 group: "frak"

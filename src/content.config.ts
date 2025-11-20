@@ -13,11 +13,12 @@ const articles = defineCollection({
 		tags: z.array(z.string()),
 		icon: z.string(),
 		iconColor: z.string().optional(),
-		featured: z.boolean().default(false),
 		description: z.string(),
 		mediumUrl: z.string().optional(),
 		githubUrl: z.string().optional(),
 		group: z.string().optional(),
+		featured: z.boolean().optional().default(false),
+		draft: z.boolean().optional().default(false),
 	}),
 });
 

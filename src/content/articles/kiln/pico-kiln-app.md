@@ -7,7 +7,6 @@ category: "mobile"
 tags: ["Kiln", "IoT", "React", "Tauri", "IoT", "Local-First"]
 icon: "smartphone"
 iconColor: "text-blue-400"
-featured: false
 description: "Building a kiln controller UI that runs as a web app, macOS app, and Android APK—all from a single React codebase. Solving the HTTP/HTTPS mixed content nightmare without compromise."
 githubUrl: "https://github.com/frak-id/pico-kiln"
 group: "kiln"

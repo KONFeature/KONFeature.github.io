@@ -1,13 +1,12 @@
 ---
 title: "Modern Infrastructure as Code: Why We Chose SST & Pulumi over Terraform"
-date: 2025-02-25T10:00:00Z
+date: 2025-11-18T10:00:00Z
 draft: false
 subtitle: "Escaping the HCL Trap"
 category: "devops"
 tags: ["IaC", "SST", "Pulumi", "Kubernetes", "GCP", "AWS", "TypeScript"]
 icon: "cloud-cog"
 iconColor: "text-cyan-400"
-featured: false
 description: "A deep dive into Frak's infrastructure stack, detailing why we abandoned HCL for TypeScript, how we architect multi-cloud deployments with SST, and managing GKE clusters with Pulumi."
 githubUrl: "https://github.com/frak-id/infra-core"
 group: "frak"

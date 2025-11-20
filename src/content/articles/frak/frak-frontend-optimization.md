@@ -1,13 +1,12 @@
 ---
 title: "Extreme Frontend Optimization: Architecture & Tuning for Sub-Second Wallets"
-date: 2025-02-25T14:00:00Z
+date: 2025-11-19T14:00:00Z
 draft: false
 subtitle: "100ms or Bust"
 category: "performance"
 tags: ["Frontend", "Performance", "Nginx", "Vite", "Rolldown", "Web3"]
 icon: "zap"
 iconColor: "text-indigo-400"
-featured: false
 description: "How Frak achieved <100ms latency by splitting the wallet architecture, aggressive Nginx tuning, and implementing a custom Rolldown chunking strategy."
 githubUrl: "https://github.com/frak-id/wallet"
 group: "frak"

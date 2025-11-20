@@ -7,7 +7,6 @@ category: "solidity"
 tags: ["ERC-2612", "ERC-20", "EIP-712", "Solidity", "Smart Contracts"]
 icon: "code-2"
 iconColor: "text-red-400"
-featured: false
 description: "A deep dive into the Solidity code of gasless ERC-20 approvals ERC-2612"
 mediumUrl: "https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-part-2-9c90c01eb69d"
 group: "web3"

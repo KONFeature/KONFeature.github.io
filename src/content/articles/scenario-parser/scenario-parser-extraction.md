@@ -7,7 +7,6 @@ category: "data-engineering"
 tags: ["Python", "PDF Parsing", "Regex", "Data Engineering", "ETL"]
 icon: "file-text"
 iconColor: "text-yellow-400"
-featured: false
 description: "How scenario-parser transforms raw PDF binaries into semantic screenplay data using PyMuPDF4LLM, heuristic state machines, and fuzzy string matching."
 githubUrl: "https://github.com/KONFeature/scenario-parser"
 group: "scenario-parser"

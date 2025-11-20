@@ -7,7 +7,6 @@ category: "ai"
 tags: ["LLM", "Prompt Engineering", "Psychology", "AI", "Synthesis"]
 icon: "brain"
 iconColor: "text-pink-400"
-featured: false
 description: "A technical deep dive into prompt engineering, multi-pass architecture, and the 'Big Five' personality synthesis in scenario-parser."
 githubUrl: "https://github.com/KONFeature/scenario-parser"
 group: "scenario-parser"

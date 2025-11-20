@@ -6,7 +6,7 @@ import ArticlesPage from '../components/ArticlesPage';
 import { getCollection } from 'astro:content';
 import { SITE_TITLE } from '../consts';
 
-const articles = await getCollection('articles');
+const articles = (await getCollection('articles')).filter(article => !article.data.draft);
 
 // Helper to calculate read time
 function getReadingTime(content: string) {

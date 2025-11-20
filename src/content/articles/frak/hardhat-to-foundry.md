@@ -7,7 +7,6 @@ category: "solidity"
 tags: ["Foundry", "Hardhat", "Solidity", "Testing", "DevOps"]
 icon: "code-2"
 iconColor: "text-red-400"
-featured: false
 description: "Evaluating the performance difference of Hardhat and Foundry for Solidity contract unit testing & reason behind the switch"
 mediumUrl: "https://medium.com/frak-defi/maximizing-quality-and-reliability-in-solidity-our-journey-from-hardhat-to-foundry-52e0504d11c6"
 group: "frak"

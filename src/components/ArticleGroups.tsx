@@ -12,7 +12,6 @@ interface ArticleData {
 	date: Date;
 	icon: string;
 	iconColor?: string;
-	featured: boolean;
 	description: string;
 	slug: string;
 	githubUrl?: string;

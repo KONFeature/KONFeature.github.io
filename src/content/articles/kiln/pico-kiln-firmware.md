@@ -7,7 +7,6 @@ category: "embedded"
 tags: ["Kiln", "IoT", "Raspberry Pi Pico", "MicroPython", "PID Control", "Real-Time Systems", "Industrial Automation"]
 icon: "cpu"
 iconColor: "text-orange-400"
-featured: false
 description: "Deep dive into the dual-core control logic, PID implementation with Adaptive Gain Scheduling, and thread-safe communication on the Raspberry Pi Pico W."
 githubUrl: "https://github.com/frak-id/pico-kiln"
 group: "kiln"

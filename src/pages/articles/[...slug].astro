@@ -4,7 +4,7 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import { ARTICLE_GROUPS } from '../../articleGroups';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('articles');
+	const posts = (await getCollection('articles')).filter(post => !post.data.draft);
 	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: post,
@@ -27,7 +27,7 @@ let nextArticle = undefined;
 let groupName = undefined;
 
 if (post.data.group) {
-	const allPosts = await getCollection('articles');
+	const allPosts = (await getCollection('articles')).filter(p => !p.data.draft);
 	// Filter posts in the same group
 	const groupPosts = allPosts
 		.filter(p => p.data.group === post.data.group)
