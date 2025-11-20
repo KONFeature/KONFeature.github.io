@@ -16,6 +16,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@tailwindcss/postcss": "^4.1.17",
     "astro": "^5.15.9",
+    "astro-pagefind": "^1.8.5",
     "lucide-react": "^0.554.0",
     "playwright": "^1.56.1",
     "react": "^19.2.0",

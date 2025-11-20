@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Terminal, Menu, X, Sun, Moon } from 'lucide-react';
+import Search from './Search';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,6 +42,7 @@ const Navigation = () => {
             <a href="/#collections" className="hover:text-gray-900 dark:hover:text-white transition-colors">Collections</a>
             <a href="/#projects" className="hover:text-gray-900 dark:hover:text-white transition-colors">Selected works</a>
             <a href="/articles" className="hover:text-gray-900 dark:hover:text-white transition-colors">All articles</a>
+            <Search />
             <button 
               onClick={toggleTheme}
               className="p-2 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -51,10 +53,11 @@ const Navigation = () => {
           </div>
 
           {/* Mobile Nav */}
-          <div className="flex md:hidden items-center gap-3">
+          <div className="flex md:hidden items-center gap-3 text-gray-600 dark:text-gray-400">
+            <Search />
             <button 
               onClick={toggleTheme}
-              className="text-gray-600 dark:text-gray-300 p-2"
+              className="p-2"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}

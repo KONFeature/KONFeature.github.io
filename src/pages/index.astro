@@ -75,7 +75,7 @@ const personJsonLd = {
 		<!-- JSON-LD Structured Data for Person -->
 		<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 	</head>
-	<body class="bg-white dark:bg-[#0a0a0a]">
+	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
 		<LandingPage client:load articles={processedArticles} />
 	</body>
 </html>

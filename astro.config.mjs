@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import pagefind from "astro-pagefind";
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
@@ -11,7 +12,7 @@ import rehypeMermaid from 'rehype-mermaid';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://nivelais.com',
-  integrations: [mdx(), sitemap(), react(), tailwind()],
+  integrations: [mdx(), sitemap(), react(), tailwind(), pagefind()],
   markdown: {
     remarkPlugins: [remarkMath],
    rehypePlugins: [
