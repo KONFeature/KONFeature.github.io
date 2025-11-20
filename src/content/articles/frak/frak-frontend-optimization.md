@@ -14,7 +14,7 @@ group: "frak"
 
 Building a Web3 wallet is usually a trade-off between security and speed. Most wallets are heavy browser extensions that inject massive scripts into every page you visit.
 
-At Frak, we took a different approach: an embedded wallet that lives inside an iframe on our partners' websites. This brings a brutal constraint—**if our wallet is heavy, we slow down the New York Times, Le Monde, or any other partner using our technology.** That is unacceptable.
+At Frak, we took a different approach: an embedded wallet that lives inside an iframe on our partners' websites. This brings a brutal constraint—**if our wallet is heavy, we slow down any partner using our technology.** That is unacceptable.
 
 Our listener app loads across multiple websites with **hundreds of thousands of loads per day**. Every kilobyte saved translates to **multiple gigabytes** of bandwidth reduction per month.
 
