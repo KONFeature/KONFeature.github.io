@@ -14,7 +14,74 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), react(), tailwind()],
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeMermaid],
+   rehypePlugins: [
+      rehypeKatex,
+      [
+        rehypeMermaid,
+        {
+          strategy: 'img-svg',
+          mermaidConfig: {
+            theme: 'dark',
+            themeVariables: {
+              // Background and primary colors
+              darkMode: true,
+              background: '#0a0a0a',
+              mainBkg: '#1a1a1a',
+              secondBkg: '#262626',
+              tertiaryBkg: '#333333',
+              
+              // Text colors
+              primaryTextColor: '#e5e5e5',
+              secondaryTextColor: '#a3a3a3',
+              tertiaryTextColor: '#737373',
+              
+              // Border colors
+              primaryBorderColor: 'rgba(255, 255, 255, 0.2)',
+              secondaryBorderColor: 'rgba(255, 255, 255, 0.1)',
+              
+              // Node colors (for flowcharts)
+              nodeBorder: 'rgba(255, 255, 255, 0.2)',
+              clusterBkg: '#1a1a1a',
+              clusterBorder: 'rgba(255, 255, 255, 0.1)',
+              
+              // Edge/Line colors
+              lineColor: 'rgba(255, 255, 255, 0.3)',
+              edgeLabelBackground: '#1a1a1a',
+              
+              // Special node types
+              primaryColor: '#3b82f6',
+              secondaryColor: '#8b5cf6',
+              tertiaryColor: '#10b981',
+              
+              // State colors
+              errorBkgColor: '#dc2626',
+              errorTextColor: '#ffffff',
+              
+              // Git graph colors
+              git0: '#3b82f6',
+              git1: '#8b5cf6',
+              git2: '#10b981',
+              git3: '#f59e0b',
+              git4: '#ef4444',
+              git5: '#ec4899',
+              git6: '#14b8a6',
+              git7: '#f97316',
+            },
+            flowchart: {
+              curve: 'basis',
+              padding: 20,
+            },
+            sequence: {
+              actorMargin: 50,
+              boxMargin: 10,
+              boxTextMargin: 5,
+              noteMargin: 10,
+              messageMargin: 35,
+            },
+          },
+        },
+      ],
+    ],
     syntaxHighlight: {
       excludeLangs: ['mermaid'],
     },
