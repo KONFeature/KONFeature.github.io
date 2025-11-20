@@ -8,7 +8,7 @@ tags: ["Safety", "NLP", "System Architecture", "Streaming", "TypeScript", "spaCy
 icon: "shield-check"
 iconColor: "text-emerald-400"
 description: "Building deterministic safety layers with hybrid NLP, streaming architecture, and rule-based allergen detection for health-critical AI applications."
-githubUrl: "https://github.com/frak-id/cooking-bot"
+# githubUrl: "https://github.com/frak-id/cooking-bot"
 group: "cooking-bot"
 ---
 

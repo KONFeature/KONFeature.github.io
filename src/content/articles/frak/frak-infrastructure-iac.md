@@ -47,7 +47,7 @@ As costs grew and AWS credits ran low, we migrated to containers:
 
 **Win:** 40% cost reduction. **Pain point:** Still couldn't migrate away from AWS easily.
 
-### Phase 4: SST Ion + Kubernetes on GKE (2024)
+### Phase 4: SST v3 (Ion) + Kubernetes on GKE (2024)
 When SST v3 (Ion) launched with native Pulumi support, we saw the opportunity for true cloud independence:
 - ECS → GKE (leveraging Google Cloud credits)
 - AWS → GCP for compute (AWS remains for state storage only)
@@ -621,9 +621,6 @@ graph LR
     Backend[Backend API] -->|Internal ClusterIP| Ponder
     Backend -->|Internal ClusterIP| eRPC
     eRPC -->|External RPC| Chains[Blockchain RPC Providers]
-    
-    style Ponder fill:#8B5CF6
-    style eRPC fill:#3B82F6
 ```
 
 Response times for `backend → ponder` queries: **~5ms average** (compared to 50-100ms for external HTTPS calls).

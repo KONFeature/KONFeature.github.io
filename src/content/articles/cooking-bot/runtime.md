@@ -8,7 +8,7 @@ tags: ["LLM", "Audio", "Streaming", "Observability", "Real-Time"]
 icon: "waveform"
 iconColor: "text-purple-400"
 description: "Deep dive into our runtime LLM architecture, speech synthesis pipeline, and observability systems that power conversational cooking guidance."
-githubUrl: "https://github.com/frak-id/cooking-bot"
+# githubUrl: "https://github.com/frak-id/cooking-bot"
 group: "cooking-bot"
 ---
 

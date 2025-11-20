@@ -8,6 +8,7 @@ tags: ["Kiln", "Electrical Engineering", "IoT", "Safety", "Restoration"]
 icon: "zap"
 iconColor: "text-yellow-400"
 description: "A deep dive into rewiring a 1977 'Bretagne' pottery kiln. We cover converting 3-phase to single-phase, handling massive loads, and solving dangerous electrical noise issues."
+githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
 

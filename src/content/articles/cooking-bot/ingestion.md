@@ -8,7 +8,7 @@ tags: ["Processing", "NLP", "Pipeline", "Cost Optimization", "Safety"]
 icon: "cog"
 iconColor: "text-blue-400"
 description: "Deep dive into our 7-stage recipe processing pipeline with intelligent routing, cost optimization, and comprehensive safety mechanisms."
-githubUrl: "https://github.com/frak-id/cooking-bot"
+# githubUrl: "https://github.com/frak-id/cooking-bot"
 group: "cooking-bot"
 ---
 

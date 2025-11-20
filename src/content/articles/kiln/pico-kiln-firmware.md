@@ -8,7 +8,7 @@ tags: ["Kiln", "IoT", "Raspberry Pi Pico", "MicroPython", "PID Control", "Real-T
 icon: "cpu"
 iconColor: "text-orange-400"
 description: "Deep dive into the dual-core control logic, PID implementation with Adaptive Gain Scheduling, and thread-safe communication on the Raspberry Pi Pico W."
-githubUrl: "https://github.com/frak-id/pico-kiln"
+githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
 

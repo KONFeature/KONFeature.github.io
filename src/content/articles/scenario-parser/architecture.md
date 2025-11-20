@@ -8,7 +8,7 @@ tags: ["architecture", "competitive-parsing", "multi-strategy", "quality-selecti
 icon: "layout"
 iconColor: "text-blue-400"
 description: "A complete system architecture overview of scenario-parser's 3-stage competitive parsing pipeline: extraction, 4 parallel parsing strategies with quality selection, and graph-theory + LLM hybrid analysis."
-githubUrl: "https://github.com/KONFeature/scenario-parser"
+# githubUrl: "https://github.com/KONFeature/scenario-parser"
 group: "scenario-parser"
 ---
 
@@ -73,12 +73,6 @@ flowchart TB
     SYNTH --> OUTPUT[📦 Complete Analysis]
     SYN --> OUTPUT
     SCENE --> OUTPUT
-    
-    style STAGE1 fill:#e3f2fd
-    style STAGE2 fill:#fff3e0
-    style STAGE3 fill:#f3e5f5
-    style BEST fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
-    style QS fill:#fff9c4,stroke:#f57f17,stroke-width:2px
 ```
 
 ---
