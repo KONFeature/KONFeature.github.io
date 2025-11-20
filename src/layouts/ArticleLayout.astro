@@ -17,38 +17,51 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 		<style>
 			/* Mermaid diagram styling for img-based rendering */
-			.prose img[id^="mermaid-"] {
-				background-color: #f8f8f8;
+			.prose img[id^="mermaid-"],
+			.prose picture {
+				background-color: rgba(255, 255, 255, 0.9);
 				border-radius: 0.5rem;
 				padding: 1.5rem;
 				margin: 2rem 0;
 				width: 100%;
 				height: auto;
 				display: block;
-				filter: invert(1) hue-rotate(180deg);
+				border: 1px solid rgba(0, 0, 0, 0.1);
 			}
 
-			.dark .prose img[id^="mermaid-"] {
+			.dark .prose img[id^="mermaid-"],
+			.dark .prose picture {
 				background-color: rgba(255, 255, 255, 0.05);
-				filter: none;
+				border-color: rgba(255, 255, 255, 0.1);
+			}
+
+			.prose picture img {
+				margin: 0;
+				padding: 0;
+				background-color: transparent;
+				border: none;
 			}
 
 			.prose .mermaid-wrapper {
 				position: relative;
-				background-color: #f8f8f8;
+				background-color: rgba(255, 255, 255, 0.9);
 				border-radius: 0.5rem;
 				padding: 1.5rem;
 				margin: 2rem 0;
+				border: 1px solid rgba(0, 0, 0, 0.1);
 			}
 
 			.dark .prose .mermaid-wrapper {
 				background-color: rgba(255, 255, 255, 0.05);
+				border-color: rgba(255, 255, 255, 0.1);
 			}
 
-			.prose .mermaid-wrapper img[id^="mermaid-"] {
+			.prose .mermaid-wrapper img[id^="mermaid-"],
+			.prose .mermaid-wrapper picture {
 				background-color: transparent;
 				padding: 0;
 				margin: 0;
+				border: none;
 			}
 
 			/* Mermaid expand button */
@@ -160,11 +173,6 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 				width: auto;
 				height: auto;
 				object-fit: contain;
-				filter: invert(1) hue-rotate(180deg);
-			}
-
-			.dark .dialog-content svg {
-				filter: none;
 			}
 
 			/* Math formula styling */
@@ -291,6 +299,49 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 			const dialog = document.getElementById('mermaid-dialog') as HTMLDialogElement;
 			const dialogContent = document.getElementById('dialog-content');
 			const zoomLevel = document.getElementById('zoom-level');
+
+			// Handle mermaid theme switching
+			function updateMermaidTheme() {
+				const isDark = document.documentElement.classList.contains('dark');
+				const pictures = document.querySelectorAll('picture');
+				
+				pictures.forEach((picture) => {
+					const darkSource = picture.querySelector('source[media*="prefers-color-scheme: dark"]');
+					const lightImg = picture.querySelector('img:not([id*="-dark-"])');
+					
+					if (darkSource && lightImg) {
+						// Force the correct source based on our theme class
+						if (isDark) {
+							// In dark mode, use the dark source
+							const darkSrc = darkSource.getAttribute('srcset');
+							if (darkSrc && lightImg) {
+								lightImg.setAttribute('src', darkSrc);
+							}
+						} else {
+							// In light mode, use the default img src
+							const originalSrc = lightImg.getAttribute('data-original-src');
+							if (originalSrc) {
+								lightImg.setAttribute('src', originalSrc);
+							}
+						}
+					}
+				});
+			}
+
+			// Listen for theme changes
+			window.addEventListener('theme-changed', updateMermaidTheme);
+			
+			// Run on load
+			document.addEventListener('DOMContentLoaded', () => {
+				// Store original light mode srcs
+				document.querySelectorAll('picture img').forEach((img) => {
+					const src = img.getAttribute('src');
+					if (src && !img.hasAttribute('data-original-src')) {
+						img.setAttribute('data-original-src', src);
+					}
+				});
+				updateMermaidTheme();
+			});
 
 			function setupMermaidButtons() {
 				const mermaidDiagrams = document.querySelectorAll('img[id^="mermaid-"]');
