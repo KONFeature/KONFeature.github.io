@@ -1,0 +1,59 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import ArticlesPage from '../components/ArticlesPage';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE } from '../consts';
+
+const articles = (await getCollection('articles')).filter(article => !article.data.draft);
+
+// Helper to calculate read time
+function getReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
+const processedArticles = articles.map(article => ({
+  id: article.id,
+  title: article.data.title,
+  subtitle: article.data.subtitle,
+  category: article.data.category,
+  tags: article.data.tags,
+  readTime: getReadingTime(article.body || ""),
+  icon: article.data.icon,
+  iconColor: article.data.iconColor,
+  featured: article.data.featured,
+  description: article.data.description,
+  date: article.data.date,
+  slug: article.id,
+  githubUrl: article.data.githubUrl,
+  group: article.data.group,
+}));
+
+// Sort by date
+processedArticles.sort((a, b) => {
+    const dateA = articles.find(art => art.id === a.id)?.data.date.getTime() || 0;
+    const dateB = articles.find(art => art.id === b.id)?.data.date.getTime() || 0;
+    return dateB - dateA;
+});
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={`All Articles | ${SITE_TITLE}`} description="Complete archive of engineering articles and technical deep-dives" />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]">
+		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+			<Navigation client:load />
+			
+			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
+				<ArticlesPage client:load articles={processedArticles} />
+				<Footer client:load />
+			</main>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import LandingPage from '../components/LandingPage';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const articles = await getCollection('articles');
+
+// Helper to calculate read time
+function getReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
+const processedArticles = articles.map(article => ({
+  id: article.id,
+  title: article.data.title,
+  subtitle: article.data.subtitle,
+  category: article.data.category,
+  tags: article.data.tags,
+  readTime: getReadingTime(article.body || ""),
+  icon: article.data.icon,
+  iconColor: article.data.iconColor,
+  description: article.data.description,
+  date: article.data.date,
+  slug: article.id, // Using ID as slug for now, or article.slug if I rename files to match
+  githubUrl: article.data.githubUrl,
+  group: article.data.group,
+  draft: article.data.draft,
+})).filter(article => !article.draft);
+
+// Sort by date if needed, though React code handles filtering. 
+// Assuming latest first:
+processedArticles.sort((a, b) => {
+    const dateA = articles.find(art => art.id === a.id)?.data.date.getTime() || 0;
+    const dateB = articles.find(art => art.id === b.id)?.data.date.getTime() || 0;
+    return dateB - dateA;
+});
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]">
+		<LandingPage client:load articles={processedArticles} />
+	</body>
+</html>

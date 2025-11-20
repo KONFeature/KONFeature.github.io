@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { ARTICLE_GROUPS } from '../../articleGroups';
+
+export async function getStaticPaths() {
+	const posts = (await getCollection('articles')).filter(post => !post.data.draft);
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+const post = Astro.props;
+const { Content, headings } = await render(post);
+
+function getReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
+// Calculate prev/next articles in the same group
+let prevArticle = undefined;
+let nextArticle = undefined;
+let groupName = undefined;
+
+if (post.data.group) {
+	const allPosts = (await getCollection('articles')).filter(p => !p.data.draft);
+	// Filter posts in the same group
+	const groupPosts = allPosts
+		.filter(p => p.data.group === post.data.group)
+		.sort((a, b) => a.data.date.getTime() - b.data.date.getTime()); // Sort by date ascending
+	
+	const currentIndex = groupPosts.findIndex(p => p.id === post.id);
+	
+	if (currentIndex > 0) {
+		prevArticle = {
+			title: groupPosts[currentIndex - 1].data.title,
+			slug: groupPosts[currentIndex - 1].id,
+		};
+	}
+	
+	if (currentIndex < groupPosts.length - 1) {
+		nextArticle = {
+			title: groupPosts[currentIndex + 1].data.title,
+			slug: groupPosts[currentIndex + 1].id,
+		};
+	}
+	
+	groupName = ARTICLE_GROUPS[post.data.group]?.name;
+}
+---
+
+<ArticleLayout 
+	{...post.data} 
+	readingTime={getReadingTime(post.body || "")}
+	prevArticle={prevArticle}
+	nextArticle={nextArticle}
+	groupName={groupName}
+	headings={headings}
+>
+	<Content />
+</ArticleLayout>
