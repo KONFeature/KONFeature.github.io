@@ -306,22 +306,31 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 				const pictures = document.querySelectorAll('picture');
 				
 				pictures.forEach((picture) => {
-					const darkSource = picture.querySelector('source[media*="prefers-color-scheme: dark"]');
-					const lightImg = picture.querySelector('img:not([id*="-dark-"])');
+					const darkSource = picture.querySelector('source[media*="prefers-color-scheme: dark"]') as HTMLSourceElement;
+					const lightImg = picture.querySelector('img') as HTMLImageElement;
 					
 					if (darkSource && lightImg) {
-						// Force the correct source based on our theme class
-						if (isDark) {
-							// In dark mode, use the dark source
+						// Store original sources if not already stored
+						if (!lightImg.hasAttribute('data-light-src')) {
+							lightImg.setAttribute('data-light-src', lightImg.src);
+						}
+						if (!lightImg.hasAttribute('data-dark-src')) {
 							const darkSrc = darkSource.getAttribute('srcset');
-							if (darkSrc && lightImg) {
-								lightImg.setAttribute('src', darkSrc);
+							if (darkSrc) {
+								lightImg.setAttribute('data-dark-src', darkSrc);
+							}
+						}
+
+						// Switch based on theme
+						if (isDark) {
+							const darkSrc = lightImg.getAttribute('data-dark-src');
+							if (darkSrc) {
+								lightImg.src = darkSrc;
 							}
 						} else {
-							// In light mode, use the default img src
-							const originalSrc = lightImg.getAttribute('data-original-src');
-							if (originalSrc) {
-								lightImg.setAttribute('src', originalSrc);
+							const lightSrc = lightImg.getAttribute('data-light-src');
+							if (lightSrc) {
+								lightImg.src = lightSrc;
 							}
 						}
 					}
@@ -333,29 +342,28 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 			
 			// Run on load
 			document.addEventListener('DOMContentLoaded', () => {
-				// Store original light mode srcs
-				document.querySelectorAll('picture img').forEach((img) => {
-					const src = img.getAttribute('src');
-					if (src && !img.hasAttribute('data-original-src')) {
-						img.setAttribute('data-original-src', src);
-					}
-				});
 				updateMermaidTheme();
 			});
 
 			function setupMermaidButtons() {
-				const mermaidDiagrams = document.querySelectorAll('img[id^="mermaid-"]');
+				// Find all picture elements that contain mermaid diagrams
+				const mermaidPictures = document.querySelectorAll('picture');
 				
-				if (mermaidDiagrams.length === 0) return;
+				if (mermaidPictures.length === 0) return;
 
-				mermaidDiagrams.forEach((img) => {
-					if (img.parentElement?.classList.contains('mermaid-wrapper')) return;
+				mermaidPictures.forEach((picture) => {
+					// Check if this picture contains a mermaid diagram
+					const darkSource = picture.querySelector('source[id^="mermaid-"]');
+					if (!darkSource) return;
+
+					// Skip if already wrapped
+					if (picture.parentElement?.classList.contains('mermaid-wrapper')) return;
 
 					// Create wrapper
 					const wrapper = document.createElement('div');
 					wrapper.className = 'mermaid-wrapper';
-					img.parentElement?.insertBefore(wrapper, img);
-					wrapper.appendChild(img);
+					picture.parentElement?.insertBefore(wrapper, picture);
+					wrapper.appendChild(picture);
 
 					// Create expand button
 					const expandBtn = document.createElement('button');
@@ -367,7 +375,10 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 					expandBtn.className = 'mermaid-expand-btn';
 					expandBtn.title = 'Expand diagram';
 					expandBtn.onclick = () => {
-						const src = (img as HTMLImageElement).src;
+						const img = picture.querySelector('img') as HTMLImageElement;
+						if (!img) return;
+
+						const src = img.src;
 						if (src.startsWith('data:image/svg+xml') && dialogContent && dialog) {
 							const svgData = decodeURIComponent(src.split(',')[1]);
 							dialogContent.innerHTML = svgData;
