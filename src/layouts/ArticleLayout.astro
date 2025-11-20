@@ -385,26 +385,27 @@ const breadcrumbJsonLd = {
 					const img = picture.querySelector('img');
 					
 					if (darkSource && img) {
-						// Get the dark source from srcset attribute
+						// Get both versions directly from DOM
 						const darkSrc = darkSource.getAttribute('srcset');
+						const lightSrc = img.getAttribute('src');
 						
-						// Store original sources on first run if not already stored
+						// Store original sources if not already stored
 						if (!img.hasAttribute('data-light-src')) {
-							img.setAttribute('data-light-src', img.src);
+							img.setAttribute('data-light-src', lightSrc);
 						}
 						if (!img.hasAttribute('data-dark-src') && darkSrc) {
 							img.setAttribute('data-dark-src', darkSrc);
 						}
 
-						// Switch based on theme
+						// Switch based on theme - use stored values to avoid re-reading from possibly changed src
 						if (isDark) {
 							const storedDarkSrc = img.getAttribute('data-dark-src');
-							if (storedDarkSrc) {
+							if (storedDarkSrc && img.src !== storedDarkSrc) {
 								img.src = storedDarkSrc;
 							}
 						} else {
 							const storedLightSrc = img.getAttribute('data-light-src');
-							if (storedLightSrc) {
+							if (storedLightSrc && img.src !== storedLightSrc) {
 								img.src = storedLightSrc;
 							}
 						}
