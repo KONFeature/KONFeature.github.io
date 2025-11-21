@@ -7,7 +7,8 @@ category: "solidity"
 tags: ["ERC-4337", "Account Abstraction", "WebAuthN", "Solidity", "Smart Wallets"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we’re diving deep into the nitty-gritty of leveraging **WebAuthN signatures for validating user operations** within the exc..."
+description: "Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we're diving deep into the nitty-gritty of leveraging **WebAuthN signatures for validating user operations** within the exc..."
+heroImage: "/assets/4337-webauthn/1*5NZ-_AfbnU63_qDakK6vTw.png"
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
 ---

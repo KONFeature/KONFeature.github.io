@@ -7,7 +7,7 @@ import ArticleNavigation from '../components/ArticleNavigation';
 import TableOfContents from '../components/TableOfContents';
 import { SITE_TITLE, AUTHOR_NAME, SITE_URL } from '../consts';
 
-const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description } = Astro.props;
+const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage } = Astro.props;
 
 // Create article URL
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
@@ -36,6 +36,7 @@ const jsonLd = {
 	},
 	"keywords": tags?.join(', '),
 	"articleSection": category,
+	...(heroImage && { "image": new URL(heroImage, Astro.site).toString() }),
 	...(githubUrl && { "codeRepository": githubUrl })
 };
 
@@ -72,6 +73,7 @@ const breadcrumbJsonLd = {
 		<BaseHead 
 			title={`${title} - ${SITE_TITLE}`} 
 			description={subtitle || title} 
+			image={heroImage}
 			article={{
 				publishedTime: date,
 				section: category,

@@ -1,5 +1,5 @@
 ---
-title: "Frak’s Vanguard: Pioneering the Account Abstraction Revolution in the Polygon Ecosystem"
+title: "Frak's Vanguard: Pioneering the Account Abstraction Revolution in the Polygon Ecosystem"
 date: 2023-12-13T12:00:00Z
 draft: false
 subtitle: "Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon."
@@ -8,6 +8,7 @@ tags: ["Account Abstraction", "ERC-4337", "Polygon", "Smart Wallets", "ZeroDev"]
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon."
+heroImage: "/assets/polygon-account-abstraction/1*JMCE5ZkYXlossnBhpjKMYQ.png"
 mediumUrl: "https://medium.com/frak-defi/fraks-vanguard-pioneering-the-account-abstraction-revolution-in-the-polygon-ecosystem-77876b8d9d52"
 group: "frak"
 ---

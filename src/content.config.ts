@@ -14,6 +14,7 @@ const articles = defineCollection({
 		icon: z.string(),
 		iconColor: z.string().optional(),
 		description: z.string(),
+		heroImage: z.string().optional(),
 		mediumUrl: z.string().optional(),
 		githubUrl: z.string().optional(),
 		group: z.string().optional(),

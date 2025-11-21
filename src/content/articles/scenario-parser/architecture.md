@@ -197,7 +197,7 @@ const result = await parseTextualScreenplayViaLlm(
 1. **Chunking** (`text-chunker.ts`): Splits screenplay into ~50-scene chunks
    - Uses GPT-4 tokenizer to respect context limits
    - Overlaps chunks by 2 scenes to preserve context
-2. **LLM Parsing** (`parser.ts`): Gemini 1.5 Flash with structured output
+2. **LLM Parsing** (`parser.ts`): Gemini 2.5 Flash with structured output
    - **Prompt**: "Parse this markdown screenplay into JSON"
    - **Schema**: Zod schemas (`schemas.ts`) for type-safe validation
    - **Output**: `{ scenes: [...], characters: [...] }`
@@ -205,7 +205,7 @@ const result = await parseTextualScreenplayViaLlm(
 
 **Performance**:
 - **Speed**: ~30s for 100 pages (parallel chunks)
-- **Cost**: ~$0.50 (Gemini 1.5 Flash pricing)
+- **Cost**: ~$0.50 (Gemini 2.5 Flash pricing)
 - **Accuracy**: 98-99%
 
 **When it wins**:
@@ -264,7 +264,7 @@ const result = await parsePdfScreenplayFileViaLlm(
 
 **Algorithm** (`packages/parser-llm/src/pdf.ts`):
 1. **Chunking** (`pdf-chunker.ts`): Splits PDF into ~50-page chunks
-2. **Multimodal LLM**: Gemini 1.5 Pro Vision **sees the PDF pages as images**
+2. **Multimodal LLM**: Gemini 2.5 **sees the PDF pages as images**
    - Can detect formatting from visual layout
    - Reads handwritten notes, marginalia
    - Handles scanned documents via OCR
@@ -399,7 +399,7 @@ Once we have the best screenplay from Stage 2, we run **three parallel analysis 
 ### 3.1 Synopsis Generation
 
 **File**: `synopsis.ts`  
-**Engine**: Gemini 1.5 Flash 2.0  
+**Engine**: Gemini 2.5 Flash  
 **Method**: Single-pass LLM summarization
 
 ```typescript
@@ -419,7 +419,7 @@ const synopsis = await generateSynopsis(screenplay, language);
 ### 3.2 Character Analysis (Graph SNA → Multi-Pass LLM)
 
 **File**: `character-analysis-v2/orchestrator-v5.ts`  
-**Engine**: Graph theory + Gemini 1.5 Flash 2.0  
+**Engine**: Graph theory + Gemini 2.5 Flash  
 **Method**: Hybrid approach
 
 #### Step 1: Social Network Analysis (SNA)
@@ -482,7 +482,7 @@ Run different LLM prompts based on character classification:
 ### 3.3 Scene Breakdown
 
 **File**: `scene-analysis.ts`  
-**Engine**: Gemini 1.5 Flash 2.0  
+**Engine**: Gemini 2.5 Flash  
 **Method**: Batch LLM analysis
 
 ```typescript
@@ -506,7 +506,7 @@ const scenes = await generateSceneAnalysis(screenplay, language);
 | Dimension           | parser-compute          | parser-llm-md             | parser-llm-txt            | parser-llm-pdf             |
 |---------------------|-------------------------|---------------------------|---------------------------|----------------------------|
 | **Input Format**    | JSON (bounding boxes)   | Markdown text             | Plain text                | Raw PDF bytes              |
-| **Engine**          | Regex + State Machine   | Gemini 1.5 Flash          | Gemini 1.5 Flash          | Gemini 1.5 Pro Vision      |
+| **Engine**          | Regex + State Machine   | Gemini 2.5 Flash          | Gemini 2.5 Flash          | Gemini 2.5                 |
 | **Speed (100 pg)**  | ~680ms                  | ~30s                      | ~30s                      | ~45s                       |
 | **Cost (100 pg)**   | $0.00                   | ~$0.50                    | ~$0.50                    | ~$1.50                     |
 | **Accuracy (avg)**  | 94-97%                  | 98-99%                    | 98-99%                    | 99%+                       |
@@ -612,12 +612,12 @@ const scenes = await generateSceneAnalysis(screenplay, language);
 |--------------------|---------------------|----------|------------------------------------|
 | **Extraction**     | Python scripts      | $0.00    | Pure compute (CPU only)            |
 | **Parsing**        | parser-compute      | $0.00    | Free (always runs)                 |
-|                    | parser-llm-md       | $0.48    | Gemini Flash 1.5 API               |
-|                    | parser-llm-txt      | $0.51    | Gemini Flash 1.5 API               |
-|                    | parser-llm-pdf      | $1.52    | Gemini Pro Vision (expensive!)     |
-| **Analysis**       | Synopsis            | $0.12    | Gemini Flash 2.0                   |
+|                    | parser-llm-md       | $0.48    | Gemini Flash 2.5                   |
+|                    | parser-llm-txt      | $0.51    | Gemini Flash 2.5                   |
+|                    | parser-llm-pdf      | $1.52    | Gemini Vision (expensive!)         |
+| **Analysis**       | Synopsis            | $0.12    | Gemini Flash 2.5                   |
 |                    | Character Analysis  | $3.24    | Multi-pass (6 passes × 12 chars)   |
-|                    | Scene Breakdown     | $0.58    | Gemini Flash 2.0                   |
+|                    | Scene Breakdown     | $0.58    | Gemini Flash 2.5                   |
 | **TOTAL**          |                     | **$6.45**| Assuming all 4 parsers run         |
 
 **Optimization**: If we only ran the winning parser (parser-compute in 68% of cases), average cost drops to **~$4.20** per screenplay.
@@ -685,7 +685,7 @@ const scenes = await generateSceneAnalysis(screenplay, language);
 ### 1. Scanned PDFs
 
 **Problem**: pdfplumber can't extract clean text from scanned images  
-**Solution**: parser-llm-pdf uses Gemini Vision (built-in OCR)  
+**Solution**: parser-llm-pdf uses Gemini  (built-in OCR)  
 **Result**: 99%+ accuracy even on phone photos of scripts
 
 ### 2. Non-Standard Formats
@@ -709,7 +709,7 @@ const scenes = await generateSceneAnalysis(screenplay, language);
 ### 5. Handwritten Notes
 
 **Problem**: Scripts with handwritten margin notes (director's annotations)  
-**Solution**: Gemini Vision can read handwriting + distinguish from typed text  
+**Solution**: Gemini  can read handwriting + distinguish from typed text  
 **Result**: Preserves script content, can optionally extract notes
 
 ---

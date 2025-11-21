@@ -457,8 +457,8 @@ export const backendInstance = new KubernetesService("Elysia", {
     
     hpa: {
         min: 1,
-        max: 2,
-        cpuUtilization: 120,  // Aggressive scaling based on requests
+        max: isProd ? 4 : 2,
+        cpuUtilization: 80,
     },
     
     ingress: {

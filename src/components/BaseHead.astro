@@ -83,6 +83,7 @@ const { title, description, image = '/android-chrome-512x512.png', article } = A
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image:alt" content={title} />
 <meta property="og:site_name" content={SITE_TITLE} />
 
 {article && (
@@ -101,6 +102,7 @@ const { title, description, image = '/android-chrome-512x512.png', article } = A
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta property="twitter:image:alt" content={title} />
 <meta property="twitter:site" content={TWITTER_HANDLE} />
 <meta property="twitter:creator" content={TWITTER_HANDLE} />
 

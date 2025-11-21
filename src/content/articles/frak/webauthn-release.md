@@ -7,7 +7,8 @@ category: "solidity"
 tags: ["WebAuthN", "Smart Wallets", "Account Abstraction", "ERC-4337", "UX"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Welcome to an exciting milestone at [Frak-Labs](https://frak.id/)! Before we unveil our latest Proof of Concept (POC) and the unique challenge it aims to tackle, let’s take a moment to revisit our ..."
+description: "Welcome to an exciting milestone at [Frak-Labs](https://frak.id/)! Before we unveil our latest Proof of Concept (POC) and the unique challenge it aims to tackle, let's take a moment to revisit our ..."
+heroImage: "/assets/webauthn-release/1*WRrrKvDmuDGDnkU10Mm3-g.png"
 mediumUrl: "https://medium.com/frak-defi/from-idea-to-innovation-unveiling-our-webauthn-smart-wallet-demo-4310eae5ae66"
 group: "frak"
 ---

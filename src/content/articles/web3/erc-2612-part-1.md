@@ -8,6 +8,7 @@ tags: ["ERC-2612", "ERC-20", "EIP-712", "Gasless", "Solidity"]
 icon: "code-2"
 iconColor: "text-red-400"
 description: "How to use EIP-712 signatures to save gas, batch approvals and increase security for your ERC-20 tokens."
+heroImage: "/assets/erc-2612-part-1/1*vLvlrzsOeqOin6rx9uXKCg.png"
 mediumUrl: "https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-2cd32ddee534"
 group: "web3"
 ---

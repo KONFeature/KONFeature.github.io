@@ -8,6 +8,7 @@ tags: ["Smart Contract Security", "Solidity", "Auditing", "Fuzzing", "Security T
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Setting up some free security tools, to prepare a security Audit"
+heroImage: "/assets/securing-solidity-smart-contracts/1*opo4j9_zIDQmn2BWx5ofsA.png"
 mediumUrl: "https://medium.com/frak-defi/securing-solidity-smart-contracts-61d070914886"
 group: "web3"
 ---

@@ -8,6 +8,7 @@ tags: ["Kiln", "IoT", "Python", "Control Theory", "PID", "Data Analysis", "Physi
 icon: "chart-line"
 iconColor: "text-green-400"
 description: "Analyzing kiln performance with physics-based phase detection, thermal modeling, and multi-method PID tuning. Because eyeballing temperature curves doesn't cut it."
+heroImage: "/assets/pico-python-analysis/plot-run.png"
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
