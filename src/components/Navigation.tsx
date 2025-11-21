@@ -29,7 +29,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 bg-[#0a0a0a]/90 dark:bg-[#0a0a0a]/90 bg-white/90 backdrop-blur-sm border-b border-gray-200 dark:border-white/5">
+      <nav className="fixed top-0 w-full z-50 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm border-b border-gray-200 dark:border-white/5">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 font-bold text-gray-900 dark:text-white text-lg tracking-tight">
             <Terminal size={18} className="text-gray-600 dark:text-gray-400" />

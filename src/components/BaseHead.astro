@@ -107,3 +107,9 @@ const { title, description, image = '/android-chrome-512x512.png', article } = A
 <!-- Author -->
 <meta name="author" content={AUTHOR_NAME} />
 <link rel="author" href={`${SITE_URL}/career`} />
+
+<!-- Pagefind Search -->
+<script>
+	import { getPagefind } from '../lib/pagefind';
+	getPagefind().catch(() => {/* Pagefind not available in dev mode */});
+</script>
