@@ -65,6 +65,18 @@ const personJsonLd = {
 		"Solidity"
 	]
 };
+
+// JSON-LD for WebSite
+const websiteJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"name": SITE_TITLE,
+	"url": SITE_URL,
+	"description": SITE_DESCRIPTION,
+	"author": {
+		"@id": `${SITE_URL}/#person`
+	}
+};
 ---
 
 <!doctype html>
@@ -72,8 +84,9 @@ const personJsonLd = {
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		
-		<!-- JSON-LD Structured Data for Person -->
+		<!-- JSON-LD Structured Data -->
 		<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
 		<LandingPage client:load articles={processedArticles} />

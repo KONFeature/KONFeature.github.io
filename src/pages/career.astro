@@ -3,13 +3,27 @@ import BaseHead from '../components/BaseHead.astro';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Timeline from '../components/Timeline';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, SITE_URL } from '../consts';
+
+const profileJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "dateCreated": "2024-01-01T00:00:00+00:00",
+  "dateModified": new Date().toISOString(),
+  "mainEntity": {
+    "@type": "Person",
+    "name": AUTHOR_NAME,
+    "description": SITE_DESCRIPTION,
+    "url": SITE_URL
+  }
+};
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
 		<BaseHead title={`Career - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<script type="application/ld+json" set:html={JSON.stringify(profileJsonLd)} />
 	</head>
 	<body class="bg-[#0a0a0a] text-gray-300 font-sans selection:bg-green-500/30" data-pagefind-ignore>
 		<Navigation client:load />

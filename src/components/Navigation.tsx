@@ -62,7 +62,11 @@ const Navigation = () => {
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button className="text-gray-600 dark:text-gray-300" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <button 
+              className="text-gray-600 dark:text-gray-300" 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
               {isMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
