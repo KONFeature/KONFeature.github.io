@@ -9,8 +9,11 @@ icon: "layout"
 iconColor: "text-blue-400"
 description: "A complete system architecture overview of scenario-parser's 3-stage competitive parsing pipeline: extraction, 4 parallel parsing strategies with quality selection, and graph-theory + LLM hybrid analysis."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
+heroImage: "/assets/scenario-parser/hero-architecture.png"
 group: "scenario-parser"
 ---
+
+![hero image](/assets/scenario-parser/hero-architecture.png)
 
 **A Technical Deep Dive into Multi-Strategy PDF Screenplay Processing**
 
