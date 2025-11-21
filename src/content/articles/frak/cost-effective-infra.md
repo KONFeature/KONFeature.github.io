@@ -13,9 +13,6 @@ mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc
 group: "frak"
 ---
 
-
-
-
 ![captionless image](/assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png)
 
 Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns through smart contracts. Running entirely on Arbitrum, our infrastructure needs to handle:

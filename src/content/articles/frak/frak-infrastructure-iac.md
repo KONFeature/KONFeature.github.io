@@ -9,8 +9,11 @@ icon: "cloud-cog"
 iconColor: "text-cyan-400"
 description: "A deep dive into Frak's infrastructure stack, detailing why we abandoned HCL for TypeScript, how we architect multi-cloud deployments with SST, and managing GKE clusters with Pulumi."
 githubUrl: "https://github.com/frak-id/infra-core"
+heroImage: "/assets/frak-infrastructure-iac/hero.png"
 group: "frak"
 ---
+
+![hero image](/assets/frak-infrastructure-iac/hero.png)
 
 In the world of Platform Engineering, the "Terraform vs. Everyone Else" debate is eternal. At Frak, we made a deliberate choice to step away from the industry standard HCL (HashiCorp Configuration Language) and embrace a full TypeScript stack for our Infrastructure as Code (IaC).
 

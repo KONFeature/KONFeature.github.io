@@ -14,9 +14,6 @@ group: "frak"
 ---
 
 
-
-
-
 Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we’re diving deep into the nitty-gritty of leveraging **WebAuthN signatures for validating user operations** within the exciting world of **ERC-4337 smart accounts**.
 
 You might remember our initial foray into this topic, co-authored with Yoan from the Cometh team. If you haven’t checked it out yet, do yourself a favor and give it a read [here](https://medium.com/@salvayre.yoan/passkeys-wallet-on-the-evm-69d4930ea4af). It sets the stage for what we’re about to explore and showcases some pioneering work in the field.
