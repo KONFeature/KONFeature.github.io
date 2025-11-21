@@ -8,12 +8,12 @@ tags: ["Blockchain Infrastructure", "DevOps", "eRPC", "Ponder", "Cost Optimizati
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns thr..."
-heroImage: "./assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png"
+heroImage: "./assets/cost-effective-infra/cost-effective-blockchain-infrastructure-hero.png"
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
 ---
 
-![captionless image](./assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png)
+![captionless image](./assets/cost-effective-infra/cost-effective-blockchain-infrastructure-hero.png)
 
 Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns through smart contracts. Running entirely on Arbitrum, our infrastructure needs to handle:
 

@@ -8,7 +8,7 @@ tags: ["WebAuthN", "Smart Wallets", "Account Abstraction", "ERC-4337", "UX"]
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Welcome to an exciting milestone at [Frak-Labs](https://frak.id/)! Before we unveil our latest Proof of Concept (POC) and the unique challenge it aims to tackle, let's take a moment to revisit our ..."
-heroImage: "./assets/webauthn-release/1*WRrrKvDmuDGDnkU10Mm3-g.png"
+heroImage: "./assets/webauthn-release/webauthn-wallet-demo-hero.png"
 mediumUrl: "https://medium.com/frak-defi/from-idea-to-innovation-unveiling-our-webauthn-smart-wallet-demo-4310eae5ae66"
 group: "frak"
 ---
@@ -16,7 +16,7 @@ group: "frak"
 
 
 
-![captionless image](./assets/webauthn-release/1*WRrrKvDmuDGDnkU10Mm3-g.png)
+![captionless image](./assets/webauthn-release/webauthn-wallet-demo-hero.png)
 
 Welcome to an exciting milestone at [Frak-Labs](https://frak.id/)! Before we unveil our latest Proof of Concept (POC) and the unique challenge it aims to tackle, let’s take a moment to revisit our roots and the journey that brought us here.
 
@@ -40,7 +40,7 @@ Enter the world of **smart wallets** and **account abstraction**. This sector is
 
 This sparked an idea: What if we could **eliminate traditional paywalls** by instantly creating wallets for users? Imagine swapping the convoluted subscription process for a quick **biometric check**.
 
-![captionless image](./assets/webauthn-release/1*BwT263kA4_-ZMAjKAlj6RQ.png)
+![captionless image](./assets/webauthn-release/biometric-paywall-replacement.png)
 
 That’s the core reason behind our POC. We’re on a mission to show how blockchain technology can meet real-world needs. Imagine unlocking an article or subscribing with a few tokens — all made simple, aiming to **reduce churn rates** for newspapers.
 
@@ -81,7 +81,7 @@ Dive into our Proof of Concept (POC) through this hands-on demo. It’s designed
 
 This GIF guides new users from clicking the unlock link at the bottom of an article through the intuitive setup and use of the wallet.
 
-![captionless image](./assets/webauthn-release/1*Z8lw8dMVfVhTlHaR_xjwNQ.gif)
+![captionless image](./assets/webauthn-release/wallet-setup-flow-demo.gif)
 
 **Experience the Flow Yourself:**
 
@@ -118,7 +118,7 @@ This challenge led us to develop an SDK that simplifies the interaction between 
 
 **Future Directions**: We plan to expand the SDK features, including signature requests and external APIs, based on publisher feedback. This POC is a glimpse into a future where digital content is more accessible, potentially eliminating traditional paywalls and introducing new monetization strategies for content providers.
 
-![captionless image](./assets/webauthn-release/1*dAJa5H68_H7jyqoAt8tekQ.png)
+![captionless image](./assets/webauthn-release/wallet-technical-architecture.png)
 
 ## What’s Next?
 

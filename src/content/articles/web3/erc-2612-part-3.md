@@ -14,7 +14,7 @@ group: "web3"
 
 
 
-![Generated via mid journey, prompt : A small robot spending coins on a machine](./assets/erc-2612-part-3/1*CEzMT4wFwiiYPxB6po13Lw.png)
+![Generated via mid journey, prompt : A small robot spending coins on a machine](./assets/erc-2612-part-3/erc-2612-robot-coins-hero.png)
 
 Hello everyone, and welcome to the third article in our series on ERC-2612! In the [previous articles](https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-part-2-9c90c01eb69d), we’ve discussed the general overview of ERC-2612 and its implementation in Solidity using EIP-712, which enhances user experience and interactions with DeFi platforms like [Frak](https://frak.id/).
 
@@ -53,19 +53,19 @@ In this section, we’ll walk through the process of setting up and executing un
 
 To start, we’ll define the variables necessary for generating the hash, including the value to be approved, the nonce to prevent replay attacks, and the deadline to ensure the approval is time-limited.
 
-![Define each variable](./assets/erc-2612-part-3/1*kEwuZqq-KLYjAvdQtJHVwQ.png)
+![Define each variable](./assets/erc-2612-part-3/hardhat-test-variables.png)
 
 ### Building the domain data, types, and values for the hash
 
 Next, we’ll construct the EIP-712 domain data, types, and values required for hashing and signing the permit function. This step ensures that our hash conforms to the EIP-712 standard.
 
-![Build every typed data we will sign](./assets/erc-2612-part-3/1*qCkzMJfrHT2t8MGtoTHUew.png)
+![Build every typed data we will sign](./assets/erc-2612-part-3/hardhat-build-typed-data.png)
 
 ### Signing the hash and extracting the r, s, and v values
 
 With the hash properly constructed, we can now sign it using the private key of the approver. After signing the hash, we’ll extract the r, s, and v values from the signature, which are necessary for calling the permit function.
 
-![Sign the message and extract each signature part](./assets/erc-2612-part-3/1*VCZbY87_d6aUWKBqOXU5qw.png)
+![Sign the message and extract each signature part](./assets/erc-2612-part-3/hardhat-sign-extract-signature.png)
 
 ### Calling the permit function, ensuring allowance, and executing a transfer
 
@@ -73,7 +73,7 @@ With the r, s, and v values in hand, we can now call the permit function in our 
 
 Then, with the approval in place, we can then call the transfer function on behalf of the approver. We’ll verify that the transfer was successful by checking the updated token balances.
 
-![captionless image](./assets/erc-2612-part-3/1*euBf_eV1k3D4xUML4RlnDQ.png)
+![captionless image](./assets/erc-2612-part-3/hardhat-permit-transfer-test.png)
 
 By combining these steps, we efficiently test the permit and transfer functions together, ensuring a seamless approval and transfer process in our ERC-2612 and EIP-712 implementation using Hardhat. This approach helps verify the proper functioning of your smart contracts and enhances their overall security and reliability.
 
@@ -85,25 +85,25 @@ In this section, we’ll walk through the process of setting up and executing un
 
 Just like with Hardhat, we’ll start by setting up the variables needed for the EIP-712 hash. You’ll need to define the value, nonce, and deadline:
 
-![Define each variable](./assets/erc-2612-part-3/1*S8EG7ZW-t_Q5Q9yA6R_2cQ.png)
+![Define each variable](./assets/erc-2612-part-3/forge-test-variables.png)
 
 ### Build the domain data, types, and values for the hash
 
 Next, build the domain data, types, and values required for the EIP-712 hash. This process remains the same as in the Hardhat example:
 
-![captionless image](./assets/erc-2612-part-3/1*OuZzGa3ZxVzDA08N-w0GGQ.png)
+![captionless image](./assets/erc-2612-part-3/forge-build-typed-data.png)
 
 ### Sign the hash and extract the r, s, and v values
 
 To sign the hash using Forge, you can use the `vm.sign()`. Extract the r, s, and v values as shown below:
 
-![captionless image](./assets/erc-2612-part-3/1*aF0PqXl7_0v_Ka97C7cTVg.png)
+![captionless image](./assets/erc-2612-part-3/forge-sign-extract-signature.png)
 
 ### Call the permit and ensure allowance, then execute the transfer and ensure its success
 
 Finally, call the permit function, check the allowance, and execute the transfer using the Forge testing framework. The code snippet is the same as in the Hardhat example:
 
-![captionless image](./assets/erc-2612-part-3/1*DYYv2YdGNmZfYOeEq8XAmQ.png)
+![captionless image](./assets/erc-2612-part-3/forge-permit-transfer-test.png)
 
 By following these steps, you can successfully implement unit testing for your ERC-2612 and EIP-712 implementation using Forge.
 

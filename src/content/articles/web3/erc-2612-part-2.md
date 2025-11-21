@@ -14,7 +14,7 @@ group: "web3"
 
 
 
-![Generated via mid journey, prompt : A person who handles a contract to a machine ethereum](./assets/erc-2612-part-2/1*d73bfBrfgkwqNMlshB0fPw.png)
+![Generated via mid journey, prompt : A person who handles a contract to a machine ethereum](./assets/erc-2612-part-2/erc-2612-contract-machine-hero.png)
 
 Hi everyone, welcome back to the second article of my series on ERC-2612! If you missed the [first article](https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-2cd32ddee534), we covered the general overview of ERC-2612, an ERC-20 token extension that leverages EIP-712 signatures for approving spenders.
 
@@ -37,7 +37,7 @@ So let’s dive in!
 
 To implement EIP-712 in our existing ERC-20 token contract, we’ll first define the required domain separator type hashes.
 
-![EIP712 domain type hash](./assets/erc-2612-part-2/1*eqOETe2hVw_OmBEGmCRJGg.png)
+![EIP712 domain type hash](./assets/erc-2612-part-2/eip712-domain-typehash.png)
 
 > You can add a “bytes32 salt” at the end of the domain typehash, if you’re protocol contain multiple implementation.
 > 
@@ -45,25 +45,25 @@ To implement EIP-712 in our existing ERC-20 token contract, we’ll first define
 
 Next, we need to store the domain separator itself:
 
-![Contract variable that hold the domain separator](./assets/erc-2612-part-2/1*iFmw6e2rp_hvkiV8w9PDlg.png)
+![Contract variable that hold the domain separator](./assets/erc-2612-part-2/domain-separator-variable.png)
 
 Initialize the `DOMAIN_SEPARATOR` in the constructor of your ERC-20 token contract, by calling a function similar to this one ([github](https://github.com/frak-id/frak-id-blockchain/blob/68f6ffcea83b5333839cc0daec11bdcedac3fe33/contracts/utils/EIP712Base.sol#L53)):
 
-![EIP712 Domain separator creation](./assets/erc-2612-part-2/1*_wl6r8L2QmrOY3Qzs1BNiw.png)
+![EIP712 Domain separator creation](./assets/erc-2612-part-2/domain-separator-creation.png)
 
 The `getChainId()` method is just a simple helper function that return the current chainId. If you are using solidity 0.8+ you can simply use `block.chainid`.
 
-![Small helper to retrieve the chainId](./assets/erc-2612-part-2/1*pRtw5_EH9YDZBm_2D2I6aQ.png)
+![Small helper to retrieve the chainId](./assets/erc-2612-part-2/chainid-helper-function.png)
 
 ## 2. Adding ERC-2612 Support
 
 Now, let’s add support for ERC-2612 by creating the `Permit` type hash and adding the `nonces` mapping:
 
-![Permit typehash](./assets/erc-2612-part-2/1*lJAVxBGInkxyvGNv8w8hlg.png)![Contract variable that hold user nonces](./assets/erc-2612-part-2/1*yfuZAuTSBSYwHHtrpXZb-A.png)
+![Permit typehash](./assets/erc-2612-part-2/permit-typehash.png)![Contract variable that hold user nonces](./assets/erc-2612-part-2/user-nonces-variable.png)
 
 Next, implement the `permit` function ([github](https://github.com/frak-id/frak-id-blockchain/blob/68f6ffcea83b5333839cc0daec11bdcedac3fe33/contracts/tokens/FrakTokenL2.sol#L124)):
 
-![Permit function in the ERC20](./assets/erc-2612-part-2/1*L6NgBqYMarAjBVV-zNAD4w.png)
+![Permit function in the ERC20](./assets/erc-2612-part-2/permit-function-implementation.png)
 
 The `permit` function constructs the EIP-712 typed data structure, hashes it, and verifies the signer's address using the `ecrecover` function. If the signature is valid and the deadline has not expired, it calls the internal `_approve` function to update the allowance mapping.
 
@@ -71,7 +71,7 @@ For the error, we are using assembly and error to be more gas efficient (less me
 
 Here we are using a small helper function `toTypedMessageHash()` , that help us create EIP-712 typed data hashes ([github](https://github.com/frak-id/frak-id-blockchain/blob/68f6ffcea83b5333839cc0daec11bdcedac3fe33/contracts/utils/EIP712Base.sol#L72)).
 
-![Creation of typed message hash](./assets/erc-2612-part-2/1*x5vcOTb8LGtMpydeprADOg.png)
+![Creation of typed message hash](./assets/erc-2612-part-2/typed-message-hash-creation.png)
 
 We are using assembly here to be more gas efficient.
 

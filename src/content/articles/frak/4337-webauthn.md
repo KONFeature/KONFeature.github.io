@@ -8,7 +8,7 @@ tags: ["ERC-4337", "Account Abstraction", "WebAuthN", "Solidity", "Smart Wallets
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we're diving deep into the nitty-gritty of leveraging **WebAuthN signatures for validating user operations** within the exc..."
-heroImage: "./assets/4337-webauthn/1*5NZ-_AfbnU63_qDakK6vTw.png"
+heroImage: "./assets/4337-webauthn/webauthn-account-abstraction-integration.png"
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
 ---
@@ -35,7 +35,7 @@ However, the current landscape for smart accounts often leans on the crutch of a
 
 This conundrum led us down a rabbit hole of research until we pioneered a novel solution that seamlessly integrates WebAuthn and account abstraction, enabling a truly frictionless onboarding experience for non-crypto natives. While solutions like Cometh’s also provided a smooth connect experience, our approach was tailored to our ecosystem, especially with our kernel accounts at the core.
 
-![captionless image](./assets/4337-webauthn/1*5NZ-_AfbnU63_qDakK6vTw.png)
+![captionless image](./assets/4337-webauthn/webauthn-account-abstraction-integration.png)
 
 ## The Solution: Simpler on Paper
 
@@ -49,7 +49,7 @@ Cometh has been a true **pioneer** in the realm of **WebAuthN and blockchain int
 
 Cometh, collaborating closely with **Renaud Dubois from Ledger** and his talented team, was the **first** to leverage Dubois’ optimized on-chain **P256 verifier**. This ingenious solution enables the blockchain to **validate signatures from the P256 curve efficiently**, overcoming a major compatibility hurdle without incurring prohibitive **gas costs**.
 
-![captionless image](./assets/4337-webauthn/1*0smbmXqU3N96yj3BV97sNg.png)
+![captionless image](./assets/4337-webauthn/p256-verifier-integration.png)
 
 At Frak, we have built upon this **groundbreaking work**, introducing our own **innovations** to seamlessly integrate WebAuthN and the P256 curve into our Kernel smart wallet architecture.
 
@@ -74,11 +74,11 @@ We opted for the FCL method, tweaking it slightly to align with the specificatio
 
 As we peel back the layers of the user operation flow, especially when it’s sponsored, let’s sketch out what this looks like:
 
-![captionless image](./assets/4337-webauthn/1*zTHhw8NhfGXZuSOTRFoTrQ.png)
+![captionless image](./assets/4337-webauthn/sponsored-user-operation-flow.png)
 
 At first glance, this process might seem straightforward (maybe because I’ve simplified it a bit too much, haha), but there’s a critical step that might trip us up. Not spotting it yet? Let’s take a closer look at the **Paymaster data computing** stage.
 
-![captionless image](./assets/4337-webauthn/1*7p3cI7NYiIVnoGyV5D19wg.png)
+![captionless image](./assets/4337-webauthn/paymaster-data-computing.png)
 
 Here’s where things get tricky. The Paymaster data computation happens before we request the signature — logical, since we’re signing the entire bundle, including Paymaster data. But, how does the Paymaster predict a transaction’s cost before actually executing it?
 
@@ -100,7 +100,7 @@ P256 verification on-chain has always been a tough nut to crack. Despite the bri
 
 Enter **RIP-7212**: a beacon of hope designed to significantly reduce this cost. RIP-7212 proposes adding a pre-compiled smart contract to rollups, specifically for P256 signature verification — akin to the efficiency of `**ecrecover**` or `**sha256**`.
 
-![captionless image](./assets/4337-webauthn/1*k52CDQeuRIrpJpxY8hwUNw.png)
+![captionless image](./assets/4337-webauthn/rip-7212-precompile-comparison.png)
 
 However, as is often the case with cutting-edge solutions, RIP-7212’s recent finalization means its widespread availability is still on the horizon (currently, it’s only operational on Polygon Mumbai). This poses a question: How do we create an immutable validator without forcing our users through a costly migration once RIP-7212 becomes universally available, especially considering we aim to avoid any validator storage access?
 

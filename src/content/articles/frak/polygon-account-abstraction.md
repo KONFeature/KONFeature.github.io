@@ -8,14 +8,14 @@ tags: ["Account Abstraction", "ERC-4337", "Polygon", "Smart Wallets", "ZeroDev"]
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon."
-heroImage: "./assets/polygon-account-abstraction/1*JMCE5ZkYXlossnBhpjKMYQ.png"
+heroImage: "./assets/polygon-account-abstraction/polygon-account-abstraction-hero.png"
 mediumUrl: "https://medium.com/frak-defi/fraks-vanguard-pioneering-the-account-abstraction-revolution-in-the-polygon-ecosystem-77876b8d9d52"
 group: "frak"
 ---
 
 
 
-![Generated via DALL-E](./assets/polygon-account-abstraction/1*JMCE5ZkYXlossnBhpjKMYQ.png)
+![Generated via DALL-E](./assets/polygon-account-abstraction/polygon-account-abstraction-hero.png)
 
 ## Hey there, blockchain enthusiasts and savvy developers!
 

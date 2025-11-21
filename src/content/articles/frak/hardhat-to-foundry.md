@@ -8,7 +8,7 @@ tags: ["Foundry", "Hardhat", "Solidity", "Testing", "DevOps"]
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Evaluating the performance difference of Hardhat and Foundry for Solidity contract unit testing & reason behind the switch"
-heroImage: "./assets/hardhat-to-foundry/1*8tdzvqEsGm1hYd8qkXLQwQ.png"
+heroImage: "./assets/hardhat-to-foundry/forge-test-benchmark-102ms.png"
 mediumUrl: "https://medium.com/frak-defi/maximizing-quality-and-reliability-in-solidity-our-journey-from-hardhat-to-foundry-52e0504d11c6"
 group: "frak"
 ---
@@ -37,7 +37,7 @@ A test is quite interesting on this contract, since we need to ensure that we wo
 
 Here are the results of the unit tests, using both Hardhat and Forge.
 
-![Hardhat test run (13sec)](./assets/hardhat-to-foundry/1*CUgH2J4Fu6bcRttU4o4z_Q.png)![Forge test run (102ms)](./assets/hardhat-to-foundry/1*8tdzvqEsGm1hYd8qkXLQwQ.png)
+![Hardhat test run (13sec)](./assets/hardhat-to-foundry/hardhat-test-benchmark-13sec.png)![Forge test run (102ms)](./assets/hardhat-to-foundry/forge-test-benchmark-102ms.png)
 
 You can see that Hardhat took **13 seconds** to execute all the tests, and almost 9 seconds for the test where we need to empty the treasury. Meanwhile, Forge only took **102 milliseconds** to perform the same thing.
 
