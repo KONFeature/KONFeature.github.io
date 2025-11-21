@@ -8,12 +8,12 @@ tags: ["Blockchain Infrastructure", "DevOps", "eRPC", "Ponder", "Cost Optimizati
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns thr..."
-heroImage: "/assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png"
+heroImage: "./assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png"
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
 ---
 
-![captionless image](/assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png)
+![captionless image](./assets/cost-effective-infra/1*DD14czyaEcv4zp54WF-rhQ.png)
 
 Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns through smart contracts. Running entirely on Arbitrum, our infrastructure needs to handle:
 
@@ -218,7 +218,7 @@ We’re not talking about toy contracts here. We’re indexing:
 
 [SST](https://sst.dev/) v3 orchestrates our entire deployment with the elegance of a perfectly executed flash loan:
 
-![captionless image](/assets/cost-effective-infra/0*MsLG-cXUT1he-wl7)
+![captionless image](./assets/cost-effective-infra/0*MsLG-cXUT1he-wl7)
 
 ### Infrastructure as Code Benefits
 

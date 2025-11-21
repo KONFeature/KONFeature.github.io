@@ -9,11 +9,11 @@ icon: "rocket"
 iconColor: "text-red-500"
 description: "A technical deep-dive into migrating our entire monorepo from Next.js to TanStack Start, adopting Rolldown across the stack, unifying on Vitest, and achieving a complete deployment pipeline in under 4 minutes."
 githubUrl: "https://github.com/frak-id/wallet"
-heroImage: "/assets/wallet-devx-revolution/hero.jpg"
+heroImage: "./assets/wallet-devx-revolution/hero.jpg"
 group: "frak"
 ---
 
-![hero image](/assets/wallet-devx-revolution/hero.jpg)
+![hero image](./assets/wallet-devx-revolution/hero.jpg)
 
 In software development, speed is a feature—not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.
 

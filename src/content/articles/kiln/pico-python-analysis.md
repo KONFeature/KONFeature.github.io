@@ -8,7 +8,7 @@ tags: ["Kiln", "IoT", "Python", "Control Theory", "PID", "Data Analysis", "Physi
 icon: "chart-line"
 iconColor: "text-green-400"
 description: "Analyzing kiln performance with physics-based phase detection, thermal modeling, and multi-method PID tuning. Because eyeballing temperature curves doesn't cut it."
-heroImage: "/assets/pico-python-analysis/plot-run.png"
+heroImage: "./assets/pico-python-analysis/plot-run.png"
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
@@ -25,7 +25,7 @@ Before diving into control theory, sometimes you just want to see what happened.
 python scripts/plot_run.py logs/cone6_glaze_2025-11-15.csv
 ```
 
-![SCREENSHOT: 4-panel plot showing temperature curve, SSR output, step boundaries, and rate](/assets/pico-python-analysis/plot-run.png)
+![SCREENSHOT: 4-panel plot showing temperature curve, SSR output, step boundaries, and rate](./assets/pico-python-analysis/plot-run.png)
 
 The script auto-detects:
 - **Run type** (firing vs tuning)
@@ -154,7 +154,7 @@ def detect_phases(data, plateau_threshold=0.5, ssr_change_threshold=10.0):
 
 This approach is **robust to failures**. If the kiln timeouts before reaching plateau, we still detect the heating phase. If the temperature drifts during a hold, we classify it correctly as heating or cooling based on $\frac{dT}{dt}$.
 
-![SCREENSHOT: Phase detection visualization showing SSR changes and detected boundaries](/assets/pico-python-analysis/plot-tuning.png)
+![SCREENSHOT: Phase detection visualization showing SSR changes and detected boundaries](./assets/pico-python-analysis/plot-tuning.png)
 
 The algorithm looks for **SSR discontinuities** (when the controller changes power level) and classifies the resulting behavior by inspecting the temperature derivative. No assumptions about step names. No reliance on firmware state. Just physics.
 

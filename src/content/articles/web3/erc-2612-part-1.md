@@ -8,7 +8,7 @@ tags: ["ERC-2612", "ERC-20", "EIP-712", "Gasless", "Solidity"]
 icon: "code-2"
 iconColor: "text-red-400"
 description: "How to use EIP-712 signatures to save gas, batch approvals and increase security for your ERC-20 tokens."
-heroImage: "/assets/erc-2612-part-1/1*vLvlrzsOeqOin6rx9uXKCg.png"
+heroImage: "./assets/erc-2612-part-1/1*vLvlrzsOeqOin6rx9uXKCg.png"
 mediumUrl: "https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-2cd32ddee534"
 group: "web3"
 ---
@@ -16,7 +16,7 @@ group: "web3"
 
 
 
-![Generated via mid journey, prompt : A futuristic cityscape with Ethereum logo](/assets/erc-2612-part-1/1*vLvlrzsOeqOin6rx9uXKCg.png)
+![Generated via mid journey, prompt : A futuristic cityscape with Ethereum logo](./assets/erc-2612-part-1/1*vLvlrzsOeqOin6rx9uXKCg.png)
 
 If you are a developer or a user of ERC-20 tokens, you probably know how annoying and costly it is to approve a spender contract before it can transfer tokens on your behalf. You have to send a transaction, pay gas fees, wait for confirmation and hope that nothing goes wrong.
 
@@ -54,7 +54,7 @@ The signature must follow a specific format defined by **EIP-712**. It must incl
 
 In our case, the parameter for the signature are the following:
 
-![Permit signature format, following the ERC-2612](/assets/erc-2612-part-1/1*bBueyoHdmADcTTl8BVjU6Q.png)
+![Permit signature format, following the ERC-2612](./assets/erc-2612-part-1/1*bBueyoHdmADcTTl8BVjU6Q.png)
 
 The token contract then verifies that the signature is valid and matches the parameters. If so, it **updates the allowance** mapping accordingly.
 

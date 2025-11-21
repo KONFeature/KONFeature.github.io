@@ -9,11 +9,11 @@ icon: "workflow"
 iconColor: "text-purple-400"
 description: "A deep dive into the event-driven architecture, concurrency control, and graph theory algorithms powering scenario-parser's analysis engine."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
-heroImage: "/assets/scenario-parser/hero-pipeline.png"
+heroImage: "./assets/scenario-parser/hero-pipeline.png"
 group: "scenario-parser"
 ---
 
-![hero image](/assets/scenario-parser/hero-pipeline.png)
+![hero image](./assets/scenario-parser/hero-pipeline.png)
 
 When building `scenario-parser`, the primary challenge wasn't just "calling an LLM." It was orchestration. A typical screenplay analysis involves processing hundreds of entities, thousands of interactions, and maintaining a coherent state across multiple asynchronous stages.
 

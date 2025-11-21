@@ -9,11 +9,11 @@ icon: "brain"
 iconColor: "text-pink-400"
 description: "A technical deep dive into prompt engineering, multi-pass architecture, and the 'Big Five' personality synthesis in scenario-parser."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
-heroImage: "/assets/scenario-parser/hero-sna.png"
+heroImage: "./assets/scenario-parser/hero-sna.png"
 group: "scenario-parser"
 ---
 
-![hero image](/assets/scenario-parser/hero-sna.png)
+![hero image](./assets/scenario-parser/hero-sna.png)
 
 In the previous articles, we explored the [Pipeline](/articles/scenario-parser/scenario-parser-pipeline) and [Extraction](/articles/scenario-parser/scenario-parser-extraction) layers. Today, we look at the "brain" of `scenario-parser`: the `Character Analysis V2` engine.
 

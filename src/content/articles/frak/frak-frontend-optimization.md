@@ -9,11 +9,11 @@ icon: "zap"
 iconColor: "text-indigo-400"
 description: "A deep-dive into the architectural and infrastructure optimizations that reduced our listener app size by 30%, migrated from AWS S3 to self-hosted Nginx, and achieved faster load times without a CDN."
 githubUrl: "https://github.com/frak-id/wallet"
-heroImage: "/assets/frak-frontend-optimization/hero.jpg"
+heroImage: "./assets/frak-frontend-optimization/hero.jpg"
 group: "frak"
 ---
 
-![hero image](/assets/frak-frontend-optimization/hero.jpg)
+![hero image](./assets/frak-frontend-optimization/hero.jpg)
 
 Building a Web3 wallet is usually a trade-off between security and speed. Most wallets are heavy browser extensions that inject massive scripts into every page you visit.
 

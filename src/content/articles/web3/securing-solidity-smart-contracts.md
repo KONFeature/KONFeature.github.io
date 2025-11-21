@@ -8,7 +8,7 @@ tags: ["Smart Contract Security", "Solidity", "Auditing", "Fuzzing", "Security T
 icon: "code-2"
 iconColor: "text-red-400"
 description: "Setting up some free security tools, to prepare a security Audit"
-heroImage: "/assets/securing-solidity-smart-contracts/1*opo4j9_zIDQmn2BWx5ofsA.png"
+heroImage: "./assets/securing-solidity-smart-contracts/1*opo4j9_zIDQmn2BWx5ofsA.png"
 mediumUrl: "https://medium.com/frak-defi/securing-solidity-smart-contracts-61d070914886"
 group: "web3"
 ---
@@ -42,7 +42,7 @@ We decided to go on a **tools** folder, at the root of our hardhat project, that
 
 Like that, we can add as many tools as we want, disable or remove some older ones etc. Let see the organisation inside our tools folder:
 
-![Tools folder at the root of the project](/assets/securing-solidity-smart-contracts/1*opo4j9_zIDQmn2BWx5ofsA.png)
+![Tools folder at the root of the project](./assets/securing-solidity-smart-contracts/1*opo4j9_zIDQmn2BWx5ofsA.png)
 
 With that structure, we can have some shared element for each one of our tools. Especially useful for echidna, that require a Solidity test file for each contract we want to test, with some basic configuration.
 
@@ -93,7 +93,7 @@ After, it’s just a question of configuration for mythril:
 *   Increase the depth of the analysis, it will take a bit longer to run, but you will potentially cover more branch of you’re contract code ( _— max-depth 50_)
 *   And give some info for the soc compiler ( _— solc-json tools/mythril/remapping.json_). In our case this json contain the remapping for the OpenZeppelin dependencies, and enable the optimizer.
 
-![remapping.json used by mythril for each run](/assets/securing-solidity-smart-contracts/1*8KWD_jcxvWOscLkfi6AlBw.png)
+![remapping.json used by mythril for each run](./assets/securing-solidity-smart-contracts/1*8KWD_jcxvWOscLkfi6AlBw.png)
 
 So now, from the project root, you can start mythril with a simple : _./tools/mythril/mythril.sh_
 

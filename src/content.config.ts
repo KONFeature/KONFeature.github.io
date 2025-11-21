@@ -5,7 +5,7 @@ const articles = defineCollection({
 	// Load Markdown and MDX files in the `src/content/articles/` directory.
 	loader: glob({ base: './src/content/articles', pattern: '**/*.{md,mdx}' }),
 	// Type-check frontmatter using a schema
-	schema: z.object({
+	schema: ({ image }) => z.object({
 		title: z.string(),
 		subtitle: z.string().optional(),
 		date: z.coerce.date(),
@@ -14,7 +14,7 @@ const articles = defineCollection({
 		icon: z.string(),
 		iconColor: z.string().optional(),
 		description: z.string(),
-		heroImage: z.string().optional(),
+		heroImage: image().optional(),
 		mediumUrl: z.string().optional(),
 		githubUrl: z.string().optional(),
 		group: z.string().optional(),
