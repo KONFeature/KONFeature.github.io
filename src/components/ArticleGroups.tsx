@@ -66,20 +66,22 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 						<div key={groupId} className="group/collection">
 							{/* Group Header */}
 							<div className="mb-6">
-								<div className="flex items-center gap-3 mb-3">
-									<div className={`p-2 rounded-lg bg-gray-100 dark:bg-white/5 ${group.iconColor}`}>
-										<Icon name={group.icon} className="w-5 h-5" />
+								<a href={`/articles/${groupId}`} className="block group/header">
+									<div className="flex items-center gap-3 mb-3">
+										<div className={`p-2 rounded-lg bg-gray-100 dark:bg-white/5 ${group.iconColor} group-hover/header:bg-gray-200 dark:group-hover/header:bg-white/10 transition-colors`}>
+											<Icon name={group.icon} className="w-5 h-5" />
+										</div>
+										<h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover/header:text-green-600 dark:group-hover/header:text-green-400 transition-colors">
+											{group.name}
+										</h3>
+										<span className="text-xs font-mono text-gray-600">
+											{groupArticles.length} {groupArticles.length === 1 ? 'article' : 'articles'}
+										</span>
 									</div>
-									<h3 className="text-xl font-bold text-gray-900 dark:text-white">
-										{group.name}
-									</h3>
-									<span className="text-xs font-mono text-gray-600">
-										{groupArticles.length} {groupArticles.length === 1 ? 'article' : 'articles'}
-									</span>
-								</div>
-								<p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-2xl">
-									{group.description}
-								</p>
+									<p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-2xl">
+										{group.description}
+									</p>
+								</a>
 							</div>
 
 							{/* Articles in Group */}

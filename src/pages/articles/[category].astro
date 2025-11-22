@@ -1,0 +1,159 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Navigation from '../../components/Navigation';
+import Footer from '../../components/Footer';
+import Icon from '../../components/Icon';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE } from '../../consts';
+import { ARTICLE_GROUPS } from '../../articleGroups';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+	const articles = (await getCollection('articles')).filter((article) => !article.data.draft);
+	
+	// Get all unique categories from article groups
+	const categories = Object.keys(ARTICLE_GROUPS);
+	
+	return categories.map((category) => ({
+		params: { category },
+		props: {
+			articles: articles.filter((article) => article.data.group === category),
+			groupInfo: ARTICLE_GROUPS[category],
+		},
+	}));
+}) satisfies GetStaticPaths;
+
+const { articles, groupInfo } = Astro.props;
+
+// Helper to calculate read time
+function getReadingTime(content: string) {
+	const wordsPerMinute = 200;
+	const words = content.trim().split(/\s+/).length;
+	const minutes = Math.ceil(words / wordsPerMinute);
+	return `${minutes} min read`;
+}
+
+// Sort articles by date (newest first)
+const sortedArticles = articles.sort((a: any, b: any) => 
+	b.data.date.getTime() - a.data.date.getTime()
+);
+
+const pageTitle = `${groupInfo.name} Articles | ${SITE_TITLE}`;
+const pageDescription = groupInfo.description;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]">
+		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+			<Navigation client:load />
+			
+			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
+				{/* Category Header */}
+				<div class="mb-16">
+					<a 
+						href="/articles" 
+						class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
+					>
+						<Icon name="arrow-left" className="w-4 h-4" />
+						All Articles
+					</a>
+					
+					<div class="flex items-center gap-4 mb-6">
+						<div class={`p-3 rounded-xl bg-gray-100 dark:bg-white/5 ${groupInfo.iconColor}`}>
+							<Icon name={groupInfo.icon} className="w-8 h-8" />
+						</div>
+						<div>
+							<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+								{groupInfo.name}
+							</h1>
+							<p class="text-sm font-mono text-gray-600">
+								{sortedArticles.length} {sortedArticles.length === 1 ? 'article' : 'articles'}
+							</p>
+						</div>
+					</div>
+					
+					<p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+						{groupInfo.description}
+					</p>
+				</div>
+
+				{/* Articles List */}
+				<div class="space-y-8">
+					{sortedArticles.map((article: any) => (
+						<article class="group">
+							<a 
+								href={`/articles/${article.id}`}
+								class="block"
+							>
+								<div class="p-6 rounded-lg border border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
+									<div class="flex items-start justify-between gap-4 mb-3">
+										<h2 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors flex-1">
+											{article.data.title}
+										</h2>
+										<time class="font-mono text-xs text-gray-600 shrink-0 mt-1">
+											{article.data.date.toLocaleDateString('en-US', { 
+												month: 'short',
+												day: 'numeric',
+												year: 'numeric'
+											})}
+										</time>
+									</div>
+									
+									{article.data.subtitle && (
+										<p class="text-gray-700 dark:text-gray-300 mb-3 text-sm">
+											{article.data.subtitle}
+										</p>
+									)}
+									
+									<p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+										{article.data.description}
+									</p>
+									
+									<div class="flex items-center gap-4 flex-wrap">
+										<div class="flex flex-wrap gap-2">
+											{article.data.tags.map((tag: string) => (
+												<span class="text-[10px] font-mono text-gray-600 px-2 py-1 bg-gray-100 dark:bg-black/30 border border-gray-300 dark:border-white/5 rounded">
+													{tag}
+												</span>
+											))}
+										</div>
+										<span class="text-xs text-gray-600 ml-auto">
+											{getReadingTime(article.body || "")}
+										</span>
+									</div>
+
+									{article.data.githubUrl && (
+										<div class="mt-4 pt-4 border-t border-gray-200 dark:border-white/5">
+											<a 
+												href={article.data.githubUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white transition-colors"
+											>
+												<Icon name="github" className="w-4 h-4" />
+												View on GitHub
+											</a>
+										</div>
+									)}
+								</div>
+							</a>
+						</article>
+					))}
+				</div>
+
+				{/* Empty State */}
+				{sortedArticles.length === 0 && (
+					<div class="text-center py-12 text-gray-600">
+						<p>No articles in this category yet.</p>
+					</div>
+				)}
+
+				<Footer client:load />
+			</main>
+		</div>
+	</body>
+</html>

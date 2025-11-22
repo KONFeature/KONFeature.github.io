@@ -6,8 +6,9 @@ import Icon from '../components/Icon';
 import ArticleNavigation from '../components/ArticleNavigation';
 import TableOfContents from '../components/TableOfContents';
 import { SITE_TITLE, AUTHOR_NAME, SITE_URL } from '../consts';
+import { ARTICLE_GROUPS } from '../articleGroups';
 
-const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage } = Astro.props;
+const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage, group } = Astro.props;
 
 // Create article URL
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
@@ -268,6 +269,16 @@ const breadcrumbJsonLd = {
         <main class="max-w-3xl mx-auto px-6 pt-32 pb-20" data-pagefind-body>
              <article id="article-content" class="prose dark:prose-invert prose-neutral max-w-none">
                 <div class="mb-12 not-prose">
+                    {group && ARTICLE_GROUPS[group] && (
+                        <a 
+                            href={`/articles/${group}`}
+                            class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors group/breadcrumb"
+                        >
+                            <Icon name="arrow-left" className="w-4 h-4" />
+                            <span>{ARTICLE_GROUPS[group].name}</span>
+                        </a>
+                    )}
+                    
                     {icon && (
                         <div class="flex items-center gap-4 mb-6">
                             <div class={`p-2 bg-gray-100 dark:bg-white/5 rounded-lg border border-gray-300 dark:border-white/10 w-12 h-12 ${iconColor}`}>
