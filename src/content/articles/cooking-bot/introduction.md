@@ -122,7 +122,7 @@ Our technology choices reflect our commitment to performance, developer experien
 - **OpenTelemetry**: Comprehensive observability for AI operations
 
 ### **Infrastructure & Deployment**
-- **SST v3**: Infrastructure as Code for multi-cloud deployment
+- **[SST](https://sst.dev) v3**: Infrastructure as Code for multi-cloud deployment
 - **Docker**: Containerized development and deployment
 - **Kubernetes**: Production orchestration with auto-scaling
 - **AWS + GCP**: Multi-cloud strategy for resilience

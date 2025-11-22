@@ -15,7 +15,7 @@ group: "frak"
 
 
 
-As the head of smart contract at Frak, a web3 company that is working to create a new revenue model for content creators and users using blockchain technology, I know firsthand the importance of ensuring the quality and reliability of our code.
+As the head of smart contract at [Frak](https://frak.id), a web3 company that is working to create a new revenue model for content creators and users using blockchain technology, I know firsthand the importance of ensuring the quality and reliability of our code.
 
 One of the key tools we use to achieve this is unit testing, which allows us to validate the behavior of individual units of code and catch any issues early on in the development process.
 
@@ -23,7 +23,7 @@ In this article, I’ll be sharing our experience with switching from Hardhat to
 
 ## Hardhat vs Foundry
 
-I won’t go into details here about what **Hardhat** and **Foundry** are, but briefly, Hardhat is the most widely used framework for Solidity development, deployment, and testing, mainly using JavaScript to perform all of these tasks, while Foundry is a new framework, written in Rust, that performs the same tasks but using Solidity code for everything.
+I won’t go into details here about what **Hardhat** and **Foundry** are, but briefly, Hardhat is the most widely used framework for Solidity development, deployment, and testing, mainly using JavaScript to perform all of these tasks, while [Foundry](https://getfoundry.sh) is a new framework, written in Rust, that performs the same tasks but using Solidity code for everything.
 
 Under the hood, Hardhat deploys a local blockchain and uses **ether.js** to communicate with the contract and Mocha for unit testing, while Foundry uses **Forge** and **Anvil** (a local blockchain) to deploy the Solidity test contract, run the tests, and interpret the results.
 

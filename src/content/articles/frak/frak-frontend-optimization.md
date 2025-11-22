@@ -42,7 +42,7 @@ Our journey started with **Jotai**. It was nice at first—minimal boilerplate, 
 
 ### The Zustand Migration
 
-We migrated both the wallet and listener apps to **Zustand**. While Zustand is more "rigid" than Jotai (you must define explicit stores), this rigidity became a feature, not a bug:
+We migrated both the wallet and listener apps to **[Zustand](https://zustand-demo.pmnd.rs)**. While Zustand is more "rigid" than Jotai (you must define explicit stores), this rigidity became a feature, not a bug:
 
 - **Single source of truth**: Each domain (auth, wallet, settings) has one clear store
 - **Explicit selectors**: Forces you to think about what data each component actually needs
@@ -96,7 +96,7 @@ We separated into two distinct apps:
 
 1.  **The Listener (`apps/listener`):** A microscopic, invisible application that loads in the background. It's now a **pure Vite SPA**—no router, no heavy UI libraries, just session management and communication logic.
 
-2.  **The Wallet (`apps/wallet`):** The full-featured React application with TanStack Router, full crypto libraries, and UI components. Only loads when the user actually opens the wallet interface.
+2.  **The Wallet (`apps/wallet`):** The full-featured React application with [TanStack](https://tanstack.com) Router, full crypto libraries, and UI components. Only loads when the user actually opens the wallet interface.
 
 ```mermaid
 graph TD
@@ -215,7 +215,7 @@ The result: Every byte is compressed, but the server never wastes CPU doing it a
 
 ## 4. Build Strategy: Vite, Rolldown & Advanced Chunking
 
-We use **Vite** with **Rolldown** (the Rust-based bundler) to orchestrate our builds. The default chunking strategy of most bundlers is insufficient for our needs. We need to ensure that when the user loads the Listener, they don't download a single byte of React code.
+We use **Vite** with **[Rolldown](https://rolldown.rs)** (the Rust-based bundler) to orchestrate our builds. The default chunking strategy of most bundlers is insufficient for our needs. We need to ensure that when the user loads the Listener, they don't download a single byte of React code.
 
 Here is our custom chunking strategy from `vite.config.ts`. We explicitly group dependencies to prevent "vendor bloat."
 

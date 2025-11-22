@@ -17,7 +17,7 @@ group: "frak"
 
 In software development, speed is a feature—not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.
 
-At Frak, we recently undertook a massive architectural migration to achieve state-of-the-art Developer Experience (DevX). We migrated our business dashboard from Next.js to **TanStack Start**, unified all routing on **TanStack Router**, adopted **Rolldown** for blazing-fast builds, moved our entire test suite to **Vitest**, and rebuilt our SDK pipeline with **tsdown**.
+At Frak, we recently undertook a massive architectural migration to achieve state-of-the-art Developer Experience (DevX). We migrated our business dashboard from Next.js to **[TanStack](https://tanstack.com) Start**, unified all routing on **TanStack Router**, adopted **[Rolldown](https://rolldown.rs)** for blazing-fast builds, moved our entire test suite to **Vitest**, and rebuilt our SDK pipeline with **[tsdown](https://tsdown.com)**.
 
 The result? Our business app build time dropped from **5 minutes to under 30 seconds**. Our complete deployment pipeline—including backend, 3 frontends, and all SDKs—now completes in **4 minutes**. And our 3,119 unit tests execute in **42 seconds**.
 

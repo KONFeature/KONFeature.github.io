@@ -33,7 +33,7 @@ We started with classic AWS Serverless architecture:
 **Pain points:** Complex CloudFormation, slow deployments, vendor lock-in, unpredictable Lambda cold starts.
 
 ### Phase 2: SST v2 - TypeScript Serverless (2022)
-Migrated to SST v2, staying serverless but gaining TypeScript IaC:
+Migrated to [SST](https://sst.dev) v2, staying serverless but gaining TypeScript IaC:
 - Still AWS Lambda, but with better DX
 - Infrastructure in TypeScript instead of YAML
 - 10x faster deployments
@@ -51,7 +51,7 @@ As costs grew and AWS credits ran low, we migrated to containers:
 **Win:** 40% cost reduction. **Pain point:** Still couldn't migrate away from AWS easily.
 
 ### Phase 4: SST v3 (Ion) + Kubernetes on GKE (2024)
-When SST v3 (Ion) launched with native Pulumi support, we saw the opportunity for true cloud independence:
+When SST v3 (Ion) launched with native [Pulumi](https://pulumi.com) support, we saw the opportunity for true cloud independence:
 - ECS → GKE (leveraging Google Cloud credits)
 - AWS → GCP for compute (AWS remains for state storage only)
 - Pure Kubernetes - no cloud-specific APIs
@@ -81,8 +81,8 @@ We wanted **Infrastructure as Software**. We wanted to import interfaces, use ex
 ## The Architecture: SST + Pulumi
 
 We settled on a hybrid approach:
-*   **SST (Serverless Stack):** For the "glue" and serverless components (AWS Lambda, orchestration, and rapid development environments). SST provides an incredible DX (Developer Experience) wrapper around Pulumi.
-*   **Pulumi:** For the heavy lifting, specifically our GKE (Google Kubernetes Engine) clusters and complex networking.
+*   **[SST](https://sst.dev) (Serverless Stack):** For the "glue" and serverless components (AWS Lambda, orchestration, and rapid development environments). SST provides an incredible DX (Developer Experience) wrapper around Pulumi.
+*   **[Pulumi](https://pulumi.com):** For the heavy lifting, specifically our GKE (Google Kubernetes Engine) clusters and complex networking.
 
 ### The "Stack" Concept
 
@@ -396,8 +396,8 @@ n8n-production                Active   153d
 
 - **Workload Pool** (auto-scaling for applications):
   - **Wallet Stack** (`wallet-*` namespaces): Backend API (Elysia.js), 3 frontends
-  - **Blockchain Stack** (`blockchain-*` namespaces): eRPC (blockchain RPC load balancer/proxy), Ponder (blockchain indexer)
-  - **Analytics Stack** (`analytics-production`): OpenPanel (self-hosted analytics), ClickHouse database
+  - **Blockchain Stack** (`blockchain-*` namespaces): [eRPC](https://erpc.cloud) (blockchain RPC load balancer/proxy), [Ponder](https://ponder.sh) (blockchain indexer)
+  - **Analytics Stack** (`analytics-production`): [OpenPanel](https://openpanel.dev) (self-hosted analytics), ClickHouse database
   - **Database Stack** (`db-production`, `db-staging`): Redis pods for low-latency caching
   - **Tools**: n8n (workflow automation), fuzzing services
 

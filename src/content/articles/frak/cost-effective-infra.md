@@ -35,7 +35,7 @@ Most teams throw money at the problem. We took a different approach.
 
 ## eRPC: Your Chain’s Traffic Controller
 
-[eRPC](https://www.erpc.cloud/) is like the air traffic controller for your blockchain requests — but one that also has a photographic memory and cost-optimization superpowers. Written in Go for maximum performance, it’s a fault-tolerant EVM RPC load balancer that makes your typical proxy look like a rusty gate.
+[eRPC](https://erpc.cloud) is like the air traffic controller for your blockchain requests — but one that also has a photographic memory and cost-optimization superpowers. Written in Go for maximum performance, it’s a fault-tolerant EVM RPC load balancer that makes your typical proxy look like a rusty gate.
 
 ### Key Features That Made Us Choose eRPC
 
@@ -300,7 +300,7 @@ While our current setup is solid, we’re exploring:
 
 ## Conclusion
 
-Building blockchain infrastructure doesn’t have to feel like solving a Rubik’s cube blindfolded. With **open-source tools** like [eRPC](https://www.erpc.cloud/), [Ponder](https://ponder.sh/), and [SST](https://sst.dev/), you can build a **robust, scalable system** that grows with your needs.
+Building blockchain infrastructure doesn’t have to feel like solving a Rubik’s cube blindfolded. With **open-source tools** like [eRPC](https://erpc.cloud), [Ponder](https://ponder.sh/), and [SST](https://sst.dev/), you can build a **robust, scalable system** that grows with your needs.
 
 At Frak, this infrastructure powers a platform that’s revolutionizing brand advocacy:
 
