@@ -15,6 +15,8 @@ export const links = {
     pulumi: 'https://pulumi.com',
 
     // Tech
+    bun: 'https://bun.sh',
+    nitro: "https://v3.nitro.build",
     tanstack: 'https://tanstack.com',
     zustand: 'https://zustand-demo.pmnd.rs',
     elysia: 'https://elysiajs.com',
@@ -25,6 +27,14 @@ export const links = {
 
     // Web3 & Blockchain
     foundry: 'https://getfoundry.sh',
+    huff: 'https://docs.huff.sh',
+    viem: 'https://viem.sh',
+    Ox: 'https://oxlib.sh',
+
+    // Smart acocunt
+    kernel: 'https://github.com/zerodevapp/kernel/tree/v2.4',
+    permissionless: 'https://github.com/pimlicolabs/permissionless.js',
+    pimlico: 'https://www.pimlico.io',
 
     // Tools open source
     openPanel: 'https://openpanel.dev',

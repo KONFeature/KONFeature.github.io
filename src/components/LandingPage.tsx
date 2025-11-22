@@ -7,6 +7,7 @@ import {
 import Navigation from './Navigation';
 import Footer from './Footer';
 import ArticleGroups from './ArticleGroups';
+import { links } from '../consts';
 
 interface ArticleData {
   id: string;
@@ -106,6 +107,84 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
+        {/* Tech Stack */}
+        <section className="mb-24">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6 border-b border-gray-300 dark:border-white/10 pb-2">
+            Tech Stack
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+            {/* IaC */}
+            <div className="flex gap-2">
+              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">IaC:</span>
+              <div className="flex flex-wrap gap-1.5">
+                <a href={links.sst} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">SST</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.pulumi} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Pulumi</a>
+                <span className="text-gray-600">+</span>
+                <span className="text-gray-900 dark:text-white">Kubernetes</span>
+              </div>
+            </div>
+
+            {/* Backend */}
+            <div className="flex gap-2">
+              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">Backend:</span>
+              <div className="flex flex-wrap gap-1.5">
+                <a href={links.bun} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Bun</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.elysia} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Elysia.js</a>
+              </div>
+            </div>
+
+            {/* Frontend */}
+            <div className="flex gap-2">
+              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">Frontend:</span>
+              <div className="flex flex-wrap gap-1.5">
+                <a href={links.tanstack} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">TanStack</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.rolldown} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Rolldown</a>
+                <span className="text-gray-600">/</span>
+                <a href={links.nitro} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Nitro</a>
+              </div>
+            </div>
+
+            {/* Mobile */}
+            <div className="flex gap-2">
+              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">Mobile:</span>
+              <div className="flex flex-wrap gap-1.5">
+                <a href={links.tauri} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Tauri</a>
+                <span className="text-gray-600 text-xs">(React + Rust)</span>
+              </div>
+            </div>
+
+            {/* Blockchain */}
+            <div className="flex gap-2">
+              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">EVM:</span>
+              <div className="flex flex-wrap gap-1.5">
+                <a href={links.foundry} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Foundry</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.viem} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Viem</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.pounder} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Ponder</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.erpc} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">eRPC</a>
+              </div>
+            </div>
+
+            {/* Smart Wallet */}
+            <div className="flex gap-2">
+              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">AA:</span>
+              <div className="flex flex-wrap gap-1.5">
+                <a href={links.kernel} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Kernel</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.permissionless} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Permissionless</a>
+                <span className="text-gray-600">+</span>
+                <a href={links.pimlico} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Pimlico</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Recent Articles */}
         <section id="articles" className="mb-24">
           <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
@@ -139,7 +218,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
                     <h3 className="text-lg font-medium text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1">
                       {article.title}
                     </h3>
-                    <p className="text-gray-500 text-sm leading-relaxed max-w-xl">
+                    <p className="text-gray-500 text-sm leading-relaxed max-w-xl line-clamp-2">
                       {article.description}
                     </p>
                   </div>
@@ -150,7 +229,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
         </section>
 
         {/* Article Groups */}
-        <ArticleGroups articles={articles} />
+        <ArticleGroups articles={articles} compact={true} />
 
         {/* Projects */}
         <section id="projects">
