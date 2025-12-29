@@ -48,4 +48,12 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 		iconColor: 'text-blue-400',
 		order: 5,
 	},
+	'side-projects': {
+		id: 'side-projects',
+		name: 'Side Projects',
+		description: 'Personal projects born from real problems. From self-hosted infrastructure to developer tooling — building what I need, open-sourcing what might help others.',
+		icon: 'wrench',
+		iconColor: 'text-cyan-400',
+		order: 6,
+	},
 };
