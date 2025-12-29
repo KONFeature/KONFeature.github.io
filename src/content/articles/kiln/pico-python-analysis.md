@@ -10,7 +10,7 @@ iconColor: "text-green-400"
 description: "Analyzing kiln performance with physics-based phase detection, thermal modeling, and multi-method PID tuning. Because eyeballing temperature curves doesn't cut it."
 heroImage: "./assets/pico-python-analysis/plot-run.png"
 githubUrl: "https://github.com/KONFeature/pico-kiln"
-group: "kiln"
+group: "side-projects"
 ---
 
 The kiln logs every firing to CSV: timestamp, temperature, target, SSR output, PID terms. One second resolution. A 10-hour firing generates 36,000 rows. Most people would load this into Excel, squint at a chart, and call it done.

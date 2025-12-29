@@ -10,7 +10,7 @@ iconColor: "text-pink-400"
 description: "A technical deep dive into prompt engineering, multi-pass architecture, and the 'Big Five' personality synthesis in scenario-parser."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
 heroImage: "./assets/scenario-parser/hero-sna.png"
-group: "scenario-parser"
+group: "side-projects"
 ---
 
 ![hero image](./assets/scenario-parser/hero-sna.png)

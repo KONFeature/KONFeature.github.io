@@ -9,7 +9,7 @@ icon: "cpu"
 iconColor: "text-orange-400"
 description: "Deep dive into the dual-core control logic, PID implementation with Adaptive Gain Scheduling, and thread-safe communication on the Raspberry Pi Pico W."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
-group: "kiln"
+group: "side-projects"
 ---
 
 The `pico-kiln` firmware converts a $6 Raspberry Pi Pico W into an industrial-grade kiln controller. Unlike hobbyist Arduino loops that mix WiFi handling with pin toggling, this project leverages the RP2040's dual-core architecture to strictly separate **Control** (Real-Time) from **Connectivity** (Best-Effort).

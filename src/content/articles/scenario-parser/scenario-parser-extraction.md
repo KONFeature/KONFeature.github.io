@@ -10,7 +10,7 @@ iconColor: "text-yellow-400"
 description: "How scenario-parser transforms raw PDF binaries into semantic screenplay data using PyMuPDF4LLM, heuristic state machines, and fuzzy string matching."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
 heroImage: "./assets/scenario-parser/hero-extraction.png"
-group: "scenario-parser"
+group: "side-projects"
 ---
 
 ![hero image](./assets/scenario-parser/hero-extraction.png)

@@ -9,7 +9,7 @@ icon: "smartphone"
 iconColor: "text-blue-400"
 description: "Building a kiln controller UI that runs as a web app, macOS app, and Android APK—all from a single React codebase. Solving the HTTP/HTTPS mixed content nightmare without compromise."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
-group: "kiln"
+group: "side-projects"
 ---
 
 Most embedded web interfaces are terrible. They're server-side rendered HTML that requires a full page refresh to see a temperature update. For `pico-kiln`, I wanted instant state updates, smooth charts, and offline resilience—all from a microcontroller with 264KB of RAM.

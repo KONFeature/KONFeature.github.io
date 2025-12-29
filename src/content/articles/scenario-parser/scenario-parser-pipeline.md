@@ -10,7 +10,7 @@ iconColor: "text-purple-400"
 description: "A deep dive into the event-driven architecture, concurrency control, and graph theory algorithms powering scenario-parser's analysis engine."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
 heroImage: "./assets/scenario-parser/hero-pipeline.png"
-group: "scenario-parser"
+group: "side-projects"
 ---
 
 ![hero image](./assets/scenario-parser/hero-pipeline.png)
