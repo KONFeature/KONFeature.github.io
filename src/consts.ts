@@ -2,12 +2,23 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = 'Quentin Nivelais';
-export const SITE_DESCRIPTION = 'Co-Founder & CTO at Frak Labs. EVM infrastructure, DevOps, and Hardware.';
+export const SITE_DESCRIPTION = 'Web3 Infrastructure Architect & Account Abstraction Specialist. Fractional CTO for blockchain startups. Currently CTO at Frak Labs.';
 export const AUTHOR_NAME = 'Quentin Nivelais';
 export const TWITTER_HANDLE = '@QNivelais';
 export const GITHUB_HANDLE = 'KONFeature';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/quentin-nivelais';
 export const SITE_URL = 'https://nivelais.com';
+
+// Consulting & Contact
+export const CALENDLY_URL = 'https://app.cal.eu/konfeature';
+export const TELEGRAM_HANDLE = '@KONFeature';
+export const TELEGRAM_URL = 'https://t.me/KONFeature';
+export const AVAILABILITY = 'Q2 2026';
+export const AVAILABILITY_STATUS = 'limited'; // 'available' | 'limited' | 'booked'
+
+// Positioning
+export const JOB_TITLE = 'Web3 Infrastructure Architect & Fractional CTO';
+export const TAGLINE = 'I help blockchain projects ship production-ready infrastructure and wallet UX that doesn\'t suck.';
 
 export const links = {
     // IaC & DevOps

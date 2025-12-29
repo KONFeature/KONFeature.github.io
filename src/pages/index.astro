@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import LandingPage from '../components/LandingPage';
 import { getCollection } from 'astro:content';
-import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, SITE_URL, GITHUB_HANDLE, LINKEDIN_URL } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, SITE_URL, GITHUB_HANDLE, LINKEDIN_URL, JOB_TITLE, TAGLINE } from '../consts';
 
 const articles = await getCollection('articles');
 
@@ -45,25 +45,32 @@ const personJsonLd = {
 	"@type": "Person",
 	"name": AUTHOR_NAME,
 	"url": SITE_URL,
-	"jobTitle": "Co-Founder & CTO",
+	"jobTitle": JOB_TITLE,
 	"worksFor": {
 		"@type": "Organization",
 		"name": "Frak Labs"
 	},
-	"description": SITE_DESCRIPTION,
+	"description": TAGLINE,
 	"sameAs": [
 		`https://github.com/${GITHUB_HANDLE}`,
-		LINKEDIN_URL
+		LINKEDIN_URL,
+		"https://x.com/QNivelais"
 	],
 	"knowsAbout": [
+		"Account Abstraction (ERC-4337, ERC-7579)",
+		"WebAuthn & Passkeys",
+		"Smart Contract Development",
+		"Web3 Infrastructure",
+		"Kubernetes & DevOps",
+		"Blockchain Cost Optimization",
 		"Ethereum Virtual Machine (EVM)",
-		"Smart Contracts",
-		"Blockchain Infrastructure",
-		"DevOps",
-		"Hardware Engineering",
-		"Account Abstraction",
-		"Solidity"
-	]
+		"Infrastructure as Code"
+	],
+	"hasOccupation": {
+		"@type": "Occupation",
+		"name": "Fractional CTO",
+		"occupationalCategory": "Technology Consulting"
+	}
 };
 
 // JSON-LD for WebSite

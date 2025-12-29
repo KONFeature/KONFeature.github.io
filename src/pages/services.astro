@@ -1,0 +1,62 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import ServicesPage from '../components/ServicesPage';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, SITE_URL, JOB_TITLE } from '../consts';
+
+const pageTitle = `Services | ${SITE_TITLE}`;
+const pageDescription = 'Web3 Infrastructure consulting services: Technical Audits, Fractional CTO, and Project-Based engagements for blockchain startups.';
+
+const servicesJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	"serviceType": "Technology Consulting",
+	"provider": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"jobTitle": JOB_TITLE,
+		"url": SITE_URL
+	},
+	"areaServed": "Worldwide",
+	"hasOfferCatalog": {
+		"@type": "OfferCatalog",
+		"name": "Web3 Consulting Services",
+		"itemListElement": [
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Technical Audit",
+					"description": "Comprehensive infrastructure and smart contract review with actionable recommendations"
+				}
+			},
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Fractional CTO",
+					"description": "Ongoing technical leadership and strategic guidance for blockchain startups"
+				}
+			},
+			{
+				"@type": "Offer",
+				"itemOffered": {
+					"@type": "Service",
+					"name": "Project-Based Engagement",
+					"description": "End-to-end delivery of Account Abstraction, infrastructure, and smart contract projects"
+				}
+			}
+		]
+	}
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<script type="application/ld+json" set:html={JSON.stringify(servicesJsonLd)} />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
+		<ServicesPage client:load />
+	</body>
+</html>
