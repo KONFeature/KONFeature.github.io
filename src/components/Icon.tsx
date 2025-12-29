@@ -13,7 +13,8 @@ import {
   ShieldCheck, 
   Command, 
   Menu, 
-  X 
+  X,
+  MessageSquareWarning
 } from 'lucide-react';
 
 export const IconMap: Record<string, React.ElementType> = {
@@ -31,7 +32,8 @@ export const IconMap: Record<string, React.ElementType> = {
   command: Command,
   menu: Menu,
   x: X,
-  "arrow-up-right": ArrowUpRight
+  "arrow-up-right": ArrowUpRight,
+  "message-square-warning": MessageSquareWarning
 };
 
 interface IconProps {

@@ -40,4 +40,12 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 		iconColor: 'text-cyan-400',
 		order: 4,
 	},
+	opinion: {
+		id: 'opinion',
+		name: 'Tech Opinion',
+		description: 'Unfiltered takes on the state of Web3, developer tooling, and the gap between specs and reality. Less tutorial, more editorial.',
+		icon: 'message-square-warning',
+		iconColor: 'text-amber-400',
+		order: 5,
+	},
 };
