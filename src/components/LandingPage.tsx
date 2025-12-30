@@ -12,8 +12,7 @@ import {
 } from 'lucide-react';
 import Navigation from './Navigation';
 import Footer from './Footer';
-import ArticleGroups from './ArticleGroups';
-import { links, CALENDLY_URL, TELEGRAM_URL, AVAILABILITY, TAGLINE } from '../consts';
+import { links, CALENDLY_URL, TELEGRAM_URL, TAGLINE } from '../consts';
 
 interface ArticleData {
   id: string;
@@ -36,11 +35,10 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
-  // Show only the 5 most recent articles on landing page
   const recentArticles = useMemo(() => {
     return [...articles]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 5);
+      .slice(0, 3);
   }, [articles]);
 
   const trackRecord = [
@@ -90,6 +88,24 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-medium mb-6">
             Web3 Infrastructure Architect<span className="text-gray-400 dark:text-gray-600 mx-2">&</span>Account Abstraction Specialist
           </p>
+
+          <div className="mb-8 py-3 border-y border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/[0.02] -mx-6 px-6 flex flex-wrap gap-x-6 gap-y-2 text-sm font-mono text-gray-500 dark:text-gray-400">
+            <a href="https://frak.id" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="text-gray-400 dark:text-gray-500">FOCUS:</span>
+              <span className="text-gray-900 dark:text-white">Frak Labs</span>
+            </a>
+            <div className="hidden md:block w-px h-4 bg-gray-300 dark:bg-white/10" />
+            <a href="https://x.com/QNivelais/status/1791490793913413832" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <span className="text-gray-400 dark:text-gray-500">RANK:</span>
+              <span className="text-yellow-600 dark:text-yellow-500">#2 Global Gas Golfing</span>
+            </a>
+            <div className="hidden md:block w-px h-4 bg-gray-300 dark:bg-white/10" />
+            <a href="/articles/frak/cost-effective-infra" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <span className="text-gray-400 dark:text-gray-500">INFRA:</span>
+              <span className="text-emerald-600 dark:text-emerald-500">-85% Cost</span>
+            </a>
+          </div>
           
           <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4 max-w-xl">
             {TAGLINE}
@@ -98,13 +114,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           <p className="text-sm text-gray-500 mb-6">
             Currently CTO at <a href="https://frak.id" className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Frak Labs</a>.
           </p>
-
-          <div className="flex items-center gap-3 mb-8">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 text-sm font-medium">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Available for {AVAILABILITY}
-            </span>
-          </div>
 
           <div className="flex flex-wrap gap-4 mb-8">
             <a 
@@ -138,88 +147,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
-        {/* Tech Stack */}
+        {/* Services */}
         <section className="mb-24">
           <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6 border-b border-gray-300 dark:border-white/10 pb-2">
-            Tech Stack
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
-            {/* IaC */}
-            <div className="flex gap-2">
-              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">IaC:</span>
-              <div className="flex flex-wrap gap-1.5">
-                <a href={links.sst} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">SST</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.pulumi} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Pulumi</a>
-                <span className="text-gray-600">+</span>
-                <span className="text-gray-900 dark:text-white">Kubernetes</span>
-              </div>
-            </div>
-
-            {/* Backend */}
-            <div className="flex gap-2">
-              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">Backend:</span>
-              <div className="flex flex-wrap gap-1.5">
-                <a href={links.bun} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Bun</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.elysia} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Elysia.js</a>
-              </div>
-            </div>
-
-            {/* Frontend */}
-            <div className="flex gap-2">
-              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">Frontend:</span>
-              <div className="flex flex-wrap gap-1.5">
-                <a href={links.tanstack} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">TanStack</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.rolldown} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Rolldown</a>
-                <span className="text-gray-600">/</span>
-                <a href={links.nitro} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Nitro</a>
-              </div>
-            </div>
-
-            {/* Mobile */}
-            <div className="flex gap-2">
-              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">Mobile:</span>
-              <div className="flex flex-wrap gap-1.5">
-                <a href={links.tauri} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Tauri</a>
-                <span className="text-gray-600 text-xs">(React + Rust)</span>
-              </div>
-            </div>
-
-            {/* Blockchain */}
-            <div className="flex gap-2">
-              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">EVM:</span>
-              <div className="flex flex-wrap gap-1.5">
-                <a href={links.foundry} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Foundry</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.viem} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Viem</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.pounder} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Ponder</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.erpc} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">eRPC</a>
-              </div>
-            </div>
-
-            {/* Smart Wallet */}
-            <div className="flex gap-2">
-              <span className="text-gray-600 dark:text-gray-500 shrink-0 w-20">AA:</span>
-              <div className="flex flex-wrap gap-1.5">
-                <a href={links.kernel} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Kernel</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.permissionless} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Permissionless</a>
-                <span className="text-gray-600">+</span>
-                <a href={links.pimlico} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Pimlico</a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* What I Do */}
-        <section className="mb-24">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6 border-b border-gray-300 dark:border-white/10 pb-2">
-            What I Do
+            Services
           </h2>
           
           <div className="grid gap-6">
@@ -273,11 +204,43 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
-        {/* Recent Articles */}
+        {/* Selected Work */}
+        <section id="track-record" className="mb-24">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
+            Selected Work
+          </h2>
+
+          <div className="grid gap-8">
+            {trackRecord.map((item, i) => (
+              <a key={i} href={item.link} className="group block">
+                <div className="flex justify-between items-baseline mb-2">
+                  <h3 className="text-gray-900 dark:text-white font-medium group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs font-mono text-gray-600">
+                    {item.role}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 mb-3 max-w-2xl">
+                  {item.outcome}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {item.tech.map(t => (
+                    <span key={t} className="text-xs font-mono text-gray-600">
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Latest Articles */}
         <section id="articles" className="mb-24">
           <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
             <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
-              Recent Articles
+              Latest Articles
             </h2>
             <a 
               href="/articles" 
@@ -316,38 +279,126 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
-        {/* Article Groups */}
-        <ArticleGroups articles={articles} />
-
-        {/* Track Record */}
-        <section id="track-record">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
-            Track Record
+        {/* Engineering Impact */}
+        <section className="mb-24">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6 border-b border-gray-300 dark:border-white/10 pb-2">
+            Engineering Impact
           </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm mb-8">
+            <div className="flex gap-2">
+              <span className="text-gray-500 shrink-0 w-16">IaC:</span>
+              <span className="text-gray-900 dark:text-white">
+                <a href={links.sst} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">SST</a> + <a href={links.pulumi} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Pulumi</a> + K8s
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-gray-500 shrink-0 w-16">Backend:</span>
+              <span className="text-gray-900 dark:text-white">
+                <a href={links.bun} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Bun</a> + <a href={links.elysia} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Elysia</a>
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-gray-500 shrink-0 w-16">Frontend:</span>
+              <span className="text-gray-900 dark:text-white">
+                <a href={links.tanstack} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">TanStack</a> + <a href={links.nitro} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Nitro</a>
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-gray-500 shrink-0 w-16">EVM:</span>
+              <span className="text-gray-900 dark:text-white">
+                <a href={links.foundry} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Foundry</a> + <a href={links.viem} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Viem</a> + <a href={links.pounder} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Ponder</a>
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-gray-500 shrink-0 w-16">AA:</span>
+              <span className="text-gray-900 dark:text-white">
+                <a href={links.kernel} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Kernel</a> + <a href={links.permissionless} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Permissionless</a> + <a href={links.pimlico} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Pimlico</a>
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-gray-500 shrink-0 w-16">Mobile:</span>
+              <span className="text-gray-900 dark:text-white">
+                <a href={links.tauri} className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Tauri</a> <span className="text-gray-500 text-xs">(React + Rust)</span>
+              </span>
+            </div>
+          </div>
 
-          <div className="grid gap-8">
-            {trackRecord.map((item, i) => (
-              <a key={i} href={item.link} className="group block">
-                <div className="flex justify-between items-baseline mb-2">
-                  <h3 className="text-gray-900 dark:text-white font-medium group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                    {item.title}
-                  </h3>
-                  <span className="text-xs font-mono text-gray-600">
-                    {item.role}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mb-3 max-w-2xl">
-                  {item.outcome}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {item.tech.map(t => (
-                    <span key={t} className="text-xs font-mono text-gray-600">
-                      #{t}
-                    </span>
-                  ))}
-                </div>
-              </a>
-            ))}
+          <p className="text-sm text-gray-500 mb-4">
+            I don't just use the tools—I write the code for the tools you use.
+          </p>
+          
+          <div className="grid gap-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <a href={links.kernel} className="text-gray-900 dark:text-white font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">ZeroDev Kernel</a>
+                <span className="text-xs text-gray-500">Account Abstraction</span>
+              </div>
+              <div className="flex flex-wrap gap-2 text-sm">
+                <a href="https://github.com/zerodevapp/kernel/pull/68" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  WebAuthn validator
+                </a>
+                <span className="text-gray-400">·</span>
+                <a href="https://github.com/zerodevapp/kernel/pull/55" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  EIP-712 typed data
+                </a>
+                <span className="text-gray-400">·</span>
+                <a href="https://github.com/zerodevapp/kernel/pull/50" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  Gas optimizations
+                </a>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <a href={links.erpc} className="text-gray-900 dark:text-white font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">eRPC</a>
+                <span className="text-xs text-gray-500">RPC Load Balancer</span>
+              </div>
+              <div className="flex flex-wrap gap-2 text-sm">
+                <a href="https://github.com/erpc/erpc/pull/123" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  JS/TS config
+                </a>
+                <span className="text-gray-400">·</span>
+                <a href="https://github.com/erpc/erpc/pull/143" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  CLI tooling
+                </a>
+                <span className="text-gray-400">·</span>
+                <a href="https://github.com/erpc/erpc/pull/139" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  Config validation
+                </a>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <a href={links.permissionless} className="text-gray-900 dark:text-white font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Permissionless.js</a>
+                <span className="text-xs text-gray-500">Pimlico SDK</span>
+              </div>
+              <div className="flex flex-wrap gap-2 text-sm">
+                <a href="https://github.com/pimlicolabs/permissionless.js/pull/42" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  Kernel wallet support
+                </a>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-gray-900 dark:text-white font-medium">Other</span>
+              </div>
+              <div className="flex flex-wrap gap-2 text-sm">
+                <a href="https://github.com/sst/sst/pull/5268" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  SST
+                </a>
+                <span className="text-gray-400">·</span>
+                <a href="https://github.com/elizaOS/eliza/pull/1810" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  Eliza
+                </a>
+                <span className="text-gray-400">·</span>
+                <a href="https://github.com/jk-labs-inc/jokerace/issues/1170" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                  Jokerace
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 

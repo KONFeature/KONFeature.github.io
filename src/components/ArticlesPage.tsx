@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import ArticleGroups from './ArticleGroups';
 
 interface ArticleData {
 	id: string;
@@ -52,6 +53,8 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 					A complete archive of engineering deep-dives, technical explorations, and project post-mortems.
 				</p>
 			</div>
+
+			<ArticleGroups articles={articles} />
 
 			{/* Filters */}
 			<div className="mb-8 space-y-4">

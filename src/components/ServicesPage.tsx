@@ -23,7 +23,7 @@ const services = [
 			'Infrastructure architecture review',
 			'Smart contract gas optimization assessment',
 			'Cost analysis (infra + on-chain)',
-			'Security surface assessment',
+			'Architecture & performance assessment',
 			'Actionable roadmap with priorities',
 		],
 		timeline: '1-2 weeks',
@@ -34,8 +34,8 @@ const services = [
 		id: 'fractional',
 		icon: Users,
 		title: 'Fractional CTO',
-		subtitle: 'Ongoing technical leadership, part-time',
-		description: 'Senior technical leadership without the full-time overhead. Strategy, architecture, and mentorship.',
+		subtitle: 'Strategic technical leadership, part-time',
+		description: 'Senior technical leadership without the full-time overhead. High-level architecture and strategic decisions—not backlog implementation.',
 		includes: [
 			'Weekly strategy sessions',
 			'Architecture decisions & code reviews',
@@ -82,10 +82,13 @@ const ServicesPage: React.FC = () => {
 						Whether it's a one-time audit, ongoing fractional CTO engagement, or a specific project delivery.
 					</p>
 					
-					<div className="mt-6 flex items-center gap-2 text-sm">
-						<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 font-medium">
+					<div className="mt-6 flex flex-col gap-2 text-sm">
+						<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 font-medium w-fit">
 							<span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
 							Available for {AVAILABILITY}
+						</span>
+						<span className="text-gray-500">
+							Urgent matter? <a href={TELEGRAM_URL} className="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">Ping me on Telegram</a>.
 						</span>
 					</div>
 				</section>
@@ -166,7 +169,7 @@ const ServicesPage: React.FC = () => {
 				{/* CTA */}
 				<section className="text-center py-12 border-t border-gray-200 dark:border-white/10">
 					<h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-						Let's Talk
+						Let's Plan Your Q2 Roadmap
 					</h2>
 					<p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
 						I take on 2-3 engagements at a time to ensure quality. 
@@ -181,7 +184,7 @@ const ServicesPage: React.FC = () => {
 							className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
 						>
 							<Calendar size={18} />
-							Book a call
+							Discuss Q2 engagement
 						</a>
 						<a
 							href={TELEGRAM_URL}
@@ -190,7 +193,7 @@ const ServicesPage: React.FC = () => {
 							className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
 						>
 							<MessageCircle size={18} />
-							Message on Telegram
+							Quick question? Telegram
 						</a>
 					</div>
 				</section>

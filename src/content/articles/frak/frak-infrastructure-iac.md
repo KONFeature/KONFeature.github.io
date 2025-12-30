@@ -686,7 +686,6 @@ After 8+ months in production, here's what we've achieved:
 
 - **99.99% uptime** over the last 6 months
 - **Zero Kubernetes YAML files** in our repositories
-- **Full audit trail** via CloudTrail and GitHub Actions logs
 - **Automated certificate rotation** via Cert-Manager
 - **Self-healing infrastructure** via Kubernetes Deployments + HPA
 

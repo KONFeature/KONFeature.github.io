@@ -57,12 +57,6 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 				<h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
 					Browse by Category
 				</h2>
-				<a
-					href="/articles"
-					className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
-				>
-					View all →
-				</a>
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
