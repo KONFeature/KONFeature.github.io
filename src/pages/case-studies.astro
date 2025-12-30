@@ -1,0 +1,53 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import CaseStudiesPage from '../components/CaseStudiesPage';
+import { SITE_TITLE, AUTHOR_NAME, SITE_URL, JOB_TITLE } from '../consts';
+
+const pageTitle = `Case Studies | ${SITE_TITLE}`;
+const pageDescription = 'Deep dive into Web3 infrastructure and Account Abstraction implementations. Real-world case studies featuring Frak Wallet, Serverless-to-K8s migration, and developer experience optimization.';
+
+const caseStudiesJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"mainEntity": {
+		"@type": "ItemList",
+		"itemListElement": [
+			{
+				"@type": "CreativeWork",
+				"position": 1,
+				"name": "Frak Wallet",
+				"description": "Production WebAuthn Wallet with Account Abstraction"
+			},
+			{
+				"@type": "CreativeWork",
+				"position": 2,
+				"name": "Infrastructure Evolution",
+				"description": "Migration from AWS Serverless to Self-Hosted Kubernetes"
+			},
+			{
+				"@type": "CreativeWork",
+				"position": 3,
+				"name": "Developer Experience Revolution",
+				"description": "Optimization of CI/CD pipelines and build tools"
+			}
+		]
+	},
+	"author": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"jobTitle": JOB_TITLE,
+		"url": SITE_URL
+	}
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<script type="application/ld+json" set:html={JSON.stringify(caseStudiesJsonLd)} />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
+		<CaseStudiesPage client:load />
+	</body>
+</html>

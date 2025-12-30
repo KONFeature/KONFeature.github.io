@@ -38,11 +38,10 @@ const Navigation = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <a href="/services" className="hover:text-gray-900 dark:hover:text-white transition-colors">Services</a>
+            <a href="/case-studies" className="hover:text-gray-900 dark:hover:text-white transition-colors">Case Studies</a>
             <a href="/articles" className="hover:text-gray-900 dark:hover:text-white transition-colors">Articles</a>
-            <a href="/#track-record" className="hover:text-gray-900 dark:hover:text-white transition-colors">Track Record</a>
             <a 
-              href="/services#cta" 
+              href="/services" 
               className="px-3 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
             >
               Work with me
@@ -82,9 +81,8 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="fixed inset-0 z-40 bg-white dark:bg-[#0a0a0a] pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6 text-xl font-medium text-gray-600 dark:text-gray-300">
-            <a href="/services" onClick={() => setIsMenuOpen(false)}>Services</a>
+            <a href="/case-studies" onClick={() => setIsMenuOpen(false)}>Case Studies</a>
             <a href="/articles" onClick={() => setIsMenuOpen(false)}>Articles</a>
-            <a href="/#track-record" onClick={() => setIsMenuOpen(false)}>Track Record</a>
             <a 
               href="/services" 
               onClick={() => setIsMenuOpen(false)}

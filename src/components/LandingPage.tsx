@@ -45,7 +45,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
     {
       title: "Frak Labs",
       role: "Co-Founder & CTO",
-      outcome: "Built WebAuthn smart wallet processing 100k+ daily loads. Cut infra costs from $200k/year to $200/month.",
+      outcome: "Built WebAuthn smart wallet processing 100k+ daily loads. Cut infra costs by 85%.",
       link: "https://frak.id/",
       tech: ["Account Abstraction", "Kubernetes", "Smart Contracts"]
     },
@@ -206,9 +206,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
 
         {/* Selected Work */}
         <section id="track-record" className="mb-24">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
-            Selected Work
-          </h2>
+          <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
+            <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
+              Selected Work
+            </h2>
+            <a 
+              href="/case-studies" 
+              className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              Case studies →
+            </a>
+          </div>
 
           <div className="grid gap-8">
             {trackRecord.map((item, i) => (
