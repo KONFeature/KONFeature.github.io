@@ -2,7 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = 'Quentin Nivelais';
-export const SITE_DESCRIPTION = 'Web3 Infrastructure Architect & Account Abstraction Specialist. Fractional CTO for blockchain startups. Currently CTO at Frak Labs.';
+export const SITE_DESCRIPTION = 'Web3 Infrastructure Architect & Account Abstraction Specialist. CTO at Frak Labs. Deep technical articles on blockchain, smart contracts, and infrastructure.';
 export const AUTHOR_NAME = 'Quentin Nivelais';
 export const TWITTER_HANDLE = '@QNivelais';
 export const GITHUB_HANDLE = 'KONFeature';
@@ -13,11 +13,11 @@ export const SITE_URL = 'https://nivelais.com';
 export const CALENDLY_URL = 'https://app.cal.eu/konfeature';
 export const TELEGRAM_HANDLE = '@KONFeature';
 export const TELEGRAM_URL = 'https://t.me/KONFeature';
-export const AVAILABILITY = 'Q2 2026';
+export const AVAILABILITY = 'Q3 2026';
 export const AVAILABILITY_STATUS = 'limited'; // 'available' | 'limited' | 'booked'
 
 // Positioning
-export const JOB_TITLE = 'Web3 Infrastructure Architect & Fractional CTO';
+export const JOB_TITLE = 'Web3 Infrastructure Architect & CTO at Frak Labs';
 export const TAGLINE = 'I help blockchain projects ship production-ready infrastructure and wallet UX that doesn\'t suck.';
 
 export const links = {

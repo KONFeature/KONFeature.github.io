@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Terminal, Menu, X, Sun, Moon } from 'lucide-react';
 import Search from './Search';
+import { CALENDLY_URL } from '../consts';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,13 +39,15 @@ const Navigation = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <a href="/case-studies" className="hover:text-gray-900 dark:hover:text-white transition-colors">Case Studies</a>
             <a href="/articles" className="hover:text-gray-900 dark:hover:text-white transition-colors">Articles</a>
+            <a href="/case-studies" className="hover:text-gray-900 dark:hover:text-white transition-colors">Case Studies</a>
             <a 
-              href="/services" 
-              className="px-3 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-900 dark:hover:text-white transition-colors"
             >
-              Work with me
+              Get in touch
             </a>
             <Search />
             <button 
@@ -81,14 +84,15 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="fixed inset-0 z-40 bg-white dark:bg-[#0a0a0a] pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6 text-xl font-medium text-gray-600 dark:text-gray-300">
-            <a href="/case-studies" onClick={() => setIsMenuOpen(false)}>Case Studies</a>
             <a href="/articles" onClick={() => setIsMenuOpen(false)}>Articles</a>
+            <a href="/case-studies" onClick={() => setIsMenuOpen(false)}>Case Studies</a>
             <a 
-              href="/services" 
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setIsMenuOpen(false)}
-              className="inline-flex items-center justify-center px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md text-base"
             >
-              Work with me
+              Get in touch
             </a>
           </div>
         </div>

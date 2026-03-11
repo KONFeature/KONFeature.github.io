@@ -3,9 +3,6 @@ import {
   Github, 
   Twitter,
   Linkedin,
-  Search,
-  Users,
-  Rocket,
   ArrowRight,
   Calendar,
   MessageCircle,
@@ -117,17 +114,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
 
           <div className="flex flex-wrap gap-4 mb-8">
             <a 
-              href="/services" 
+              href="#articles" 
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
             >
-              View Services
+              Read Articles
               <ArrowRight size={16} />
             </a>
             <a 
-              href="#articles" 
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
-              Read Articles
+              Get in touch
             </a>
           </div>
 
@@ -143,63 +142,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
             <a href="https://www.linkedin.com/in/quentin-nivelais-5081a4141/" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <Linkedin size={16} />
               <span>LinkedIn</span>
-            </a>
-          </div>
-        </section>
-
-        {/* Services */}
-        <section className="mb-24">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6 border-b border-gray-300 dark:border-white/10 pb-2">
-            Services
-          </h2>
-          
-          <div className="grid gap-6">
-            <a href="/services#audit" className="group block p-5 border border-gray-200 dark:border-white/10 rounded-lg hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-              <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0">
-                  <Search size={20} className="text-gray-600 dark:text-gray-400" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1">
-                    Technical Audit
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Infrastructure review, gas optimization, cost analysis. Find what's broken before your users do.
-                  </p>
-                </div>
-              </div>
-            </a>
-
-            <a href="/services#fractional" className="group block p-5 border border-gray-200 dark:border-white/10 rounded-lg hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-              <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0">
-                  <Users size={20} className="text-gray-600 dark:text-gray-400" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1">
-                    Fractional CTO
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Ongoing technical leadership without the full-time overhead. Strategy, architecture, and mentorship.
-                  </p>
-                </div>
-              </div>
-            </a>
-
-            <a href="/services#project" className="group block p-5 border border-gray-200 dark:border-white/10 rounded-lg hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-              <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0">
-                  <Rocket size={20} className="text-gray-600 dark:text-gray-400" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1">
-                    Project-Based
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Account Abstraction, infrastructure migration, SDK development. End-to-end delivery.
-                  </p>
-                </div>
-              </div>
             </a>
           </div>
         </section>
@@ -410,13 +352,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* Contact Section */}
         <section className="mt-24 py-12 border-t border-gray-200 dark:border-white/10 text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Let's Build Something
+            Get in Touch
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
-            Need help with Web3 infrastructure or Account Abstraction? Let's talk.
+            Want to chat about Web3 infrastructure, Account Abstraction, or something you read? Reach out.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

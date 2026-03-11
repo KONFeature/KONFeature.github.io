@@ -6,6 +6,7 @@ import {
   Github, 
   ArrowRight, 
   Calendar,
+  MessageCircle,
   ChefHat
 } from 'lucide-react';
 import Navigation from './Navigation';
@@ -26,7 +27,6 @@ interface CaseStudy {
   icon: React.ElementType;
   metrics: Metric[];
   tech: string[];
-  serviceType: 'Project-Based' | 'Fractional CTO' | 'Technical Audit';
   relatedArticles: {
     title: string;
     url: string;
@@ -40,7 +40,6 @@ const caseStudies: CaseStudy[] = [
     subtitle: 'From YouTube MVP to Production WebAuthn Wallet',
     description: 'Pioneered one of the first production-ready Account Abstraction wallets using WebAuthn. Eliminated seed phrases completely while maintaining non-custodial security through P256 verification and RIP-7212.',
     icon: Wallet,
-    serviceType: 'Project-Based',
     metrics: [
       { label: 'Daily Loads', value: '100k+' },
       { label: 'Security', value: 'Biometric' },
@@ -58,7 +57,6 @@ const caseStudies: CaseStudy[] = [
     subtitle: 'AI-Powered Culinary Assistant for CMI Group',
     description: 'Built a safety-first AI cooking assistant processing 35,000+ French recipes for Elle magazine. Deterministic allergen detection, dual-vector semantic search, voice-guided cooking mode, and real-time conversational AI to drive traffic and ad revenue.',
     icon: ChefHat,
-    serviceType: 'Project-Based',
     metrics: [
       { label: 'Recipes', value: '35,000+' },
       { label: 'Allergen Safety', value: '100%' },
@@ -77,7 +75,6 @@ const caseStudies: CaseStudy[] = [
     subtitle: 'The 4-Year Journey: AWS Serverless → SST → Kubernetes',
     description: 'A complete infrastructure transformation journey. Started with managed serverless, evolved through SST, and landed on highly optimized self-hosted Kubernetes, reducing costs by 99.9% while improving reliability.',
     icon: Cloud,
-    serviceType: 'Fractional CTO',
     metrics: [
       { label: 'Cost Reduction', value: '-85%' },
       { label: 'Uptime', value: '99.99%' },
@@ -95,7 +92,6 @@ const caseStudies: CaseStudy[] = [
     subtitle: '10x Build Speed, 4-Minute Deployments',
     description: 'Overhauled the entire development lifecycle. Migrated to modern tooling (Rolldown, TanStack Start) and optimized CI/CD pipelines to enable rapid iteration without context switching.',
     icon: Zap,
-    serviceType: 'Technical Audit',
     metrics: [
       { label: 'Build Speed', value: '10x Faster' },
       { label: 'Test Suite', value: '42sec' },
@@ -113,7 +109,6 @@ const caseStudies: CaseStudy[] = [
     subtitle: 'Contributing to the Tools We Use',
     description: 'Active contributor to the Web3 and infrastructure ecosystem. Improved WebAuthn validators for ZeroDev Kernel, added JS config support to eRPC, and enhanced SST framework capabilities.',
     icon: Github,
-    serviceType: 'Technical Audit',
     metrics: [
       { label: 'ZeroDev', value: 'Contributor' },
       { label: 'eRPC', value: 'Contributor' },
@@ -148,8 +143,7 @@ const CaseStudiesPage: React.FC = () => {
                 key={study.id}
                 className="border border-gray-200 dark:border-white/10 rounded-lg p-6 md:p-8 hover:border-gray-300 dark:hover:border-white/20 transition-colors"
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
-                  <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 mb-6">
                     <div className="p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0">
                       <Icon size={24} className="text-gray-600 dark:text-gray-400" />
                     </div>
@@ -161,10 +155,6 @@ const CaseStudiesPage: React.FC = () => {
                         {study.subtitle}
                       </p>
                     </div>
-                  </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 whitespace-nowrap md:ml-auto">
-                    {study.serviceType}
-                  </span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4 mb-6 py-4 border-y border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-lg">
@@ -217,28 +207,30 @@ const CaseStudiesPage: React.FC = () => {
 
         <section className="text-center py-12 border-t border-gray-200 dark:border-white/10">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Want Similar Results?
+            Want to Chat About These?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
-            Whether you need a technical audit, a fractional CTO, or a specific project delivered.
+            Curious about the technical details, or have a similar challenge? Reach out.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="/services"
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
             >
-              <Zap size={18} />
-              View Services
+              <Calendar size={18} />
+              Book a call
             </a>
             <a
-              href={CALENDLY_URL}
+              href={TELEGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
-              <Calendar size={18} />
-              Book a call
+              <MessageCircle size={18} />
+              Telegram
             </a>
           </div>
         </section>
