@@ -35,7 +35,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
   const recentArticles = useMemo(() => {
     return [...articles]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 3);
+      .slice(0, 5);
   }, [articles]);
 
   const trackRecord = [
@@ -146,46 +146,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
         </section>
 
-        {/* Selected Work */}
-        <section id="track-record" className="mb-24">
-          <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
-            <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
-              Selected Work
-            </h2>
-            <a 
-              href="/case-studies" 
-              className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              Case studies →
-            </a>
-          </div>
-
-          <div className="grid gap-8">
-            {trackRecord.map((item, i) => (
-              <a key={i} href={item.link} className="group block">
-                <div className="flex justify-between items-baseline mb-2">
-                  <h3 className="text-gray-900 dark:text-white font-medium group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                    {item.title}
-                  </h3>
-                  <span className="text-xs font-mono text-gray-600">
-                    {item.role}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mb-3 max-w-2xl">
-                  {item.outcome}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {item.tech.map(t => (
-                    <span key={t} className="text-xs font-mono text-gray-600">
-                      #{t}
-                    </span>
-                  ))}
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-
         {/* Latest Articles */}
         <section id="articles" className="mb-24">
           <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
@@ -223,6 +183,46 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
                       {article.description}
                     </p>
                   </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Selected Work */}
+        <section id="track-record" className="mb-24">
+          <div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
+            <h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
+              Selected Work
+            </h2>
+            <a 
+              href="/case-studies" 
+              className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              Case studies →
+            </a>
+          </div>
+
+          <div className="grid gap-8">
+            {trackRecord.map((item, i) => (
+              <a key={i} href={item.link} className="group block">
+                <div className="flex justify-between items-baseline mb-2">
+                  <h3 className="text-gray-900 dark:text-white font-medium group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs font-mono text-gray-600">
+                    {item.role}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 mb-3 max-w-2xl">
+                  {item.outcome}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {item.tech.map(t => (
+                    <span key={t} className="text-xs font-mono text-gray-600">
+                      #{t}
+                    </span>
+                  ))}
                 </div>
               </a>
             ))}
