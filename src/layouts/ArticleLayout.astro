@@ -18,7 +18,7 @@ const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "Article",
 	"headline": title,
-	"description": subtitle || description || title,
+	"description": description || subtitle || title,
 	"author": {
 		"@type": "Person",
 		"name": AUTHOR_NAME,
@@ -71,9 +71,9 @@ const breadcrumbJsonLd = {
 <!doctype html>
 <html lang="en" class="scroll-smooth overflow-x-hidden">
 	<head>
-		<BaseHead 
-			title={`${title} - ${SITE_TITLE}`} 
-			description={subtitle || title} 
+		<BaseHead
+			title={`${title} - ${SITE_TITLE}`}
+			description={description || subtitle || title}
 			image={heroImage}
 			article={{
 				publishedTime: date,

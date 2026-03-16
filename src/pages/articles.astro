@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import ArticlesPage from '../components/ArticlesPage';
 import { getCollection } from 'astro:content';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_URL, AUTHOR_NAME } from '../consts';
 
 const articles = (await getCollection('articles')).filter(article => !article.data.draft);
 
@@ -39,12 +39,36 @@ processedArticles.sort((a, b) => {
     const dateB = articles.find(art => art.id === b.id)?.data.date.getTime() || 0;
     return dateB - dateA;
 });
+
+const articlesJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": `All Articles | ${SITE_TITLE}`,
+	"description": "Complete archive of engineering articles and technical deep-dives",
+	"url": `${SITE_URL}/articles`,
+	"mainEntity": {
+		"@type": "ItemList",
+		"numberOfItems": processedArticles.length,
+		"itemListElement": processedArticles.slice(0, 10).map((article, i) => ({
+			"@type": "ListItem",
+			"position": i + 1,
+			"url": `${SITE_URL}/articles/${article.slug}`,
+			"name": article.title,
+		})),
+	},
+	"author": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"url": SITE_URL,
+	},
+};
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
 		<BaseHead title={`All Articles | ${SITE_TITLE}`} description="Complete archive of engineering articles and technical deep-dives" />
+		<script type="application/ld+json" set:html={JSON.stringify(articlesJsonLd)} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
 		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">

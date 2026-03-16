@@ -78,6 +78,7 @@ const { title, description, image = '/android-chrome-512x512.png', article } = A
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
+<meta property="og:locale" content="en_US" />
 <meta property="og:type" content={article ? "article" : "website"} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
@@ -108,7 +109,7 @@ const { title, description, image = '/android-chrome-512x512.png', article } = A
 
 <!-- Author -->
 <meta name="author" content={AUTHOR_NAME} />
-<link rel="author" href={`${SITE_URL}/career`} />
+<link rel="author" href={SITE_URL} />
 
 <!-- Pagefind Search -->
 <script>
