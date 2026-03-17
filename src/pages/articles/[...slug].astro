@@ -12,7 +12,11 @@ export async function getStaticPaths() {
 }
 
 const post = Astro.props;
-const { Content, headings } = await render(post);
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
+
+// Extract remark plugin data
+const wordCount = remarkPluginFrontmatter?.wordCount ?? 0;
+const lastModified = remarkPluginFrontmatter?.lastModified ?? undefined;
 
 function getReadingTime(content: string) {
   const wordsPerMinute = 200;
@@ -62,6 +66,8 @@ if (post.data.group) {
 	headings={headings}
 	date={post.data.date}
 	group={post.data.group}
+	wordCount={wordCount}
+	lastModified={lastModified}
 >
 	<Content />
 </ArticleLayout>

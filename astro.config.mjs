@@ -6,6 +6,8 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import remarkMath from 'remark-math';
+import { remarkModifiedTime } from './remark-modified-time.mjs';
+import { remarkWordCount } from './remark-word-count.mjs';
 import rehypeKatex from 'rehype-katex';
 import rehypeMermaid from 'rehype-mermaid';
 
@@ -14,7 +16,7 @@ export default defineConfig({
   site: 'https://nivelais.com',
   integrations: [mdx(), sitemap(), react(), tailwind(), pagefind()],
   markdown: {
-    remarkPlugins: [remarkMath],
+    remarkPlugins: [remarkMath, remarkModifiedTime, remarkWordCount],
    rehypePlugins: [
       rehypeKatex,
       [

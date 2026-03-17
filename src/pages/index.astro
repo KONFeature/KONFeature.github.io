@@ -81,9 +81,27 @@ const websiteJsonLd = {
 	"name": SITE_TITLE,
 	"url": SITE_URL,
 	"description": SITE_DESCRIPTION,
+	"inLanguage": "en",
 	"author": {
 		"@id": `${SITE_URL}/#person`
 	}
+};
+
+// JSON-LD for Organization (Frak Labs)
+const organizationJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Organization",
+	"@id": `${SITE_URL}/#organization`,
+	"name": "Frak Labs",
+	"url": "https://frak.id",
+	"description": "Building the future of content monetization with Web3 infrastructure, account abstraction, and WebAuthn wallets.",
+	"founder": {
+		"@id": `${SITE_URL}/#person`
+	},
+	"sameAs": [
+		"https://github.com/frak-id",
+		"https://x.com/FrakLabs"
+	]
 };
 ---
 
@@ -95,6 +113,7 @@ const websiteJsonLd = {
 		<!-- JSON-LD Structured Data -->
 		<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 		<script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
 		<LandingPage client:load articles={processedArticles} />

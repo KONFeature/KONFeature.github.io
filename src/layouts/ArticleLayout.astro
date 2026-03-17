@@ -8,10 +8,15 @@ import TableOfContents from '../components/TableOfContents';
 import { SITE_TITLE, AUTHOR_NAME, SITE_URL } from '../consts';
 import { ARTICLE_GROUPS } from '../articleGroups';
 
-const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage, group } = Astro.props;
+const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage, group, wordCount, lastModified } = Astro.props;
 
 // Create article URL
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Resolve image metadata — heroImage may be an ImageMetadata object with width/height
+const imageUrl = heroImage ? new URL(heroImage.src ?? heroImage, Astro.site).toString() : undefined;
+const imageWidth = heroImage?.width;
+const imageHeight = heroImage?.height;
 
 // Build JSON-LD structured data
 const jsonLd = {
@@ -19,13 +24,14 @@ const jsonLd = {
 	"@type": "Article",
 	"headline": title,
 	"description": description || subtitle || title,
+	"inLanguage": "en",
 	"author": {
 		"@type": "Person",
 		"name": AUTHOR_NAME,
 		"url": SITE_URL
 	},
 	"datePublished": date?.toISOString(),
-	"dateModified": date?.toISOString(),
+	"dateModified": lastModified ?? date?.toISOString(),
 	"publisher": {
 		"@type": "Person",
 		"name": AUTHOR_NAME,
@@ -37,7 +43,8 @@ const jsonLd = {
 	},
 	"keywords": tags?.join(', '),
 	"articleSection": category,
-	...(heroImage && { "image": new URL(heroImage, Astro.site).toString() }),
+	...(wordCount && { "wordCount": wordCount }),
+	...(imageUrl && { "image": imageUrl }),
 	...(githubUrl && { "codeRepository": githubUrl })
 };
 
@@ -75,8 +82,11 @@ const breadcrumbJsonLd = {
 			title={`${title} - ${SITE_TITLE}`}
 			description={description || subtitle || title}
 			image={heroImage}
+			imageWidth={imageWidth}
+			imageHeight={imageHeight}
 			article={{
 				publishedTime: date,
+				modifiedTime: lastModified ? new Date(lastModified) : date,
 				section: category,
 				tags: tags,
 			}}
