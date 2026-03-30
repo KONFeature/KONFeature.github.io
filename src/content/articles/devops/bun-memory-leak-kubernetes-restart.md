@@ -185,26 +185,43 @@ With `failureThreshold: 3` and `periodSeconds: 30`, the probe needs to fail for 
 
 Maximum observed RSS before restart: ~380MB. No OOM kills since deployment.
 
-## Bonus: The Two-Pass Build
+## Bonus: Shrinking the Bundle While We Were At It
 
-While investigating bundle size during the same week: Bun's built-in minifier is conservative about dead code elimination. SWC is more aggressive. Two-pass build: Bun handles bundling, SWC handles minification.
+The memory debugging led us to look harder at startup cost and bundle size, which in turn led to some dependency surgery. The full journey: 4.4MB → 2.3MB.
+
+The biggest single win was dropping `firebase-admin`. It's a massive package — ~900KB of the reduction came from replacing it with direct HTTP/2 FCM calls using `jose` (for JWT/OAuth2 token generation) and Node's built-in `node:http2` for multiplexed push delivery. Same functionality, fraction of the weight.
+
+The rest came from cleaning up other dead weight: `whatwg-url` and its types were unused, a few other stale imports gone. We also added explicit `define` entries to help the bundler tree-shake MongoDB's debug/logging paths:
+
+```ts
+define: {
+    "process.env.NODE_ENV": JSON.stringify("production"),
+    "process.env.MONGODB_CRYPT_DEBUG": "undefined",
+    "process.env.MONGODB_LOG_ALL": "undefined",
+    "process.env.MONGODB_LOG_COMMAND": "undefined",
+    "process.env.MONGODB_LOG_TOPOLOGY": "undefined",
+    "process.env.MONGODB_LOG_SERVER_SELECTION": "undefined",
+},
+```
+
+MongoDB checks those env vars at startup to decide whether to enable various logging subsystems. With them inlined as `undefined`, Bun's bundler can statically eliminate the branches.
+
+The two-pass SWC build was the last step — and the smallest: ~100KB on top of everything else. Bun handles bundling and define replacements in pass 1, SWC handles minification in pass 2.
 
 ```ts
 import { minify } from "@swc/core";
 import { build } from "bun";
 
+// Pass 1: bundle + define replacements, no minification
 await build({
     entrypoints: ["./src/index.ts"],
     outdir: "./dist",
     minify: false,
     target: "bun",
-    define: {
-        "process.env.STAGE": JSON.stringify("production"),
-        "process.env.NODE_ENV": JSON.stringify("production"),
-        "process.env.MONGODB_CRYPT_DEBUG": "undefined",
-    },
+    define: { /* ... see above ... */ },
 });
 
+// Pass 2: SWC minifies — more aggressive dead code elimination than Bun's built-in
 const bundled = await Bun.file("./dist/index.js").text();
 const { code } = await minify(bundled, {
     compress: { dead_code: true, passes: 2 },
@@ -213,9 +230,9 @@ const { code } = await minify(bundled, {
 await Bun.write("./dist/index.js", code);
 ```
 
-The `define` block inlines env vars as string literals before bundling, so SWC can see `if ("production" === "development")` branches and eliminate them entirely. The extra `passes: 2` on compress is worth the build time; it catches eliminations that a single pass misses.
+Net result: **4.4MB → 2.3MB**. Firebase removal: ~900KB. Dependency cleanup + tree shaking: ~1.1MB. SWC pass: ~100KB.
 
-That said, the two-pass build was only part of the size story. The bigger wins came from dependency surgery done around the same time: replacing `firebase-admin` with direct HTTP/2 FCM calls (via `jose` + `node:http2`), removing the Airtable SDK which was pulling in `axios` despite us already using `ky` everywhere, and a few other dead imports. The next step is migrating off MongoDB entirely — moving to SQLite via `sqld` with a `rustfs` pod for backup, which should improve authenticator insert/query latency, reduce cloud service dependencies, and simplify horizontal scaling. More on that when it ships.
+The next step is removing MongoDB entirely — migrating to `sqld` (SQLite over HTTP) with a `rustfs` pod for backup. Faster authenticator insert/query, fewer cloud dependencies, cleaner horizontal scaling. More on that when it ships.
 
 ---
 
