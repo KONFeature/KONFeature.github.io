@@ -213,7 +213,9 @@ const { code } = await minify(bundled, {
 await Bun.write("./dist/index.js", code);
 ```
 
-The `define` block inlines env vars as string literals before bundling, so SWC can see `if ("production" === "development")` branches and eliminate them entirely. Bundle went from 4.2MB to 2.9MB — about 31% reduction. The extra `passes: 2` on compress is worth the build time; it catches eliminations that a single pass misses.
+The `define` block inlines env vars as string literals before bundling, so SWC can see `if ("production" === "development")` branches and eliminate them entirely. The extra `passes: 2` on compress is worth the build time; it catches eliminations that a single pass misses.
+
+That said, the two-pass build was only part of the size story. The bigger wins came from dependency surgery done around the same time: replacing `firebase-admin` with direct HTTP/2 FCM calls (via `jose` + `node:http2`), removing the Airtable SDK which was pulling in `axios` despite us already using `ky` everywhere, and a few other dead imports. The next step is migrating off MongoDB entirely — moving to SQLite via `sqld` with a `rustfs` pod for backup, which should improve authenticator insert/query latency, reduce cloud service dependencies, and simplify horizontal scaling. More on that when it ships.
 
 ---
 
