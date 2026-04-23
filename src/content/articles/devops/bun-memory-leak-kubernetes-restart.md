@@ -1,7 +1,7 @@
 ---
 title: "Chasing a Bun Memory Leak for 3 Days (The Answer Was 'Just Restart')"
 subtitle: "Two-pass builds, forced GC, --smol flags, and a health endpoint that lies to Kubernetes"
-description: "3 days debugging a Bun RSS memory leak on a Elysia.js backend. The fix was a scheduled pod restart via a health endpoint that lies to Kubernetes — and why we couldn't do anything else."
+description: "3 days debugging a Bun RSS memory leak on a Elysia.js backend. The fix was a scheduled pod restart via a health endpoint that lies to Kubernetes: and why we couldn't do anything else."
 date: 2026-03-30T18:00:00Z
 category: "devops"
 group: "frak"
@@ -11,13 +11,13 @@ iconColor: "text-red-400"
 githubUrl: "https://github.com/frak-id/wallet"
 ---
 
-The alert came in on a Tuesday afternoon. One of our Bun + Elysia.js pods had been OOM-killed for the third time in a week. Not a sudden spike — a slow, grinding climb. RSS would sit at ~120MB on boot, then creep upward: 180MB after 6 hours, 280MB by morning, 400MB+ before Kubernetes finally pulled the plug.
+The alert came in on a Tuesday afternoon. One of our Bun + Elysia.js pods had been OOM-killed for the third time in a week. Not a sudden spike, a slow, grinding climb. RSS would sit at ~120MB on boot, then creep upward: 180MB after 6 hours, 280MB by morning, 400MB+ before Kubernetes finally pulled the plug.
 
-What made it suspicious was the shape of the curve. A real application memory leak — objects accumulating, caches not clearing, closures keeping references alive — tends to have a sawtooth pattern if there's any GC at all. This was a ramp. Smooth and consistent, like a timer that just... fills up.
+What made it suspicious was the shape of the curve. A real application memory leak, objects accumulating, caches not clearing, closures keeping references alive, tends to have a sawtooth pattern if there's any GC at all. This was a ramp. Smooth and consistent, like a timer that just... fills up.
 
 ## What We Were Running
 
-Backend stack: Bun 1.1.38 with Elysia.js 1.2.x. Not the most battle-tested combo in production, but we'd committed to it for one hard reason — Elysia's WebSocket API. The app serves real-time updates to a fairly active frontend, and Elysia's WS implementation is clean, typed, and actually works.
+Backend stack: Bun 1.1.38 with Elysia.js 1.2.x. Not the most battle-tested combo in production, but we'd committed to it for one hard reason: Elysia's WebSocket API. The app serves real-time updates to a fairly active frontend, and Elysia's WS implementation is clean, typed, and actually works.
 
 The Node.js adapter exists but it's fundamentally broken in ways that aren't immediately obvious: event ordering gets weird under load, reconnect handling misbehaves, and there are open issues that have been sitting untouched for months. Switching wasn't an option we could realistically take in a weekend.
 
@@ -27,7 +27,7 @@ So we were stuck with Bun. Which meant debugging a runtime-level memory issue wi
 
 You can't fix what you can't measure. The Kubernetes dashboard showed RSS climbing but gave no insight into what was actually happening in the heap. I needed per-process visibility.
 
-Bun ships a first-party JSC (JavaScriptCore) introspection module called `bun:jsc`. It's not documented heavily, but `heapStats()` returns a detailed breakdown of the JS heap — live bytes, dead bytes, object counts by type. Combined with `process.memoryUsage()`, you get a pretty complete picture.
+Bun ships a first-party JSC (JavaScriptCore) introspection module called `bun:jsc`. It's not documented heavily, but `heapStats()` returns a detailed breakdown of the JS heap: live bytes, dead bytes, object counts by type. Combined with `process.memoryUsage()`, you get a pretty complete picture.
 
 ```ts
 export const debugRoutes = new Elysia({ prefix: "/debug" })
@@ -57,7 +57,7 @@ export const debugRoutes = new Elysia({ prefix: "/debug" })
     });
 ```
 
-If you're debugging a Bun memory issue and you haven't found `bun:jsc` yet, stop and use it. `heapStats()` gives you heap size, heap capacity, object count, protected object count, global object count — the full JSC internals, not just the v8-compat surface Node exposes.
+If you're debugging a Bun memory issue and you haven't found `bun:jsc` yet, stop and use it. `heapStats()` gives you heap size, heap capacity, object count, protected object count, global object count: the full JSC internals, not just the v8-compat surface Node exposes.
 
 I deployed this to staging, ran a load test that approximated 24h of production traffic in about 2 hours, and polled `/debug/memory` every 5 minutes. After 3 hours, the numbers looked like this:
 
@@ -74,7 +74,7 @@ RSS: 187MB. JS heap: 42MB. That 145MB gap was the first clue.
 
 ## The Diagnostic That Changed Everything
 
-I hit `/debug/memory/gc` — `Bun.gc(true)`, synchronous GC. Before: heapSize 44MB. After: heapSize 39MB. Heap dropped 5MB. Normal. Then I checked RSS: still 187MB.
+I hit `/debug/memory/gc`: `Bun.gc(true)`, synchronous GC. Before: heapSize 44MB. After: heapSize 39MB. Heap dropped 5MB. Normal. Then I checked RSS: still 187MB.
 
 GC'd the heap, released thousands of objects, and RSS didn't move.
 
@@ -84,7 +84,7 @@ That's the moment I understood this wasn't a JavaScript leak at all.
 
 RSS (Resident Set Size) is the total physical memory the OS has assigned to this process. It includes everything: the JS heap, native modules, JSC's internal allocator arenas, mmapped files, Bun's own runtime overhead. It's the number your kernel actually cares about when it's deciding who to OOM-kill.
 
-`heapUsed` is only the JS object graph — the part of memory that JSC's garbage collector manages. When GC runs, this number drops.
+`heapUsed` is only the JS object graph: the part of memory that JSC's garbage collector manages. When GC runs, this number drops.
 
 The gap between them is all the memory that's never touched by GC. And that gap was growing by ~15–20MB per hour regardless of what the JavaScript was doing.
 
@@ -94,7 +94,7 @@ The gap between them is all the memory that's never touched by GC. And that gap 
 
 My first hypothesis: our cron jobs were allocating and never releasing, and the GC wasn't collecting aggressively enough in a low-pressure server environment.
 
-Added `Bun.gc(false)` at the end of each cron job handler. The `false` flag is non-blocking — hints to the GC without pausing the event loop.
+Added `Bun.gc(false)` at the end of each cron job handler. The `false` flag is non-blocking: hints to the GC without pausing the event loop.
 
 Result: marginally helpful for about 6 hours, then the leak resumed at the same rate. `heapUsed` got slightly tidier. RSS kept climbing.
 
@@ -108,13 +108,13 @@ env:
     value: "419430400" # 400MB
 ```
 
-The pod stopped growing past ~400MB. Which sounds like a win until you realize: the leak didn't stop, we just capped the damage. And with only 512MB available in the container, a 400MB hard cap left 112MB for everything else. Under WebSocket load, that headroom evaporated. The cap doesn't apply to native allocations outside the managed heap — RSS growth rate: unchanged.
+The pod stopped growing past ~400MB. Which sounds like a win until you realize: the leak didn't stop, we just capped the damage. And with only 512MB available in the container, a 400MB hard cap left 112MB for everything else. Under WebSocket load, that headroom evaporated. The cap doesn't apply to native allocations outside the managed heap: RSS growth rate: unchanged.
 
 Removed it after a day.
 
 ### Fix 3: `bun --smol`
 
-The `--smol` flag enables JSC's `stopIfNecessaryTimer` — a more aggressive GC mode designed for memory-constrained environments.
+The `--smol` flag enables JSC's `stopIfNecessaryTimer`: a more aggressive GC mode designed for memory-constrained environments.
 
 ```dockerfile
 CMD ["bun", "--smol", "dist/index.js"]
@@ -167,7 +167,7 @@ const GRACE_PERIOD_MS = 10 * 60_000;
 })
 ```
 
-The 10-minute grace period on startup prevents restart loops during pod initialization — without it, a freshly-started pod could immediately trigger another cycle before it's had time to warm up.
+The 10-minute grace period on startup prevents restart loops during pod initialization: without it, a freshly-started pod could immediately trigger another cycle before it's had time to warm up.
 
 Liveness probe config:
 
@@ -189,7 +189,7 @@ Maximum observed RSS before restart: ~380MB. No OOM kills since deployment.
 
 The memory debugging led us to look harder at startup cost and bundle size, which in turn led to some dependency surgery. The full journey: 4.4MB → 2.3MB.
 
-The biggest single win was dropping `firebase-admin`. It's a massive package — ~900KB of the reduction came from replacing it with direct HTTP/2 FCM calls using `jose` (for JWT/OAuth2 token generation) and Node's built-in `node:http2` for multiplexed push delivery. Same functionality, fraction of the weight.
+The biggest single win was dropping `firebase-admin`. It's a massive package: ~900KB of the reduction came from replacing it with direct HTTP/2 FCM calls using `jose` (for JWT/OAuth2 token generation) and Node's built-in `node:http2` for multiplexed push delivery. Same functionality, fraction of the weight.
 
 The rest came from cleaning up other dead weight: `whatwg-url` and its types were unused, a few other stale imports gone. We also added explicit `define` entries to help the bundler tree-shake MongoDB's debug/logging paths:
 
@@ -206,7 +206,7 @@ define: {
 
 MongoDB checks those env vars at startup to decide whether to enable various logging subsystems. With them inlined as `undefined`, Bun's bundler can statically eliminate the branches.
 
-The two-pass SWC build was the last step — and the smallest: ~100KB on top of everything else. Bun handles bundling and define replacements in pass 1, SWC handles minification in pass 2.
+The two-pass SWC build was the last step: and the smallest: ~100KB on top of everything else. Bun handles bundling and define replacements in pass 1, SWC handles minification in pass 2.
 
 ```ts
 import { minify } from "@swc/core";
@@ -221,7 +221,7 @@ await build({
     define: { /* ... see above ... */ },
 });
 
-// Pass 2: SWC minifies — more aggressive dead code elimination than Bun's built-in
+// Pass 2: SWC minifies: more aggressive dead code elimination than Bun's built-in
 const bundled = await Bun.file("./dist/index.js").text();
 const { code } = await minify(bundled, {
     compress: { dead_code: true, passes: 2 },
@@ -232,7 +232,7 @@ await Bun.write("./dist/index.js", code);
 
 Net result: **4.4MB → 2.3MB**. Firebase removal: ~900KB. Dependency cleanup + tree shaking: ~1.1MB. SWC pass: ~100KB.
 
-The next step is removing MongoDB entirely — migrating to `sqld` (SQLite over HTTP) with a `rustfs` pod for backup. Faster authenticator insert/query, fewer cloud dependencies, cleaner horizontal scaling. More on that when it ships.
+The next step is removing MongoDB entirely: migrating to `sqld` (SQLite over HTTP) with a `rustfs` pod for backup. Faster authenticator insert/query, fewer cloud dependencies, cleaner horizontal scaling. More on that when it ships.
 
 ---
 

@@ -181,9 +181,9 @@ helm install atelier oci://ghcr.io/frak-id/charts/atelier \
 
 The infrastructure is stable, but there are pieces still missing.
 
-**SSHPiper.** In the old setup, we had a proxy that let you SSH directly into a sandbox using its ID as the username. We removed it during the K8s migration to simplify the networking. The web-based terminals work for most things, but for VS Code Remote SSH or JetBrains remote development, native SSH matters. SSHPiper will come back as a K8s Deployment — the pods already have normal TCP IPs, so the plumbing is straightforward.
+**SSHPiper.** In the old setup, we had a proxy that let you SSH directly into a sandbox using its ID as the username. We removed it during the K8s migration to simplify the networking. The web-based terminals work for most things, but for VS Code Remote SSH or JetBrains remote development, native SSH matters. SSHPiper will come back as a K8s Deployment: the pods already have normal TCP IPs, so the plumbing is straightforward.
 
-**Cost dashboard.** CLIProxy tracks per-sandbox usage, but we don't surface it yet. The data is there — we just need to wire it into the dashboard so you can see "this task cost $2.40 in API calls" next to the completion notification.
+**Cost dashboard.** CLIProxy tracks per-sandbox usage, but we don't surface it yet. The data is there, we just need to wire it into the dashboard so you can see "this task cost $2.40 in API calls" next to the completion notification.
 
 **Multi-node.** Right now, we're limited to a single node because our storage (TopoLVM) relies on local LVM groups. We're evaluating distributed storage options that would let us scale sandboxes across a pool of servers while keeping the instant-cloning performance of LVM thin provisioning.
 

@@ -1,7 +1,7 @@
 ---
 title: "Writing a Native WebAuthn Tauri Plugin from Scratch (iOS + Android)"
-subtitle: "Replacing simplewebauthn with platform-native passkey APIs — and surviving iOS attestation objects"
-description: "A step-by-step look at building a custom Tauri plugin for WebAuthn/passkeys on iOS and Android — including CBOR parsing, COSE key extraction, SPKI DER reconstruction, and the mobile dev TLS workaround."
+subtitle: "Replacing simplewebauthn with platform-native passkey APIs - and surviving iOS attestation objects"
+description: "A step-by-step look at building a custom Tauri plugin for WebAuthn/passkeys on iOS and Android - including CBOR parsing, COSE key extraction, SPKI DER reconstruction, and the mobile dev TLS workaround."
 date: 2026-03-30T12:00:00Z
 category: "mobile"
 group: "frak"
@@ -15,13 +15,13 @@ The 388-line CBOR parser was the first sign something had gone wrong architectur
 
 It lived in `wallet-shared/src/coseParser.ts`, shipped with 277 lines of tests, and existed for one reason: `simplewebauthn` returns a full WebAuthn response including attestation objects, and when you're running inside a Tauri WebView on iOS, the `tauri://localhost` origin breaks passkey registration entirely. The workaround was to intercept the native credential, manually decode the CBOR-encoded attestation object, extract the P-256 public key, repackage everything, and hand it to your smart contract. Functional. Fragile. A foot-gun pointed at anyone who touched it next.
 
-The real problem was that we weren't using platform APIs at all. We were shimming WebAuthn through a JavaScript library inside a WebView, then parsing the results in TypeScript. On mobile, that's the wrong layer to be at. iOS has `ASAuthorizationController`. Android has `CredentialManager`. Both give you native passkey UX, correct origin binding, and — crucially — structured response objects you can trust. The question was whether I could expose them through a custom Tauri plugin without losing my mind.
+The real problem was that we weren't using platform APIs at all. We were shimming WebAuthn through a JavaScript library inside a WebView, then parsing the results in TypeScript. On mobile, that's the wrong layer to be at. iOS has `ASAuthorizationController`. Android has `CredentialManager`. Both give you native passkey UX, correct origin binding, and: crucially: structured response objects you can trust. The question was whether I could expose them through a custom Tauri plugin without losing my mind.
 
 There's almost no documentation on writing Tauri plugins that talk to native mobile APIs. The official guides cover desktop plugins. For mobile you get a handful of examples in the Tauri repo and a lot of reading Swift/Kotlin source code hoping the patterns transfer. Here's everything I learned doing it.
 
 ## The Plugin Skeleton
 
-Tauri mobile plugins follow a specific structure. The Rust side is thin — it registers commands and delegates to platform-specific implementations. The actual logic lives in Swift (iOS) or Kotlin (Android).
+Tauri mobile plugins follow a specific structure. The Rust side is thin, it registers commands and delegates to platform-specific implementations. The actual logic lives in Swift (iOS) or Kotlin (Android).
 
 The plugin directory layout:
 
@@ -67,7 +67,7 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
 }
 ```
 
-No desktop implementation — this plugin is mobile-only. The `#[cfg(mobile)]` gate means the desktop build compiles fine but the setup does nothing. On desktop, the wallet uses the WebView's native WebAuthn via the browser stack, which works correctly there.
+No desktop implementation - this plugin is mobile-only. The `#[cfg(mobile)]` gate means the desktop build compiles fine but the setup does nothing. On desktop, the wallet uses the WebView's native WebAuthn via the browser stack, which works correctly there.
 
 `src/mobile.rs` handles the platform dispatch:
 
@@ -90,7 +90,7 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
 }
 ```
 
-`ios_plugin_binding!` generates an extern C function that Tauri's iOS runtime calls to initialize the plugin. The Android identifier maps to the Kotlin class. This is pure plumbing — copy it and move on.
+`ios_plugin_binding!` generates an extern C function that Tauri's iOS runtime calls to initialize the plugin. The Android identifier maps to the Kotlin class. This is pure plumbing, copy it and move on.
 
 The `.tauri/tauri-api/` directory contains Swift API stubs that Tauri generates. You need those for the iOS Swift package to compile against the Tauri runtime types. If you're building from scratch inside a monorepo rather than using `tauri plugin new`, copy the pattern from `tauri-plugin-barcode-scanner`.
 
@@ -137,7 +137,7 @@ dependencies {
 
 ## iOS: Where Things Get Interesting
 
-iOS was 211 lines of Swift. The surface-level structure mirrors Android — `ASAuthorizationController` with a delegate, `ASAuthorizationPlatformPublicKeyCredentialProvider` for the credential type. The async pattern is what trips you up first.
+iOS was 211 lines of Swift. The surface-level structure mirrors Android - `ASAuthorizationController` with a delegate, `ASAuthorizationPlatformPublicKeyCredentialProvider` for the credential type. The async pattern is what trips you up first.
 
 Tauri's `Invoke` object isn't `Sendable` in Swift's concurrency model, which means you can't capture it in an `async` context or hand it to a delegate directly. The pattern that works: store the pending invoke as an instance variable, fire the authorization controller, resolve or reject from the delegate callbacks.
 
@@ -193,7 +193,7 @@ class FrakWebauthnPlugin: Plugin, ASAuthorizationControllerDelegate,
 }
 ```
 
-The `base64URLEncodedString()` helpers are extensions you have to write yourself. `Foundation`'s `base64EncodedString()` produces standard Base64 with padding. WebAuthn expects base64url — no padding, `+` to `-`, `/` to `_`:
+The `base64URLEncodedString()` helpers are extensions you have to write yourself. `Foundation`'s `base64EncodedString()` produces standard Base64 with padding. WebAuthn expects base64url - no padding, `+` to `-`, `/` to `_`:
 
 ```swift
 extension Data {
@@ -208,9 +208,9 @@ extension Data {
 
 ## The Origin Problem
 
-Here's the first non-obvious thing that breaks silently: iOS passkeys are bound to an RP ID, and the origin embedded in `clientDataJSON` is `https://${rpId}` — not `tauri://localhost`, not your server URL. If your rpId is `wallet.frak.id`, iOS will embed `https://wallet.frak.id` as the origin, regardless of what the WebView thinks the current URL is.
+Here's the first non-obvious thing that breaks silently: iOS passkeys are bound to an RP ID, and the origin embedded in `clientDataJSON` is `https://${rpId}` - not `tauri://localhost`, not your server URL. If your rpId is `wallet.frak.id`, iOS will embed `https://wallet.frak.id` as the origin, regardless of what the WebView thinks the current URL is.
 
-This is actually correct behavior per the WebAuthn spec. It's also what makes passkeys portable to the web — credentials registered in the native iOS app are accessible from `https://wallet.frak.id` in Safari, synced via iCloud Keychain. But it means:
+This is actually correct behavior per the WebAuthn spec. It's also what makes passkeys portable to the web - credentials registered in the native iOS app are accessible from `https://wallet.frak.id` in Safari, synced via iCloud Keychain. But it means:
 
 1. Your WebAuthn server's origin validation must allow `https://your-rp-id` from mobile registrations.
 2. Your Associated Domains entitlement must be configured correctly.
@@ -221,16 +221,16 @@ The `tauriBridge.ts` that was doing origin rewriting dropped from 219 lines to 6
 
 This one doesn't break with an error. It breaks by returning `undefined` where you expected a public key, or by your smart contract rejecting a valid signature.
 
-Notice what's missing from the iOS response above: `publicKey`. The W3C spec defines a `publicKey` field in `AuthenticatorAttestationResponse`, but `ASAuthorizationPlatformPublicKeyCredentialRegistration` doesn't expose it as a separate property. Android's `CredentialManager` includes it directly in the JSON. iOS gives you `rawAttestationObject` — a CBOR-encoded blob — and nothing else.
+Notice what's missing from the iOS response above: `publicKey`. The W3C spec defines a `publicKey` field in `AuthenticatorAttestationResponse`, but `ASAuthorizationPlatformPublicKeyCredentialRegistration` doesn't expose it as a separate property. Android's `CredentialManager` includes it directly in the JSON. iOS gives you `rawAttestationObject` - a CBOR-encoded blob - and nothing else.
 
 The attestation object structure: CBOR map to `authData` key to authenticator data binary: 32 bytes RP ID hash, 1 byte flags, 4 bytes sign count, 16 bytes AAGUID, 2 bytes credential ID length, credential ID, then the COSE-encoded public key.
 
 A full CBOR parser handles this correctly. I had one. It was 388 lines. I deleted it.
 
-For P-256 keys — which is all platform authenticators (Apple Secure Enclave, Android StrongBox) support — you don't need a general CBOR parser. You're looking for two 32-byte byte strings tagged with specific COSE map labels:
+For P-256 keys - which is all platform authenticators (Apple Secure Enclave, Android StrongBox) support - you don't need a general CBOR parser. You're looking for two 32-byte byte strings tagged with specific COSE map labels:
 
-- `0x21` (CBOR encoding of -2) — x coordinate
-- `0x22` (CBOR encoding of -3) — y coordinate
+- `0x21` (CBOR encoding of -2): x coordinate
+- `0x22` (CBOR encoding of -3): y coordinate
 
 In CBOR, a 32-byte byte string encodes as `0x58 0x20` followed by the 32 bytes. So the x coordinate pattern in the raw binary is `[0x21, 0x58, 0x20, <32 bytes>]`. Byte-scan for it:
 
@@ -269,7 +269,7 @@ function extractSpkiFromAttestation(attestationObjectB64: string): ArrayBuffer |
 }
 ```
 
-The 26-byte `SPKI_P256_HEADER` is the fixed DER encoding of the SubjectPublicKeyInfo structure for P-256 — the OID sequence for EC public keys and the P-256 curve. It's identical for every P-256 key. The resulting 91-byte buffer is valid SPKI DER that `SubtleCrypto` accepts, and it matches what Android returns directly in its registration JSON.
+The 26-byte `SPKI_P256_HEADER` is the fixed DER encoding of the SubjectPublicKeyInfo structure for P-256 - the OID sequence for EC public keys and the P-256 curve. It's identical for every P-256 key. The resulting 91-byte buffer is valid SPKI DER that `SubtleCrypto` accepts, and it matches what Android returns directly in its registration JSON.
 
 This approach won't work for Ed25519 or P-384. For platform authenticators using Apple Secure Enclave or Android StrongBox, P-256 is the only option, so it's fine.
 

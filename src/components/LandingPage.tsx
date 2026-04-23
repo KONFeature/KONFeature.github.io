@@ -275,7 +275,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
 
           <p className="text-sm text-gray-500 mb-4">
-            I don't just use the tools—I write the code for the tools you use.
+            I don't just use the tools: I write the code for the tools you use.
           </p>
           
           <div className="grid gap-4">

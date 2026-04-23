@@ -35,7 +35,7 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 	'side-projects': {
 		id: 'side-projects',
 		name: 'Side Projects',
-		description: 'Personal projects born from real problems. Hardware controllers for pottery kilns, NLP pipelines for screenplay analysis, AI-powered WordPress management — building what I need, open-sourcing what might help others.',
+		description: 'Personal projects born from real problems. Hardware controllers for pottery kilns, NLP pipelines for screenplay analysis, AI-powered WordPress management, building what I need, open-sourcing what might help others.',
 		icon: 'wrench',
 		iconColor: 'text-cyan-400',
 		order: 4,

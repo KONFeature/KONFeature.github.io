@@ -1,4 +1,4 @@
-# Quentin Nivelais — Portfolio
+# Quentin Nivelais - Portfolio
 
 Personal portfolio and technical blog built with Astro, React, and TypeScript. Features deep-dive technical articles on Web3 development, hardware engineering, infrastructure optimization, and AI systems.
 
@@ -6,23 +6,23 @@ Personal portfolio and technical blog built with Astro, React, and TypeScript. F
 
 ## Tech Stack
 
-- **Framework**: [Astro 5](https://astro.build) — Static site generation with optimal performance
-- **UI Library**: [React 19](https://react.dev) — Interactive components
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com) — Utility-first styling with Typography plugin
-- **Content**: [MDX](https://mdxjs.com) — Markdown with JSX components
-- **Search**: [Pagefind](https://pagefind.app) — Client-side search engine
-- **Icons**: [Lucide React](https://lucide.dev) — Modern icon library
+- **Framework**: [Astro 5](https://astro.build): Static site generation with optimal performance
+- **UI Library**: [React 19](https://react.dev): Interactive components
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com): Utility-first styling with Typography plugin
+- **Content**: [MDX](https://mdxjs.com): Markdown with JSX components
+- **Search**: [Pagefind](https://pagefind.app): Client-side search engine
+- **Icons**: [Lucide React](https://lucide.dev): Modern icon library
 - **Math/Diagrams**: KaTeX for mathematical notation, Mermaid for diagrams
 
 ## Content Categories
 
 The site features technical articles organized into five main project groups:
 
-- **Frak Labs** — Account abstraction, WebAuthn wallets, blockchain infrastructure, and frontend optimization
-- **Pico Kiln** — Hardware engineering with Raspberry Pi Pico, firmware development, and control theory
-- **Scenario Parser** — NLP pipeline for screenplay analysis and character psychology modeling
-- **Cooking Bot** — AI safety layers, vector search, and deterministic guardrails for LLM applications
-- **Web3 & Solidity** — EVM optimization, smart contract security, and cryptographic implementations
+- **Frak Labs**: Account abstraction, WebAuthn wallets, blockchain infrastructure, and frontend optimization
+- **Pico Kiln**: Hardware engineering with Raspberry Pi Pico, firmware development, and control theory
+- **Scenario Parser**: NLP pipeline for screenplay analysis and character psychology modeling
+- **Cooking Bot**: AI safety layers, vector search, and deterministic guardrails for LLM applications
+- **Web3 & Solidity**: EVM optimization, smart contract security, and cryptographic implementations
 
 ## Project Structure
 
@@ -103,13 +103,13 @@ Article content here...
 
 ### Required Frontmatter Fields
 
-- `title` — Article title
-- `date` — Publication date (ISO 8601 format)
-- `category` — Category slug
-- `tags` — Array of tags
-- `icon` — Lucide icon name (see `src/components/Icon.tsx`)
-- `description` — SEO description
-- `group` — Project group ID (must match key in `src/articleGroups.ts`)
+- `title`: Article title
+- `date`: Publication date (ISO 8601 format)
+- `category`: Category slug
+- `tags`: Array of tags
+- `icon`: Lucide icon name (see `src/components/Icon.tsx`)
+- `description`: SEO description
+- `group`: Project group ID (must match key in `src/articleGroups.ts`)
 
 ### Adding New Article Groups
 
@@ -130,14 +130,14 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 
 ## Features
 
-- **Dark Mode Design** — Optimized for readability with custom dark theme
-- **Math Rendering** — KaTeX support for mathematical notation
-- **Diagram Support** — Mermaid diagrams with custom light/dark themes
-- **Full-text Search** — Client-side search via Pagefind
-- **RSS Feed** — Automatically generated at `/rss.xml`
-- **Sitemap** — Auto-generated for SEO
-- **Performance Optimized** — Lighthouse 100/100 scores
-- **Responsive** — Mobile-first design
+- **Dark Mode Design**: Optimized for readability with custom dark theme
+- **Math Rendering**: KaTeX support for mathematical notation
+- **Diagram Support**: Mermaid diagrams with custom light/dark themes
+- **Full-text Search**: Client-side search via Pagefind
+- **RSS Feed**: Automatically generated at `/rss.xml`
+- **Sitemap**: Auto-generated for SEO
+- **Performance Optimized**: Lighthouse 100/100 scores
+- **Responsive**: Mobile-first design
 
 ## Deployment
 
@@ -162,7 +162,7 @@ bun run build
 
 ## License
 
-MIT License — feel free to fork and adapt for your own portfolio.
+MIT License, feel free to fork and adapt for your own portfolio.
 
 ## Author
 

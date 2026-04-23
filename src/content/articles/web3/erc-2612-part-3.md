@@ -1,5 +1,5 @@
 ---
-title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals — part 3"
+title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals - part 3"
 date: 2023-04-14T12:00:00Z
 draft: false
 subtitle: "Perfecting ERC-2612: Boost Your DeFi Skills with Solidity Unit Testing in Hardhat and Forge"

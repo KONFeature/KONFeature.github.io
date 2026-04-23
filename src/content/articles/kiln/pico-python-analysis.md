@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln — Part 4: Physics-Based PID Tuning with Python"
+title: "Pico Kiln - Part 4: Physics-Based PID Tuning with Python"
 date: 2025-11-17T12:00:00Z
 draft: false
 subtitle: "From CSV Logs to Optimal Control Theory"
@@ -42,8 +42,8 @@ The output is a 4-panel matplotlib figure:
 This is the "I just want to know what happened" tool. One command, zero configuration. Useful for quick sanity checks or spotting obvious issues (like "why did it overshoot by 30°C at 1000°C?").
 
 For deeper analysis, we have two specialized tools:
-- `analyze_pid_performance.py` — Closed-loop analysis of production firings
-- `analyze_tuning.py` — Open-loop thermal characterization for PID design
+- `analyze_pid_performance.py`: Closed-loop analysis of production firings
+- `analyze_tuning.py`: Open-loop thermal characterization for PID design
 
 Let's talk about the interesting one.
 
@@ -51,7 +51,7 @@ Let's talk about the interesting one.
 
 ## The PID Tuning Problem
 
-A kiln is not a linear system. At 100°C, the heater might raise the temperature 2°C per second. At 1000°C, the same heater barely moves the needle—heat loss increases quadratically with temperature.
+A kiln is not a linear system. At 100°C, the heater might raise the temperature 2°C per second. At 1000°C, the same heater barely moves the needle-heat loss increases quadratically with temperature.
 
 The standard approach is to run the kiln through a test sequence, measure the step response, and calculate PID parameters using classical methods (Ziegler-Nichols, Cohen-Coon, etc.). This works if you have:
 1. A well-defined step response
@@ -365,7 +365,7 @@ $$
 
 **Characteristics**: Similar overshoot to Z-N but faster response. Better for systems where $L$ is large relative to $T$.
 
-### 3. AMIGO (2006) — Recommended for Kilns
+### 3. AMIGO (2006): Recommended for Kilns
 
 **Approximate M-constrained Integral Gain Optimization**. Designed for minimal overshoot (<5%).
 
@@ -673,7 +673,7 @@ High variability indicates erratic control (usually from excessive $K_d$).
 
 ## Actionable Recommendations
 
-The script doesn't just report metrics—it **diagnoses issues** and **suggests fixes**:
+The script doesn't just report metrics-it **diagnoses issues** and **suggests fixes**:
 
 ```python
 def generate_recommendations(data, segments, thermal_model):

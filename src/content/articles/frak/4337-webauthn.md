@@ -18,7 +18,7 @@ Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we�
 
 You might remember our initial foray into this topic, co-authored with Yoan from the Cometh team. If you haven’t checked it out yet, do yourself a favor and give it a read [here](https://medium.com/@salvayre.yoan/passkeys-wallet-on-the-evm-69d4930ea4af). It sets the stage for what we’re about to explore and showcases some pioneering work in the field.
 
-Before we jump in, let’s make sure we’re all on the same page. This article assumes you’ve got a good grasp on **ERC-4337**, along with key concepts like **Bundlers, Paymasters, SmartAccounts**, and the broader idea of **account abstraction**. If you’re thinking, “Wait, slow down!” — no worries, we’ve got you covered. Check out these fantastic resources to get up to speed:
+If you’re thinking, “Wait, slow down!”: no worries, we’ve got you covered. Check out these fantastic resources to get up to speed:
 
 *   [ERC-4337 Documentation](https://www.erc4337.io/docs)
 *   [ERC-4337 overview by Stackup](https://docs.stackup.sh/docs/erc-4337-overview)
@@ -27,11 +27,11 @@ Ready? Let’s get started on this adventure together!
 
 ## Context
 
-In our journey at [Frak Labs](https://frak.id/en), as we’ve previously touched upon in our collaboration with Yoan, our mission is to create blockchain tools designed with non-crypto natives in mind. One of the biggest hurdles we’ve consistently bumped into? **Friction**. Yep, that old nemesis. Friction is the archenemy of user acquisition. The traditional setup process — getting started with MetaMask, jotting down a seed phrase, and having to purchase tokens just to cover gas fees — can feel like running an obstacle course for newcomers.
+The traditional setup process, getting started with MetaMask, jotting down a seed phrase, and having to purchase tokens just to cover gas fees, can feel like running an obstacle course for newcomers.
 
 **Account abstraction** comes to the rescue, at least for the last bit concerning gas fees. It’s a game-changer, allowing platforms to either sponsor user operations or let users pay for transactions with the platform’s own tokens, smoothing out one significant bump on the road.
 
-However, the current landscape for smart accounts often leans on the crutch of an existing External Owned Account (EOA), be it through MetaMask, Ledger, or a somewhat “hidden” EOA behind a Multi-Party Computation (MPC) system, like Turnkey or Web3Auth. But here’s the rub: neither option clicked for us. The first scenario still demands users to set up an EOA beforehand — a no-go for true ease of use. The second? It paradoxically forces us to depend on a centralized platform for access to decentralized goodies. Quite the conundrum, right?
+But here’s the rub: neither option clicked for us. The first scenario still demands users to set up an EOA beforehand: a no-go for true ease of use. The second? It paradoxically forces us to depend on a centralized platform for access to decentralized goodies. Quite the conundrum, right?
 
 This conundrum led us down a rabbit hole of research until we pioneered a novel solution that seamlessly integrates WebAuthn and account abstraction, enabling a truly frictionless onboarding experience for non-crypto natives. While solutions like Cometh’s also provided a smooth connect experience, our approach was tailored to our ecosystem, especially with our kernel accounts at the core.
 
@@ -45,7 +45,7 @@ So, in theory, the process should be as simple as: prepare the user’s operatio
 
 ## Trailblazing Integration: Cometh’s WebAuthN Breakthroughs
 
-Cometh has been a true **pioneer** in the realm of **WebAuthN and blockchain integration**, their innovative solutions tackling some of the most **formidable challenges** in this space. A pivotal breakthrough was their integration of the **P256 curve** — an essential component of WebAuthN signatures that was previously incompatible with blockchain environments.
+A pivotal breakthrough was their integration of the **P256 curve**: an essential component of WebAuthN signatures that was previously incompatible with blockchain environments.
 
 Cometh, collaborating closely with **Renaud Dubois from Ledger** and his talented team, was the **first** to leverage Dubois’ optimized on-chain **P256 verifier**. This ingenious solution enables the blockchain to **validate signatures from the P256 curve efficiently**, overcoming a major compatibility hurdle without incurring prohibitive **gas costs**.
 
@@ -80,17 +80,17 @@ At first glance, this process might seem straightforward (maybe because I’ve s
 
 ![captionless image](./assets/4337-webauthn/paymaster-data-computing.png)
 
-Here’s where things get tricky. The Paymaster data computation happens before we request the signature — logical, since we’re signing the entire bundle, including Paymaster data. But, how does the Paymaster predict a transaction’s cost before actually executing it?
+Here’s where things get tricky. The Paymaster data computation happens before we request the signature: logical, since we’re signing the entire bundle, including Paymaster data. But, how does the Paymaster predict a transaction’s cost before actually executing it?
 
 The answer is simpler than you might think: by running a **transaction simulation** with the call data and a dummy signature to validate the user operation. This simulation helps estimate the gas cost, determining if the project can cover it, and then calculates all the necessary Paymaster specifics (like verification gas). The challenge, however, lies in the on-chain **P256 verification** and the signature formatting steps, which are gas-intensive. How do we ensure a dummy signature can navigate through these steps without causing an early exit?
 
-Creating a dummy signature that doesn’t prematurely exit during the formatting process seemed impossible without designing a custom Paymaster contract and server specifically for this scenario — not the most ideal solution.
+Creating a dummy signature that doesn’t prematurely exit during the formatting process seemed impossible without designing a custom Paymaster contract and server specifically for this scenario: not the most ideal solution.
 
-That’s why I introduced a **bypass in the signature formatting step** — yes, the double hash part. When the data is clearly incoherent, this bypass allows the process to continue as if everything were normal, directly returning the provided challenge instead of the double hash value (as you can see [here](https://github.com/zerodevapp/kernel/blob/78b2a0e965e351c29dd7af9e75280e2f7818183f/src/validator/webauthn/WebAuthnFclVerifier.sol#L49)).
+That’s why I introduced a **bypass in the signature formatting step**: yes, the double hash part. When the data is clearly incoherent, this bypass allows the process to continue as if everything were normal, directly returning the provided challenge instead of the double hash value (as you can see [here](https://github.com/zerodevapp/kernel/blob/78b2a0e965e351c29dd7af9e75280e2f7818183f/src/validator/webauthn/WebAuthnFclVerifier.sol#L49)).
 
 However, this bypass alone isn’t enough. We also needed a signature that wouldn’t trigger an early exit during the P256 verification step. After some exploration within the FCL contracts, we found the perfect signature to proceed.
 
-Just when you think you’ve got it all figured out, there’s another twist. Remember our little double hash bypass? Or the fact that authenticator and verification data can’t be known in advance? Preparing a dummy signature requires packing it with enough calldata — so much so that the calldata and its parsing compensate for the bypass. And that’s how we end up with a dummy signature, brimming with `**uint256.max**` values, repeated 40 times.
+Just when you think you’ve got it all figured out, there’s another twist. Remember our little double hash bypass? Or the fact that authenticator and verification data can’t be known in advance? Preparing a dummy signature requires packing it with enough calldata, so much so that the calldata and its parsing compensate for the bypass. And that’s how we end up with a dummy signature, brimming with `**uint256.max**` values, repeated 40 times.
 
 ## Streamlining On-Chain P256 Verification with RIP-7212
 
@@ -98,7 +98,7 @@ Alright, we’ve navigated through the intricate world of WebAuthN signatures, t
 
 P256 verification on-chain has always been a tough nut to crack. Despite the brilliant optimization efforts (huge shoutout to Renaud for his exceptional work), we’re still looking at around 200k gas for just verifying a P256 signature.
 
-Enter **RIP-7212**: a beacon of hope designed to significantly reduce this cost. RIP-7212 proposes adding a pre-compiled smart contract to rollups, specifically for P256 signature verification — akin to the efficiency of `**ecrecover**` or `**sha256**`.
+Enter **RIP-7212**: a beacon of hope designed to significantly reduce this cost. RIP-7212 proposes adding a pre-compiled smart contract to rollups, specifically for P256 signature verification: akin to the efficiency of `**ecrecover**` or `**sha256**`.
 
 ![captionless image](./assets/4337-webauthn/rip-7212-precompile-comparison.png)
 
@@ -108,6 +108,6 @@ The solution? Introduce a new flag within our signature protocol. This flag allo
 
 ## Conclusion
 
-And there you have it — a whirlwind tour through the intricacies of integrating WebAuthN with ERC-4337 smart wallets, navigating the P256 curve, and streamlining the process with innovations like RIP-7212. It’s been a journey of discovery, challenge, and ultimately, innovation, showcasing the power of collaboration and the relentless pursuit of making blockchain technology more accessible and efficient.
+And there you have it: a whirlwind tour through the intricacies of integrating WebAuthN with ERC-4337 smart wallets, navigating the P256 curve, and streamlining the process with innovations like RIP-7212. It’s been a journey of discovery, challenge, and ultimately, innovation, showcasing the power of collaboration and the relentless pursuit of making blockchain technology more accessible and efficient.
 
 If you found this deep dive enlightening, **please give us a clap and share this article** with your network. Your support fuels our continued exploration and sharing of breakthroughs in this exciting domain. Stay tuned for more posts as we further unravel the journey of WebAuthN implementation and its transformative potential in the blockchain ecosystem. Until then, happy coding, and let’s keep pushing the boundaries of what’s possible together!

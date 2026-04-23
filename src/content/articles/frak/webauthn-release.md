@@ -20,7 +20,7 @@ group: "frak"
 
 Welcome to an exciting milestone at [Frak-Labs](https://frak.id/)! Before we unveil our latest Proof of Concept (POC) and the unique challenge it aims to tackle, let’s take a moment to revisit our roots and the journey that brought us here.
 
-At the heart of Frak-Labs, our mission emerged from witnessing transformative shifts within the content market, initially inspired by the burgeoning creator economy. However, as we navigated through this evolving landscape, we uncovered a series of persistent challenges. Central to these was the issue of **centralization** — a system where intermediaries disproportionately benefited at the expense of creators and publishers, eroding the profits meant for those who actually create value.
+At the heart of Frak-Labs, our mission emerged from witnessing transformative shifts within the content market, initially inspired by the burgeoning creator economy. However, as we navigated through this evolving landscape, we uncovered a series of persistent challenges. Central to these was the issue of **centralization**: a system where intermediaries disproportionately benefited at the expense of creators and publishers, eroding the profits meant for those who actually create value.
 
 Moreover, publishers face a slew of emerging hurdles: the impending **end of cookies**, an oversaturated subscription model leading to **subscription fatigue**, and a noticeable decline in household spending on subscriptions. These challenges not only threaten the sustainability of content publishing but also stifle innovation and fairness within the ecosystem.
 
@@ -32,19 +32,19 @@ This ambition led to the creation of our latest POC, leveraging the power of Web
 
 ## Why This POC?
 
-**High churn rates** in the newspaper market sparked our initiative. Users often back away at the sight of a paywall — discouraged by the tedious steps of account creation, entering payment details, and navigating through subscriptions. Not to mention, the **high fees** that companies incur with each subscription add to the dilemma.
+**High churn rates** in the newspaper market sparked our initiative. Users often back away at the sight of a paywall, discouraged by the tedious steps of account creation, entering payment details, and navigating through subscriptions. Not to mention, the **high fees** that companies incur with each subscription add to the dilemma.
 
 Our journey with the MVP taught us valuable lessons about **user experience**. We’ve been creating numerous wallets, aiming for the simplest UX possible. This experience led us to believe in a better solution.
 
-Enter the world of **smart wallets** and **account abstraction**. This sector is on fire with innovations. Technologies like **WebAuthN** stand out, promising a future where accessing wallets through **biometrics** is streamlined, yet remains decentralized — no complex setups like MPC needed.
+Enter the world of **smart wallets** and **account abstraction**. This sector is on fire with innovations. Technologies like **WebAuthN** stand out, promising a future where accessing wallets through **biometrics** is streamlined, yet remains decentralized, no complex setups like MPC needed.
 
 This sparked an idea: What if we could **eliminate traditional paywalls** by instantly creating wallets for users? Imagine swapping the convoluted subscription process for a quick **biometric check**.
 
 ![captionless image](./assets/webauthn-release/biometric-paywall-replacement.png)
 
-That’s the core reason behind our POC. We’re on a mission to show how blockchain technology can meet real-world needs. Imagine unlocking an article or subscribing with a few tokens — all made simple, aiming to **reduce churn rates** for newspapers.
+That’s the core reason behind our POC. We’re on a mission to show how blockchain technology can meet real-world needs. Imagine unlocking an article or subscribing with a few tokens: all made simple, aiming to **reduce churn rates** for newspapers.
 
-Using a **smart wallet** for these tasks offers more than convenience. It allows for anonymous tracking of reader preferences — like favorite articles and topics — without invading privacy. As the era of cookies ends, this presents a **privacy-centric solution** for content providers.
+Using a **smart wallet** for these tasks offers more than convenience. It allows for anonymous tracking of reader preferences, like favorite articles and topics, without invading privacy. As the era of cookies ends, this presents a **privacy-centric solution** for content providers.
 
 ## The Demo Itself
 
@@ -54,7 +54,7 @@ Dive into our Proof of Concept (POC) through this hands-on demo. It’s designed
 
 *   A **simple SDK** for content publishers to integrate with the Frak ecosystem easily.
 *   Provides user-specific information for content, such as **unlock status, pricing**, and **balance checks**.
-*   **Fully offchain** compatibility, perfect for PWA apps distributing content with the Frak wallet installed — ensuring no connectivity issues.
+*   **Fully offchain** compatibility, perfect for PWA apps distributing content with the Frak wallet installed: ensuring no connectivity issues.
 *   **Secure communication** through various methods including verification hashes, data obfuscation, and origin checks.
 
 **2. Newspaper Website**
@@ -72,7 +72,7 @@ Dive into our Proof of Concept (POC) through this hands-on demo. It’s designed
 
 **What the Demo Showcases:**
 
-*   **Kernel wallet** creation and recovery using only biometrics — no backend required.
+*   **Kernel wallet** creation and recovery using only biometrics: no backend required.
 *   Wallet interactions solely through biometrics.
 *   **Secure cross-domain communication** client-side, enabling smooth operation on offline devices.
 *   A glimpse into the **future of content paywalls**, leveraging blockchain for a frictionless user experience.
@@ -87,21 +87,21 @@ This GIF guides new users from clicking the unlock link at the bottom of an arti
 
 1.  **Start by visiting** our FrakDemo Twitter account at [https://twitter.com/FrakDemo](https://twitter.com/FrakDemo) to find a selection of article links.
 2.  **Click on** “Unlock with FRK” after selecting an article, and then pick a pricing option.
-3.  **Simply follow** the prompts — a seamless process requiring no more than three clicks to complete the flow (or just two clicks if you already have a wallet!).
+3.  **Simply follow** the prompts, a seamless process requiring no more than three clicks to complete the flow (or just two clicks if you already have a wallet!).
 4.  **Dive into** your chosen content and enjoy.
 
 **Additional Tips:**
 
-*   **Checking Your Wallet**: Visit [poc-wallet.frak.id](https://poc-wallet.frak.id/) to view your wallet. If you aren’t automatically logged in after an article unlock or purchase — something that might occur on Apple devices due to their specific sandboxing — don’t worry. Simply use the **Recover wallet** feature with the same passkey from the unlocking process to regain access to your wallet.
+*   **Checking Your Wallet**: Visit [poc-wallet.frak.id](https://poc-wallet.frak.id/) to view your wallet. If you aren’t automatically logged in after an article unlock or purchase, something that might occur on Apple devices due to their specific sandboxing, don’t worry. Simply use the **Recover wallet** feature with the same passkey from the unlocking process to regain access to your wallet.
 *   **What to Expect in Your Wallet**: For now, the wallet page may look a bit sparse, but expect this to change dramatically in the next few weeks. You’ll currently find a **history section** with links to your unlocked articles. In the settings, there’s an option to **acquire test FRK tokens**, allowing for further exploration of the flow. Rest assured, we’re working on enriching the wallet’s functionalities and interface, aiming to significantly enhance your experience shortly.
 
 ## How Does It Work Under the Hood?
 
-Got a flair for the technical? If you’re the kind who enjoys puzzles more complex than trying to find your way in a new city without GPS, here’s a treat. Check out our sequence flow diagram — it’s like the blueprint for a secret tech lair, minus the secret handshake: [https://github.com/frak-id/wallet/blob/main/docs/graphs.md](https://github.com/frak-id/wallet/blob/main/docs/graphs.md)
+Got a flair for the technical? If you’re the kind who enjoys puzzles more complex than trying to find your way in a new city without GPS, here’s a treat. Check out our sequence flow diagram: it’s like the blueprint for a secret tech lair, minus the secret handshake: [https://github.com/frak-id/wallet/blob/main/docs/graphs.md](https://github.com/frak-id/wallet/blob/main/docs/graphs.md)
 
 Integrating a **smart wallet with a WebAuthN validator** introduces complex challenges, prominently the **domain lock** issue, which significantly influenced our architecture:
 
-*   **Domain Lock Challenge**: Passkeys are restricted to a specific domain — our case being [frak.id](http://frak.id/). They are only functional within this domain, affecting both their creation and use for signing transactions.
+*   **Domain Lock Challenge**: Passkeys are restricted to a specific domain: our case being [frak.id](http://frak.id/). They are only functional within this domain, affecting both their creation and use for signing transactions.
 
 This challenge led us to develop an SDK that simplifies the interaction between content providers and our wallet, making transaction initiation straightforward:
 
@@ -125,7 +125,7 @@ This challenge led us to develop an SDK that simplifies the interaction between 
 As we forge ahead, our team is thrilled to enhance the demo of our wallet with an array of **new functionalities** in the coming weeks:
 
 1.  **Global ERC-20 Asset Management**: Users will soon be able to receive, send, and track a variety of assets directly within the wallet’s UI, making asset management seamless and intuitive.
-2.  **Expanded Content Unlocking Demos**: We’re exploring beyond articles — what would you like to unlock next? Cinema tickets? Music streaming access? Let us know your thoughts!
+2.  **Expanded Content Unlocking Demos**: We’re exploring beyond articles: what would you like to unlock next? Cinema tickets? Music streaming access? Let us know your thoughts!
 3.  **NFT Asset Handling**: The integration of NFTs is on our roadmap, enabling users to manage their digital collectibles and art within our ecosystem.
 4.  **WalletConnect Integration**: To ensure our wallet’s versatility, we’ll introduce WalletConnect support, allowing it to be used on any website.
 
@@ -147,14 +147,14 @@ This project stands as a testament to the power of collaboration within the bloc
 
 ## Conclusion
 
-As we reach the end of this journey together, we hope you’ve found inspiration and insight in the possibilities that our Proof of Concept opens up — not just for content publishing but for the broader landscape of digital interactions. Our journey is far from over, and your support plays a pivotal role in shaping its direction.
+As we reach the end of this journey together, we hope you’ve found inspiration and insight in the possibilities that our Proof of Concept opens up: not just for content publishing but for the broader landscape of digital interactions. Our journey is far from over, and your support plays a pivotal role in shaping its direction.
 
 **We warmly invite you to:**
 
 *   **Clap and Share**: If this article resonated with you, please don’t hesitate to applaud it and share it within your networks. Each clap and share not only amplifies our message but also fuels our passion and commitment to innovation.
 *   **Explore the Demo**: Dive into the experience yourself by exploring our demo. Witness firsthand the simplicity and power of our solution, and if it inspires or excites you, we’d be thrilled if you shared it with others who might appreciate it as well.
 
-This project is a testament to the power of collaboration, innovation, and community support. Together, we’re not just imagining the future — we’re actively building it. So, whether you’re a developer, content publisher or creator, or simply an enthusiast for cutting-edge technology, your engagement, feedback, and shares are invaluable to us.
+This project is a testament to the power of collaboration, innovation, and community support. Together, we’re not just imagining the future, we’re actively building it. So, whether you’re a developer, content publisher or creator, or simply an enthusiast for cutting-edge technology, your engagement, feedback, and shares are invaluable to us.
 
 Let’s continue to break new ground, challenge the status quo, and reshape the world of digital content together. Thank you for being an integral part of our journey.
 

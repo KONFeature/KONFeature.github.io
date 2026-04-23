@@ -1,5 +1,5 @@
 ---
-title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals — part 1"
+title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals - part 1"
 date: 2023-03-13T12:00:00Z
 draft: false
 subtitle: "How to use EIP-712 signatures to save gas, batch approvals and increase security for your ERC-20 tokens."

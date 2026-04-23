@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln — Part 2: Firmware Architecture"
+title: "Pico Kiln - Part 2: Firmware Architecture"
 date: 2025-11-15T12:00:00Z
 draft: false
 subtitle: "Industrial Control on a $6 Chip"
@@ -100,7 +100,7 @@ sequenceDiagram
     end
 ```
 
-**Quiet Mode**: During WiFi connection (which can take 5-10 seconds), Core 1 suppresses status updates. This reduces queue contention and gives WiFi maximum CPU time. Temperature monitoring continues—safety is never compromised.
+**Quiet Mode**: During WiFi connection (which can take 5-10 seconds), Core 1 suppresses status updates. This reduces queue contention and gives WiFi maximum CPU time. Temperature monitoring continues: safety is never compromised.
 
 ---
 
@@ -643,7 +643,7 @@ $$
 
 **Why 90% of measured?** Conservative. If we adapted to 100% of measured rate, any noise in the measurement would cause oscillation. By targeting 90%, we leave headroom for variance.
 
-**SSR saturation check**: This is critical. If the SSR is at 50%, the controller has room to increase power. Reducing the rate would be premature—let the PID increase output first. Only when SSR is maxed out (95%+) do we conclude the kiln is physically incapable of the desired rate.
+**SSR saturation check**: This is critical. If the SSR is at 50%, the controller has room to increase power. Reducing the rate would be premature: let the PID increase output first. Only when SSR is maxed out (95%+) do we conclude the kiln is physically incapable of the desired rate.
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals — part 2"
+title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals - part 2"
 date: 2023-03-23T12:00:00Z
 draft: false
 subtitle: "A deep dive into the Solidity code of gasless ERC-20 approvals ERC-2612"

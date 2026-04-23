@@ -167,7 +167,7 @@ Kubernetes manifests (YAML) are notoriously verbose and prone to indentation err
 
 Pulumi allows us to define our GKE cluster as a strictly typed TypeScript object. We get autocomplete for every configuration option in the GCP API.
 
-Here is a snippet from our `cluster.ts`. Note the explicit configuration of VPC-native networking and Workload Identity—crucial security features that are often "misconfigured defaults" in ClickOps.
+Here is a snippet from our `cluster.ts`. Note the explicit configuration of VPC-native networking and Workload Identity: crucial security features that are often "misconfigured defaults" in ClickOps.
 
 ```typescript
 // infra-core/infra/gcp/cluster.ts
@@ -630,7 +630,7 @@ Response times for `backend → ponder` queries: **~5ms average** (compared to 5
 
 ## Developer Experience: `sst dev` Changes Everything
 
-The killer feature of SST isn't just deployment—it's **local development**:
+The killer feature of SST isn't just deployment: it's **local development**:
 
 ```bash
 $ cd wallet
@@ -670,17 +670,17 @@ After 8+ months in production, here's what we've achieved:
 ### Developer Velocity
 
 - **4-minute deployments** from code push to production traffic
-- **Zero infrastructure meetings** — frontend devs self-service their deployments
-- **Single language** — TypeScript for frontend, backend, and infrastructure
-- **Instant local dev** — `sst dev` replaces Docker Compose nightmares
+- **Zero infrastructure meetings**: frontend devs self-service their deployments
+- **Single language**: TypeScript for frontend, backend, and infrastructure
+- **Instant local dev**: `sst dev` replaces Docker Compose nightmares
 
 ### Cost Efficiency
 
 - **$200/month total GCP spend** for production Kubernetes cluster (2-4 nodes auto-scaling)
 - **Hyperdisk Balanced** storage (cheaper than SSDs, faster than HDDs)
 - **AMD64 nodes** (c4d instances) for maximum provider portability - recently migrated from ARM
-- **Aggressive HPA settings** — we scale down to 1 replica during low traffic
-- **Path to $60/month** — migrating to Hetzner will reduce costs by ~70%
+- **Aggressive HPA settings**: we scale down to 1 replica during low traffic
+- **Path to $60/month**: migrating to Hetzner will reduce costs by ~70%
 
 ### Operational Excellence
 
@@ -691,7 +691,7 @@ After 8+ months in production, here's what we've achieved:
 
 ### Engineering Wins
 
-The biggest win isn't technical—it's **cultural**.
+The biggest win isn't technical: it's **cultural**.
 
 By choosing TypeScript over HCL, we removed the "DevOps vs. Developers" divide. Infrastructure is just another package in the monorepo. A frontend engineer who needs Redis? They add it to their `infra/` folder and open a PR.
 
@@ -794,28 +794,28 @@ Currently, we use AWS for SST state storage. But if AWS goes down, we're not stu
 - **Manual Pulumi commands**: We can deploy directly using `pulumi up` without SST
 - **Future plan**: Backup Pulumi state to Cloudflare R2 for redundancy
 
-We're not just multi-cloud—we're **cloud-resilient**.
+We're not just multi-cloud: we're **cloud-resilient**.
 
 ## Lessons Learned
 
 ### What Worked
 
-1. **Custom Pulumi Components** — The `KubernetesService` component eliminated 80% of boilerplate
-2. **Dual-pool strategy** — Isolating system workloads from application workloads prevents noisy neighbor issues
-3. **SST dev mode** — Developers never touch `kubectl` or local Docker
-4. **Namespace-per-environment** — Complete isolation without separate clusters
-5. **Internal service mesh** — ClusterIP services provide sub-5ms latency for inter-service calls
-6. **Cloud independence from day one** — Kubernetes + Pulumi providers mean we can migrate to any cloud in hours, not months
+1. **Custom Pulumi Components**: The `KubernetesService` component eliminated 80% of boilerplate
+2. **Dual-pool strategy**: Isolating system workloads from application workloads prevents noisy neighbor issues
+3. **SST dev mode**: Developers never touch `kubectl` or local Docker
+4. **Namespace-per-environment**: Complete isolation without separate clusters
+5. **Internal service mesh**: ClusterIP services provide sub-5ms latency for inter-service calls
+6. **Cloud independence from day one**: Kubernetes + Pulumi providers mean we can migrate to any cloud in hours, not months
 
 ### What We'd Do Differently
 
-1. **Start with VPA (Vertical Pod Autoscaler)** — We're only now tuning resource requests based on actual usage
-2. **Implement PodDisruptionBudgets earlier** — We had a brief outage during a node upgrade
-3. **Use Sealed Secrets** — Our current secrets workflow works but could be more GitOps-friendly
+1. **Start with VPA (Vertical Pod Autoscaler)**: We're only now tuning resource requests based on actual usage
+2. **Implement PodDisruptionBudgets earlier**: We had a brief outage during a node upgrade
+3. **Use Sealed Secrets**: Our current secrets workflow works but could be more GitOps-friendly
 
 ## The Bottom Line
 
-**Kubernetes is not too complex for small teams.** The problem was never Kubernetes—it was the tooling.
+**Kubernetes is not too complex for small teams.** The problem was never Kubernetes: it was the tooling.
 
 Our 4-year journey took us from:
 - AWS Serverless → SST v2 Serverless → ECS Containers → GKE Kubernetes → (soon) Hetzner Kubernetes
@@ -845,12 +845,12 @@ If you're on the fence about Kubernetes, or trapped in Terraform HCL hell, or sc
 
 **Explore the code:**
 
-- [infra-core](https://github.com/frak-id/infra-core) — GKE cluster, networking, monitoring
-- [wallet](https://github.com/frak-id/wallet) — Backend + 3 frontends deployed in 4 minutes
-- [infra-blockchain](https://github.com/frak-id/infra-blockchain) — Blockchain RPC and indexer infrastructure
+- [infra-core](https://github.com/frak-id/infra-core): GKE cluster, networking, monitoring
+- [wallet](https://github.com/frak-id/wallet): Backend + 3 frontends deployed in 4 minutes
+- [infra-blockchain](https://github.com/frak-id/infra-blockchain): Blockchain RPC and indexer infrastructure
 
 **Further Reading:**
 
-- [SST Documentation](https://sst.dev) — The framework powering our DX
-- [Pulumi Kubernetes Guide](https://www.pulumi.com/docs/clouds/kubernetes/) — Deep dive into Kubernetes as code
-- [Our NGINX Frontend Optimizations](https://frak.id/blog) — How we serve apps at scale
+- [SST Documentation](https://sst.dev): The framework powering our DX
+- [Pulumi Kubernetes Guide](https://www.pulumi.com/docs/clouds/kubernetes/): Deep dive into Kubernetes as code
+- [Our NGINX Frontend Optimizations](https://frak.id/blog): How we serve apps at scale

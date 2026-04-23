@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln — Part 1: From 380V Industrial to 220V Smart Kiln"
+title: "Pico Kiln - Part 1: From 380V Industrial to 220V Smart Kiln"
 date: 2025-11-14T12:00:00Z
 draft: false
 subtitle: "The electrical rewiring journey: Taming a 400kg vintage beast, converting 3-phase power, and solving critical ground faults."
@@ -307,7 +307,7 @@ The `SSR_STAGGER_DELAY` of 10ms is critical. Without it, all three SSRs activate
 
 ## The Ghost in the Machine: Electrical Noise
 
-The most frustrating part of the build wasn't the power—it was the **noise**. Our Raspberry Pi Pico (the brain of the IoT controller) kept crashing randomly. Sometimes it would run for hours. Sometimes it would crash within minutes. No pattern.
+The most frustrating part of the build wasn't the power: it was the **noise**. Our Raspberry Pi Pico (the brain of the IoT controller) kept crashing randomly. Sometimes it would run for hours. Sometimes it would crash within minutes. No pattern.
 
 ### Initial Theories (All Wrong)
 
@@ -332,7 +332,7 @@ $$
 I_{\text{leak}} = \frac{V}{R} = \frac{220V}{3M\Omega} = 73\mu A
 $$
 
-This tiny current was leaking onto the chassis. But the real issue wasn't DC leakage—it was AC transients. Every time an SSR switched, the di/dt spike created:
+This tiny current was leaking onto the chassis. But the real issue wasn't DC leakage: it was AC transients. Every time an SSR switched, the di/dt spike created:
 
 $$
 V_{\text{spike}} = L \frac{di}{dt}
@@ -353,7 +353,7 @@ The 3 MΩ path was **carbon tracking** through:
 - Thermal expansion cracks in insulation
 - Kiln spatter creating conductive paths
 
-This wasn't just "noise"—it was a **ground fault**. A safety hazard masquerading as a signal integrity problem.
+This wasn't just "noise": it was a **ground fault**. A safety hazard masquerading as a signal integrity problem.
 
 ### The Fix
 

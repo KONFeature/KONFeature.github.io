@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln — Part 3: From Web to Native with Tauri"
+title: "Pico Kiln - Part 3: From Web to Native with Tauri"
 date: 2025-11-16T12:00:00Z
 draft: false
 subtitle: "One React App, Three Platforms, Zero Mixed Content Drama"
@@ -7,18 +7,18 @@ category: "mobile"
 tags: ["Kiln", "IoT", "React", "Tauri", "IoT", "Local-First"]
 icon: "smartphone"
 iconColor: "text-blue-400"
-description: "Building a kiln controller UI that runs as a web app, macOS app, and Android APK—all from a single React codebase. Solving the HTTP/HTTPS mixed content nightmare without compromise."
+description: "Building a kiln controller UI that runs as a web app, macOS app, and Android APK: all from a single React codebase. Solving the HTTP/HTTPS mixed content nightmare without compromise."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "side-projects"
 ---
 
-Most embedded web interfaces are terrible. They're server-side rendered HTML that requires a full page refresh to see a temperature update. For `pico-kiln`, I wanted instant state updates, smooth charts, and offline resilience—all from a microcontroller with 264KB of RAM.
+Most embedded web interfaces are terrible. They're server-side rendered HTML that requires a full page refresh to see a temperature update. For `pico-kiln`, I wanted instant state updates, smooth charts, and offline resilience: all from a microcontroller with 264KB of RAM.
 
 The solution: a static React SPA served from the Pico's flash memory. But then we hit the **Mixed Content Problem**.
 
 ## The HTTP/HTTPS Nightmare
 
-Modern browsers enforce a strict security policy: HTTPS pages cannot make HTTP requests. This is called **Mixed Content Blocking**, and it exists for good reason—but it's a disaster for local IoT devices.
+Modern browsers enforce a strict security policy: HTTPS pages cannot make HTTP requests. This is called **Mixed Content Blocking**, and it exists for good reason, but it's a disaster for local IoT devices.
 
 Here's the dilemma:
 
@@ -232,4 +232,4 @@ The Pico serves JSON over HTTP. The UI consumes it. The platform doesn't matter.
 - **Build Tools:** Bun (TypeScript), Cargo (Rust), Gradle (Android)
 - **Platforms:** Web (any browser), macOS (Universal), Android 7.0+
 
-**Next up:** [Part 4: Physics-Based Data Analysis with Python](#) — Phase detection, PID tuning metrics, and thermal modeling from CSV logs.
+**Next up:** [Part 4: Physics-Based Data Analysis with Python](#): Phase detection, PID tuning metrics, and thermal modeling from CSV logs.

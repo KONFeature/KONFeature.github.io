@@ -83,15 +83,15 @@ We first check that the scripts is executed from the root folder of the project,
 Now let’s take a look at our docker command:
 
 *   We are using _mythril/myth_ docker image directly (instead of _trailofbits/eth-security-toolbox_ that embed a lot of security tools), to get the latest version of mythril, and to have a lighter and faster docker image for this run.
-*   We want it to remove the file at the end of the build ( _— rm_) to prevent conflict between contract analysis.
+*   We want it to remove the file at the end of the build ( - rm) to prevent conflict between contract analysis.
 *   Then, we bind the current path to the docker container ‘/src’ folder (_-v `pwd`:/src_)
-*   And then, go directly into the src folder ( _— workdir=/src mythril/myth_).
+*   And then, go directly into the src folder ( - workdir=/src mythril/myth).
 
 After, it’s just a question of configuration for mythril:
 
 *   Increase verbosity level to get more details (_-v 4_)
-*   Increase the depth of the analysis, it will take a bit longer to run, but you will potentially cover more branch of you’re contract code ( _— max-depth 50_)
-*   And give some info for the soc compiler ( _— solc-json tools/mythril/remapping.json_). In our case this json contain the remapping for the OpenZeppelin dependencies, and enable the optimizer.
+*   Increase the depth of the analysis, it will take a bit longer to run, but you will potentially cover more branch of you’re contract code ( - max-depth 50)
+*   And give some info for the soc compiler ( - solc-json tools/mythril/remapping.json). In our case this json contain the remapping for the OpenZeppelin dependencies, and enable the optimizer.
 
 ![remapping.json used by mythril for each run](./assets/securing-solidity-smart-contracts/mythril-remapping-config.png)
 

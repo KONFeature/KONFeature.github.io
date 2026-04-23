@@ -442,7 +442,7 @@ export function computeCentralityMetrics(
 **Betweenness in Practice**: In *The Godfather*, Michael Corleone has the highest betweenness centrality because he bridges multiple worlds: the Corleone family, the Five Families, and the civilian world through Kay.
 
 #### 3. Harmonic Centrality (The "Protagonist" Metric)
-Standard Closeness Centrality fails in disconnected graphs (which screenplays often are—think A-plot and B-plot). If two characters are in separate storylines, the distance is infinite.
+Standard Closeness Centrality fails in disconnected graphs (which screenplays often are: think A-plot and B-plot). If two characters are in separate storylines, the distance is infinite.
 
 We use **Harmonic Centrality** instead, which sums the inverse distances:
 
@@ -584,4 +584,4 @@ By combining an event-driven architecture guarded by `p-limit` with rigorous gra
 5. **Memory-conscious design**: Dossiers extract only relevant data
 6. **Graceful degradation**: Every LLM call has a fallback strategy
 
-In the next article, we explore the psychological modeling layer—how we use multi-pass LLM orchestration to extract character psychology while preventing hallucinations.
+In the next article, we explore the psychological modeling layer: how we use multi-pass LLM orchestration to extract character psychology while preventing hallucinations.

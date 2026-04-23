@@ -12,11 +12,11 @@ githubUrl: "https://github.com/frak-id/atelier"
 group: "side-projects"
 ---
 
-Three weeks ago I published [the first article about L'Atelier](/articles/side-projects/atelier-stop-babysitting) — a self-hosted Firecracker-based system for running AI coding agents in isolated VMs. I built it before a ski vacation so I could dispatch work and check results from my phone. The core idea: stop babysitting your AI agents, let them run in the background, come back to results.
+Three weeks ago I published [the first article about L'Atelier](/articles/side-projects/atelier-stop-babysitting), a self-hosted Firecracker-based system for running AI coding agents in isolated VMs. I built it before a ski vacation so I could dispatch work and check results from my phone. The core idea: stop babysitting your AI agents, let them run in the background, come back to results.
 
 It worked. I came back to merged PRs and finished features. The isolation held. The prebuild snapshots made cold starts fast enough to not care about.
 
-But using it daily revealed the next friction point. The dashboard was still a separate thing I had to open. I'd be in Slack, see a bug report, think "I should have the agent look at this" — and then I'd switch to the browser, navigate to the dashboard, pick a workspace, type a prompt, click create. Four context switches for what should be one thought.
+But using it daily revealed the next friction point. The dashboard was still a separate thing I had to open. I'd be in Slack, see a bug report, think "I should have the agent look at this", and then I'd switch to the browser, navigate to the dashboard, pick a workspace, type a prompt, click create. Four context switches for what should be one thought.
 
 The best interface for dispatching AI work turned out to be the tool I already live in: Slack.
 
@@ -59,7 +59,7 @@ OpenCode coding agent starts working
 Event Bridge (SSE) → Slack thread updates
 ```
 
-The dispatcher is itself an AI agent running in a lightweight system sandbox — 1 vCPU, 1GB RAM. It boots on the first integration event and stays warm for 30 minutes of idle time, then shuts down. After 6 hours it recycles regardless. This keeps costs near zero when you're not actively using it.
+The dispatcher is itself an AI agent running in a lightweight system sandbox, 1 vCPU, 1GB RAM. It boots on the first integration event and stays warm for 30 minutes of idle time, then shuts down. After 6 hours it recycles regardless. This keeps costs near zero when you're not actively using it.
 
 For power users who know exactly what they want, there are slash commands:
 
@@ -92,23 +92,23 @@ This is the part I find most interesting architecturally, and it's also why I th
 The manager exposes an MCP server at `/mcp` with bearer token auth. The full tool list:
 
 ```
-list_workspaces        — list available workspaces with descriptions
-list_tasks             — list tasks with status filters
-get_task               — get task details and sessions
-create_task            — create a new task in a workspace
-complete_task          — mark a task complete
-list_sandboxes         — list running sandboxes
-get_sandbox            — get sandbox details
-list_dev_commands      — list registered dev servers
-manage_dev_commands    — start/stop/restart dev servers
-get_dev_command_logs   — tail dev server output
-get_system_status      — overall system health
-get_sandbox_git_status — git diff/status for a sandbox
-get_task_sessions      — list sessions for a task
-list_session_templates — available session templates
+list_workspaces        : list available workspaces with descriptions
+list_tasks             : list tasks with status filters
+get_task               : get task details and sessions
+create_task            : create a new task in a workspace
+complete_task          : mark a task complete
+list_sandboxes         : list running sandboxes
+get_sandbox            : get sandbox details
+list_dev_commands      : list registered dev servers
+manage_dev_commands    : start/stop/restart dev servers
+get_dev_command_logs   : tail dev server output
+get_system_status      : overall system health
+get_sandbox_git_status : git diff/status for a sandbox
+get_task_sessions      : list sessions for a task
+list_session_templates : available session templates
 ```
 
-The dispatcher agent inside the system sandbox has access to exactly these tools and nothing else. All other tool categories are denied. It runs at temperature 0.1 with a max of 5 steps — it's not supposed to be creative, it's supposed to be reliable. Read the message, call `list_workspaces`, pick the right one, call `create_task`, done.
+The dispatcher agent inside the system sandbox has access to exactly these tools and nothing else. All other tool categories are denied. It runs at temperature 0.1 with a max of 5 steps: it's not supposed to be creative, it's supposed to be reliable. Read the message, call `list_workspaces`, pick the right one, call `create_task`, done.
 
 What I like about this design is that the dispatcher doesn't need any special integration code. It's just an OpenCode agent with a restricted tool set. The same protocol that lets a coding agent read files and run tests now lets a dispatcher agent orchestrate infrastructure. MCP as a universal interface for both local dev tooling and distributed system control.
 
@@ -124,7 +124,7 @@ The loop in full:
 8. Event Bridge subscribes to OpenCode's SSE stream (`session.status`, `session.idle`, `permission.asked`, `question.asked`, `todo.updated`)
 9. Events flow back through the bridge to the Slack adapter, which updates reactions and Block Kit messages with a 2-second debounce
 
-There's also a "description agent" — another system agent that runs when a workspace is first registered. It clones the repo, reads the README and key source files, and generates a concise description that the dispatcher uses for workspace selection. This runs at temperature 0.1 with up to 15 steps since it needs to actually explore the codebase. The descriptions get stored in the workspace record and updated when you push significant changes.
+There's also a "description agent", another system agent that runs when a workspace is first registered. It clones the repo, reads the README and key source files, and generates a concise description that the dispatcher uses for workspace selection. This runs at temperature 0.1 with up to 15 steps since it needs to actually explore the codebase. The descriptions get stored in the workspace record and updated when you push significant changes.
 
 Without good descriptions, the dispatcher would have to guess from repo names alone. With them, it can distinguish between "the payments service" and "the payments dashboard" even if both repos have "payments" in the name.
 
@@ -164,7 +164,7 @@ One of the patterns that emerged from daily use: you rarely want just one agent 
 7. Push, open PR
 ```
 
-All of that from Slack. The event bridge tracks progress across all sessions and keeps the thread updated. Each `/add`, `/review`, `/security`, `/simplify` command launches a new OpenCode session with the appropriate template, on the same branch, in the same sandbox. The sandbox persists between sessions — you're not re-cloning or re-installing dependencies each time.
+All of that from Slack. The event bridge tracks progress across all sessions and keeps the thread updated. Each `/add`, `/review`, `/security`, `/simplify` command launches a new OpenCode session with the appropriate template, on the same branch, in the same sandbox. The sandbox persists between sessions: you're not re-cloning or re-installing dependencies each time.
 
 The session templates are the same ones from the first article, just now accessible via slash commands instead of dashboard dropdowns. The template system didn't change; the access layer did.
 
@@ -192,7 +192,7 @@ Tails the last N lines of the dev server output. Useful when the agent says it s
 
 Shows all registered dev servers across all sandboxes, with their URLs and status.
 
-The Caddy integration here is the same dynamic route management from the first article — wildcard routes, automatic HTTPS, routes cleaned up when the sandbox shuts down. The new piece is just the Slack-facing interface for triggering it.
+The Caddy integration here is the same dynamic route management from the first article, wildcard routes, automatic HTTPS, routes cleaned up when the sandbox shuts down. The new piece is just the Slack-facing interface for triggering it.
 
 The full workflow this enables: describe a feature in Slack, wait for implementation, `/dev start`, click the URL, verify it works, `/review`, push. You never leave Slack except to look at the preview URL.
 
@@ -200,7 +200,7 @@ The full workflow this enables: describe a feature in Slack, wait for implementa
 
 ## Other Improvements Worth Mentioning
 
-**GitHub OAuth with PKCE.** Sandboxes need repo access to clone and push. Previously this required manually managing tokens. Now there's a proper OAuth flow with PKCE (code_challenge/code_verifier) — you authenticate once through the dashboard, and every sandbox that boots gets the token automatically. No more "the agent failed because it couldn't push."
+**GitHub OAuth with PKCE.** Sandboxes need repo access to clone and push. Previously this required manually managing tokens. Now there's a proper OAuth flow with PKCE (code_challenge/code_verifier), you authenticate once through the dashboard, and every sandbox that boots gets the token automatically. No more "the agent failed because it couldn't push."
 
 **SSH proxy.** If you want to use your own IDE instead of the web dashboard, you can SSH directly into a sandbox:
 
@@ -212,7 +212,7 @@ This opens a shell inside the Firecracker VM. From there you can attach VS Code 
 
 **Auth sync.** The OAuth token is synced to every sandbox automatically. You authenticate once; the system handles distribution. This was a manual step before.
 
-**System self-healing.** The manager now detects zombie sandboxes (VMs that crashed but whose records weren't cleaned up), handles crash recovery, and survives manager restarts without losing track of running sandboxes. This matters more than it sounds — before, a manager restart would orphan any running VMs and you'd have to clean them up manually.
+**System self-healing.** The manager now detects zombie sandboxes (VMs that crashed but whose records weren't cleaned up), handles crash recovery, and survives manager restarts without losing track of running sandboxes. This matters more than it sounds: before, a manager restart would orphan any running VMs and you'd have to clean them up manually.
 
 ---
 
@@ -224,14 +224,14 @@ The difference is still the same: theirs is internal infrastructure built by a t
 
 What's next:
 
-**GitHub PR comment integration.** The adapter architecture is already in place — the Integration Gateway has a clean adapter interface, and the Slack adapter is one implementation of it. A GitHub adapter would let you comment on a PR and have the bot pick up the task. The plumbing is ready; I just need to write the adapter.
+**GitHub PR comment integration.** The adapter architecture is already in place, the Integration Gateway has a clean adapter interface, and the Slack adapter is one implementation of it. A GitHub adapter would let you comment on a PR and have the bot pick up the task. The plumbing is ready; I just need to write the adapter.
 
 **Multi-server distribution.** Right now everything runs on one machine. The architecture doesn't assume this, but the implementation does. Distributing sandboxes across multiple hosts is the next scaling step.
 
 **Cost tracking.** I know roughly what this costs to run, but I don't have per-task token usage tracked yet. Adding that to the MCP server and surfacing it in Slack notifications would make the economics more visible.
 
-The broader point: the interface for AI-assisted development shouldn't be a terminal or a dashboard. It should be wherever you already are. For me that's Slack. For someone else it might be a GitHub comment, a Linear ticket, a voice message. The adapter pattern makes adding new surfaces straightforward — the core orchestration logic doesn't change, just the input/output layer.
+The broader point: the interface for AI-assisted development shouldn't be a terminal or a dashboard. It should be wherever you already are. For me that's Slack. For someone else it might be a GitHub comment, a Linear ticket, a voice message. The adapter pattern makes adding new surfaces straightforward: the core orchestration logic doesn't change, just the input/output layer.
 
 The system is running in production. We use it every day at [Frak](https://frak.id). The Slack integration has become the primary interface; I open the dashboard maybe once a day now, mostly to look at system data.
 
-If you're building something similar or want to run this yourself, the repo is at [github.com/frak-id/atelier](https://github.com/frak-id/atelier). The setup docs cover the Firecracker prerequisites, LVM configuration, and Slack app setup. It's not a one-click install — you need a Linux host with KVM access — but the docs are thorough.
+If you're building something similar or want to run this yourself, the repo is at [github.com/frak-id/atelier](https://github.com/frak-id/atelier). The setup docs cover the Firecracker prerequisites, LVM configuration, and Slack app setup. It's not a one-click install: you need a Linux host with KVM access, but the docs are thorough.

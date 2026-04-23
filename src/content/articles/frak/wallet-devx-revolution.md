@@ -15,11 +15,11 @@ group: "frak"
 
 ![hero image](./assets/wallet-devx-revolution/hero.jpg)
 
-In software development, speed is a feature—not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.
+In software development, speed is a feature, not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.
 
 At Frak, we recently undertook a massive architectural migration to achieve state-of-the-art Developer Experience (DevX). We migrated our business dashboard from Next.js to **[TanStack](https://tanstack.com) Start**, unified all routing on **TanStack Router**, adopted **[Rolldown](https://rolldown.rs)** for blazing-fast builds, moved our entire test suite to **Vitest**, and rebuilt our SDK pipeline with **[tsdown](https://tsdown.com)**.
 
-The result? Our business app build time dropped from **5 minutes to under 30 seconds**. Our complete deployment pipeline—including backend, 3 frontends, and all SDKs—now completes in **4 minutes**. And our 3,119 unit tests execute in **42 seconds**.
+The result? Our business app build time dropped from **5 minutes to under 30 seconds**. Our complete deployment pipeline, including backend, 3 frontends, and all SDKs, now completes in **4 minutes**. And our 3,119 unit tests execute in **42 seconds**.
 
 Here's how we overhauled our stack to make our tooling scream.
 
@@ -36,7 +36,7 @@ We migrated to **TanStack Start** with **Nitro** handling the SSR layer. This wa
 
 - **Build time**: Down from 5 minutes to **under 30 seconds** (10x improvement)
 - **DevX**: TanStack Start's explicit, type-safe routing is cleaner and more intuitive than Next.js's file-based conventions
-- **Deployment flexibility**: Nitro compiles to a portable format we can run anywhere—no vendor lock-in
+- **Deployment flexibility**: Nitro compiles to a portable format we can run anywhere: no vendor lock-in
 - **Infrastructure control**: We now deploy the business app to our existing Kubernetes cluster via Docker, alongside our backend
 
 The mental model is simpler, the builds are faster, and we have complete control over hosting.
@@ -140,7 +140,7 @@ Our SDK wasn't left behind. We previously used **rslib** (Rspack-based) to build
 
 We migrated to **tsdown**, a zero-config bundler powered by Rolldown:
 
-- **Unified stack**: Same build tool everywhere—Rolldown under the hood
+- **Unified stack**: Same build tool everywhere: Rolldown under the hood
 - **30-40% faster builds**: All 4 SDK packages (plus shared packages) build in **under 10 seconds**
 - **Better output**: tsdown produces clean ESM + CJS + types for NPM, plus optimized IIFE/ESM bundles for CDN
 
@@ -195,7 +195,7 @@ export default defineConfig({
 });
 ```
 
-Now we run `bun run test` once, and Vitest orchestrates everything—frontend tests with jsdom, backend tests with Node environment, all in parallel.
+Now we run `bun run test` once, and Vitest orchestrates everything: frontend tests with jsdom, backend tests with Node environment, all in parallel.
 
 ### Benefits
 
@@ -221,7 +221,7 @@ Total time: **4 minutes** from commit to production.
 This is a massive improvement from our previous setup:
 - Business app alone took **2+ minutes** to build and deploy via SST + OpenNext to AWS Lambda
 - Fragmented build tools meant no parallelization opportunities
-- Now everything runs in Docker on our Kubernetes cluster—unified, fast, and under our control
+- Now everything runs in Docker on our Kubernetes cluster: unified, fast, and under our control
 
 ## The Results: By The Numbers
 

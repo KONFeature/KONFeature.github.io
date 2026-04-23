@@ -16,7 +16,7 @@ export function remarkModifiedTime() {
 				file.data.astro.frontmatter.lastModified = lastModified;
 			}
 		} catch {
-			// Fails for uncommitted files or shallow clones — silently skip
+			// Fails for uncommitted files or shallow clones, silently skip
 		}
 	};
 }

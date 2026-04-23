@@ -15,13 +15,13 @@ group: "frak"
 
 ![hero image](./assets/mongodb-to-turso-rustfs/hero.png)
 
-At Frak Labs, our infrastructure philosophy is uncompromising: keep it **Kubernetes-native**, keep the cloud lock-in to **zero**. Over the last few years we've rewritten our stack to make exactly that true — [infra-core](https://github.com/frak-id/infra-core) provisions everything from VPCs to ClickHouse via Pulumi, and we can, in theory, repoint the whole thing at a new cloud in an afternoon.
+At Frak Labs, our infrastructure philosophy is uncompromising: keep it **Kubernetes-native**, keep the cloud lock-in to **zero**. Over the last few years we've rewritten our stack to make exactly that true: [infra-core](https://github.com/frak-id/infra-core) provisions everything from VPCs to ClickHouse via Pulumi, and we can, in theory, repoint the whole thing at a new cloud in an afternoon.
 
-Yet one dependency stubbornly remained: a single MongoDB collection, hosted outside the cluster, storing our **WebAuthn authenticator credentials**. It was a relic — left over from a time when we mixed AWS-managed services with our own Kubernetes workloads. Everything else migrated cleanly to PostgreSQL on GKE. This one collection didn't, because "it worked."
+Yet one dependency stubbornly remained: a single MongoDB collection, hosted outside the cluster, storing our **WebAuthn authenticator credentials**. It was a relic, left over from a time when we mixed AWS-managed services with our own Kubernetes workloads. Everything else migrated cleanly to PostgreSQL on GKE. This one collection didn't, because "it worked."
 
 In an environment that prizes **agility, portability, and unified tooling**, "it works" isn't enough. It needed to be native.
 
-This article is the story of how we retired it — and the infrastructure we built to replace it: [sqld](https://github.com/tursodatabase/libsql) (the open-source core of [Turso](https://turso.tech)) and [RustFS](https://github.com/rustfs/rustfs), both running on our own Kubernetes cluster, glued together with Drizzle ORM and a safety net.
+This article is the story of how we retired it, and the infrastructure we built to replace it: [sqld](https://github.com/tursodatabase/libsql) (the open-source core of [Turso](https://turso.tech)) and [RustFS](https://github.com/rustfs/rustfs), both running on our own Kubernetes cluster, glued together with Drizzle ORM and a safety net.
 
 ## The Constraint: One Table, Every Environment
 
@@ -53,41 +53,41 @@ export const authenticatorsTable = sqliteTable("authenticators", {
 });
 ```
 
-That last line in the comment — *"Shared across all environments"* — is the whole puzzle.
+That last line in the comment, *"Shared across all environments"*, is the whole puzzle.
 
-Every WebAuthn credential is bound to an `rpId` (relying party ID) set to our root domain (`frak.id`). By specification, a passkey created against `frak.id` must be resolvable from `frak.id`, regardless of which subdomain (or environment) the request comes from. On top of that, our **wallet addresses are deterministic**: they're derived from the authenticator's public key, so the same passkey must resolve to the same wallet address on both Arbitrum and Arbitrum Sepolia — in dev, staging, **and** production. The on-chain side of that derivation — how a WebAuthn signature validates an ERC-4337 user operation — is covered in [our earlier post on WebAuthn + ERC-4337](./4337-webauthn).
+Every WebAuthn credential is bound to an `rpId` (relying party ID) set to our root domain (`frak.id`). By specification, a passkey created against `frak.id` must be resolvable from `frak.id`, regardless of which subdomain (or environment) the request comes from. On top of that, our **wallet addresses are deterministic**: they're derived from the authenticator's public key, so the same passkey must resolve to the same wallet address on both Arbitrum and Arbitrum Sepolia, in dev, staging, **and** production. The on-chain side of that derivation, how a WebAuthn signature validates an ERC-4337 user operation, is covered in [our earlier post on WebAuthn + ERC-4337](./4337-webauthn).
 
 This rules out a per-environment database. We need a **single source of truth for credentials, shared across every stage**, with near-zero administrative overhead.
 
-For four years, that source was MongoDB. Not for any document-store reason — just inertia.
+For four years, that source was MongoDB. Not for any document-store reason: just inertia.
 
 ## Why Not Just Keep MongoDB? (or: Just Use Postgres?)
 
 Every time this migration came up, we heard two counter-arguments. Both are reasonable. Both turned out to be wrong for our case.
 
-**"It works, why touch it?"** — Because every external dependency is a potential migration blocker. Our existing Kubernetes stack is provider-agnostic; swap Pulumi's `gcp` provider for `hcloud` and redeploy. MongoDB Atlas introduced a second control plane we had to think about during every disaster-recovery tabletop: extra IAM, extra network paths, extra egress costs, extra auth secrets. Pruning it was the last step to genuinely reaching "redeploy the whole company in an afternoon."
+**"It works, why touch it?"**: Because every external dependency is a potential migration blocker. Our existing Kubernetes stack is provider-agnostic; swap Pulumi's `gcp` provider for `hcloud` and redeploy. MongoDB Atlas introduced a second control plane we had to think about during every disaster-recovery tabletop: extra IAM, extra network paths, extra egress costs, extra auth secrets. Pruning it was the last step to genuinely reaching "redeploy the whole company in an afternoon."
 
-**"Just put it in your existing Postgres."** — Tempting. We already run Cloud SQL PostgreSQL for the 20+ tables backing the backend: `merchants`, `campaigns`, `attribution`, `rewards`, `pairing`, etc. Adding one more table is trivial. But the authenticators table has a very specific shape:
+**"Just put it in your existing Postgres."**: Tempting. We already run Cloud SQL PostgreSQL for the 20+ tables backing the backend: `merchants`, `campaigns`, `attribution`, `rewards`, `pairing`, etc. Adding one more table is trivial. But the authenticators table has a very specific shape:
 
 - **Append-only.** We never update or delete a row. Once written, a credential is immutable for the lifetime of the wallet.
 - **Origin-bound, shared globally.** It can't live per-environment.
 - **Read-heavy, tiny writes.** Every authentication flow does a single `SELECT BY id`.
 
-This workload is, almost literally, the SQLite sweet spot. And libSQL + sqld gives us exactly that — SQLite semantics with an HTTP protocol, running as a normal Kubernetes service — without bolting another Postgres schema onto a database that has its own migration story to tell.
+This workload is, almost literally, the SQLite sweet spot. And libSQL + sqld gives us exactly that: SQLite semantics with an HTTP protocol, running as a normal Kubernetes service, without bolting another Postgres schema onto a database that has its own migration story to tell.
 
 ## Why libSQL + sqld, Not Raw SQLite?
 
-SQLite is a file. A file that needs a process to serve it, a backup strategy, and a sane story for pods that might get rescheduled. [sqld](https://github.com/tursodatabase/libsql) — the server daemon for [libSQL](https://github.com/tursodatabase/libsql) (the SQLite fork that powers Turso) — solves all three:
+SQLite is a file. A file that needs a process to serve it, a backup strategy, and a sane story for pods that might get rescheduled. [sqld](https://github.com/tursodatabase/libsql), the server daemon for [libSQL](https://github.com/tursodatabase/libsql) (the SQLite fork that powers Turso), solves all three:
 
-1. **HTTP/WebSocket protocol.** Clients talk to it via plain HTTP, not a proprietary wire format. `@libsql/client` in Node is essentially a thin `fetch` wrapper — we can hit it from anywhere in the cluster.
+1. **HTTP/WebSocket protocol.** Clients talk to it via plain HTTP, not a proprietary wire format. `@libsql/client` in Node is essentially a thin `fetch` wrapper, we can hit it from anywhere in the cluster.
 2. **Bottomless replication.** sqld can stream WAL snapshots to any S3-compatible bucket, continuously, with zstd compression. Restore-from-scratch is as simple as pointing a fresh pod at the bucket.
-3. **Concurrent write optimisations.** libSQL is a SQLite fork explicitly tuned for concurrent writes and high density — the exact problem that historically hurt vanilla SQLite in a server context.
+3. **Concurrent write optimisations.** libSQL is a SQLite fork explicitly tuned for concurrent writes and high density, the exact problem that historically hurt vanilla SQLite in a server context.
 
-Crucially for us, sqld is **small**. The container (`ghcr.io/tursodatabase/libsql-server:v0.24.31`) runs comfortably on **10m CPU and 64Mi of memory** requests. That's a fraction of what a managed MongoDB cluster costs — in dollars, or in operational complexity.
+Crucially for us, sqld is **small**. The container (`ghcr.io/tursodatabase/libsql-server:v0.24.31`) runs comfortably on **10m CPU and 64Mi of memory** requests. That's a fraction of what a managed MongoDB cluster costs, in dollars, or in operational complexity.
 
 ## Why RustFS for the Backup Target?
 
-To get sqld's bottomless replication, we need something that speaks S3. The obvious choice used to be [MinIO](https://min.io/) — which we've used in other contexts — but its licensing has drifted, and the project's velocity has slowed. We went looking for alternatives.
+To get sqld's bottomless replication, we need something that speaks S3. The obvious choice used to be [MinIO](https://min.io/), which we've used in other contexts, but its licensing has drifted, and the project's velocity has slowed. We went looking for alternatives.
 
 We landed on [RustFS](https://github.com/rustfs/rustfs). Three reasons:
 
@@ -95,7 +95,7 @@ We landed on [RustFS](https://github.com/rustfs/rustfs). Three reasons:
 - **Apache 2.0 & community-driven.** A genuine open-source alternative, not a rug-pull waiting to happen.
 - **Small footprint.** One binary, one volume. Perfect for "a Kubernetes Pod that exists so sqld can dump WAL frames to it."
 
-It's **alpha** — we're running `rustfs/rustfs:1.0.0-alpha.90` — and we know it. That shaped our rollout strategy (more on that below).
+It's **alpha**, we're running `rustfs/rustfs:1.0.0-alpha.90`, and we know it. That shaped our rollout strategy (more on that below).
 
 ## The Target Architecture
 
@@ -143,7 +143,7 @@ Three things to notice:
 `infra-core` is where the cluster primitives live. Adding sqld was a single file: [`infra/gcp/sqld.ts`](https://github.com/frak-id/infra-core). Here's the deployment (trimmed for brevity):
 
 ```typescript
-// infra-core/infra/gcp/sqld.ts (excerpt — StorageClass + PVC elided)
+// infra-core/infra/gcp/sqld.ts (excerpt, StorageClass + PVC elided)
 export const sqldInstance = new KubernetesService("sqld", {
     namespace: dbNamespace.metadata.name,
     pod: {
@@ -185,14 +185,14 @@ A handful of details earn their line in that file:
 - **`replicas: 1`, `strategy: Recreate`.** sqld is a SQLite-backed primary. There is no "rolling update" for a stateful single-writer. We stop the old pod, wait for the PVC to detach, start the new one.
 - **`terminationGracePeriodSeconds: 90`.** Enough time for sqld to flush its WAL and gracefully close connections. The 60-second `SQLD_SHUTDOWN_TIMEOUT` matches.
 - **`SQLD_SOFT_HEAP_LIMIT_MB: 96` / `HARD: 128`.** Paired with the container's 256Mi memory limit, this gives sqld predictable headroom and prevents OOMKill under load.
-- **The PVC uses `reclaimPolicy: Retain` (elided from the excerpt above).** Deleting it doesn't nuke the underlying disk — a panicked `kubectl delete` won't lose our credentials.
+- **The PVC uses `reclaimPolicy: Retain` (elided from the excerpt above).** Deleting it doesn't nuke the underlying disk: a panicked `kubectl delete` won't lose our credentials.
 - **`ServiceMonitor`.** Drops directly into our existing Prometheus/Grafana stack (see [our previous infra-iac post](./frak-infrastructure-iac)), so sqld's health is visible alongside every other service from day one.
 
 Notice the bottomless replication block. Three environment variables and a Kubernetes Secret reference, and sqld is continuously streaming WAL frames to RustFS, zstd-compressed. There's no second sidecar, no external backup tool, no cron job dumping `.sqlite` files to a bucket. It's just part of the process.
 
 ## Deploying RustFS
 
-RustFS is even simpler — it's a single binary that speaks S3. The [`infra/gcp/rustfs.ts`](https://github.com/frak-id/infra-core) file handles credentials, storage, and the service in ~180 lines. The interesting bits:
+RustFS is even simpler: it's a single binary that speaks S3. The [`infra/gcp/rustfs.ts`](https://github.com/frak-id/infra-core) file handles credentials, storage, and the service in ~180 lines. The interesting bits:
 
 ```typescript
 // infra-core/infra/gcp/rustfs.ts (excerpt)
@@ -241,13 +241,13 @@ export const rustfsInstance = new KubernetesService("rustfs", {
 });
 ```
 
-**Credentials are generated in TypeScript and mirrored to both GCP Secret Manager and a Kubernetes Secret.** The first gives us a break-glass recovery path (we can read them back via the GCP console if the cluster is gone); the second is what sqld actually mounts to authenticate to RustFS. They're the same 24- and 48-character random strings — generated once, stored twice.
+**Credentials are generated in TypeScript and mirrored to both GCP Secret Manager and a Kubernetes Secret.** The first gives us a break-glass recovery path (we can read them back via the GCP console if the cluster is gone); the second is what sqld actually mounts to authenticate to RustFS. They're the same 24- and 48-character random strings, generated once, stored twice.
 
 Both files are wired into `sst.config.ts` behind a production-only guard, so a single `bun sst deploy --stage gcp-production` brings up the pair, mounts their secrets, provisions their PVCs, and registers them with Prometheus.
 
 ## The Backend Side: a 40-line Drizzle Client
 
-With sqld running, the backend needs to talk to it. Because it lives inside the cluster and is only reachable via an internal ClusterIP, the "connection string" is just a DNS name — `http://sqld-production-service.db-production.svc.cluster.local:8080`. No auth token, no TLS dance, no peering config. That single line replaces an entire MongoDB Atlas connection-string-plus-IAM-role-plus-peering-config flow. The full backend client is 40 lines of Drizzle:
+With sqld running, the backend needs to talk to it. Because it lives inside the cluster and is only reachable via an internal ClusterIP, the "connection string" is just a DNS name: `http://sqld-production-service.db-production.svc.cluster.local:8080`. No auth token, no TLS dance, no peering config. That single line replaces an entire MongoDB Atlas connection-string-plus-IAM-role-plus-peering-config flow. The full backend client is 40 lines of Drizzle:
 
 ```typescript
 // wallet/services/backend/src/infrastructure/persistence/libsql.ts
@@ -274,7 +274,7 @@ export function getLibsqlDb(): LibSQLDatabase<typeof authSchema> {
 }
 ```
 
-And the repository — the thing that actually runs in the auth flow — is pure Drizzle. No ORM plumbing, no document-to-domain mapping gymnastics:
+And the repository, the thing that actually runs in the auth flow, is pure Drizzle. No ORM plumbing, no document-to-domain mapping gymnastics:
 
 ```typescript
 // wallet/services/backend/src/domain/auth/repositories/AuthenticatorRepository.ts
@@ -302,7 +302,7 @@ export class AuthenticatorRepository {
 }
 ```
 
-The wins here aren't philosophical — they're concrete:
+The wins here aren't philosophical, they're concrete:
 
 - **Zero `mongodb` dependencies in the backend.** A grep of `services/backend/package.json` now returns nothing for `mongo`. That's ~800KB of driver code, its BSON codec, its connection pool, and its DNS/TLS machinery gone from our production image.
 - **Type-safe schemas.** The Drizzle schema *is* the type. `row.publicKeyX` is `string`, full stop. No `z.infer`, no manual mapping.
@@ -312,9 +312,9 @@ The wins here aren't philosophical — they're concrete:
 
 This is the piece the first draft of this post got wrong. We called this a "directional sync service." It isn't.
 
-Migrating live credential data is **the scariest kind of migration** — if a row is missing, a user's wallet is simply unrecoverable. So we built a proper safety net and wrote the code that enforces it: [`services/credential-sync`](https://github.com/frak-id/wallet) is explicitly, deliberately **bidirectional**. New credentials written to sqld are backfilled to Mongo. Legacy credentials still in Mongo are replicated into sqld. As long as this job runs, both stores converge to the same set of rows.
+Migrating live credential data is **the scariest kind of migration**: if a row is missing, a user's wallet is simply unrecoverable. So we built a proper safety net and wrote the code that enforces it: [`services/credential-sync`](https://github.com/frak-id/wallet) is explicitly, deliberately **bidirectional**. New credentials written to sqld are backfilled to Mongo. Legacy credentials still in Mongo are replicated into sqld. As long as this job runs, both stores converge to the same set of rows.
 
-The job's own `package.json` spells it out — its `description` field reads *"Bidirectional MongoDB to sqld credential sync service"*, and it pulls in both `@libsql/client` and `mongodb` as runtime dependencies. The core logic is ~100 lines: it reads the id sets from both stores, computes the missing rows on each side, and batches inserts in both directions:
+The job's own `package.json` spells it out: its `description` field reads *"Bidirectional MongoDB to sqld credential sync service"*, and it pulls in both `@libsql/client` and `mongodb` as runtime dependencies. The core logic is ~100 lines: it reads the id sets from both stores, computes the missing rows on each side, and batches inserts in both directions:
 
 ```typescript
 // wallet/services/credential-sync/src/sync.ts
@@ -359,7 +359,7 @@ Two details matter:
 - **`INSERT OR IGNORE` on the sqld side** (`onConflictDoNothing`) and **`ordered: false`** on the Mongo side. Both are dedupe-friendly: if the job runs while another pod is concurrently writing, duplicate-key errors are swallowed silently and the job still converges.
 - **Binary public keys are base64-encoded during conversion.** Mongo stores them as BSON `Binary`; sqld stores them as text. One helper function handles the marshalling in both directions.
 
-And it runs on a plain old Kubernetes `CronJob` — nothing exotic:
+And it runs on a plain old Kubernetes `CronJob`, nothing exotic:
 
 ```typescript
 // wallet/infra/gcp/credential-sync.ts (excerpt)
@@ -372,7 +372,7 @@ new kubernetes.batch.v1.CronJob("credential-sync-cronjob", {
 });
 ```
 
-Every six hours: read both stores, diff, reconcile, exit. If the reconciler falls over, the next scheduled run picks up where it left off. If sqld or RustFS does something surprising during this alpha period, we still have Mongo as a hot replica — a single config flip in the backend would put us back on it.
+Every six hours: read both stores, diff, reconcile, exit. If the reconciler falls over, the next scheduled run picks up where it left off. If sqld or RustFS does something surprising during this alpha period, we still have Mongo as a hot replica, a single config flip in the backend would put us back on it.
 
 ```mermaid
 sequenceDiagram
@@ -409,8 +409,8 @@ Counting the wins after a few weeks of both stores running in parallel:
 
 ### Infrastructure
 
-- **Zero MongoDB dependencies in the main backend.** The driver, its BSON codec, and its connection pool machinery are gone — roughly 800KB shaved off the production image, and one fewer thing to patch on CVE Tuesday.
-- **One cluster, one control plane.** Every stateful workload — Postgres on Cloud SQL, Redis pods, sqld, RustFS — now sits inside the same Pulumi stack. `bun sst deploy` is the only deployment command.
+- **Zero MongoDB dependencies in the main backend.** The driver, its BSON codec, and its connection pool machinery are gone, roughly 800KB shaved off the production image, and one fewer thing to patch on CVE Tuesday.
+- **One cluster, one control plane.** Every stateful workload, Postgres on Cloud SQL, Redis pods, sqld, RustFS, now sits inside the same Pulumi stack. `bun sst deploy` is the only deployment command.
 - **Full Prometheus/Grafana integration for free.** sqld exposes metrics on its admin port (9090), the `ServiceMonitor` picks them up automatically, and the same dashboards we use for every other service now show WAL frame rate and checkpoint latency.
 - **Retain-on-delete PVCs + bottomless replication.** Two independent layers of durability, both living in the cluster, neither depending on a managed AWS service.
 
@@ -423,7 +423,7 @@ Counting the wins after a few weeks of both stores running in parallel:
 ### Operational complexity
 
 - **One less vendor.** One less dashboard. One less invoice. One less IAM boundary.
-- **Migrations are just code.** Which means they're code-reviewed, PR'd, and version-controlled — same as everything else.
+- **Migrations are just code.** Which means they're code-reviewed, PR'd, and version-controlled, same as everything else.
 
 ## What We're Watching
 
@@ -431,16 +431,16 @@ This is an alpha rollout, and we're explicit about the caveats:
 
 1. **sqld runs as a single replica.** libSQL has clustering/replication (Turso's hosted product uses it), but we haven't needed it for a workload that writes a handful of rows per day. If the write volume ever justifies it, we'll swap in the replica model.
 2. **RustFS is pre-1.0.** We're on `1.0.0-alpha.90`. Our data durability story leans on two things: the bottomless zstd stream to RustFS **and** the continued existence of the MongoDB fallback. We're not ready to trust RustFS alone yet, and the bidirectional sync is exactly how we make that bet safely.
-3. **No cross-region replication — yet.** The whole stack lives in `europe-west1`. For credentials, that matches our current regulatory footprint. If that changes, libSQL's replica model is the most likely answer.
+3. **No cross-region replication, yet.** The whole stack lives in `europe-west1`. For credentials, that matches our current regulatory footprint. If that changes, libSQL's replica model is the most likely answer.
 4. **Backup restore drills are scheduled, not automated.** We haven't yet wired up automatic "spin up a fresh sqld from the RustFS bucket and diff it against production" tests. That's on the backlog.
 
-None of these are blockers. All of them are known. The alternative — leaving an AWS-hosted MongoDB in the critical path for another year — was a worse set of trade-offs.
+None of these are blockers. All of them are known. The alternative, leaving an AWS-hosted MongoDB in the critical path for another year, was a worse set of trade-offs.
 
 ## Taking Stock
 
-Four years ago, Frak's infra was a classic AWS-serverless stack — Lambdas, DynamoDB, CloudFormation, and a MongoDB cluster for the things Dynamo couldn't model. Today, every single one of those has been replaced with something that runs on a Kubernetes cluster we control, defined in TypeScript, in a mono-repo we can read end-to-end in an afternoon.
+Four years ago, Frak's infra was a classic AWS-serverless stack: Lambdas, DynamoDB, CloudFormation, and a MongoDB cluster for the things Dynamo couldn't model. Today, every single one of those has been replaced with something that runs on a Kubernetes cluster we control, defined in TypeScript, in a mono-repo we can read end-to-end in an afternoon.
 
-The MongoDB → sqld migration is a small piece of that story in terms of LOC — a new file in `infra-core`, a new service in the wallet monorepo, a 22-line Drizzle schema. But it's the piece that made the *whole* story true. Until this month, "we can migrate to Hetzner in an afternoon" had an asterisk. Now it doesn't.
+The MongoDB → sqld migration is a small piece of that story in terms of LOC: a new file in `infra-core`, a new service in the wallet monorepo, a 22-line Drizzle schema. But it's the piece that made the *whole* story true. Until this month, "we can migrate to Hetzner in an afternoon" had an asterisk. Now it doesn't.
 
 For the rest of that journey: [the SST + Pulumi IaC deep-dive](./frak-infrastructure-iac) walks through the Kubernetes foundation everything in this post sits on top of, and [our eRPC + Ponder post](./cost-effective-infra) covers how we kept RPC costs sane across multiple chains without sacrificing reliability.
 
@@ -450,19 +450,19 @@ That's the real win: **no asterisks**.
 
 **Explore the code:**
 
-- [infra-core](https://github.com/frak-id/infra-core) — sqld, RustFS, the whole Kubernetes stack
-- [wallet](https://github.com/frak-id/wallet) — the backend + credential-sync service
+- [infra-core](https://github.com/frak-id/infra-core): sqld, RustFS, the whole Kubernetes stack
+- [wallet](https://github.com/frak-id/wallet): the backend + credential-sync service
 
 **Related posts:**
 
-- [Building Frak's Infrastructure with SST + Pulumi](./frak-infrastructure-iac) — the Kubernetes foundation this migration sits on top of
-- [Cost-Effective Blockchain Infrastructure with eRPC and Ponder](./cost-effective-infra) — how we got RPC costs under control across multiple chains
-- [WebAuthN Meets ERC-4337](./4337-webauthn) — how the credentials stored in this table validate user operations on-chain
+- [Building Frak's Infrastructure with SST + Pulumi](./frak-infrastructure-iac): the Kubernetes foundation this migration sits on top of
+- [Cost-Effective Blockchain Infrastructure with eRPC and Ponder](./cost-effective-infra): how we got RPC costs under control across multiple chains
+- [WebAuthN Meets ERC-4337](./4337-webauthn): how the credentials stored in this table validate user operations on-chain
 
 **Further reading:**
 
-- [libSQL on GitHub](https://github.com/tursodatabase/libsql) — the SQLite fork powering Turso and sqld
-- [Turso](https://turso.tech) — the hosted product; we run the open-source core ourselves
-- [RustFS](https://github.com/rustfs/rustfs) — Apache 2.0, Rust, S3-compatible storage
-- [Drizzle ORM](https://github.com/drizzle-team/drizzle-orm) — the type-safe ORM we use for every TypeScript database interaction
-- [sqld bottomless replication docs](https://github.com/tursodatabase/libsql/blob/main/docs/BOTTOMLESS.md) — how the WAL streaming to S3 actually works
+- [libSQL on GitHub](https://github.com/tursodatabase/libsql): the SQLite fork powering Turso and sqld
+- [Turso](https://turso.tech): the hosted product; we run the open-source core ourselves
+- [RustFS](https://github.com/rustfs/rustfs): Apache 2.0, Rust, S3-compatible storage
+- [Drizzle ORM](https://github.com/drizzle-team/drizzle-orm): the type-safe ORM we use for every TypeScript database interaction
+- [sqld bottomless replication docs](https://github.com/tursodatabase/libsql/blob/main/docs/BOTTOMLESS.md): how the WAL streaming to S3 actually works

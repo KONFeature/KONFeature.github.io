@@ -13,7 +13,7 @@ const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl
 // Create article URL
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
-// Resolve image metadata — heroImage may be an ImageMetadata object with width/height
+// Resolve image metadata: heroImage may be an ImageMetadata object with width/height
 const imageUrl = heroImage ? new URL(heroImage.src ?? heroImage, Astro.site).toString() : undefined;
 const imageWidth = heroImage?.width;
 const imageHeight = heroImage?.height;

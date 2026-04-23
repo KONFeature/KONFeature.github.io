@@ -7,7 +7,7 @@ category: "tooling"
 tags: ["WordPress", "MCP", "AI", "WooCommerce", "Self-Hosting", "Open Source"]
 icon: "hammer"
 iconColor: "text-cyan-400"
-description: "When my girlfriend needed an online pottery shop, I refused Shopify's centralized model. A Hetzner VPS, WordPress, and a custom MCP server later — she now manages her store through Claude conversations."
+description: "When my girlfriend needed an online pottery shop, I refused Shopify's centralized model. A Hetzner VPS, WordPress, and a custom MCP server later: she now manages her store through Claude conversations."
 githubUrl: "https://github.com/KONFeature/wordforge"
 group: "side-projects"
 ---
@@ -18,7 +18,7 @@ My girlfriend started doing pottery. Beautiful handcrafted pieces that deserved 
 
 ## The Problem: Shopify Isn't For Me
 
-Don't get me wrong — Shopify is excellent for what it does. But it represents everything I try to avoid:
+Don't get me wrong, Shopify is excellent for what it does. But it represents everything I try to avoid:
 
 - **Centralized control**: Your shop lives on their infrastructure, their rules
 - **Lock-in**: Moving away means rebuilding everything
@@ -37,7 +37,7 @@ The alternative was straightforward:
 
 **Platform**: WordPress with WooCommerce. Battle-tested, extensible, and my girlfriend can manage it herself through the admin panel. She wanted full control, not to depend on me for every change.
 
-**The catch**: Manual configuration. No managed services means setting up everything yourself — SSL, backups, security, updates. Worth it for the control, but it adds friction.
+**The catch**: Manual configuration. No managed services means setting up everything yourself: SSL, backups, security, updates. Worth it for the control, but it adds friction.
 
 The real friction, though, came from an unexpected place: I couldn't use my AI dev tools with WordPress.
 
@@ -45,11 +45,11 @@ The real friction, though, came from an unexpected place: I couldn't use my AI d
 
 ## The Frustration: AI Tools Don't Speak WordPress
 
-I live in AI-assisted development. Claude, OpenCode, cursor — they're part of my daily workflow. But when it came to helping my girlfriend update her WordPress site, I was stuck in the admin panel clicking through menus like it's 2010.
+I live in AI-assisted development. Claude, OpenCode, cursor: they're part of my daily workflow. But when it came to helping my girlfriend update her WordPress site, I was stuck in the admin panel clicking through menus like it's 2010.
 
-I could have built a custom theme with code she'd never touch. But she explicitly didn't want that — she wanted to understand and control her own site. Fair enough.
+I could have built a custom theme with code she'd never touch. But she explicitly didn't want that, she wanted to understand and control her own site. Fair enough.
 
-So I looked for MCP (Model Context Protocol) servers for WordPress. The concept is simple: expose WordPress functionality through a standardized protocol that AI tools can consume. Let Claude update posts, manage products, tweak styles — all through conversation.
+So I looked for MCP (Model Context Protocol) servers for WordPress. The concept is simple: expose WordPress functionality through a standardized protocol that AI tools can consume. Let Claude update posts, manage products, tweak styles, all through conversation.
 
 **What I found**: Nothing. Or more precisely, nothing free and comprehensive.
 
@@ -57,7 +57,7 @@ WordPress's own team had started working on this with two projects:
 - [**Abilities API**](https://github.com/WordPress/abilities-api): A standardized way to register WordPress capabilities
 - [**MCP Adapter**](https://github.com/WordPress/mcp-adapter): Bridges the Abilities API to the MCP protocol
 
-Great foundation. But the Abilities API is just that — an API. You still need to actually *register* abilities for the things you want to do. Content management, WooCommerce products, Gutenberg blocks, theme styling... none of that was implemented.
+Great foundation. But the Abilities API is just that: an API. You still need to actually *register* abilities for the things you want to do. Content management, WooCommerce products, Gutenberg blocks, theme styling... none of that was implemented.
 
 ---
 
@@ -83,12 +83,12 @@ WordForge extends the WordPress MCP Adapter with a comprehensive set of abilitie
 - Parse blocks in full or simplified format
 
 ### Theme Styling (FSE)
-- Global styles (theme.json) — colors, typography, spacing
-- Block styles — view registered block variations
+- Global styles (theme.json): colors, typography, spacing
+- Block styles: view registered block variations
 - Full Site Editing compatible
 
 ### WooCommerce
-- Product CRUD — simple, variable, grouped, external products
+- Product CRUD: simple, variable, grouped, external products
 - Stock management, pricing, categories, tags
 - Auto-detected: abilities only register when WooCommerce is active
 
@@ -115,10 +115,10 @@ includes/
 ```
 
 Each ability defines:
-- `get_title()` / `get_description()` — Metadata for MCP
-- `get_input_schema()` — JSON Schema for parameters
-- `get_capability()` — Required WordPress capability
-- `execute()` — The actual operation
+- `get_title()` / `get_description()`: Metadata for MCP
+- `get_input_schema()`: JSON Schema for parameters
+- `get_capability()`: Required WordPress capability
+- `execute()`: The actual operation
 
 The beauty of this architecture: it's fully declarative. Add a new ability, register it, and it's immediately available to any MCP client.
 
@@ -163,7 +163,7 @@ Generate an Application Password in WordPress under **Users → Profile → Appl
 
 ## Real Usage: Managing emmaye.fr
 
-Now my girlfriend manages [emmaye.fr](https://emmaye.fr) — her pottery shop — through Claude conversations:
+Now my girlfriend manages [emmaye.fr](https://emmaye.fr), her pottery shop, through Claude conversations:
 
 > "Add a new product called 'Bol Rustique' priced at 35€, in the 'Bols' category, with 3 items in stock"
 
@@ -177,7 +177,7 @@ Claude fetches the page blocks, updates the content, creates a revision. Done.
 
 Claude lists products filtered by stock status. Done.
 
-She's not a developer. She doesn't need to be. The WordPress admin panel is still there when she wants fine-grained control. But for quick updates, product additions, content tweaks — a conversation is faster.
+She's not a developer. She doesn't need to be. The WordPress admin panel is still there when she wants fine-grained control. But for quick updates, product additions, content tweaks, a conversation is faster.
 
 And personally, I use OpenCode to help her with more complex changes. Same tools I use for development, now applied to WordPress management.
 
@@ -192,7 +192,7 @@ WordForge is open source and actively maintained. Current priorities:
 3. **Multi-site support**: Managing multiple WordPress instances
 4. **Backup integration**: Before making changes, snapshot the state
 
-The goal isn't to replace WordPress's admin interface — it's to augment it with conversational AI for those who want it.
+The goal isn't to replace WordPress's admin interface: it's to augment it with conversational AI for those who want it.
 
 ---
 

@@ -17,7 +17,7 @@ group: "frak"
 
 Building a Web3 wallet is usually a trade-off between security and speed. Most wallets are heavy browser extensions that inject massive scripts into every page you visit.
 
-At Frak, we took a different approach: an embedded wallet that lives inside an iframe on our partners' websites. This brings a brutal constraint—**if our wallet is heavy, we slow down any partner using our technology.** That is unacceptable.
+At Frak, we took a different approach: an embedded wallet that lives inside an iframe on our partners' websites. This brings a brutal constraint: **if our wallet is heavy, we slow down any partner using our technology.** That is unacceptable.
 
 Our listener app loads across multiple websites with **hundreds of thousands of loads per day**. Every kilobyte saved translates to **multiple gigabytes** of bandwidth reduction per month.
 
@@ -30,7 +30,7 @@ This is the story of how we optimized every layer of the stack.
 
 ## 1. State Management: From Jotai to Zustand
 
-Our journey started with **Jotai**. It was nice at first—minimal boilerplate, atom-based architecture, easy to get started. But as our codebase grew, we hit problems:
+Our journey started with **Jotai**. It was nice at first, minimal boilerplate, atom-based architecture, easy to get started. But as our codebase grew, we hit problems:
 
 ### The Jotai Pain Points
 
@@ -46,7 +46,7 @@ We migrated both the wallet and listener apps to **[Zustand](https://zustand-dem
 
 - **Single source of truth**: Each domain (auth, wallet, settings) has one clear store
 - **Explicit selectors**: Forces you to think about what data each component actually needs
-- **No localStorage bugs**: Zustand's persistence middleware "just works"—we never encountered the sync issues we had with Jotai
+- **No localStorage bugs**: Zustand's persistence middleware "just works", we never encountered the sync issues we had with Jotai
 
 ```typescript
 // Before: Multiple scattered Jotai atoms
@@ -94,7 +94,7 @@ The listener loads across multiple websites with **hundreds of thousands of load
 
 We separated into two distinct apps:
 
-1.  **The Listener (`apps/listener`):** A microscopic, invisible application that loads in the background. It's now a **pure Vite SPA**—no router, no heavy UI libraries, just session management and communication logic.
+1.  **The Listener (`apps/listener`):** A microscopic, invisible application that loads in the background. It's now a **pure Vite SPA**: no router, no heavy UI libraries, just session management and communication logic.
 
 2.  **The Wallet (`apps/wallet`):** The full-featured React application with [TanStack](https://tanstack.com) Router, full crypto libraries, and UI components. Only loads when the user actually opens the wallet interface.
 
@@ -126,11 +126,11 @@ We considered it. But:
 - Complex code-splitting configs are hard to maintain
 - You're still bundling and shipping code that might never execute
 - Mental overhead: "Which chunks does the listener need? Which can be lazy-loaded?"
-- The split gives us **physical separation**—impossible to accidentally import wallet code in the listener
+- The split gives us **physical separation**: impossible to accidentally import wallet code in the listener
 
 ## 3. Infrastructure Migration: AWS S3 → Self-Hosted Nginx
 
-This was the most surprising win. We migrated from **AWS S3 with CloudFront CDN** to **self-hosted Nginx on our Kubernetes cluster**—and achieved **faster load times without a CDN**.
+This was the most surprising win. We migrated from **AWS S3 with CloudFront CDN** to **self-hosted Nginx on our Kubernetes cluster**, and achieved **faster load times without a CDN**.
 
 Yes, you read that right. No CDN, faster than CDN.
 
@@ -187,7 +187,7 @@ const listenerImage = new dockerbuild.Image("wallet-listener", {
 });
 ```
 
-The infrastructure setup is type-safe and version-controlled—no manual kubectl commands or YAML drift.
+The infrastructure setup is type-safe and version-controlled, no manual kubectl commands or YAML drift.
 
 ### Build-Time Compression
 
@@ -338,7 +338,7 @@ SecAuditEngine RelevantOnly
 
 #### Key Optimizations:
 
-1. **TLS Session Caching**: 30MB cache stores ~120,000 TLS sessions per pod. This means returning visitors skip the expensive TLS handshake entirely—their browser reuses the cached session. For a site with hundreds of thousands of loads, this is massive.
+1. **TLS Session Caching**: 30MB cache stores ~120,000 TLS sessions per pod. This means returning visitors skip the expensive TLS handshake entirely, their browser reuses the cached session. For a site with hundreds of thousands of loads, this is massive.
 
 2. **Upstream Keep-Alive**: We maintain persistent connections from the ingress to backend pods (`upstream-keepalive-connections: 320`). Without this, every request would open a new TCP connection, adding latency.
 
@@ -348,13 +348,13 @@ SecAuditEngine RelevantOnly
    - Setting paranoia level to 1 (not overly aggressive)
    - Using "RelevantOnly" audit logging
 
-4. **Worker Tuning**: Auto-scale workers based on CPU cores, with 8,192 connections per worker—plenty of headroom for concurrent requests.
+4. **Worker Tuning**: Auto-scale workers based on CPU cores, with 8,192 connections per worker, plenty of headroom for concurrent requests.
 
 This cluster-wide config applies to **all ingresses**, so every service benefits automatically.
 
 ### Layer 2: Per-Ingress Annotations
 
-Each service can override or extend the global config with Kubernetes Ingress annotations. We showed this earlier in the routing config—here are the key ones:
+Each service can override or extend the global config with Kubernetes Ingress annotations. We showed this earlier in the routing config: here are the key ones:
 
 ```typescript
 customAnnotations: {
@@ -538,7 +538,7 @@ This optimization journey taught us several lessons:
 
 ### 1. State Management: Rigidity Scales Better
 
-**Jotai → Zustand** wasn't just about fixing bugs—it was about finding the right balance between flexibility and maintainability. For large-scale apps, Zustand's opinionated structure prevents the "death by a thousand atoms" problem.
+**Jotai → Zustand** wasn't just about fixing bugs, it was about finding the right balance between flexibility and maintainability. For large-scale apps, Zustand's opinionated structure prevents the "death by a thousand atoms" problem.
 
 ### 2. Physical Separation > Code Splitting
 
@@ -561,11 +561,11 @@ We manage all infrastructure with **Pulumi in TypeScript**:
 - **No drift**: What's in Git is what's deployed
 - **No kubectl commands**: Everything is declarative and reproducible
 
-This made the Nginx tuning process much faster—we could test configurations locally, get immediate type-checking feedback, and deploy with confidence.
+This made the Nginx tuning process much faster, we could test configurations locally, get immediate type-checking feedback, and deploy with confidence.
 
 ### 5. Measure Everything
 
-We didn't guess—we measured. Before each change:
+We didn't guess, we measured. Before each change:
 1. Baseline bundle size and load times
 2. Implement optimization
 3. Measure again
@@ -582,7 +582,7 @@ Small optimizations compound into massive wins at scale.
 
 ## Conclusion
 
-Performance isn't a single setting; it's a chain. By optimizing every layer—**State Management** (Zustand), **Architecture** (Split apps), **Infrastructure** (Kubernetes + Nginx), **Build** (Rolldown chunking), and **Delivery** (Three-layer Nginx tuning)—we achieved a wallet experience that feels native, even when running inside a constrained iframe environment.
+Performance isn't a single setting; it's a chain. By optimizing every layer: **State Management** (Zustand), **Architecture** (Split apps), **Infrastructure** (Kubernetes + Nginx), **Build** (Rolldown chunking), and **Delivery** (Three-layer Nginx tuning), we achieved a wallet experience that feels native, even when running inside a constrained iframe environment.
 
 The most surprising win? **Beating a CDN without a CDN.** Through aggressive tuning at three layers (cluster-wide ingress controller, per-service annotations, and per-app configuration), we achieved:
 - **TLS session caching** (30MB = ~120k sessions per pod)
@@ -592,4 +592,4 @@ The most surprising win? **Beating a CDN without a CDN.** Through aggressive tun
 
 All managed in **TypeScript**, version-controlled, and deployed with confidence.
 
-When you're loaded **hundreds of thousands of times per day**, these optimizations aren't nice-to-haves—they're **multiple gigabytes of bandwidth** and **hundreds of milliseconds** saved per user.
+When you're loaded **hundreds of thousands of times per day**, these optimizations aren't nice-to-haves, they're **multiple gigabytes of bandwidth** and **hundreds of milliseconds** saved per user.

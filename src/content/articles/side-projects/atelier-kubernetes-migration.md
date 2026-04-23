@@ -7,7 +7,7 @@ category: "tooling"
 tags: ["Kubernetes", "Kata Containers", "Firecracker", "Cloud Hypervisor", "Self-Hosting", "Dev Environments", "LVM"]
 icon: "ship"
 iconColor: "text-blue-400"
-description: "L'Atelier just went through its biggest architectural shift yet. I swapped a custom bare-metal Firecracker orchestrator for Kubernetes and Kata Containers — deleted 8,702 lines of code, gained portability, and traded sub-second boots for a system I can actually maintain."
+description: "L'Atelier just went through its biggest architectural shift yet. I swapped a custom bare-metal Firecracker orchestrator for Kubernetes and Kata Containers: deleted 8,702 lines of code, gained portability, and traded sub-second boots for a system I can actually maintain."
 githubUrl: "https://github.com/frak-id/atelier"
 group: "side-projects"
 ---
@@ -222,7 +222,7 @@ L'Atelier's context is different. It's designed for individuals or small teams. 
 
 Now that L'Atelier is K8s-native, a few things are on the roadmap:
 
-**Multi-node support.** Right now, it assumes a single-node cluster because of the local LVM dependency in TopoLVM. Moving to a distributed storage provider or simply allowing the manager to schedule across a pool of Kata-enabled nodes is the next scaling step. The architecture doesn't assume single-node — the implementation just hasn't caught up yet.
+**Multi-node support.** Right now, it assumes a single-node cluster because of the local LVM dependency in TopoLVM. Moving to a distributed storage provider or simply allowing the manager to schedule across a pool of Kata-enabled nodes is the next scaling step. The architecture doesn't assume single-node: the implementation just hasn't caught up yet.
 
 **Warm pool.** Pre-create one PVC per workspace from its prebuild snapshot. On spawn, the pod claims the pre-cloned PVC instead of creating one on the fly. Combined with `InPlacePodVerticalScaling` (K8s 1.35+, Cloud Hypervisor supports CPU/memory hot-plug), this could bring spawn times down to near-instant again.
 

@@ -19,7 +19,7 @@ In the previous articles, we explored the [Pipeline](/articles/scenario-parser/s
 
 This article focuses on **Stage 3: Character Analysis** - the LLM-powered psychological modeling that happens *after* our [competitive parsing system](/articles/scenario-parser/architecture) has selected the best screenplay. We take the highest-quality parsed screenplay and use a hybrid graph-theory + multi-pass LLM approach to generate professional-grade character breakdowns.
 
-Teaching an AI to understand a character is not as simple as asking, "Who is this person?" To get professional-grade analysis—the kind a casting director uses—we must deconstruct the character into component parts: Voice, Psychology, and Narrative Function.
+Teaching an AI to understand a character is not as simple as asking, "Who is this person?" To get professional-grade analysis, the kind a casting director uses, we must deconstruct the character into component parts: Voice, Psychology, and Narrative Function.
 
 ## The "Context Trap" & Dossier Generation
 
@@ -252,7 +252,7 @@ export const getPass3ASchema = (desc) => z.object({
 });
 ```
 
-**Why this matters for CTOs**: This isn't just type safety—it's **semantic validation**. The LLM can't return "very high" when we need `"EXTREME" | "WIDE" | "MODERATE" | "LIMITED"`. This makes the output **parseable, queryable, and database-ready**.
+**Why this matters for CTOs**: This isn't just type safety: it's **semantic validation**. The LLM can't return "very high" when we need `"EXTREME" | "WIDE" | "MODERATE" | "LIMITED"`. This makes the output **parseable, queryable, and database-ready**.
 
 The Vercel AI SDK's `generateObject()` uses these schemas to guide token generation, not just validate after the fact.
 
@@ -635,13 +635,13 @@ The key lessons for CTOs:
 
 6. **Prompts are code.** Version them, test them, review them. A prompt change is a code change.
 
-7. **Context window management is algorithmic.** Don't truncate—**sample intelligently**. First/last/longest captures the narrative arc.
+7. **Context window management is algorithmic.** Don't truncate, **sample intelligently**. First/last/longest captures the narrative arc.
 
 8. **Graph algorithms unlock LLM scalability.** Use O(n²) graph algorithms to avoid O(n³) LLM calls.
 
 ## Conclusion
 
-The `scenario-parser` project demonstrates that "AI for Screenwriting" isn't about generating scripts—it's about understanding them. By combining:
+The `scenario-parser` project demonstrates that "AI for Screenwriting" isn't about generating scripts: it's about understanding them. By combining:
 1.  **Graph Theory** (Pipeline)
 2.  **Heuristic Extraction** (Extraction)
 3.  **Psychological Modeling** (Analysis)
