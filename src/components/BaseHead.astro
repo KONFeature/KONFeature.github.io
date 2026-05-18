@@ -69,7 +69,7 @@ const { title, description, image = '/android-chrome-512x512.png', imageWidth, i
 
 <!-- Theme Script (runs before page render to prevent flash) -->
 <script is:inline>
-	const theme = (() => {
+	const getTheme = () => {
 		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
 			return localStorage.getItem('theme');
 		}
@@ -77,14 +77,17 @@ const { title, description, image = '/android-chrome-512x512.png', imageWidth, i
 			return 'light';
 		}
 		return 'dark';
-	})();
-	
-	if (theme === 'light') {
-		document.documentElement.classList.remove('dark');
-	} else {
-		document.documentElement.classList.add('dark');
-	}
-	window.localStorage.setItem('theme', theme);
+	};
+	const applyTheme = (root) => {
+		const theme = getTheme();
+		root.classList.toggle('dark', theme !== 'light');
+	};
+	applyTheme(document.documentElement);
+	window.localStorage.setItem('theme', getTheme());
+	// Re-apply on view transitions: mutate the incoming document before swap to avoid flash
+	document.addEventListener('astro:before-swap', (event) => {
+		applyTheme(event.newDocument.documentElement);
+	});
 </script>
 
 <!-- Canonical URL -->
