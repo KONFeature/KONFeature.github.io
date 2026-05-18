@@ -15,6 +15,13 @@ import rehypeMermaid from 'rehype-mermaid';
 export default defineConfig({
   site: 'https://nivelais.com',
   integrations: [mdx(), sitemap(), react(), pagefind()],
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
+  experimental: {
+    clientPrerender: true,
+  },
   vite: {
     plugins: [tailwindcss()],
   },
