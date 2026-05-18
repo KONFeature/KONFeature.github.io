@@ -4,7 +4,7 @@ import pagefind from "astro-pagefind";
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import remarkMath from 'remark-math';
 import { remarkModifiedTime } from './remark-modified-time.mjs';
 import { remarkWordCount } from './remark-word-count.mjs';
@@ -14,7 +14,10 @@ import rehypeMermaid from 'rehype-mermaid';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://nivelais.com',
-  integrations: [mdx(), sitemap(), react(), tailwind(), pagefind()],
+  integrations: [mdx(), sitemap(), react(), pagefind()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   markdown: {
     remarkPlugins: [remarkMath, remarkModifiedTime, remarkWordCount],
    rehypePlugins: [
