@@ -1,0 +1,247 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Navigation from '../../components/Navigation';
+import Footer from '../../components/Footer';
+import Icon from '../../components/Icon';
+import { getCollection, render } from 'astro:content';
+import { SITE_TITLE, SITE_URL, AUTHOR_NAME, CALENDLY_URL } from '../../consts';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+	const projects = (await getCollection('projects')).filter((project) => !project.data.draft);
+	const articles = (await getCollection('articles')).filter((article) => !article.data.draft);
+
+	return projects.map((project) => {
+		const relatedArticles = articles
+			.filter((article) =>
+				(article.data.group && project.data.articleGroups.includes(article.data.group)) ||
+				project.data.articleIds.includes(article.id)
+			)
+			.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+		return {
+			params: { slug: project.id },
+			props: { project, relatedArticles },
+		};
+	});
+}) satisfies GetStaticPaths;
+
+const { project, relatedArticles } = Astro.props;
+const { Content } = await render(project);
+
+const pageTitle = `${project.data.name} | ${SITE_TITLE}`;
+const pageDescription = project.data.description;
+const projectUrl = `${SITE_URL}/projects/${project.id}`;
+
+const statusLabel: Record<string, string> = {
+	production: 'In Production',
+	internal: 'Internal Tool',
+	personal: 'Personal Project',
+	archived: 'Archived',
+};
+
+const statusColor: Record<string, string> = {
+	production: 'text-emerald-600 dark:text-emerald-400',
+	internal: 'text-blue-600 dark:text-blue-400',
+	personal: 'text-cyan-600 dark:text-cyan-400',
+	archived: 'text-gray-500',
+};
+
+function getReadingTime(content: string) {
+	const wordsPerMinute = 200;
+	const words = content.trim().split(/\s+/).length;
+	const minutes = Math.ceil(words / wordsPerMinute);
+	return `${minutes} min read`;
+}
+
+const projectJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CreativeWork",
+	"name": project.data.name,
+	"description": project.data.description,
+	"url": projectUrl,
+	"creator": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"url": SITE_URL,
+	},
+	"keywords": project.data.tech.join(', '),
+};
+
+const breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{ "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+		{ "@type": "ListItem", "position": 2, "name": "Projects", "item": `${SITE_URL}/projects` },
+		{ "@type": "ListItem", "position": 3, "name": project.data.name, "item": projectUrl },
+	],
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<script type="application/ld+json" set:html={JSON.stringify(projectJsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]">
+		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+			<Navigation client:load />
+
+			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
+				<a
+					href="/projects"
+					class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
+				>
+					<Icon name="arrow-left" className="w-4 h-4" />
+					All Projects
+				</a>
+
+				{/* Header */}
+				<div class="mb-12">
+					<div class="flex items-start gap-4 mb-4">
+						<div class={`p-3 rounded-xl bg-gray-100 dark:bg-white/5 shrink-0 ${project.data.iconColor || 'text-gray-500'}`}>
+							<Icon name={project.data.icon} className="w-8 h-8" />
+						</div>
+						<div class="flex-1 min-w-0">
+							<div class="flex items-center gap-3 flex-wrap">
+								<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
+									{project.data.name}
+								</h1>
+								<span class={`text-xs font-mono px-2 py-1 rounded border border-gray-200 dark:border-white/10 ${statusColor[project.data.status]}`}>
+									{statusLabel[project.data.status]}
+								</span>
+							</div>
+							<p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
+								{project.data.tagline}
+							</p>
+						</div>
+					</div>
+
+					<div class="flex flex-wrap gap-x-6 gap-y-1 text-sm font-mono text-gray-500 mt-6">
+						<span><span class="text-gray-400 dark:text-gray-600">Role:</span> {project.data.role}</span>
+						<span><span class="text-gray-400 dark:text-gray-600">Period:</span> {project.data.period}</span>
+					</div>
+				</div>
+
+				{/* Metrics */}
+				{project.data.metrics.length > 0 && (
+					<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 py-4 border-y border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-lg">
+						{project.data.metrics.map((metric) => (
+							<div class="text-center px-2 py-1">
+								<div class="text-xs text-gray-500 uppercase tracking-wider mb-1">{metric.label}</div>
+								<div class="text-base font-bold text-green-600 dark:text-green-400">{metric.value}</div>
+							</div>
+						))}
+					</div>
+				)}
+
+				{/* Tech + Links */}
+				<div class="flex flex-wrap items-center gap-2 mb-12">
+					{project.data.tech.map((t) => (
+						<span class="px-2 py-1 text-xs font-mono rounded bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-white/5">
+							{t}
+						</span>
+					))}
+					{project.data.links.length > 0 && (
+						<span class="w-px h-4 bg-gray-300 dark:bg-white/10 mx-1" />
+					)}
+					{project.data.links.map((link) => (
+						<a
+							href={link.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-1 text-xs font-mono text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+						>
+							<Icon name="external-link" className="w-3 h-3" />
+							{link.label}
+						</a>
+					))}
+				</div>
+
+				{/* Body */}
+				<div class="prose prose-gray dark:prose-invert max-w-none mb-16 prose-a:text-green-600 dark:prose-a:text-green-400">
+					<Content />
+				</div>
+
+				{/* Related Articles */}
+				{relatedArticles.length > 0 && (
+					<section class="mb-16">
+						<h2 class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
+							Articles About This Project
+						</h2>
+
+						<div class="space-y-8">
+							{relatedArticles.map((article) => (
+								<article class="group">
+									<a href={`/articles/${article.id}`} class="block">
+										<div class="p-6 rounded-lg border border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
+											<div class="flex items-start justify-between gap-4 mb-3">
+												<h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors flex-1">
+													{article.data.title}
+												</h3>
+												<time class="font-mono text-xs text-gray-600 shrink-0 mt-1">
+													{article.data.date.toLocaleDateString('en-US', {
+														month: 'short',
+														day: 'numeric',
+														year: 'numeric',
+													})}
+												</time>
+											</div>
+
+											{article.data.subtitle && (
+												<p class="text-gray-700 dark:text-gray-300 mb-3 text-sm">
+													{article.data.subtitle}
+												</p>
+											)}
+
+											<p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+												{article.data.description}
+											</p>
+
+											<div class="flex items-center gap-4 flex-wrap">
+												<div class="flex flex-wrap gap-2">
+													{article.data.tags.map((tag: string) => (
+														<span class="text-[10px] font-mono text-gray-600 px-2 py-1 bg-gray-100 dark:bg-black/30 border border-gray-300 dark:border-white/5 rounded">
+															{tag}
+														</span>
+													))}
+												</div>
+												<span class="text-xs text-gray-600 ml-auto">
+													{getReadingTime(article.body || '')}
+												</span>
+											</div>
+										</div>
+									</a>
+								</article>
+							))}
+						</div>
+					</section>
+				)}
+
+				{/* CTA */}
+				<section class="text-center py-12 border-t border-gray-200 dark:border-white/10">
+					<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+						Working on Something Similar?
+					</h2>
+					<p class="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+						Curious about the technical details, or have a similar challenge? Reach out.
+					</p>
+					<a
+						href={CALENDLY_URL}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+					>
+						<Icon name="calendar" className="w-[18px] h-[18px]" />
+						Book a call
+					</a>
+				</section>
+
+				<Footer client:load />
+			</main>
+		</div>
+	</body>
+</html>

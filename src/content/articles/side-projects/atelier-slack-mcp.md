@@ -9,7 +9,7 @@ icon: "message-circle"
 iconColor: "text-purple-400"
 description: "L'Atelier now dispatches AI coding agents directly from Slack, powered by an MCP server and a system sandbox running an AI dispatcher agent. Here's how the architecture evolved."
 githubUrl: "https://github.com/frak-id/atelier"
-group: "side-projects"
+group: "atelier"
 ---
 
 Three weeks ago I published [the first article about L'Atelier](/articles/side-projects/atelier-stop-babysitting), a self-hosted Firecracker-based system for running AI coding agents in isolated VMs. I built it before a ski vacation so I could dispatch work and check results from my phone. The core idea: stop babysitting your AI agents, let them run in the background, come back to results.

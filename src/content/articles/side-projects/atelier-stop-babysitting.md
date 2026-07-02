@@ -10,7 +10,7 @@ iconColor: "text-orange-400"
 description: "AI coding agents are powerful, but they need you. Approving writes, answering questions, babysitting progress. L'Atelier gives each agent its own VM sandbox, lets you dispatch tasks like a kanban board, and review results from your phone. I built it right before a ski vacation. It worked."
 githubUrl: "https://github.com/frak-id/atelier"
 heroImage: "./assets/atelier-mission-control.png"
-group: "side-projects"
+group: "atelier"
 ---
 
 

@@ -1,0 +1,126 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import Icon from '../components/Icon';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE, SITE_URL, AUTHOR_NAME } from '../consts';
+
+const projects = (await getCollection('projects'))
+	.filter((project) => !project.data.draft)
+	.sort((a, b) => a.data.order - b.data.order);
+
+const pageTitle = `Projects | ${SITE_TITLE}`;
+const pageDescription = 'Real-world problems, the systems I built to solve them, and my role in each. From production Web3 infrastructure to self-hosted AI sandboxes and embedded firmware.';
+
+const projectsJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": pageTitle,
+	"description": pageDescription,
+	"url": `${SITE_URL}/projects`,
+	"mainEntity": {
+		"@type": "ItemList",
+		"numberOfItems": projects.length,
+		"itemListElement": projects.map((project, i) => ({
+			"@type": "ListItem",
+			"position": i + 1,
+			"url": `${SITE_URL}/projects/${project.id}`,
+			"name": project.data.name,
+		})),
+	},
+	"author": {
+		"@type": "Person",
+		"name": AUTHOR_NAME,
+		"url": SITE_URL,
+	},
+};
+
+const statusLabel: Record<string, string> = {
+	production: 'In Production',
+	internal: 'Internal Tool',
+	personal: 'Personal Project',
+	archived: 'Archived',
+};
+
+const statusColor: Record<string, string> = {
+	production: 'text-emerald-600 dark:text-emerald-400',
+	internal: 'text-blue-600 dark:text-blue-400',
+	personal: 'text-cyan-600 dark:text-cyan-400',
+	archived: 'text-gray-500',
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<script type="application/ld+json" set:html={JSON.stringify(projectsJsonLd)} />
+	</head>
+	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
+		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+			<Navigation client:load />
+
+			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
+				<section class="mb-16">
+					<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">
+						Projects
+					</h1>
+					<p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+						Real-world problems, the systems I built to solve them, and the writing that documents how.
+					</p>
+				</section>
+
+				<section class="space-y-8 mb-20">
+					{projects.map((project) => (
+						<a href={`/projects/${project.id}`} class="group block">
+							<div class="border border-gray-200 dark:border-white/10 rounded-lg p-6 md:p-8 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
+								<div class="flex items-start gap-4 mb-4">
+									<div class={`p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0 ${project.data.iconColor || 'text-gray-500'}`}>
+										<Icon name={project.data.icon} className="w-6 h-6" />
+									</div>
+									<div class="flex-1 min-w-0">
+										<div class="flex items-center justify-between gap-4">
+											<h2 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+												{project.data.name}
+											</h2>
+											<span class={`text-xs font-mono shrink-0 ${statusColor[project.data.status]}`}>
+												{statusLabel[project.data.status]}
+											</span>
+										</div>
+										<p class="text-gray-500 text-sm mt-1">{project.data.tagline}</p>
+									</div>
+								</div>
+
+								{project.data.metrics.length > 0 && (
+									<div class="grid grid-cols-3 gap-4 mb-6 py-4 border-y border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-lg">
+										{project.data.metrics.slice(0, 3).map((metric) => (
+											<div class="text-center px-2">
+												<div class="text-xs text-gray-500 uppercase tracking-wider mb-1">{metric.label}</div>
+												<div class="text-sm md:text-base font-bold text-green-600 dark:text-green-400">{metric.value}</div>
+											</div>
+										))}
+									</div>
+								)}
+
+								<p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+									{project.data.description}
+								</p>
+
+								<div class="flex flex-wrap gap-2">
+									{project.data.tech.slice(0, 6).map((t) => (
+										<span class="px-2 py-1 text-xs font-mono rounded bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-white/5">
+											{t}
+										</span>
+									))}
+								</div>
+							</div>
+						</a>
+					))}
+				</section>
+
+				<Footer client:load />
+			</main>
+		</div>
+	</body>
+</html>

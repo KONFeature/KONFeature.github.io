@@ -9,7 +9,7 @@ icon: "cpu"
 iconColor: "text-orange-400"
 description: "Migrating the pico-kiln firmware from MicroPython to bare-metal Rust on the RP2350: a compile-time safety boundary, golden-replay tests, hardware stack guards, and plug-and-play provisioning."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
-group: "side-projects"
+group: "kiln"
 ---
 
 A kiln is a box that holds 1200°C for hours, unattended, in a workshop. The software driving it has exactly one job it is not allowed to get wrong: keep the heat under control. If anything goes sideways, cut the power. Everything else (the web UI, the graphs, the WiFi, the auto-tuning) is a nice-to-have bolted onto that one non-negotiable.

@@ -9,7 +9,7 @@ icon: "ship"
 iconColor: "text-blue-400"
 description: "L'Atelier just went through its biggest architectural shift yet. I swapped a custom bare-metal Firecracker orchestrator for Kubernetes and Kata Containers: deleted 8,702 lines of code, gained portability, and traded sub-second boots for a system I can actually maintain."
 githubUrl: "https://github.com/frak-id/atelier"
-group: "side-projects"
+group: "atelier"
 ---
 
 In the first article, I talked about why I built L'Atelier: I wanted a self-hosted, isolated environment where AI agents could code without me having to watch their every move. Firecracker was the perfect tool for that. It gave me sub-second boot times and hardware-level isolation on bare metal.

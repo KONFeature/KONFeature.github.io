@@ -196,10 +196,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
               Selected Work
             </h2>
             <a 
-              href="/case-studies" 
+              href="/projects" 
               className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
-              Case studies →
+              All projects →
             </a>
           </div>
 

@@ -14,7 +14,17 @@ import {
   Command, 
   Menu, 
   X,
-  MessageSquareWarning
+  MessageSquareWarning,
+  Rocket,
+  Blocks,
+  Wrench,
+  Layers,
+  ChefHat,
+  ArrowLeft,
+  ExternalLink,
+  Calendar,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 export const IconMap: Record<string, React.ElementType> = {
@@ -33,7 +43,17 @@ export const IconMap: Record<string, React.ElementType> = {
   menu: Menu,
   x: X,
   "arrow-up-right": ArrowUpRight,
-  "message-square-warning": MessageSquareWarning
+  "message-square-warning": MessageSquareWarning,
+  rocket: Rocket,
+  blocks: Blocks,
+  wrench: Wrench,
+  layers: Layers,
+  "chef-hat": ChefHat,
+  "arrow-left": ArrowLeft,
+  "external-link": ExternalLink,
+  calendar: Calendar,
+  sun: Sun,
+  moon: Moon
 };
 
 interface IconProps {

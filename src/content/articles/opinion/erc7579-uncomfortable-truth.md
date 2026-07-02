@@ -8,7 +8,7 @@ tags: ["ERC-7579", "Account Abstraction", "Rhinestone", "Smart Wallets", "ZK", "
 icon: "message-square-warning"
 iconColor: "text-amber-400"
 description: "After weeks building a fully-featured ZK social wallet with 7579 modules, I have thoughts. The tech is here. The ecosystem... isn't."
-group: "opinion"
+group: "web3"
 ---
 
 Let me be direct: the modular smart wallet ecosystem is frustrating.

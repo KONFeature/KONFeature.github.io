@@ -9,7 +9,7 @@ icon: "layers"
 iconColor: "text-green-400"
 description: "An AI sandbox orchestrator needs more than just an orchestrator. Here's how CLIProxy, shared binary volumes, Verdaccio, and a single Helm chart turn L'Atelier from a VM launcher into a dev platform."
 githubUrl: "https://github.com/frak-id/atelier"
-group: "side-projects"
+group: "atelier"
 ---
 
 In my last post, I talked about the massive architectural shift of moving L'Atelier to Kubernetes and Kata Containers. Deleting 8,000 lines of code felt great, but an orchestrator alone doesn't make a development platform. It's just a way to start and stop VMs.

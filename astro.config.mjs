@@ -15,6 +15,9 @@ import rehypeMermaid from 'rehype-mermaid';
 export default defineConfig({
   site: 'https://nivelais.com',
   integrations: [mdx(), sitemap(), react(), pagefind()],
+  redirects: {
+    '/case-studies': '/projects',
+  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover',
