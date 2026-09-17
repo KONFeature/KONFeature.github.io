@@ -4,9 +4,6 @@ import {
   Server, 
   Cpu, 
   Code2, 
-  Github, 
-  Twitter, 
-  Linkedin, 
   ArrowUpRight, 
   Flame, 
   Box, 
@@ -26,6 +23,7 @@ import {
   Sun,
   Moon
 } from 'lucide-react';
+import { GithubIcon, TwitterIcon, LinkedinIcon } from './BrandIcons';
 
 export const IconMap: Record<string, React.ElementType> = {
   terminal: Terminal,
@@ -33,9 +31,9 @@ export const IconMap: Record<string, React.ElementType> = {
   cpu: Cpu,
   "code-2": Code2,
   code2: Code2,
-  github: Github,
-  twitter: Twitter,
-  linkedin: Linkedin,
+  github: GithubIcon,
+  twitter: TwitterIcon,
+  linkedin: LinkedinIcon,
   flame: Flame,
   box: Box,
   "shield-check": ShieldCheck,

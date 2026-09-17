@@ -1,12 +1,10 @@
 import React, { useMemo } from 'react';
 import { 
-  Github, 
-  Twitter,
-  Linkedin,
   ArrowRight,
   Calendar,
   MessageCircle,
 } from 'lucide-react';
+import { GithubIcon, TwitterIcon, LinkedinIcon } from './BrandIcons';
 import Navigation from './Navigation';
 import Footer from './Footer';
 import { links, CALENDLY_URL, TELEGRAM_URL, TAGLINE } from '../consts';
@@ -132,15 +130,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
 
           <div className="flex gap-6 text-sm font-mono">
             <a href="https://github.com/KONFeature" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <Github size={16} />
+              <GithubIcon size={16} />
               <span>GitHub</span>
             </a>
             <a href="https://x.com/QNivelais" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <Twitter size={16} />
+              <TwitterIcon size={16} />
               <span>Twitter</span>
             </a>
             <a href="https://www.linkedin.com/in/quentin-nivelais-5081a4141/" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <Linkedin size={16} />
+              <LinkedinIcon size={16} />
               <span>LinkedIn</span>
             </a>
           </div>

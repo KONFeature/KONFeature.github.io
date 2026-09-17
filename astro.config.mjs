@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import pagefind from "astro-pagefind";
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -29,7 +30,8 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   markdown: {
-    remarkPlugins: [remarkMath, remarkModifiedTime, remarkWordCount],
+    processor: unified({
+      remarkPlugins: [remarkMath, remarkModifiedTime, remarkWordCount],
    rehypePlugins: [
       rehypeKatex,
       [
@@ -132,6 +134,7 @@ export default defineConfig({
         },
       ],
     ],
+    }),
     syntaxHighlight: {
       excludeLangs: ['mermaid'],
     },

@@ -7,7 +7,7 @@
 - **Note**: No test suite configured. Playwright is installed but not set up with scripts.
 
 ## Tech Stack
-Astro 5 + React 19 + TypeScript + Tailwind CSS + MDX for articles
+Astro 7 + React 19 + TypeScript + Tailwind CSS + MDX for articles
 
 ## Code Style
 - **Imports**: Group by external libs, Astro/React, local components, types. Use named exports except for default component exports.
