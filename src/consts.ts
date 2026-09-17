@@ -6,7 +6,7 @@ export const SITE_DESCRIPTION = 'Web3 Infrastructure Architect & Account Abstrac
 export const AUTHOR_NAME = 'Quentin Nivelais';
 export const TWITTER_HANDLE = '@QNivelais';
 export const GITHUB_HANDLE = 'KONFeature';
-export const LINKEDIN_URL = 'https://www.linkedin.com/in/quentin-nivelais';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/quentin-nivelais-5081a4141/';
 export const SITE_URL = 'https://nivelais.com';
 
 // Consulting & Contact

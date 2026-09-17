@@ -217,7 +217,7 @@ We’re not talking about toy contracts here. We’re indexing:
 
 [SST](https://sst.dev/) v3 orchestrates our entire deployment with the elegance of a perfectly executed flash loan (these days it deploys onto our own [self-hosted Hetzner CI platform](/articles/frak/frak-hetzner-platform/)):
 
-![SST v3 deploying the Frak indexer stack, full terminal output](./assets/cost-effective-infra/0*MsLG-cXUT1he-wl7)
+![SST v3 deploying the Frak indexer stack, full terminal output](./assets/cost-effective-infra/sst-v3-indexer-deploy.webp)
 
 ### Infrastructure as Code Benefits
 
