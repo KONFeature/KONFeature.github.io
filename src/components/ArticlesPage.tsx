@@ -120,7 +120,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({ articles }) => {
 					filteredArticles.map((article) => (
 						<a 
 							key={article.id} 
-							href={`/articles/${article.slug}`}
+							href={`/articles/${article.slug}/`}
 							className="group block p-4 rounded-lg border border-transparent hover:border-gray-300 dark:hover:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
 						>
 							<div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">

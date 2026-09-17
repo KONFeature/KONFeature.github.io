@@ -2,7 +2,8 @@
 import BaseHead from '../components/BaseHead.astro';
 import LandingPage from '../components/LandingPage';
 import { getCollection } from 'astro:content';
-import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, SITE_URL, GITHUB_HANDLE, LINKEDIN_URL, JOB_TITLE, TAGLINE } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { personJsonLd, organizationJsonLd, personRef, canonical } from '../lib/schema';
 
 const articles = await getCollection('articles');
 
@@ -39,39 +40,10 @@ processedArticles.sort((a, b) => {
     return dateB - dateA;
 });
 
-// JSON-LD for Person
-const personJsonLd = {
+// JSON-LD for Person (shared node, see src/lib/schema.ts)
+const personPageJsonLd = {
 	"@context": "https://schema.org",
-	"@type": "Person",
-	"@id": `${SITE_URL}/#person`,
-	"name": AUTHOR_NAME,
-	"url": SITE_URL,
-	"jobTitle": JOB_TITLE,
-	"worksFor": {
-		"@type": "Organization",
-		"name": "Frak Labs"
-	},
-	"description": TAGLINE,
-	"sameAs": [
-		`https://github.com/${GITHUB_HANDLE}`,
-		LINKEDIN_URL,
-		"https://x.com/QNivelais"
-	],
-	"knowsAbout": [
-		"Account Abstraction (ERC-4337, ERC-7579)",
-		"WebAuthn & Passkeys",
-		"Smart Contract Development",
-		"Web3 Infrastructure",
-		"Kubernetes & DevOps",
-		"Blockchain Cost Optimization",
-		"Ethereum Virtual Machine (EVM)",
-		"Infrastructure as Code"
-	],
-	"hasOccupation": {
-		"@type": "Occupation",
-		"name": JOB_TITLE,
-		"occupationalCategory": "Software Engineering"
-	}
+	...personJsonLd,
 };
 
 // JSON-LD for WebSite
@@ -79,29 +51,16 @@ const websiteJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "WebSite",
 	"name": SITE_TITLE,
-	"url": SITE_URL,
+	"url": canonical(),
 	"description": SITE_DESCRIPTION,
 	"inLanguage": "en",
-	"author": {
-		"@id": `${SITE_URL}/#person`
-	}
+	"author": personRef
 };
 
 // JSON-LD for Organization (Frak Labs)
-const organizationJsonLd = {
+const organizationPageJsonLd = {
 	"@context": "https://schema.org",
-	"@type": "Organization",
-	"@id": `${SITE_URL}/#organization`,
-	"name": "Frak Labs",
-	"url": "https://frak.id",
-	"description": "Building the future of content monetization with Web3 infrastructure, account abstraction, and WebAuthn wallets.",
-	"founder": {
-		"@id": `${SITE_URL}/#person`
-	},
-	"sameAs": [
-		"https://github.com/frak-id",
-		"https://x.com/FrakLabs"
-	]
+	...organizationJsonLd,
 };
 ---
 
@@ -111,9 +70,9 @@ const organizationJsonLd = {
 		<BaseHead title="Quentin Nivelais — Web3 Infrastructure Architect" description={SITE_DESCRIPTION} />
 		
 		<!-- JSON-LD Structured Data -->
-		<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(personPageJsonLd)} />
 		<script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
-		<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(organizationPageJsonLd)} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
 		<LandingPage client:load articles={processedArticles} />

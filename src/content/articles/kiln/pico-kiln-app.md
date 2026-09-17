@@ -1,10 +1,10 @@
 ---
-title: "Pico Kiln - Part 3: From Web to Native with Tauri"
+title: "Pico Kiln Part 3: From Web to Native with Tauri"
 date: 2025-11-16T12:00:00Z
 draft: false
 subtitle: "One React App, Three Platforms, Zero Mixed Content Drama"
 category: "mobile"
-tags: ["Kiln", "IoT", "React", "Tauri", "IoT", "Local-First"]
+tags: ["Kiln", "IoT", "React", "Tauri", "Local-First"]
 icon: "smartphone"
 iconColor: "text-blue-400"
 description: "Ship one React kiln controller UI as a web app, macOS app, and Android APK with Tauri, and bypass the HTTP/HTTPS mixed-content problem entirely."
@@ -12,7 +12,7 @@ githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
 
-Most embedded web interfaces are terrible. They're server-side rendered HTML that requires a full page refresh to see a temperature update. For `pico-kiln`, I wanted instant state updates, smooth charts, and offline resilience: all from a microcontroller with 264KB of RAM.
+Most embedded web interfaces are terrible. They're server-side rendered HTML that requires a full page refresh to see a temperature update. For `pico-kiln`, I wanted instant state updates, smooth charts, and offline resilience: all from a microcontroller with 264KB of RAM. The machine underneath is a [1977 kiln I rewired from 380V three-phase to 220V](/articles/kiln/kiln-hardware/).
 
 The solution: a static React SPA served from the Pico's flash memory. But then we hit the **Mixed Content Problem**.
 
@@ -174,7 +174,7 @@ Because:
 
 The native apps bypass all of this. They're first-class OS citizens. No security warnings. No browser chrome. Just a clean, native UI that talks to a local device over HTTP.
 
-Tauri's native layer has paid off elsewhere too, like [native WebAuthn plugins written from scratch](/articles/mobile/native-webauthn-tauri-plugin-ios-android/) and [rich share sheets](/articles/mobile/tauri-native-sharing-rich-previews/) in Tauri mobile apps.
+Tauri's native layer has paid off elsewhere too, like [native WebAuthn plugins written from scratch](/articles/frak/native-webauthn-tauri-plugin-ios-android/) and [rich share sheets](/articles/frak/tauri-native-sharing-rich-previews/) in Tauri mobile apps.
 
 ## The Build Process
 
@@ -234,4 +234,4 @@ The Pico serves JSON over HTTP. The UI consumes it. The platform doesn't matter.
 - **Build Tools:** Bun (TypeScript), Cargo (Rust), Gradle (Android)
 - **Platforms:** Web (any browser), macOS (Universal), Android 7.0+
 
-**Next up:** [Part 4: Physics-Based Data Analysis with Python](#): Phase detection, PID tuning metrics, and thermal modeling from CSV logs.
+**Next up:** [Part 4: Physics-Based Data Analysis with Python](/articles/kiln/pico-python-analysis/): Phase detection, PID tuning metrics, and thermal modeling from CSV logs.

@@ -5,13 +5,17 @@ import BaseHead from '../components/BaseHead.astro';
 import Icon from '../components/Icon';
 import ArticleNavigation from '../components/ArticleNavigation';
 import TableOfContents from '../components/TableOfContents';
-import { AUTHOR_NAME, SITE_URL } from '../consts';
+import { AUTHOR_NAME, JOB_TITLE, LINKEDIN_URL, GITHUB_HANDLE } from '../consts';
 import { ARTICLE_GROUPS } from '../articleGroups';
+import { personJsonLd, personRef, canonical, DEFAULT_OG_IMAGE, X_PROFILE_URL } from '../lib/schema';
 
 const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage, group, wordCount, lastModified } = Astro.props;
 
 // Create article URL
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Group hub metadata, used for both the breadcrumb trail and the JSON-LD.
+const groupInfo = group ? ARTICLE_GROUPS[group] : undefined;
 
 // Resolve image metadata: heroImage may be an ImageMetadata object with width/height
 const imageUrl = heroImage ? new URL(heroImage.src ?? heroImage, Astro.site).toString() : undefined;
@@ -34,18 +38,12 @@ const jsonLd = {
 	"headline": title,
 	"description": description || subtitle || title,
 	"inLanguage": "en",
-	"author": {
-		"@type": "Person",
-		"name": AUTHOR_NAME,
-		"url": SITE_URL
-	},
+	// Full Person node so each article page is a self-contained E-E-A-T signal,
+	// sharing one @id with the homepage and /about.
+	"author": personJsonLd,
 	"datePublished": date?.toISOString(),
 	"dateModified": lastModified ?? date?.toISOString(),
-	"publisher": {
-		"@type": "Person",
-		"name": AUTHOR_NAME,
-		"url": SITE_URL
-	},
+	"publisher": personRef,
 	"mainEntityOfPage": {
 		"@type": "WebPage",
 		"@id": articleUrl
@@ -53,30 +51,43 @@ const jsonLd = {
 	"keywords": tags?.join(', '),
 	"articleSection": category,
 	...(wordCount && { "wordCount": wordCount }),
-	...(imageUrl && { "image": imageUrl }),
+	// Every article needs an image; fall back to the same default card OG uses.
+	"image": imageUrl ?? DEFAULT_OG_IMAGE,
 	...(githubUrl && { "codeRepository": githubUrl })
 };
 
-// Build breadcrumb structured data
+// Build breadcrumb structured data.
+// Mirrors the visible trail: Home > Articles > <Group> > <Title>.
+// Articles whose group has no hub page fall back to the 3-level trail.
+const breadcrumbItems = [
+	{
+		"@type": "ListItem",
+		"position": 1,
+		"name": "Home",
+		"item": canonical()
+	},
+	{
+		"@type": "ListItem",
+		"position": 2,
+		"name": "Articles",
+		"item": canonical('articles')
+	},
+	...(groupInfo ? [{
+		"@type": "ListItem",
+		"position": 3,
+		"name": groupInfo.name,
+		"item": canonical(`articles/${group}`)
+	}] : []),
+];
+
 const breadcrumbJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "BreadcrumbList",
 	"itemListElement": [
+		...breadcrumbItems,
 		{
 			"@type": "ListItem",
-			"position": 1,
-			"name": "Home",
-			"item": SITE_URL
-		},
-		{
-			"@type": "ListItem",
-			"position": 2,
-			"name": "Articles",
-			"item": `${SITE_URL}/articles`
-		},
-		{
-			"@type": "ListItem",
-			"position": 3,
+			"position": breadcrumbItems.length + 1,
 			"name": title,
 			"item": articleUrl
 		}
@@ -288,13 +299,13 @@ const breadcrumbJsonLd = {
         <main class="max-w-3xl mx-auto px-6 pt-32 pb-20" data-pagefind-body>
              <article id="article-content" class="prose dark:prose-invert prose-neutral max-w-none">
                 <div class="mb-12 not-prose">
-                    {group && ARTICLE_GROUPS[group] && (
+                    {groupInfo && (
                         <a 
-                            href={`/articles/${group}`}
+                            href={`/articles/${group}/`}
                             class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors group/breadcrumb"
                         >
                             <Icon name="arrow-left" className="w-4 h-4" />
-                            <span>{ARTICLE_GROUPS[group].name}</span>
+                            <span>{groupInfo.name}</span>
                         </a>
                     )}
                     
@@ -325,7 +336,7 @@ const breadcrumbJsonLd = {
 
                     {date && (
                         <div class="flex items-center gap-2 mt-6 text-sm text-gray-500 dark:text-gray-400">
-                            <span>By <a href="/" class="hover:text-gray-900 dark:hover:text-white transition-colors">{AUTHOR_NAME}</a></span>
+                            <span>By <a href="/about/" rel="author" class="hover:text-gray-900 dark:hover:text-white transition-colors">{AUTHOR_NAME}</a></span>
                             <span aria-hidden="true">·</span>
                             <time datetime={publishedIso}>{publishedLabel}</time>
                             {showUpdated && (
@@ -364,6 +375,24 @@ const breadcrumbJsonLd = {
                     </div>
                 )}
              </article>
+
+             {/* Author bio: turns an anonymous post into an attributed one. */}
+             <aside class="mt-16 p-6 rounded-lg border border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/[0.02]">
+                <p class="font-mono text-[10px] uppercase tracking-widest text-gray-500 mb-3">Written by</p>
+                <a href="/about/" rel="author" class="text-lg font-bold text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                    {AUTHOR_NAME}
+                </a>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-4">{JOB_TITLE}</p>
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+                    <a href="/about/" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
+                    <span class="text-gray-300 dark:text-white/20" aria-hidden="true">·</span>
+                    <a href={`https://github.com/${GITHUB_HANDLE}`} target="_blank" rel="noopener noreferrer me" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">GitHub</a>
+                    <span class="text-gray-300 dark:text-white/20" aria-hidden="true">·</span>
+                    <a href={X_PROFILE_URL} target="_blank" rel="noopener noreferrer me" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">X</a>
+                    <span class="text-gray-300 dark:text-white/20" aria-hidden="true">·</span>
+                    <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer me" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">LinkedIn</a>
+                </div>
+             </aside>
              
              <ArticleNavigation 
                 client:load

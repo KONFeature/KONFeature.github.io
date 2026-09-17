@@ -13,7 +13,7 @@ heroImage: "./assets/frak-infrastructure-iac/hero.png"
 group: "frak"
 ---
 
-![hero image](./assets/frak-infrastructure-iac/hero.png)
+![Frak's multi-cloud infrastructure managed with SST and Pulumi in TypeScript](./assets/frak-infrastructure-iac/hero.png)
 
 In the world of Platform Engineering, the "Terraform vs. Everyone Else" debate is eternal. At Frak, we made a deliberate choice to step away from the industry standard HCL (HashiCorp Configuration Language) and embrace a full TypeScript stack for our Infrastructure as Code (IaC).
 
@@ -66,7 +66,7 @@ Recently, we migrated our entire Kubernetes cluster from ARM to AMD64 architectu
 - Deployed across 3 repositories
 - **Zero downtime** - kept ARM nodes running during migration
 
-**Why?** Preparing to migrate to Hetzner as GCP credits expire. AMD64 gives us more provider options. (I documented a very different Kubernetes migration on the side-project side: [deleting 8,702 lines of code to move L'Atelier to Kubernetes](/articles/side-projects/atelier-kubernetes-migration/).)
+**Why?** Preparing to migrate to Hetzner as GCP credits expire. AMD64 gives us more provider options. (I documented a very different Kubernetes migration on the side-project side: [deleting 8,702 lines of code to move L'Atelier to Kubernetes](/articles/atelier/atelier-kubernetes-migration/).)
 
 ## The "Why Not Terraform?" Decision
 

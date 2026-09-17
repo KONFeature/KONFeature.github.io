@@ -12,8 +12,6 @@ description: "Deep dive into our runtime LLM architecture, speech synthesis pipe
 group: "cooking-bot"
 ---
 
-## Real-Time AI Conversations and Audio Processing
-
 [Building a conversational cooking assistant](/articles/cooking-bot/introduction/) requires more than just text responses – it demands **intelligent tool-enhanced conversations** and **on-demand audio generation** that guides users through their cooking journey. This is the story of how we engineered a runtime architecture that combines sophisticated LLM integration with efficient audio processing for hands-free cooking guidance.
 
 ## The Challenge: Dual-Mode AI Experience

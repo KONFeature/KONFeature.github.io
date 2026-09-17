@@ -12,7 +12,7 @@ iconColor: "text-cyan-400"
 githubUrl: "https://github.com/frak-id/wallet"
 ---
 
-`navigator.share()` looks like the right answer until you open the Tauri WebView and call it on iOS. It's the third Tauri mobile plugin we've shipped for this app, alongside [native WebAuthn passkey registration](/articles/mobile/native-webauthn-tauri-plugin-ios-android/) and [uninstall-proof passkey recovery hints](/articles/mobile/tauri-recovery-hint-uninstall-survival/).
+`navigator.share()` looks like the right answer until you open the Tauri WebView and call it on iOS. It's the third Tauri mobile plugin we've shipped for this app, alongside [native WebAuthn passkey registration](/articles/frak/native-webauthn-tauri-plugin-ios-android/) and [uninstall-proof passkey recovery hints](/articles/frak/tauri-recovery-hint-uninstall-survival/).
 
 Nothing happens. No error, no prompt, nothing. The Web Share API is gated on browsing contexts that Tauri's WKWebView / WebView2 don't provide, and even when a polyfill fires, you get a text-only share: title glued to body glued to URL, no preview card, no thumbnail, and a link that the receiving app treats as raw text instead of a URL. Messages won't render a rich card. Safari Reading List can't save it. Mail won't set the subject.
 

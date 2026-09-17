@@ -7,7 +7,7 @@ import {
 import { GithubIcon, TwitterIcon, LinkedinIcon } from './BrandIcons';
 import Navigation from './Navigation';
 import Footer from './Footer';
-import { links, CALENDLY_URL, TELEGRAM_URL, TAGLINE } from '../consts';
+import { links, CALENDLY_URL, TELEGRAM_URL, TAGLINE, LINKEDIN_URL, GITHUB_HANDLE } from '../consts';
 
 interface ArticleData {
   id: string;
@@ -48,14 +48,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
       title: "Account Abstraction",
       role: "Production Expert",
       outcome: "Production WebAuthn validator, Smart Sessions, ERC-7579 modules. Contributed to ZeroDev & Pimlico SDKs.",
-      link: "/articles/frak/4337-webauthn",
+      link: "/articles/frak/4337-webauthn/",
       tech: ["ERC-4337", "ERC-7579", "WebAuthn"]
     },
     {
       title: "Infrastructure",
       role: "Cost Optimization",
       outcome: "Multi-cloud K8s without YAML. Contributors to eRPC, Ponder, SST. AWS to self-hosted migrations.",
-      link: "/articles/frak/cost-effective-infra",
+      link: "/articles/frak/cost-effective-infra/",
       tech: ["Pulumi", "Kubernetes", "eRPC"]
     },
     {
@@ -96,7 +96,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
               <span className="text-yellow-600 dark:text-yellow-500">#2 Global Gas Golfing</span>
             </a>
             <div className="hidden md:block w-px h-4 bg-gray-300 dark:bg-white/10" />
-            <a href="/articles/frak/cost-effective-infra" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <a href="/articles/frak/cost-effective-infra/" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <span className="text-gray-400 dark:text-gray-500">INFRA:</span>
               <span className="text-emerald-600 dark:text-emerald-500">-85% Cost</span>
             </a>
@@ -129,7 +129,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
           </div>
 
           <div className="flex gap-6 text-sm font-mono">
-            <a href="https://github.com/KONFeature" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <a href={`https://github.com/${GITHUB_HANDLE}`} className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <GithubIcon size={16} />
               <span>GitHub</span>
             </a>
@@ -137,7 +137,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
               <TwitterIcon size={16} />
               <span>Twitter</span>
             </a>
-            <a href="https://www.linkedin.com/in/quentin-nivelais-5081a4141/" className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <a href={LINKEDIN_URL} className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors">
               <LinkedinIcon size={16} />
               <span>LinkedIn</span>
             </a>
@@ -151,7 +151,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
               Latest Articles
             </h2>
             <a 
-              href="/articles" 
+              href="/articles/" 
               className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               View all →
@@ -162,7 +162,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
             {recentArticles.map((article) => (
               <a 
                 key={article.id} 
-                href={`/articles/${article.slug}`}
+                href={`/articles/${article.slug}/`}
                 className="group block"
               >
                 <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
@@ -194,7 +194,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ articles }) => {
               Selected Work
             </h2>
             <a 
-              href="/projects" 
+              href="/projects/" 
               className="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               All projects →

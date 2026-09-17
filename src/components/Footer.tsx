@@ -7,6 +7,12 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-gray-500">
         <p>&copy; {new Date().getFullYear()} Quentin Nivelais.</p>
         <div className="flex items-center gap-4">
+          <a
+            href="/about/"
+            className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+          >
+            About
+          </a>
           <span className="inline-flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-500" />
             Available {AVAILABILITY}

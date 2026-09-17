@@ -7,16 +7,16 @@ category: "solidity"
 tags: ["ERC-2612", "ERC-20", "EIP-712", "Solidity", "Smart Contracts"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "A deep dive into the Solidity code of gasless ERC-20 approvals ERC-2612"
+description: "Implement ERC-2612 permit in Solidity: the EIP-712 domain separator, the Permit typehash, nonce management, and the pitfalls worth knowing upfront."
 mediumUrl: "https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-part-2-9c90c01eb69d"
 group: "web3"
 ---
 
 
 
-![Generated via mid journey, prompt : A person who handles a contract to a machine ethereum](./assets/erc-2612-part-2/erc-2612-contract-machine-hero.png)
+![Illustration of handing a signed permit to a smart contract, ERC-2612 in Solidity](./assets/erc-2612-part-2/erc-2612-contract-machine-hero.png)
 
-Hi everyone, welcome back to the second article of my series on ERC-2612! If you missed the [first article](https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-2cd32ddee534), we covered the general overview of ERC-2612, an ERC-20 token extension that leverages EIP-712 signatures for approving spenders.
+Hi everyone, welcome back to the second article of my series on ERC-2612! If you missed the [first article](/articles/web3/erc-2612-part-1/), we covered the general overview of ERC-2612, an ERC-20 token extension that leverages EIP-712 signatures for approving spenders.
 
 This ingenious combination simplifies and streamlines user interactions with DeFi platforms, like the one I worked on at [Frak](https://frak.id/).
 
@@ -24,10 +24,9 @@ Today, we’re diving into the nitty-gritty of implementing ERC-2612 in Solidity
 
 Here’s a breakdown of the article series:
 
-1.  [Part 1: General overview of ERC-2612 (March 13, 2023)](https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-2cd32ddee534)
+1.  [Part 1: General overview of ERC-2612](/articles/web3/erc-2612-part-1/)
 2.  _Part 2: Solidity development of ERC-2612 (this article)_
-3.  Part 3: Unit testing with Hardhat or Forge (coming soon)
-4.  Part 4: Implementation with Ether.js and Fireblocks (coming soon)
+3.  [Part 3: Unit testing with Hardhat and Forge](/articles/web3/erc-2612-part-3/)
 
 By the end of this article, you’ll be well-equipped to implement ERC-2612 and EIP-712 in Solidity and fully leverage their benefits for your own ERC-20 tokens, enhancing user experience, flexibility, and integration with other DeFi protocols.
 
@@ -37,7 +36,10 @@ So let’s dive in!
 
 To implement EIP-712 in our existing ERC-20 token contract, we’ll first define the required domain separator type hashes. If you need the fundamentals first, start with the [general ERC-2612 overview](/articles/web3/erc-2612-part-1/).
 
-![EIP712 domain type hash](./assets/erc-2612-part-2/eip712-domain-typehash.png)
+```solidity
+bytes32 internal constant EIP712_DOMAIN_TYPEHASH =
+    keccak256(bytes("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"));
+```
 
 > You can add a “bytes32 salt” at the end of the domain typehash, if you’re protocol contain multiple implementation.
 > 
@@ -45,25 +47,93 @@ To implement EIP-712 in our existing ERC-20 token contract, we’ll first define
 
 Next, we need to store the domain separator itself:
 
-![Contract variable that hold the domain separator](./assets/erc-2612-part-2/domain-separator-variable.png)
+```solidity
+bytes32 internal domainSeperator;
+```
 
 Initialize the `DOMAIN_SEPARATOR` in the constructor of your ERC-20 token contract, by calling a function similar to this one ([github](https://github.com/frak-id/frak-id-blockchain/blob/68f6ffcea83b5333839cc0daec11bdcedac3fe33/contracts/utils/EIP712Base.sol#L53)):
 
-![EIP712 Domain separator creation](./assets/erc-2612-part-2/domain-separator-creation.png)
+```solidity
+function _setDomainSeperator(string memory name) internal {
+    domainSeperator = keccak256(
+        abi.encode(
+            EIP712_DOMAIN_TYPEHASH,
+            keccak256(bytes(name)),
+            keccak256(bytes(ERC712_VERSION)),
+            getChainId(),
+            address(this)
+        )
+    );
+}
+```
 
 The `getChainId()` method is just a simple helper function that return the current chainId. If you are using solidity 0.8+ you can simply use `block.chainid`.
 
-![Small helper to retrieve the chainId](./assets/erc-2612-part-2/chainid-helper-function.png)
+```solidity
+function getChainId() internal view returns (uint256 id) {
+    assembly {
+        id := chainid()
+    }
+    return id;
+}
+```
 
 ## 2. Adding ERC-2612 Support
 
 Now, let’s add support for ERC-2612 by creating the `Permit` type hash and adding the `nonces` mapping:
 
-![Permit typehash](./assets/erc-2612-part-2/permit-typehash.png)![Contract variable that hold user nonces](./assets/erc-2612-part-2/user-nonces-variable.png)
+```solidity
+bytes32 internal constant PERMIT_TYPEHASH =
+    keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+
+mapping(address => uint256) internal nonces;
+```
 
 Next, implement the `permit` function ([github](https://github.com/frak-id/frak-id-blockchain/blob/68f6ffcea83b5333839cc0daec11bdcedac3fe33/contracts/tokens/FrakTokenL2.sol#L124)):
 
-![Permit function in the ERC20](./assets/erc-2612-part-2/permit-function-implementation.png)
+```solidity
+/// @dev EIP 2612, allow the owner to spend the given amount of FRK
+function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)
+    external
+    payable
+    override
+{
+    assembly {
+        if gt(timestamp(), deadline) {
+            mstore(0x00, _PERMIT_DELAYED_EXPIRED_SELECTOR)
+            revert(0x1c, 0x04)
+        }
+    }
+
+    // Unchecked because the only math done is incrementing
+    // the owner's nonce which cannot realistically overflow.
+    unchecked {
+        address recoveredAddress = ecrecover(
+            toTypedMessageHash(
+                keccak256(
+                    abi.encode(
+                        PERMIT_TYPEHASH,
+                        owner,
+                        spender,
+                        value,
+                        nonces[owner]++,
+                        deadline
+                    )
+                )
+            ),
+            v,
+            r,
+            s
+        );
+
+        // Don't need to check for 0 address, or send event's, since approve already do it for us
+        if (recoveredAddress != owner) revert InvalidSigner();
+
+        // Approve the token
+        _approve(recoveredAddress, spender, value);
+    }
+}
+```
 
 The `permit` function constructs the EIP-712 typed data structure, hashes it, and verifies the signer's address using the `ecrecover` function. If the signature is valid and the deadline has not expired, it calls the internal `_approve` function to update the allowance mapping.
 
@@ -71,7 +141,20 @@ For the error, we are using assembly and error to be more gas efficient (less me
 
 Here we are using a small helper function `toTypedMessageHash()` , that help us create EIP-712 typed data hashes ([github](https://github.com/frak-id/frak-id-blockchain/blob/68f6ffcea83b5333839cc0daec11bdcedac3fe33/contracts/utils/EIP712Base.sol#L72)).
 
-![Creation of typed message hash](./assets/erc-2612-part-2/typed-message-hash-creation.png)
+```solidity
+function toTypedMessageHash(bytes32 messageHash) internal view returns (bytes32 digest) {
+    bytes32 separator = domainSeperator;
+    assembly {
+        // Compute the digest.
+        mstore(0x00, 0x1901000000000000) // Store "\x19\x01".
+        mstore(0x1a, separator) // Store the domain separator.
+        mstore(0x3a, messageHash) // Store the message hash.
+        digest := keccak256(0x18, 0x42)
+        // Restore the part of the free memory slot that was overwritten.
+        mstore(0x3a, 0)
+    }
+}
+```
 
 We are using assembly here to be more gas efficient.
 
@@ -107,6 +190,4 @@ By keeping these potential pitfalls in mind, you can ensure a robust and secure 
 
 Congratulations! You’ve now unlocked the full potential of ERC-2612 and EIP-712 in Solidity. By combining these standards, your ERC-20 tokens will enjoy improved user experience and seamless integration with the ever-evolving DeFi ecosystem.
 
-But don’t stop here! Keep an eye out for the next articles in this series, where we’ll cover unit testing with Hardhat or Forge and implementing ERC-2612 using Ether.js and Fireblocks. If you found this article helpful, please give it a clap, share it, and follow me for more insightful articles on Solidity and the DeFi world.
-
-Ready for the next adventure? Let’s continue our journey into the world of DeFi together!
+But don’t stop here: the next part covers [unit testing this implementation with Hardhat and Forge](/articles/web3/erc-2612-part-3/), including the benchmark that eventually pushed us off Hardhat entirely.

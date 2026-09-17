@@ -21,7 +21,7 @@ There's almost no documentation on writing Tauri plugins that talk to native mob
 
 ## The Plugin Skeleton
 
-Tauri mobile plugins follow a specific structure. The Rust side is thin, it registers commands and delegates to platform-specific implementations. The actual logic lives in Swift (iOS) or Kotlin (Android). It's the same skeleton we used for our [native share plugin](/articles/mobile/tauri-native-sharing-rich-previews/).
+Tauri mobile plugins follow a specific structure. The Rust side is thin, it registers commands and delegates to platform-specific implementations. The actual logic lives in Swift (iOS) or Kotlin (Android). It's the same skeleton we used for our [native share plugin](/articles/frak/tauri-native-sharing-rich-previews/).
 
 The plugin directory layout:
 
@@ -210,7 +210,7 @@ extension Data {
 
 Here's the first non-obvious thing that breaks silently: iOS passkeys are bound to an RP ID, and the origin embedded in `clientDataJSON` is `https://${rpId}` - not `tauri://localhost`, not your server URL. If your rpId is `wallet.frak.id`, iOS will embed `https://wallet.frak.id` as the origin, regardless of what the WebView thinks the current URL is.
 
-This is actually correct behavior per the WebAuthn spec. It's also what makes passkeys portable to the web - credentials registered in the native iOS app are accessible from `https://wallet.frak.id` in Safari, [synced across devices via iCloud Keychain](/articles/mobile/tauri-recovery-hint-uninstall-survival/). But it means:
+This is actually correct behavior per the WebAuthn spec. It's also what makes passkeys portable to the web - credentials registered in the native iOS app are accessible from `https://wallet.frak.id` in Safari, [synced across devices via iCloud Keychain](/articles/frak/tauri-recovery-hint-uninstall-survival/). But it means:
 
 1. Your WebAuthn server's origin validation must allow `https://your-rp-id` from mobile registrations.
 2. Your Associated Domains entitlement must be configured correctly.

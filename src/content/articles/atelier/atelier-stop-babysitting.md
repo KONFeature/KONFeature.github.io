@@ -146,7 +146,7 @@ You define tasks with a prompt and a **session template**. Four built-in workflo
 
 Templates are customizable globally, and per workspace. You can define your own models, effort levels, and prompt templates.
 
-**The real power is chaining.** Dispatch an implementation task. When it's done, dispatch a security review on the same branch. Then a simplification pass. Each one runs in its own sandbox, on its own schedule, without blocking you. You can also skip the dashboard entirely: [dispatch agents straight from Slack via the MCP server](/articles/side-projects/atelier-slack-mcp/).
+**The real power is chaining.** Dispatch an implementation task. When it's done, dispatch a security review on the same branch. Then a simplification pass. Each one runs in its own sandbox, on its own schedule, without blocking you. You can also skip the dashboard entirely: [dispatch agents straight from Slack via the MCP server](/articles/atelier/atelier-slack-mcp/).
 
 ---
 
@@ -204,7 +204,7 @@ Why it matters: containers share the host kernel. An AI agent with root inside a
 
 Firecracker runs each sandbox in its own microVM with its own kernel. Hardware-level isolation via KVM. The attack surface is minimal: Firecracker's VMM is ~50k lines of Rust, purpose-built for multi-tenant isolation.
 
-The tradeoff: you need bare-metal KVM. No running this on a Mac or inside another VM (nested virtualization aside). But a Hetzner dedicated server with KVM costs less than what you'd pay for 3 Codespaces seats, and you get unlimited sandboxes. Curious how this stack evolved? L'Atelier later [swapped Firecracker for Kubernetes and Kata Containers](/articles/side-projects/atelier-kubernetes-migration/).
+The tradeoff: you need bare-metal KVM. No running this on a Mac or inside another VM (nested virtualization aside). But a Hetzner dedicated server with KVM costs less than what you'd pay for 3 Codespaces seats, and you get unlimited sandboxes. Curious how this stack evolved? L'Atelier later [swapped Firecracker for Kubernetes and Kata Containers](/articles/atelier/atelier-kubernetes-migration/).
 
 ---
 
@@ -240,7 +240,7 @@ Four components:
 - **CLI**: Compiled Bun binary for server provisioning. `atelier init` sets up everything on bare metal
 - **Sandbox Agent**: Rust binary running inside each VM, communicating with the manager via Firecracker's vsock
 
-**Why Rust for the agent?** I went through three runtimes. Started with Bun, but vsock support was poor, and it crashes inside Firecracker VMs anyway (AVX instructions trigger SIGILL on the minimal CPU template). Switched to Deno, worked nicely, but the bundle size was massive for something running inside every VM. Landed on Rust: lighter binary, better memory and CPU efficiency, granular control over process management, and a proper watchdog with auto-restart that's painful to get right in a JS runtime. It ships as a static musl binary: no runtime dependencies, minimal footprint. The supporting pieces around the orchestrator — CLIProxy, shared binary volumes, and the npm cache — are detailed in [L'Atelier's supporting infrastructure](/articles/side-projects/atelier-supporting-infrastructure/).
+**Why Rust for the agent?** I went through three runtimes. Started with Bun, but vsock support was poor, and it crashes inside Firecracker VMs anyway (AVX instructions trigger SIGILL on the minimal CPU template). Switched to Deno, worked nicely, but the bundle size was massive for something running inside every VM. Landed on Rust: lighter binary, better memory and CPU efficiency, granular control over process management, and a proper watchdog with auto-restart that's painful to get right in a JS runtime. It ships as a static musl binary: no runtime dependencies, minimal footprint. The supporting pieces around the orchestrator — CLIProxy, shared binary volumes, and the npm cache — are detailed in [L'Atelier's supporting infrastructure](/articles/atelier/atelier-supporting-infrastructure/).
 
 
 ---

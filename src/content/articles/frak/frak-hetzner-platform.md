@@ -12,7 +12,7 @@ githubUrl: "https://github.com/frak-id/infra-core"
 group: "frak"
 ---
 
-We've previously written about [moving from AWS Lambda to GKE](/articles/frak/frak-infrastructure-iac) and adopting SST + Pulumi for our control plane. That story is about the planes that decide what runs where. This one is about the factory floor underneath: the place where our images get built, our caches get warmed, and our deploys actually execute.
+We've previously written about [moving from AWS Lambda to GKE](/articles/frak/frak-infrastructure-iac/) and adopting SST + Pulumi for our control plane. That story is about the planes that decide what runs where. This one is about the factory floor underneath: the place where our images get built, our caches get warmed, and our deploys actually execute.
 
 For four years we were happy paying GitHub for runner minutes and AWS / GCP for everything else. Then three things piled up: GCP credits started running out, Docker Hub rate limits kept biting our PRs, and the GitHub Actions cache grew a 10 GB ceiling we couldn't tune around. Each was annoying on its own. Together they were a signal that we were paying for *operational convenience* in places where it cost us more than self-hosting would.
 
@@ -438,7 +438,7 @@ A few pieces fill out the platform without deserving their own section.
 
 **CNPG** (CloudNativePG) backs the Postgres clusters our hosted apps (n8n, Twenty, WordPress demos) consume. Operator-managed, monitoring built in, point-in-time recovery available if we ever wire backups (we haven't; explicit TODO before this platform sees production data).
 
-Running stateful services on Kubernetes is a theme we keep returning to: see how we [replaced MongoDB with libSQL and RustFS](/articles/frak/mongodb-to-turso-rustfs/).
+Running stateful services on Kubernetes is a theme we keep returning to: see how we [replaced MongoDB with libSQL and RustFS](/articles/frak/mongodb-to-turso-rustfs/). Long-running workloads on this cluster have their own failure modes, too: [three days of chasing a Bun memory leak](/articles/frak/bun-memory-leak-kubernetes-restart/) ended with us letting the liveness probe restart the pod.
 
 **cert-manager** is the unsung hero. Every TLS surface on this cluster (BuildKit's mTLS chain, the Traefik HTTPS certs via the `letsencrypt-frak` ClusterIssuer, anything else that needs a cert) flows through it. One operator, zero manual cert rotations.
 

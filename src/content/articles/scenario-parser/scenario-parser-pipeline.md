@@ -13,17 +13,17 @@ heroImage: "./assets/scenario-parser/hero-pipeline.png"
 group: "scenario-parser"
 ---
 
-![hero image](./assets/scenario-parser/hero-pipeline.png)
+![Event-driven LLM orchestration pipeline with concurrency-limited analysis stages](./assets/scenario-parser/hero-pipeline.png)
 
 When building `scenario-parser`, the primary challenge wasn't just "calling an LLM." It was orchestration. A typical screenplay analysis involves processing hundreds of entities, thousands of interactions, and maintaining a coherent state across multiple asynchronous stages.
 
 This article dissects the orchestration architecture of **Stage 3: Analysis**, specifically focusing on concurrency control with `p-limit` and the implementation of Social Network Analysis (SNA) using `graphology`. For the LLM side of Stage 3 — prompt design and the "Big Five" personality synthesis — see [Modeling Character Psychology with LLMs](/articles/scenario-parser/scenario-parser-psychology/).
 
-> **Note**: This article focuses on the analysis pipeline (Stage 3). For the complete system architecture including extraction and our 4-parser competitive strategy, see [The Complete Architecture](/articles/scenario-parser/architecture).
+> **Note**: This article focuses on the analysis pipeline (Stage 3). For the complete system architecture including extraction and our 4-parser competitive strategy, see [The Complete Architecture](/articles/scenario-parser/architecture/).
 
 ## The Analysis Pipeline Architecture
 
-The analysis pipeline operates on the **best screenplay** selected from our [4-parser competitive system](/articles/scenario-parser/architecture#stage-2-parsing). Once we have a high-quality parsed screenplay (Stage 2 complete), we move to Stage 3: Analysis.
+The analysis pipeline operates on the **best screenplay** selected from our [4-parser competitive system](/articles/scenario-parser/architecture/#stage-2-parallel-parsing-4-competing-strategies). Once we have a high-quality parsed screenplay (Stage 2 complete), we move to Stage 3: Analysis.
 
 The system is designed as a linear, state-aware pipeline with three main artifacts: `Synopsis`, `Character Analysis`, and `Scene Breakdown`. We use an event-driven approach where the completion of one artifact can trigger the processing of dependent artifacts.
 

@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln - Part 5: Dropping to the Metal with Rust"
+title: "Pico Kiln Part 5: Dropping to the Metal with Rust"
 date: 2026-06-17T12:00:00Z
 draft: false
 subtitle: "Replacing the MicroPython interpreter with a bare-metal, dual-core system that never crashes."

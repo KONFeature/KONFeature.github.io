@@ -22,7 +22,12 @@ import {
   ExternalLink,
   Calendar,
   Sun,
-  Moon
+  Moon,
+  MessageCircle,
+  Container,
+  Hammer,
+  Network,
+  Zap
 } from 'lucide-react';
 import { GithubIcon, TwitterIcon, LinkedinIcon } from './BrandIcons';
 
@@ -53,7 +58,12 @@ export const IconMap: Record<string, React.ElementType> = {
   "external-link": ExternalLink,
   calendar: Calendar,
   sun: Sun,
-  moon: Moon
+  moon: Moon,
+  "message-circle": MessageCircle,
+  container: Container,
+  hammer: Hammer,
+  network: Network,
+  zap: Zap
 };
 
 interface IconProps {

@@ -12,7 +12,7 @@ githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
 
-Three weeks ago I published [the first article about L'Atelier](/articles/side-projects/atelier-stop-babysitting), a self-hosted Firecracker-based system for running AI coding agents in isolated VMs. I built it before a ski vacation so I could dispatch work and check results from my phone. The core idea: stop babysitting your AI agents, let them run in the background, come back to results.
+Three weeks ago I published [the first article about L'Atelier](/articles/atelier/atelier-stop-babysitting/), a self-hosted Firecracker-based system for running AI coding agents in isolated VMs. I built it before a ski vacation so I could dispatch work and check results from my phone. The core idea: stop babysitting your AI agents, let them run in the background, come back to results.
 
 It worked. I came back to merged PRs and finished features. The isolation held. The prebuild snapshots made cold starts fast enough to not care about.
 
@@ -59,7 +59,7 @@ OpenCode coding agent starts working
 Event Bridge (SSE) → Slack thread updates
 ```
 
-The dispatcher is itself an AI agent running in a [lightweight system sandbox](/articles/side-projects/atelier-supporting-infrastructure/), 1 vCPU, 1GB RAM. It boots on the first integration event and stays warm for 30 minutes of idle time, then shuts down. After 6 hours it recycles regardless. This keeps costs near zero when you're not actively using it.
+The dispatcher is itself an AI agent running in a [lightweight system sandbox](/articles/atelier/atelier-supporting-infrastructure/), 1 vCPU, 1GB RAM. It boots on the first integration event and stays warm for 30 minutes of idle time, then shuts down. After 6 hours it recycles regardless. This keeps costs near zero when you're not actively using it.
 
 For power users who know exactly what they want, there are slash commands:
 
@@ -236,4 +236,4 @@ The system is running in production. We use it every day at [Frak](https://frak.
 
 If you're building something similar or want to run this yourself, the repo is at [github.com/frak-id/atelier](https://github.com/frak-id/atelier). The setup docs cover the Firecracker prerequisites, LVM configuration, and Slack app setup. It's not a one-click install: you need a Linux host with KVM access, but the docs are thorough.
 
-Update: since this article, L'Atelier [moved from Firecracker to Kubernetes and Kata Containers](/articles/side-projects/atelier-kubernetes-migration/).
+Update: since this article, L'Atelier [moved from Firecracker to Kubernetes and Kata Containers](/articles/atelier/atelier-kubernetes-migration/).

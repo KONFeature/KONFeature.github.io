@@ -7,12 +7,10 @@ category: "system-design"
 tags: ["Processing", "NLP", "Pipeline", "Cost Optimization", "Safety"]
 icon: "cog"
 iconColor: "text-blue-400"
-description: "Deep dive into our 7-stage recipe processing pipeline with intelligent routing, cost optimization, and comprehensive safety mechanisms."
+description: "How a 9-stage pipeline processes 35,000+ recipes: quality-based routing, dual-path ingredient parsing, multi-layer allergen detection, and dual-vector embeddings."
 # githubUrl: "https://github.com/frak-id/cooking-bot"
 group: "cooking-bot"
 ---
-
-## The Sophisticated Recipe Processing Pipeline
 
 Processing 35,000+ French recipes isn't just about running them through a few algorithms. It's about building a **sophisticated, multi-stage pipeline** that can handle the chaos of real-world recipe data while maintaining perfect safety standards and optimizing costs at scale. This is the story of how we engineered a processing system that combines rule-based precision, machine learning intelligence, and human-like validation. If you want the why before the how, start with [our safety-first cooking assistant overview](/articles/cooking-bot/introduction/).
 

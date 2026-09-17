@@ -34,7 +34,7 @@ const ArticleNavigation: React.FC<ArticleNavigationProps> = ({
 				{/* Previous Article */}
 				{prevArticle ? (
 					<a 
-						href={`/articles/${prevArticle.slug}`}
+						href={`/articles/${prevArticle.slug}/`}
 						className="group flex items-center gap-3 p-4 rounded-lg border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20 hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
 					>
 						<ChevronLeft className="w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors shrink-0" />
@@ -52,7 +52,7 @@ const ArticleNavigation: React.FC<ArticleNavigationProps> = ({
 				{/* Next Article */}
 				{nextArticle && (
 					<a 
-						href={`/articles/${nextArticle.slug}`}
+						href={`/articles/${nextArticle.slug}/`}
 						className="group flex items-center gap-3 p-4 rounded-lg border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20 hover:bg-gray-100 dark:hover:bg-white/5 transition-all md:justify-end"
 					>
 						<div className="min-w-0 text-left md:text-right">

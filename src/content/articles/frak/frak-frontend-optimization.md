@@ -13,7 +13,7 @@ heroImage: "./assets/frak-frontend-optimization/hero.jpg"
 group: "frak"
 ---
 
-![hero image](./assets/frak-frontend-optimization/hero.jpg)
+![Frak embedded wallet bundle size cut by 30% after the Jotai to Zustand migration](./assets/frak-frontend-optimization/hero.jpg)
 
 Building a Web3 wallet is usually a trade-off between security and speed. Most wallets are heavy browser extensions that inject massive scripts into every page you visit.
 

@@ -25,7 +25,7 @@ Before diving into control theory, sometimes you just want to see what happened.
 python scripts/plot_run.py logs/cone6_glaze_2025-11-15.csv
 ```
 
-![SCREENSHOT: 4-panel plot showing temperature curve, SSR output, step boundaries, and rate](./assets/pico-python-analysis/plot-run.png)
+![4-panel plot showing temperature curve, SSR output, step boundaries, and rate](./assets/pico-python-analysis/plot-run.png)
 
 The script auto-detects:
 - **Run type** (firing vs tuning)
@@ -154,7 +154,7 @@ def detect_phases(data, plateau_threshold=0.5, ssr_change_threshold=10.0):
 
 This approach is **robust to failures**. If the kiln timeouts before reaching plateau, we still detect the heating phase. If the temperature drifts during a hold, we classify it correctly as heating or cooling based on $\frac{dT}{dt}$.
 
-![SCREENSHOT: Phase detection visualization showing SSR changes and detected boundaries](./assets/pico-python-analysis/plot-tuning.png)
+![Phase detection visualization showing SSR changes and detected boundaries](./assets/pico-python-analysis/plot-tuning.png)
 
 The algorithm looks for **SSR discontinuities** (when the controller changes power level) and classifies the resulting behavior by inspecting the temperature derivative. No assumptions about step names. No reliance on firmware state. Just physics.
 
@@ -241,8 +241,6 @@ $$
 $$
 
 This gives the **true steady-state gain** without transient effects.
-
-**[DIAGRAM: Mermaid flowchart showing thermal model fitting pipeline]**
 
 ```mermaid
 graph TD
@@ -378,8 +376,6 @@ T_d &= \frac{0.5LT}{0.3L + T}
 $$
 
 **Characteristics**: Very conservative. Smooth, stable response. Designed for processes where overshoot is unacceptable (like kilns, where 10°C overshoot can ruin a glaze).
-
-**[DIAGRAM: Comparison of step responses for Z-N, Cohen-Coon, and AMIGO]**
 
 ```mermaid
 graph LR
@@ -810,7 +806,7 @@ By modeling the **physics** (FOPDT + heat loss), we:
 
 The math is classical (Ziegler-Nichols is from 1942). The insight is applying it **rigorously** with **context-aware analysis**. A 10°C overshoot at 100°C is fine. At 1000°C, it ruins the firing. The grading system knows the difference.
 
-This same physics-first approach carried into the [bare-metal Rust rewrite](/articles/kiln/pico-kiln-rust/), where the control logic is pinned by golden-replay tests.
+This same physics-first approach carried into the [bare-metal Rust rewrite](/articles/kiln/pico-kiln-rust/), where the control logic is pinned by golden-replay tests. The gains these scripts produce are edited and applied from the [React/Tauri controller app](/articles/kiln/pico-kiln-app/).
 
 ---
 

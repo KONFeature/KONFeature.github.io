@@ -12,11 +12,11 @@ githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
 
-In my last post, I talked about the massive architectural shift of [moving L'Atelier to Kubernetes and Kata Containers](/articles/side-projects/atelier-kubernetes-migration/). Deleting 8,000 lines of code felt great, but an orchestrator alone doesn't make a development platform. It's just a way to start and stop VMs.
+In my last post, I talked about the massive architectural shift of [moving L'Atelier to Kubernetes and Kata Containers](/articles/atelier/atelier-kubernetes-migration/). Deleting 8,000 lines of code felt great, but an orchestrator alone doesn't make a development platform. It's just a way to start and stop VMs.
 
 If the orchestrator is the heart of the system, the supporting infrastructure is the rest of the body. It's the stuff that handles LLM rate limits, caches npm packages so you aren't waiting ten minutes for a build, and manages the binaries that make the sandbox feel like a real IDE.
 
-When we moved to K8s, we didn't just move the sandbox pods. We moved the entire supporting cast. Here is how we built the infrastructure that makes L'Atelier work day-to-day. New to L'Atelier? Start with [why I built it](/articles/side-projects/atelier-stop-babysitting/).
+When we moved to K8s, we didn't just move the sandbox pods. We moved the entire supporting cast. Here is how we built the infrastructure that makes L'Atelier work day-to-day. New to L'Atelier? Start with [why I built it](/articles/atelier/atelier-stop-babysitting/).
 
 ## CLIProxy: The LLM Load Balancer
 
@@ -153,7 +153,7 @@ Date:   Sun Mar 8 14:20:00 2026
 feat: implement the new billing logic
 ```
 
-On the dashboard kanban board, every task card shows the creator's avatar. It sounds like a minor UI polish, but it makes the system feel human. You aren't just looking at a list of AI tasks; you're looking at work your teammates have dispatched. Most of these tasks now come straight from Slack: [here's how the Slack bot and MCP server dispatch them](/articles/side-projects/atelier-slack-mcp/).
+On the dashboard kanban board, every task card shows the creator's avatar. It sounds like a minor UI polish, but it makes the system feel human. You aren't just looking at a list of AI tasks; you're looking at work your teammates have dispatched. Most of these tasks now come straight from Slack: [here's how the Slack bot and MCP server dispatch them](/articles/atelier/atelier-slack-mcp/).
 
 ## The Helm Chart: One Install to Rule Them All
 
@@ -188,6 +188,8 @@ The infrastructure is stable, but there are pieces still missing.
 **Multi-node.** Right now, we're limited to a single node because our storage (TopoLVM) relies on local LVM groups. We're evaluating distributed storage options that would let us scale sandboxes across a pool of servers while keeping the instant-cloning performance of LVM thin provisioning.
 
 The orchestrator gets all the glory, but it's these boring, reliable supporting services that make L'Atelier a place where we can actually get work done.
+
+Update: since this article, L'Atelier v3 made prebuilds content-addressed, [baking any git repo into a boot-ready snapshot](/articles/atelier/atelier-prebuilds/).
 
 ## Links
 - [CLIProxy API](https://github.com/router-for-me/CLIProxyAPI)

@@ -12,7 +12,7 @@ const pageDescription = `This page doesn't exist. Browse the articles and projec
 <!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
-		<BaseHead title={pageTitle} description={pageDescription} />
+		<BaseHead title={pageTitle} description={pageDescription} noIndex={true} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans overflow-x-hidden">
 		<Navigation client:load />

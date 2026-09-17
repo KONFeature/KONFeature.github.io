@@ -13,13 +13,13 @@ heroImage: "./assets/scenario-parser/hero-extraction.png"
 group: "scenario-parser"
 ---
 
-![hero image](./assets/scenario-parser/hero-extraction.png)
+![Screenplay PDF being decomposed into JSON, Markdown and plain-text extraction layers](./assets/scenario-parser/hero-extraction.png)
 
 Screenplays are notoriously difficult to parse. They are PDF files formatted for human eyes, not machines. A Scene Header looks distinct to us because it's in uppercase, but to a computer, it's just text.
 
-This article details **Stage 1** of our three-stage pipeline: **Extraction**. We extract PDFs into three complementary formats (JSON, Markdown, and Text), which then feed into our [competitive parsing system](/articles/scenario-parser/architecture) where four different parsing strategies race to produce the highest-quality result.
+This article details **Stage 1** of our three-stage pipeline: **Extraction**. We extract PDFs into three complementary formats (JSON, Markdown, and Text), which then feed into our [competitive parsing system](/articles/scenario-parser/architecture/) where four different parsing strategies race to produce the highest-quality result.
 
-> **Note**: This article focuses on extraction (Stage 1). For the complete pipeline architecture including our 4-parser competitive strategy and quality selection algorithm, see [The Complete Architecture](/articles/scenario-parser/architecture).
+> **Note**: This article focuses on extraction (Stage 1). For the complete pipeline architecture including our 4-parser competitive strategy and quality selection algorithm, see [The Complete Architecture](/articles/scenario-parser/architecture/).
 
 ## Architecture: The Complete Pipeline
 
@@ -60,7 +60,7 @@ We use a **three-format extraction strategy** in `packages/extractor`. Each PDF 
 2. **Markdown** (via `pymupdf4llm`) - Structured text for LLM parsing
 3. **Plain Text** (via `pymupdf4llm`) - Clean text fallback for LLM parsing
 
-**Why three formats?** Our system runs [4 parsing strategies in parallel](/articles/scenario-parser/architecture/#stage-2-parsing), and each strategy has different input requirements. The JSON feeds our fast heuristic parser (`parser-compute`), while the Markdown and Text feed our LLM-based parsers (`parser-llm-md`, `parser-llm-txt`, `parser-llm-pdf`).
+**Why three formats?** Our system runs [4 parsing strategies in parallel](/articles/scenario-parser/architecture/#stage-2-parallel-parsing-4-competing-strategies), and each strategy has different input requirements. The JSON feeds our fast heuristic parser (`parser-compute`), while the Markdown and Text feed our LLM-based parsers (`parser-llm-md`, `parser-llm-txt`, `parser-llm-pdf`).
 
 ### Why `pymupdf4llm`?
 
@@ -484,4 +484,4 @@ The **three-tier confidence scoring system** ensures we're not just guessing ele
 6. **Multi-language support** (English/French) with automatic detection
 7. **Dual-parser architecture** for speed vs. accuracy trade-offs
 
-In the [next article on the analysis pipeline](/articles/scenario-parser/scenario-parser-pipeline/), we'll explore how this clean structured data enables sophisticated graph-based analysis and LLM orchestration.
+In the [next article on the analysis pipeline](/articles/scenario-parser/scenario-parser-pipeline/), we'll explore how this clean structured data enables sophisticated graph-based analysis and LLM orchestration, and then how it becomes [full character psychology profiles](/articles/scenario-parser/scenario-parser-psychology/).

@@ -12,9 +12,9 @@ githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
 
-In the [first article about L'Atelier](/articles/side-projects/atelier-stop-babysitting/), I talked about why I built it: I wanted a self-hosted, isolated environment where AI agents could code without me having to watch their every move. Firecracker was the perfect tool for that. It gave me sub-second boot times and hardware-level isolation on bare metal.
+In the [first article about L'Atelier](/articles/atelier/atelier-stop-babysitting/), I talked about why I built it: I wanted a self-hosted, isolated environment where AI agents could code without me having to watch their every move. Firecracker was the perfect tool for that. It gave me sub-second boot times and hardware-level isolation on bare metal.
 
-As I wrote about in the second article, the dashboard was still one too many clicks away, which led to the [Slack bot and MCP server](/articles/side-projects/atelier-slack-mcp/). But even with those improvements, the underlying infrastructure was still a pet.
+As I wrote about in the second article, the dashboard was still one too many clicks away, which led to the [Slack bot and MCP server](/articles/atelier/atelier-slack-mcp/). But even with those improvements, the underlying infrastructure was still a pet.
 
 But after a month of daily use, the cracks started to show. Not in Firecracker itself, but in the mountain of custom code I had to write to keep it running.
 
@@ -133,7 +133,7 @@ TopoLVM Thin Pool (LVM VG on node)
 ### 3. Networking: vsock to TCP
 Firecracker uses `vsock` for host-guest communication. It's secure but a pain to work with from a Node/Bun environment. In K8s, every pod gets its own IP. My Rust agent now listens on a standard TCP port (9998).
 
-The `AgentClient` shrank from 704 lines to about 200. No more vsock-to-tcp proxies or complex socket handling. The pods can talk to each other using standard K8s services, which makes things like the [shared Verdaccio registry](/articles/side-projects/atelier-supporting-infrastructure/) much easier to manage.
+The `AgentClient` shrank from 704 lines to about 200. No more vsock-to-tcp proxies or complex socket handling. The pods can talk to each other using standard K8s services, which makes things like the [shared Verdaccio registry](/articles/atelier/atelier-supporting-infrastructure/) much easier to manage.
 
 ### 4. Dynamic Routing with Ingress
 I replaced the Caddy Admin API integration with standard K8s Ingress resources. When the manager spawns a sandbox, it creates an Ingress that routes traffic to the pod's internal services.
@@ -229,6 +229,8 @@ Now that L'Atelier is K8s-native, a few things are on the roadmap:
 **SSH proxy.** The old Firecracker setup had SSHPiper for `ssh sandboxId@host`. We dropped it during the migration to simplify things. The web terminals cover most use cases, but for VS Code Remote SSH and JetBrains remote development, native SSH access matters. It'll come back as a small K8s Deployment.
 
 If you want to try it, the Helm chart is the recommended way to install. No more `root` required. Just a K8s cluster with Kata support and a few `helm` commands.
+
+Update: since this article, the prebuild system got its own rewrite. It now bakes [content-addressed snapshots straight from any git repo](/articles/atelier/atelier-prebuilds/).
 
 ## Links
 - [L'Atelier on GitHub](https://github.com/frak-id/atelier)

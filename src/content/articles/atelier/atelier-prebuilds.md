@@ -7,12 +7,12 @@ category: "tooling"
 tags: ["Kubernetes", "VolumeSnapshots", "Prebuilds", "Dev Environments", "Self-Hosting", "Git", "AI"]
 icon: "rocket"
 iconColor: "text-green-400"
-description: "How L'Atelier v3 bakes any git repo into a content-addressed VolumeSnapshot: content-key caching, torn-snapshot fixes, git credential hygiene, and CoW-clone fast boots."
+description: "How L'Atelier v3 bakes any git repo into a content-addressed VolumeSnapshot: content-key caching, torn-snapshot fixes, credential hygiene, and CoW-clone fast boots."
 githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
 
-This is the fifth article about L'Atelier, my self-hosted sandbox orchestrator for AI coding agents. The [Kubernetes migration](/articles/side-projects/atelier-kubernetes-migration/) moved prebuilds onto the standard CSI `VolumeSnapshot` API, and the [supporting infrastructure post](/articles/side-projects/atelier-supporting-infrastructure/) covered the plumbing around them. But the most interesting change of v3.0.0 was the prebuild system itself, and it deserves more than a mention.
+This is the fifth article about L'Atelier, my self-hosted sandbox orchestrator for AI coding agents. The [Kubernetes migration](/articles/atelier/atelier-kubernetes-migration/) moved prebuilds onto the standard CSI `VolumeSnapshot` API, and the [supporting infrastructure post](/articles/atelier/atelier-supporting-infrastructure/) covered the plumbing around them. But the most interesting change of v3.0.0 was the prebuild system itself, and it deserves more than a mention.
 
 The idea is simple to state. A prebuild is not a config file you maintain. It is a content-addressed snapshot that the CLI can bake straight from whatever repo you have open.
 

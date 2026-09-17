@@ -9,11 +9,10 @@ icon: "code-2"
 iconColor: "text-red-400"
 description: "How Frak runs automated on-chain reward distribution on Arbitrum within a tight budget, using eRPC for RPC routing and Ponder for on-chain indexing."
 heroImage: "./assets/cost-effective-infra/cost-effective-blockchain-infrastructure-hero.png"
-mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
 ---
 
-![captionless image](./assets/cost-effective-infra/cost-effective-blockchain-infrastructure-hero.png)
+![Frak's on-chain reward distribution infrastructure on Arbitrum, built on eRPC and Ponder](./assets/cost-effective-infra/cost-effective-blockchain-infrastructure-hero.png)
 
 Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns through smart contracts. Running entirely on Arbitrum, our infrastructure needs to handle:
 
@@ -23,7 +22,7 @@ Every blockchain project starts with a dream and a limited budget. At [Frak](htt
 
 When your core business logic lives on-chain, your infrastructure needs to be bulletproof while keeping costs under control. Here’s how we built it using open-source tools.
 
-### The Challenge
+## The Challenge
 
 Every blockchain application faces three core challenges:
 
@@ -218,7 +217,7 @@ We’re not talking about toy contracts here. We’re indexing:
 
 [SST](https://sst.dev/) v3 orchestrates our entire deployment with the elegance of a perfectly executed flash loan (these days it deploys onto our own [self-hosted Hetzner CI platform](/articles/frak/frak-hetzner-platform/)):
 
-![captionless image](./assets/cost-effective-infra/0*MsLG-cXUT1he-wl7)
+![SST v3 deploying the Frak indexer stack, full terminal output](./assets/cost-effective-infra/0*MsLG-cXUT1he-wl7)
 
 ### Infrastructure as Code Benefits
 

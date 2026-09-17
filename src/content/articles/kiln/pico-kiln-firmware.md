@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln - Part 2: Firmware Architecture"
+title: "Pico Kiln Part 2: Firmware Architecture"
 date: 2025-11-15T12:00:00Z
 draft: false
 subtitle: "Industrial Control on a $6 Chip"

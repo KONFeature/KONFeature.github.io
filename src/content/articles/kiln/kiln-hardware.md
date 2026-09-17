@@ -24,8 +24,6 @@ Originally designed for a factory's 380V 3-phase supply, the goal was to tame it
 
 The kiln was originally rated for **9 kW** using 3 massive heating elements running on **380V 3-phase power**. My workshop only has standard **220V single-phase**.
 
-**[IMAGE: Original 3-phase wiring diagram with star configuration]**
-
 ### The Math Behind the Conversion
 
 Many assume you need a transformer to convert a 3-phase machine to single-phase, but with resistive loads (heating elements), it's often just a matter of topology. (I applied the same love for electrical problem-solving when [wiring a house by algorithm with a 3-phase panel optimizer](/articles/side-projects/tableau-elec-3-phase-optimizer/).)
@@ -90,8 +88,6 @@ $$
 ## The New Electrical Anatomy
 
 Safety was the priority. Dealing with continuous high-amperage loads requires over-engineering the power delivery. Here is the complete flow we built, from the grid to the heating elements:
-
-**[IMAGE: Electrical wiring diagram showing complete power delivery chain]**
 
 ```mermaid
 graph TB
@@ -494,6 +490,8 @@ In the next post, we'll dive into the **IoT conversion**: using a Raspberry Pi P
 - Real-time temperature monitoring and logging
 
 The hardware is ready. Time to add the brains.
+
+The firmware was eventually [rewritten in bare-metal Rust](/articles/kiln/pico-kiln-rust/), which is where the control loop lives today.
 
 ---
 

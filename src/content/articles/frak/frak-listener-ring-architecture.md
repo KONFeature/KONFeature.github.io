@@ -14,7 +14,7 @@ group: "frak"
 
 When your code runs on someone else's website, you don't get to think like an SPA team. You're a guest. Every kilobyte you ship is bandwidth your host pays for. Every parse-eval-execute cycle delays *their* time-to-interactive.
 
-The Frak wallet lives inside an iframe embedded on partner merchant sites. We've previously written about [shrinking that iframe by 30%](/articles/frak/frak-frontend-optimization) by swapping Jotai for Zustand and ditching S3 + CDN for a self-hosted Nginx. Those wins came from picking better building blocks. They didn't change the *shape* of the bundle, which is where the next ceiling is.
+The Frak wallet lives inside an iframe embedded on partner merchant sites. We've previously written about [shrinking that iframe by 30%](/articles/frak/frak-frontend-optimization/) by swapping Jotai for Zustand and ditching S3 + CDN for a self-hosted Nginx. Those wins came from picking better building blocks. They didn't change the *shape* of the bundle, which is where the next ceiling is.
 
 This is the story of how we redesigned that shape. The listener iframe now boots from a 3-chunk eager bundle. Everything else (Preact, i18next, the provider tree, the wallet, the modal, the sharing flow) is lazy. And the SDK running on the partner page predicts which lazy chunks the user will need, so by the time they click, the chunks are already in cache.
 
@@ -427,7 +427,7 @@ modulePreload: {
 
 The cost of tiny chunks is easy to underestimate. HTTP/2 multiplexing helps, but each chunk is still a request line on the waterfall, its own module record in the browser, and its own parse cost. Five tiny chunks merged into one eager `common` chunk is five fewer requests on cold boot and zero downside, because every consumer already needed all five.
 
-The same "earn every kilobyte" discipline shows up on the mobile side, where we built a [native Tauri share sheet with rich URL previews](/articles/mobile/tauri-native-sharing-rich-previews/) for the wallet's companion apps.
+The same "earn every kilobyte" discipline shows up on the mobile side, where we built a [native Tauri share sheet with rich URL previews](/articles/frak/tauri-native-sharing-rich-previews/) for the wallet's companion apps.
 
 ## 6. The SDK side: predicting what to preload
 

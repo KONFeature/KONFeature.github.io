@@ -13,11 +13,11 @@ heroImage: "./assets/scenario-parser/hero-sna.png"
 group: "scenario-parser"
 ---
 
-![hero image](./assets/scenario-parser/hero-sna.png)
+![Social network analysis graph of screenplay characters weighted by shared dialogue](./assets/scenario-parser/hero-sna.png)
 
-In the previous articles, we explored the [Pipeline](/articles/scenario-parser/scenario-parser-pipeline) and [Extraction](/articles/scenario-parser/scenario-parser-extraction) layers. Today, we look at the "brain" of `scenario-parser`: the `Character Analysis V2` engine.
+In the previous articles, we explored the [Pipeline](/articles/scenario-parser/scenario-parser-pipeline/) and [Extraction](/articles/scenario-parser/scenario-parser-extraction/) layers. Today, we look at the "brain" of `scenario-parser`: the `Character Analysis V2` engine.
 
-This article focuses on **Stage 3: Character Analysis** - the LLM-powered psychological modeling that happens *after* our [competitive parsing system](/articles/scenario-parser/architecture) has selected the best screenplay. We take the highest-quality parsed screenplay and use a hybrid graph-theory + multi-pass LLM approach to generate professional-grade character breakdowns.
+This article focuses on **Stage 3: Character Analysis** - the LLM-powered psychological modeling that happens *after* our [competitive parsing system](/articles/scenario-parser/architecture/) has selected the best screenplay. We take the highest-quality parsed screenplay and use a hybrid graph-theory + multi-pass LLM approach to generate professional-grade character breakdowns.
 
 Teaching an AI to understand a character is not as simple as asking, "Who is this person?" To get professional-grade analysis, the kind a casting director uses, we must deconstruct the character into component parts: Voice, Psychology, and Narrative Function.
 
@@ -25,7 +25,7 @@ Teaching an AI to understand a character is not as simple as asking, "Who is thi
 
 A feature film script is 120 pages long. Even with 128k context windows, dumping the entire script into an LLM is inefficient and prone to "hallucinations." The model loses track of supporting characters in the noise.
 
-Our solution is the **Dossier System**. After [quality selection](/articles/scenario-parser/architecture#quality-selection-algorithm) picks the best parsed screenplay from our 4 competing parsers, we generate a focused `CharacterDossier` for each role from that winning screenplay.
+Our solution is the **Dossier System**. After [quality selection](/articles/scenario-parser/architecture/#quality-scoring-algorithm) picks the best parsed screenplay from our 4 competing parsers, we generate a focused `CharacterDossier` for each role from that winning screenplay.
 
 ```typescript
 export type CharacterDossier = {

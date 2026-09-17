@@ -12,7 +12,7 @@ description: "Building deterministic safety layers with hybrid NLP, streaming ar
 group: "cooking-bot"
 ---
 
-## Building a Safety-First AI Cooking Assistant
+## Why Food AI Has No Margin for Error
 
 In the world of AI-powered food applications, there's no room for error when it comes to health and safety. A single mistake in allergen detection could have serious consequences. This is the story of how we built a sophisticated French cooking assistant that [processes over 35,000 recipes](/articles/cooking-bot/ingestion/) with an unwavering commitment to safety, performance, and user experience.
 

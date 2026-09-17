@@ -7,7 +7,7 @@ category: "solidity"
 tags: ["ERC-2612", "ERC-20", "EIP-712", "Gasless", "Solidity"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "How to use EIP-712 signatures to save gas, batch approvals and increase security for your ERC-20 tokens."
+description: "How ERC-2612 permit works: the EIP-712 signature fields, the two on-chain checks the token runs, and the wallet-compatibility traps that break it."
 heroImage: "./assets/erc-2612-part-1/erc-2612-ethereum-cityscape-hero.png"
 mediumUrl: "https://medium.com/frak-defi/erc-2612-the-ultimate-guide-to-gasless-erc-20-approvals-2cd32ddee534"
 group: "web3"
@@ -16,7 +16,7 @@ group: "web3"
 
 
 
-![Generated via mid journey, prompt : A futuristic cityscape with Ethereum logo](./assets/erc-2612-part-1/erc-2612-ethereum-cityscape-hero.png)
+![Ethereum-themed illustration for a guide to gasless ERC-20 approvals with ERC-2612](./assets/erc-2612-part-1/erc-2612-ethereum-cityscape-hero.png)
 
 If you are a developer or a user of ERC-20 tokens, you probably know how annoying and costly it is to approve a spender contract before it can transfer tokens on your behalf. You have to send a transaction, pay gas fees, wait for confirmation and hope that nothing goes wrong.
 
@@ -24,22 +24,21 @@ But what if I told you that there is a better way to do approvals? A way that is
 
 I’ve discovered that [**ERC-2612**](https://eips.ethereum.org/EIPS/eip-2612) was the solution to those issues. It’s an extension for [**ERC-20**](https://eips.ethereum.org/EIPS/eip-20) tokens that allows users to approve spenders via [**EIP-712**](https://eips.ethereum.org/EIPS/eip-2612) signatures instead of transactions. EIP-712 is a standard for hashing and signing typed structured data as opposed to just bytestrings.
 
-In this article, I will explain what is ERC-2612 and how it can improve the **user experience** and **security** of ERC-20 approvals. I will also show you how to [implement it in Solidity contracts](/articles/web3/erc-2612-part-2/) and how to test it with [**Hardhat**](https://hardhat.org/) or [**Foundry**](https://github.com/foundry-rs/foundry). Finally, I will demonstrate how to use it with [**Ether.js**](https://github.com/ethers-io/ethers.js) and [**Fireblocks**](https://www.fireblocks.com/) libraries.
+In this article, I will explain what is ERC-2612 and how it can improve the **user experience** and **security** of ERC-20 approvals. I will also show you how to [implement it in Solidity contracts](/articles/web3/erc-2612-part-2/) and how to [test it with **Hardhat** or **Foundry**](/articles/web3/erc-2612-part-3/).
 
 By implementing ERC-2612 at Frak, we makes it easier and cheaper for users to interact with our platform and other DeFi protocols.
 
-This will be a series of articles divided into four parts:
+Here's how the series breaks down:
 
-*   _Part 1: General overview of ERC-2612 (March 13, 2023)_
-*   [Part 2: Solidity development of ERC-2612](https://medium.com/p/9c90c01eb69d)
-*   [Part 3: Unit testing with Hardhat or Forge](/articles/web3/erc-2612-part-3/)
-*   Part 4: Implementation with Ether.js and Fireblocks
+*   _Part 1: General overview of ERC-2612 (this article)_
+*   [Part 2: Solidity implementation with EIP-712](/articles/web3/erc-2612-part-2/)
+*   [Part 3: Unit testing with Hardhat and Forge](/articles/web3/erc-2612-part-3/)
 
 By the end of this series, you will be able to use ERC-2612 for your own ERC-20 tokens or interact with existing ones that support it. You will also learn how [**Frak**](https://frak.id/) leverages ERC-2612 to enable gasless token transfers and frictionless DeFi interactions.
 
 Let’s get started!
 
-### How does ERC-2612 work?
+## How does ERC-2612 work?
 
 ERC-2612 introduces a new function called **permit** that takes an **EIP-712 signature** as an input and updates the allowance mapping accordingly. The signature must contain the following fields:
 
@@ -54,7 +53,15 @@ The signature must follow a specific format defined by **EIP-712**. It must incl
 
 In our case, the parameter for the signature are the following:
 
-![Permit signature format, following the ERC-2612](./assets/erc-2612-part-1/permit-signature-format.png)
+```solidity
+struct Permit {
+    address owner;
+    address spender;
+    uint256 value;
+    uint256 nonce;
+    uint256 deadline;
+}
+```
 
 The token contract then verifies that the signature is valid and matches the parameters. If so, it **updates the allowance** mapping accordingly.
 
@@ -95,6 +102,4 @@ Finally, you have to be careful about security issues and edge cases when using 
 
 As you can see, implementing ERC-2612 is not trivial and requires some attention to detail.
 
-However, once you get it right, you will enjoy the benefits of gasless ERC-20 approvals for yourself and your users. Stay tuned for the second part of this article series where I will cover the **Solidity implementation** of ERC 2612.
-
-I hope this article has provided valuable insights into its **benefits** and **challenges**. If you found it helpful, please don’t hesitate to **follow** me and give this article a **clap**.
+However, once you get it right, you will enjoy the benefits of gasless ERC-20 approvals for yourself and your users. Next up: [the Solidity implementation of ERC-2612](/articles/web3/erc-2612-part-2/), where we build the domain separator, the permit function, and the nonce handling that goes with them.

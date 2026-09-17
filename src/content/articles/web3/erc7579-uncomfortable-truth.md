@@ -21,7 +21,7 @@ Here's what I learned.
 
 ## The Experiment: Social Login Without the Middleman
 
-At Frak, we've been down the WebAuthn rabbit hole before. Our [previous work on ERC-4337 + WebAuthn](/articles/frak/4337-webauthn) gave us a solid foundation. But we wanted more, specifically, social login that doesn't require trusting a third party with your users' keys.
+At Frak, we've been down the WebAuthn rabbit hole before. Our [previous work on ERC-4337 + WebAuthn](/articles/frak/4337-webauthn/) gave us a solid foundation. But we wanted more, specifically, social login that doesn't require trusting a third party with your users' keys.
 
 The existing landscape is disappointing:
 

@@ -45,7 +45,7 @@ The real friction, though, came from an unexpected place: I couldn't use my AI d
 
 ## The Frustration: AI Tools Don't Speak WordPress
 
-I live in AI-assisted development. Claude, OpenCode, cursor: they're part of my daily workflow. (I even built [an orchestrator so AI agents can run unsupervised](/articles/side-projects/atelier-stop-babysitting/).) But when it came to helping my girlfriend update her WordPress site, I was stuck in the admin panel clicking through menus like it's 2010.
+I live in AI-assisted development. Claude, OpenCode, cursor: they're part of my daily workflow. (I even built [an orchestrator so AI agents can run unsupervised](/articles/atelier/atelier-stop-babysitting/).) But when it came to helping my girlfriend update her WordPress site, I was stuck in the admin panel clicking through menus like it's 2010.
 
 I could have built a custom theme with code she'd never touch. But she explicitly didn't want that, she wanted to understand and control her own site. Fair enough.
 
@@ -204,7 +204,7 @@ I was genuinely surprised that no free, comprehensive WordPress MCP integration 
 
 So I built what I needed and open-sourced it. Maybe someone else has a partner starting a small business, or wants to manage their blog through Claude, or just prefers conversation over clicking.
 
-The WordPress ecosystem deserves AI tooling that isn't locked behind paywalls. If you want to see MCP orchestrate more than a shop, [L'Atelier uses an MCP server to dispatch AI coding agents from Slack](/articles/side-projects/atelier-slack-mcp/).
+The WordPress ecosystem deserves AI tooling that isn't locked behind paywalls. If you want to see MCP orchestrate more than a shop, [L'Atelier uses an MCP server to dispatch AI coding agents from Slack](/articles/atelier/atelier-slack-mcp/).
 
 ---
 

@@ -13,7 +13,7 @@ heroImage: "./assets/scenario-parser/hero-architecture.png"
 group: "scenario-parser"
 ---
 
-![hero image](./assets/scenario-parser/hero-architecture.png)
+![Three-stage screenplay parsing architecture: PDF extraction, four competing parsers, quality selection](./assets/scenario-parser/hero-architecture.png)
 
 **A Technical Deep Dive into Multi-Strategy PDF Screenplay Processing**
 

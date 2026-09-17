@@ -7,7 +7,7 @@ category: "solidity"
 tags: ["Foundry", "Hardhat", "Solidity", "Testing", "DevOps"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Evaluating the performance difference of Hardhat and Foundry for Solidity contract unit testing & reason behind the switch"
+description: "We migrated our Solidity test suite from Hardhat to Foundry: 13 seconds down to 102 milliseconds, plus a fuzzed test that runs 256 times for free."
 heroImage: "./assets/hardhat-to-foundry/forge-test-benchmark-102ms.png"
 mediumUrl: "https://medium.com/frak-defi/maximizing-quality-and-reliability-in-solidity-our-journey-from-hardhat-to-foundry-52e0504d11c6"
 group: "frak"
@@ -39,7 +39,9 @@ A test is quite interesting on this contract, since we need to ensure that we wo
 
 Here are the results of the unit tests, using both Hardhat and Forge.
 
-![Hardhat test run (13sec)](./assets/hardhat-to-foundry/hardhat-test-benchmark-13sec.png)![Forge test run (102ms)](./assets/hardhat-to-foundry/forge-test-benchmark-102ms.png)
+![Hardhat test run (13sec)](./assets/hardhat-to-foundry/hardhat-test-benchmark-13sec.png)
+
+![Forge test run (102ms)](./assets/hardhat-to-foundry/forge-test-benchmark-102ms.png)
 
 You can see that Hardhat took **13 seconds** to execute all the tests, and almost 9 seconds for the test where we need to empty the treasury. Meanwhile, Forge only took **102 milliseconds** to perform the same thing.
 
@@ -75,7 +77,4 @@ Stay tuned for another article where I will explain how we set up Foundry in our
 
 In the meantime, you can check out our [github repository](https://github.com/frak-id/frak-id-blockchain) :)
 
-**_If you want to continue the conversation, you can connect with us_** [**_@frak_defi_**](https://twitter.com/frak_defi) **_on Twitter or on Telegram.
-Be informed when a new article is published by following us on_** [**_Medium_**](https://medium.com/frak-defi)**_._ If you liked this article, please consider giving it a “clap” _(up to 50x) to let us know you enjoyed it. It’ll mean a lot to us._**
-
-**_Thank you :)_**
+If you want to continue the conversation, you can reach us [@frak_defi](https://twitter.com/frak_defi) on Twitter or on Telegram.

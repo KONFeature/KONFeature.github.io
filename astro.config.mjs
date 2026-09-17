@@ -18,6 +18,26 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), react(), pagefind()],
   redirects: {
     '/case-studies': '/projects',
+
+    // 2026-09 taxonomy migration: article folders now match their `group`,
+    // so /articles/<folder>/ hub pages always resolve. Old URLs kept alive here.
+    // devops/ + mobile/ -> frak/
+    '/articles/devops/bun-memory-leak-kubernetes-restart': '/articles/frak/bun-memory-leak-kubernetes-restart',
+    '/articles/mobile/native-webauthn-tauri-plugin-ios-android': '/articles/frak/native-webauthn-tauri-plugin-ios-android',
+    '/articles/mobile/tauri-native-sharing-rich-previews': '/articles/frak/tauri-native-sharing-rich-previews',
+    '/articles/mobile/tauri-recovery-hint-uninstall-survival': '/articles/frak/tauri-recovery-hint-uninstall-survival',
+    // opinion/ -> web3/
+    '/articles/opinion/erc7579-uncomfortable-truth': '/articles/web3/erc7579-uncomfortable-truth',
+    // side-projects/atelier-* -> atelier/
+    '/articles/side-projects/atelier-kubernetes-migration': '/articles/atelier/atelier-kubernetes-migration',
+    '/articles/side-projects/atelier-prebuilds': '/articles/atelier/atelier-prebuilds',
+    '/articles/side-projects/atelier-slack-mcp': '/articles/atelier/atelier-slack-mcp',
+    '/articles/side-projects/atelier-stop-babysitting': '/articles/atelier/atelier-stop-babysitting',
+    '/articles/side-projects/atelier-supporting-infrastructure': '/articles/atelier/atelier-supporting-infrastructure',
+    // Old folder segments that used to 404 outright
+    '/articles/devops': '/articles/frak',
+    '/articles/mobile': '/articles/frak',
+    '/articles/opinion': '/articles/web3',
   },
   prefetch: {
     prefetchAll: true,

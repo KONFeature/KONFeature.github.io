@@ -15,7 +15,7 @@ group: "frak"
 
 
 
-![Generated via DALL-E](./assets/polygon-account-abstraction/polygon-account-abstraction-hero.png)
+![Frak's ERC-4337 account abstraction stack on the Polygon network](./assets/polygon-account-abstraction/polygon-account-abstraction-hero.png)
 
 ## Hey there, blockchain enthusiasts and savvy developers!
 
@@ -66,7 +66,7 @@ Our dive into AA was significantly bolstered by our collaborative efforts with Z
 
 By integrating AA with Kernel smart accounts, we didn’t just upgrade our technology; we opened up a world of possibilities for both our developers and users. It was a step towards a more inclusive, secure, and innovative blockchain ecosystem.
 
-In the next section, we’ll explore how our partnerships with ZeroDev and Pimlico catalyzed this transformation. For a candid look at where the broader smart wallet ecosystem stands today, see [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/opinion/erc7579-uncomfortable-truth/).
+In the next section, we’ll explore how our partnerships with ZeroDev and Pimlico catalyzed this transformation. For a candid look at where the broader smart wallet ecosystem stands today, see [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/web3/erc7579-uncomfortable-truth/).
 
 ## 3. Partnering with Pimlico and ZeroDev: A Strategic Move
 

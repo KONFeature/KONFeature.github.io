@@ -35,9 +35,9 @@ But here’s the rub: neither option clicked for us. The first scenario still de
 
 This conundrum led us down a rabbit hole of research until we pioneered a novel solution that seamlessly integrates WebAuthn and account abstraction, enabling a truly frictionless onboarding experience for non-crypto natives. While solutions like Cometh’s also provided a smooth connect experience, our approach was tailored to our ecosystem, especially with our kernel accounts at the core.
 
-(For a candid look at where the smart wallet ecosystem has landed since, read [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/opinion/erc7579-uncomfortable-truth/).)
+(For a candid look at where the smart wallet ecosystem has landed since, read [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/web3/erc7579-uncomfortable-truth/).)
 
-![captionless image](./assets/4337-webauthn/webauthn-account-abstraction-integration.png)
+![Architecture diagram of WebAuthn signature validation inside an ERC-4337 smart account](./assets/4337-webauthn/webauthn-account-abstraction-integration.png)
 
 ## The Solution: Simpler on Paper
 
@@ -51,7 +51,7 @@ A pivotal breakthrough was their integration of the **P256 curve**: an essential
 
 Cometh, collaborating closely with **Renaud Dubois from Ledger** and his talented team, was the **first** to leverage Dubois’ optimized on-chain **P256 verifier**. This ingenious solution enables the blockchain to **validate signatures from the P256 curve efficiently**, overcoming a major compatibility hurdle without incurring prohibitive **gas costs**.
 
-![captionless image](./assets/4337-webauthn/p256-verifier-integration.png)
+![Ledger's optimized on-chain P256 verifier wired into the smart wallet signature path](./assets/4337-webauthn/p256-verifier-integration.png)
 
 At Frak, we have built upon this **groundbreaking work**, introducing our own **innovations** to seamlessly integrate WebAuthN and the P256 curve into our Kernel smart wallet architecture.
 
@@ -76,11 +76,11 @@ We opted for the FCL method, tweaking it slightly to align with the specificatio
 
 As we peel back the layers of the user operation flow, especially when it’s sponsored, let’s sketch out what this looks like:
 
-![captionless image](./assets/4337-webauthn/sponsored-user-operation-flow.png)
+![Flow of a sponsored ERC-4337 user operation, from signature request to bundler submission](./assets/4337-webauthn/sponsored-user-operation-flow.png)
 
 At first glance, this process might seem straightforward (maybe because I’ve simplified it a bit too much, haha), but there’s a critical step that might trip us up. Not spotting it yet? Let’s take a closer look at the **Paymaster data computing** stage.
 
-![captionless image](./assets/4337-webauthn/paymaster-data-computing.png)
+![The Paymaster data computing stage, which runs before the signature is requested](./assets/4337-webauthn/paymaster-data-computing.png)
 
 Here’s where things get tricky. The Paymaster data computation happens before we request the signature: logical, since we’re signing the entire bundle, including Paymaster data. But, how does the Paymaster predict a transaction’s cost before actually executing it?
 
@@ -102,7 +102,7 @@ P256 verification on-chain has always been a tough nut to crack. Despite the bri
 
 Enter **RIP-7212**: a beacon of hope designed to significantly reduce this cost. RIP-7212 proposes adding a pre-compiled smart contract to rollups, specifically for P256 signature verification: akin to the efficiency of `**ecrecover**` or `**sha256**`.
 
-![captionless image](./assets/4337-webauthn/rip-7212-precompile-comparison.png)
+![Gas cost comparison: the FCL Solidity P256 verifier versus the RIP-7212 precompile](./assets/4337-webauthn/rip-7212-precompile-comparison.png)
 
 However, as is often the case with cutting-edge solutions, RIP-7212’s recent finalization means its widespread availability is still on the horizon (currently, it’s only operational on Polygon Mumbai, the chain where we later [pioneered account abstraction in the Polygon ecosystem](/articles/frak/polygon-account-abstraction/)). This poses a question: How do we create an immutable validator without forcing our users through a costly migration once RIP-7212 becomes universally available, especially considering we aim to avoid any validator storage access?
 
@@ -112,6 +112,6 @@ The solution? Introduce a new flag within our signature protocol. This flag allo
 
 And there you have it: a whirlwind tour through the intricacies of integrating WebAuthN with ERC-4337 smart wallets, navigating the P256 curve, and streamlining the process with innovations like RIP-7212. It’s been a journey of discovery, challenge, and ultimately, innovation, showcasing the power of collaboration and the relentless pursuit of making blockchain technology more accessible and efficient.
 
-This work didn't stay theoretical: it shipped as our [WebAuthn smart wallet demo](/articles/frak/webauthn-release/), and we later pushed WebAuthn beyond the browser with a [native WebAuthn plugin for iOS and Android](/articles/mobile/native-webauthn-tauri-plugin-ios-android/).
+This work didn't stay theoretical: it shipped as our [WebAuthn smart wallet demo](/articles/frak/webauthn-release/), and we later pushed WebAuthn beyond the browser with a [native WebAuthn plugin for iOS and Android](/articles/frak/native-webauthn-tauri-plugin-ios-android/).
 
-If you found this deep dive enlightening, **please give us a clap and share this article** with your network. Your support fuels our continued exploration and sharing of breakthroughs in this exciting domain. Stay tuned for more posts as we further unravel the journey of WebAuthN implementation and its transformative potential in the blockchain ecosystem. Until then, happy coding, and let’s keep pushing the boundaries of what’s possible together!
+There's more to come on this front: RIP-7212 availability is still moving, and every chain that ships it changes the cost model for passkey-secured accounts again.

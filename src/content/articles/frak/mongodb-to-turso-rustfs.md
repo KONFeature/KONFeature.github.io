@@ -13,7 +13,7 @@ heroImage: "./assets/mongodb-to-turso-rustfs/hero.png"
 group: "frak"
 ---
 
-![hero image](./assets/mongodb-to-turso-rustfs/hero.png)
+![sqld and RustFS replacing MongoDB on a Kubernetes cluster with bottomless replication](./assets/mongodb-to-turso-rustfs/hero.png)
 
 At Frak Labs, our infrastructure philosophy is uncompromising: keep it **Kubernetes-native**, keep the cloud lock-in to **zero**. Over the last few years we've rewritten our stack to make exactly that true: [infra-core](https://github.com/frak-id/infra-core) provisions everything from VPCs to ClickHouse via Pulumi, and we can, in theory, repoint the whole thing at a new cloud in an afternoon.
 
@@ -55,7 +55,7 @@ export const authenticatorsTable = sqliteTable("authenticators", {
 
 That last line in the comment, *"Shared across all environments"*, is the whole puzzle.
 
-Every WebAuthn credential is bound to an `rpId` (relying party ID) set to our root domain (`frak.id`). By specification, a passkey created against `frak.id` must be resolvable from `frak.id`, regardless of which subdomain (or environment) the request comes from. On top of that, our **wallet addresses are deterministic**: they're derived from the authenticator's public key, so the same passkey must resolve to the same wallet address on both Arbitrum and Arbitrum Sepolia, in dev, staging, **and** production. The on-chain side of that derivation, how a WebAuthn signature validates an ERC-4337 user operation, is covered in [our earlier post on WebAuthn + ERC-4337](./4337-webauthn).
+Every WebAuthn credential is bound to an `rpId` (relying party ID) set to our root domain (`frak.id`). By specification, a passkey created against `frak.id` must be resolvable from `frak.id`, regardless of which subdomain (or environment) the request comes from. On top of that, our **wallet addresses are deterministic**: they're derived from the authenticator's public key, so the same passkey must resolve to the same wallet address on both Arbitrum and Arbitrum Sepolia, in dev, staging, **and** production. The on-chain side of that derivation, how a WebAuthn signature validates an ERC-4337 user operation, is covered in [our earlier post on WebAuthn + ERC-4337](/articles/frak/4337-webauthn/).
 
 This rules out a per-environment database. We need a **single source of truth for credentials, shared across every stage**, with near-zero administrative overhead.
 
@@ -186,7 +186,7 @@ A handful of details earn their line in that file:
 - **`terminationGracePeriodSeconds: 90`.** Enough time for sqld to flush its WAL and gracefully close connections. The 60-second `SQLD_SHUTDOWN_TIMEOUT` matches.
 - **`SQLD_SOFT_HEAP_LIMIT_MB: 96` / `HARD: 128`.** Paired with the container's 256Mi memory limit, this gives sqld predictable headroom and prevents OOMKill under load.
 - **The PVC uses `reclaimPolicy: Retain` (elided from the excerpt above).** Deleting it doesn't nuke the underlying disk: a panicked `kubectl delete` won't lose our credentials.
-- **`ServiceMonitor`.** Drops directly into our existing Prometheus/Grafana stack (see [our previous infra-iac post](./frak-infrastructure-iac)), so sqld's health is visible alongside every other service from day one.
+- **`ServiceMonitor`.** Drops directly into our existing Prometheus/Grafana stack (see [our previous infra-iac post](/articles/frak/frak-infrastructure-iac/)), so sqld's health is visible alongside every other service from day one.
 
 Notice the bottomless replication block. Three environment variables and a Kubernetes Secret reference, and sqld is continuously streaming WAL frames to RustFS, zstd-compressed. There's no second sidecar, no external backup tool, no cron job dumping `.sqlite` files to a bucket. It's just part of the process.
 
@@ -442,7 +442,7 @@ Four years ago, Frak's infra was a classic AWS-serverless stack: Lambdas, Dynamo
 
 The MongoDB → sqld migration is a small piece of that story in terms of LOC: a new file in `infra-core`, a new service in the wallet monorepo, a 22-line Drizzle schema. But it's the piece that made the *whole* story true. Until this month, "we can migrate to Hetzner in an afternoon" had an asterisk. Now it doesn't.
 
-For the rest of that journey: [the SST + Pulumi IaC deep-dive](./frak-infrastructure-iac) walks through the Kubernetes foundation everything in this post sits on top of, and [our eRPC + Ponder post](./cost-effective-infra) covers how we kept RPC costs sane across multiple chains without sacrificing reliability.
+For the rest of that journey: [the SST + Pulumi IaC deep-dive](/articles/frak/frak-infrastructure-iac/) walks through the Kubernetes foundation everything in this post sits on top of, and [our eRPC + Ponder post](/articles/frak/cost-effective-infra/) covers how we kept RPC costs sane across multiple chains without sacrificing reliability.
 
 That's the real win: **no asterisks**.
 
@@ -455,9 +455,9 @@ That's the real win: **no asterisks**.
 
 **Related posts:**
 
-- [Building Frak's Infrastructure with SST + Pulumi](./frak-infrastructure-iac): the Kubernetes foundation this migration sits on top of
-- [Cost-Effective Blockchain Infrastructure with eRPC and Ponder](./cost-effective-infra): how we got RPC costs under control across multiple chains
-- [WebAuthN Meets ERC-4337](./4337-webauthn): how the credentials stored in this table validate user operations on-chain
+- [Building Frak's Infrastructure with SST + Pulumi](/articles/frak/frak-infrastructure-iac/): the Kubernetes foundation this migration sits on top of
+- [Cost-Effective Blockchain Infrastructure with eRPC and Ponder](/articles/frak/cost-effective-infra/): how we got RPC costs under control across multiple chains
+- [WebAuthn Meets ERC-4337](/articles/frak/4337-webauthn/): how the credentials stored in this table validate user operations on-chain
 
 **Further reading:**
 

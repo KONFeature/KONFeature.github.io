@@ -19,9 +19,9 @@ This is the personal portfolio and technical blog of Quentin Nivelais (CTO at Fr
 
 ## Frak Labs
 
-- [Passkey Recovery That Survives App Uninstalls in Tauri](https://nivelais.com/articles/mobile/tauri-recovery-hint-uninstall-survival/): Persist passkey recovery hints through app uninstalls with a Tauri plugin: NSUbiquitousKeyValueStore, iCloud Keychain, Google Block Store, Auto Backup.
-- [Rich Native Share Sheets for Tauri on iOS and Android](https://nivelais.com/articles/mobile/tauri-native-sharing-rich-previews/): Build a native Tauri share plugin for iOS and Android: rich URL preview cards via LPLinkMetadata, FileProvider thumbnails, and a bounded image race.
-- [Native WebAuthn Passkeys for Tauri on iOS and Android](https://nivelais.com/articles/mobile/native-webauthn-tauri-plugin-ios-android/): Build a custom Tauri plugin exposing native WebAuthn passkeys on iOS and Android: platform APIs, CBOR and COSE key parsing, and the TLS dev workaround.
+- [Passkey Recovery That Survives App Uninstalls in Tauri](https://nivelais.com/articles/frak/tauri-recovery-hint-uninstall-survival/): Persist passkey recovery hints through app uninstalls with a Tauri plugin: NSUbiquitousKeyValueStore, iCloud Keychain, Google Block Store, Auto Backup.
+- [Rich Native Share Sheets for Tauri on iOS and Android](https://nivelais.com/articles/frak/tauri-native-sharing-rich-previews/): Build a native Tauri share plugin for iOS and Android: rich URL preview cards via LPLinkMetadata, FileProvider thumbnails, and a bounded image race.
+- [Native WebAuthn Passkeys for Tauri on iOS and Android](https://nivelais.com/articles/frak/native-webauthn-tauri-plugin-ios-android/): Build a custom Tauri plugin exposing native WebAuthn passkeys on iOS and Android: platform APIs, CBOR and COSE key parsing, and the TLS dev workaround.
 - [A Fast WordPress + WooCommerce Plugin in Production](https://nivelais.com/articles/frak/wordpress-plugin-performance-native-webhooks/): How we shipped a production WordPress and WooCommerce plugin with near-zero request cost, manifest-based block registration, and native webhooks.
 - [Our WebAuthN Smart Wallet Demo: What We Built and Why](https://nivelais.com/articles/frak/webauthn-release/): How we built our first WebAuthn smart wallet POC: ERC-4337 accounts secured by biometrics, a paywall-replacement demo, and the architecture behind it.
 - [DevX Overhaul: Cutting Build Times by 10x at Frak](https://nivelais.com/articles/frak/wallet-devx-revolution/): How we migrated a monorepo from Next.js to TanStack Start, adopted Rolldown, unified on Vitest, and got the full deploy pipeline under 4 minutes.
@@ -37,7 +37,7 @@ This is the personal portfolio and technical blog of Quentin Nivelais (CTO at Fr
 - [How We Cut Our Wallet Size by 30%: Frontend Optimization](https://nivelais.com/articles/frak/frak-frontend-optimization/): How we cut our embedded wallet bundle by 30% by migrating Jotai to Zustand, splitting wallet from listener, and self-hosting Nginx over AWS S3.
 - [Cost-Effective Blockchain Infrastructure: eRPC and Ponder](https://nivelais.com/articles/frak/cost-effective-infra/): How Frak runs automated on-chain reward distribution on Arbitrum within a tight budget, using eRPC for RPC routing and Ponder for on-chain indexing.
 - [WebAuthn Signatures for ERC-4337 Smart Wallets](https://nivelais.com/articles/frak/4337-webauthn/): How we validate ERC-4337 user operations with WebAuthn signatures: P256 passkeys, the FCL on-chain verifier, and paymaster gas simulation.
-- [Bun Memory Leak on Kubernetes: 3 Days to a Pod Restart](https://nivelais.com/articles/devops/bun-memory-leak-kubernetes-restart/): Debug a Bun RSS memory leak on a Elysia.js backend in Kubernetes: forced GC, heap snapshots, and why a lying health endpoint and pod restart won.
+- [Bun Memory Leak on Kubernetes: 3 Days to a Pod Restart](https://nivelais.com/articles/frak/bun-memory-leak-kubernetes-restart/): Debug a Bun RSS memory leak on a Elysia.js backend in Kubernetes: forced GC, heap snapshots, and why a lying health endpoint and pod restart won.
 
 ## Pico Kiln
 
@@ -53,7 +53,7 @@ This is the personal portfolio and technical blog of Quentin Nivelais (CTO at Fr
 - [ERC-2612 Part 3: Unit Testing with Hardhat and Forge](https://nivelais.com/articles/web3/erc-2612-part-3/): Perfecting ERC-2612: Boost Your DeFi Skills with Solidity Unit Testing in Hardhat and Forge
 - [ERC-2612 Part 2: Solidity Implementation with EIP-712](https://nivelais.com/articles/web3/erc-2612-part-2/): A deep dive into the Solidity code of gasless ERC-20 approvals ERC-2612
 - [ERC-2612 Part 1: How Gasless ERC-20 Approvals Work](https://nivelais.com/articles/web3/erc-2612-part-1/): How to use EIP-712 signatures to save gas, batch approvals and increase security for your ERC-20 tokens.
-- [ERC-7579 Modular Smart Wallets: The Uncomfortable Truth](https://nivelais.com/articles/opinion/erc7579-uncomfortable-truth/): Two weeks building a ZK social login wallet on ERC-7579 modules: the tech works, but the ecosystem's registry checks, SDKs, and docs don't.
+- [ERC-7579 Modular Smart Wallets: The Uncomfortable Truth](https://nivelais.com/articles/web3/erc7579-uncomfortable-truth/): Two weeks building a ZK social login wallet on ERC-7579 modules: the tech works, but the ecosystem's registry checks, SDKs, and docs don't.
 
 ## Scenario Parser
 
@@ -64,10 +64,10 @@ This is the personal portfolio and technical blog of Quentin Nivelais (CTO at Fr
 
 ## L'Atelier
 
-- [L'Atelier Infrastructure: CLIProxy, Verdaccio, Zot and Helm](https://nivelais.com/articles/side-projects/atelier-supporting-infrastructure/): How L'Atelier runs CLIProxy for LLM rate limits, shared binary volumes, a Verdaccio npm cache, an in-cluster Zot registry, and one Helm chart to install it all.
-- [L'Atelier: Stop Babysitting Your AI Agents](https://nivelais.com/articles/side-projects/atelier-stop-babysitting/): A self-hosted Firecracker orchestrator that gives every AI coding agent its own VM sandbox: dispatch tasks like a kanban board, review results anywhere.
-- [L'Atelier: Dispatch AI Agents from Slack with an MCP Server](https://nivelais.com/articles/side-projects/atelier-slack-mcp/): How L'Atelier dispatches AI coding agents from Slack: an MCP server, an AI dispatcher in a sandboxed VM, and live progress updates in the thread.
-- [L'Atelier: Migrating Firecracker Sandboxes to Kubernetes](https://nivelais.com/articles/side-projects/atelier-kubernetes-migration/): How I replaced a custom Firecracker orchestrator with k3s and Kata Containers: 8,702 lines deleted, TopoLVM snapshots, and portable sandbox infrastructure.
+- [L'Atelier Infrastructure: CLIProxy, Verdaccio, Zot and Helm](https://nivelais.com/articles/atelier/atelier-supporting-infrastructure/): How L'Atelier runs CLIProxy for LLM rate limits, shared binary volumes, a Verdaccio npm cache, an in-cluster Zot registry, and one Helm chart to install it all.
+- [L'Atelier: Stop Babysitting Your AI Agents](https://nivelais.com/articles/atelier/atelier-stop-babysitting/): A self-hosted Firecracker orchestrator that gives every AI coding agent its own VM sandbox: dispatch tasks like a kanban board, review results anywhere.
+- [L'Atelier: Dispatch AI Agents from Slack with an MCP Server](https://nivelais.com/articles/atelier/atelier-slack-mcp/): How L'Atelier dispatches AI coding agents from Slack: an MCP server, an AI dispatcher in a sandboxed VM, and live progress updates in the thread.
+- [L'Atelier: Migrating Firecracker Sandboxes to Kubernetes](https://nivelais.com/articles/atelier/atelier-kubernetes-migration/): How I replaced a custom Firecracker orchestrator with k3s and Kata Containers: 8,702 lines deleted, TopoLVM snapshots, and portable sandbox infrastructure.
 
 ## Side Projects
 

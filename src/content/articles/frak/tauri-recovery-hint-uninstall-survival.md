@@ -22,12 +22,12 @@ This is the story of the design, and of the weird little corners of `NSUbiquitou
 
 ## The Problem: Passkeys Are Device-Bound, But the Chrome Around Them Isn't
 
-A passkey (our [WebAuthn-backed smart-wallet authenticator](./native-webauthn-tauri-plugin-ios-android)) is already a cloud-synced credential in 2026. iCloud Keychain syncs across Apple devices. Credential Manager + Google Password Manager syncs across Android devices. The actual cryptographic material survives a wipe.
+A passkey (our [WebAuthn-backed smart-wallet authenticator](/articles/frak/native-webauthn-tauri-plugin-ios-android/)) is already a cloud-synced credential in 2026. iCloud Keychain syncs across Apple devices. Credential Manager + Google Password Manager syncs across Android devices. The actual cryptographic material survives a wipe.
 
 What doesn't survive is the app's *view* of that credential. Specifically:
 
 - The **`credentialId`** we need to request during `get()`, without it, WebAuthn falls back to a generic passkey picker and the UX immediately feels wrong.
-- The **wallet address** derived from the authenticator's public key. Our wallets are [deterministically derived from the WebAuthn public key](/articles/frak/4337-webauthn), so the address exists on-chain regardless of the app, but the app doesn't know it yet.
+- The **wallet address** derived from the authenticator's public key. Our wallets are [deterministically derived from the WebAuthn public key](/articles/frak/4337-webauthn/), so the address exists on-chain regardless of the app, but the app doesn't know it yet.
 - The **last-login timestamp**, which we use to decide between "Welcome back" and "Resume onboarding".
 
 None of this is sensitive. The `credentialId` is public by WebAuthn spec, our backend already knows every ID we ever issued. The wallet address is public on-chain. The timestamp is a millisecond.
@@ -38,7 +38,7 @@ The answer is different on each platform. Both answers have fallbacks. Here's th
 
 ## Plugin Anatomy
 
-The Rust side is intentionally bare, it's a pass-through to the mobile implementations. Same pattern as [our native WebAuthn plugin](./native-webauthn-tauri-plugin-ios-android): register the iOS + Android sides under `#[cfg(mobile)]`, no-op on desktop.
+The Rust side is intentionally bare, it's a pass-through to the mobile implementations. Same pattern as [our native WebAuthn plugin](/articles/frak/native-webauthn-tauri-plugin-ios-android/): register the iOS + Android sides under `#[cfg(mobile)]`, no-op on desktop.
 
 ```rust
 // apps/wallet/src-tauri/plugins/tauri-plugin-recovery-hint/src/lib.rs

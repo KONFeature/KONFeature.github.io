@@ -76,7 +76,7 @@ echo ""
 echo "<----- Checking SybelInternalTokens.sol ----->"
 analyse_contract contracts/tokens/SybelInternalTokens.sol
 ```
-<b>[other]mythril.sh script inside tools/mythril/ folder[/other]</b>
+*The `mythril.sh` script, inside the `tools/mythril/` folder.*
 
 We first check that the scripts is executed from the root folder of the project, like that we are sure that we are in the right folder and we can access the contracts with no problem.
 
@@ -126,7 +126,7 @@ fi
 # Run echidna analysis
 ./tools/echidna/echidna.sh > tools/logs/echidna-output.log
 ```
-<b>[other]tools/run-all.sh script, running all the scripts we want[/other]</b>
+*The `tools/run-all.sh` script, running every analysis we want in sequence.*
 
 Since Mythril, Manticore and Echidna can take a very long time to run (especially in our case with more than 10 contracts), and we don’t want our developers to wait more than a day or two just waiting for the run to complete, before they can ensure the security checks are successful.
 
@@ -144,7 +144,7 @@ fi
 # Exec the run all script with nohup
 nohup sh tools/run-all.sh > tools/logs/security-analysis.log 2>&1 &
 ```
-<b>[other]tools/run-all-nohup.sh, running all the script in the background[/other]</b>
+*The `tools/run-all-nohup.sh` script, running the whole suite in the background.*
 
 And now, with all of that, you can run your security analysis scripts and let them explore all of the contracts you want!
 
@@ -164,5 +164,4 @@ If you are searching for something more graphical, you can take a look at [**Myt
 
 If you are searching for really advanced security tools, you can check [**Karl**](https://github.com/cleanunicorn/karl) and [**Theo**](https://github.com/cleanunicorn/theo) from cleanunicorn.
 
-**_If you want to continue the conversation, you can connect with us_** [@frak_defi](https://twitter.com/frak_defi) **_on Twitter or on Telegram.
-Be informed when a new article is published by following us on_** [**_Medium_**](https://medium.com/frak-defi)**_. If you liked this article, please clap for it (up to 50x) to let us know you enjoyed it. It’ll mean a lot to us._**
+If you want to continue the conversation, you can reach us [@frak_defi](https://twitter.com/frak_defi) on Twitter or on Telegram.

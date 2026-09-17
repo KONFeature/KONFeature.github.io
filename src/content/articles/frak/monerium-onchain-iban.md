@@ -36,7 +36,7 @@ One honest caveat up front: today this runs in **sandbox** (Arbitrum Sepolia, ag
 
 The first design decision is the one most people get wrong: there is **no backend**. The wallet talks straight to Monerium's REST API (v2) from the browser. No server holds tokens. No server places orders. It is a **public OAuth client using PKCE**, so there is no client secret anywhere in the stack, the access and refresh tokens live in the browser, and the only piece of server-side infrastructure involved does nothing but fix CORS.
 
-We also didn't pull in `@monerium/sdk`. The REST client is about 290 lines we own, because we wanted direct control over three things the SDK would have abstracted away from us: the proxy base URL, the refresh coalescing, and the platform quirks of running inside a Tauri WebView (the same platform friction shows up in [our native WebAuthn plugin for iOS and Android](/articles/mobile/native-webauthn-tauri-plugin-ios-android/)).
+We also didn't pull in `@monerium/sdk`. The REST client is about 290 lines we own, because we wanted direct control over three things the SDK would have abstracted away from us: the proxy base URL, the refresh coalescing, and the platform quirks of running inside a Tauri WebView (the same platform friction shows up in [our native WebAuthn plugin for iOS and Android](/articles/frak/native-webauthn-tauri-plugin-ios-android/)).
 
 The entire configuration surface is this:
 

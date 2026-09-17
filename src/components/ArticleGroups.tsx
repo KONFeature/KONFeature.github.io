@@ -66,7 +66,7 @@ const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
 					return (
 						<a
 							key={groupId}
-							href={`/articles/${groupId}`}
+							href={`/articles/${groupId}/`}
 							className="group/card p-6 rounded-lg border border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
 						>
 							<div className="flex items-start gap-4 mb-3">

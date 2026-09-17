@@ -13,7 +13,7 @@ heroImage: "./assets/wallet-devx-revolution/hero.jpg"
 group: "frak"
 ---
 
-![hero image](./assets/wallet-devx-revolution/hero.jpg)
+![Frak monorepo build pipeline after the Next.js to TanStack Start and Rolldown migration](./assets/wallet-devx-revolution/hero.jpg)
 
 In software development, speed is a feature, not just for the end user, but for the developer. A slow CI pipeline or a sluggish hot module replacement (HMR) loop kills flow states and slows down innovation.
 

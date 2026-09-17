@@ -39,8 +39,9 @@ const Navigation = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <a href="/articles" className="hover:text-gray-900 dark:hover:text-white transition-colors">Articles</a>
-            <a href="/projects" className="hover:text-gray-900 dark:hover:text-white transition-colors">Projects</a>
+            <a href="/articles/" className="hover:text-gray-900 dark:hover:text-white transition-colors">Articles</a>
+            <a href="/projects/" className="hover:text-gray-900 dark:hover:text-white transition-colors">Projects</a>
+            <a href="/about/" className="hover:text-gray-900 dark:hover:text-white transition-colors">About</a>
             <a 
               href={CALENDLY_URL}
               target="_blank"
@@ -84,8 +85,9 @@ const Navigation = () => {
       {isMenuOpen && (
         <div className="fixed inset-0 z-40 bg-white dark:bg-[#0a0a0a] pt-20 px-6 md:hidden">
           <div className="flex flex-col gap-6 text-xl font-medium text-gray-600 dark:text-gray-300">
-            <a href="/articles" onClick={() => setIsMenuOpen(false)}>Articles</a>
-            <a href="/projects" onClick={() => setIsMenuOpen(false)}>Projects</a>
+            <a href="/articles/" onClick={() => setIsMenuOpen(false)}>Articles</a>
+            <a href="/projects/" onClick={() => setIsMenuOpen(false)}>Projects</a>
+            <a href="/about/" onClick={() => setIsMenuOpen(false)}>About</a>
             <a 
               href={CALENDLY_URL}
               target="_blank"

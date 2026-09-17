@@ -4,7 +4,8 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import ArticlesPage from '../components/ArticlesPage';
 import { getCollection } from 'astro:content';
-import { SITE_TITLE, SITE_URL, AUTHOR_NAME } from '../consts';
+import { SITE_TITLE } from '../consts';
+import { personJsonLd, canonical } from '../lib/schema';
 
 const articles = (await getCollection('articles')).filter(article => !article.data.draft);
 
@@ -45,22 +46,20 @@ const articlesJsonLd = {
 	"@type": "CollectionPage",
 	"name": `All Articles | ${SITE_TITLE}`,
 	"description": "Complete archive of engineering articles and technical deep-dives",
-	"url": `${SITE_URL}/articles`,
+	"url": canonical('articles'),
 	"mainEntity": {
 		"@type": "ItemList",
+		// Every article is rendered on this page, so list them all rather than
+		// declaring a count that does not match itemListElement.
 		"numberOfItems": processedArticles.length,
-		"itemListElement": processedArticles.slice(0, 10).map((article, i) => ({
+		"itemListElement": processedArticles.map((article, i) => ({
 			"@type": "ListItem",
 			"position": i + 1,
-			"url": `${SITE_URL}/articles/${article.slug}`,
+			"url": canonical(`articles/${article.slug}`),
 			"name": article.title,
 		})),
 	},
-	"author": {
-		"@type": "Person",
-		"name": AUTHOR_NAME,
-		"url": SITE_URL,
-	},
+	"author": personJsonLd,
 };
 ---
 
