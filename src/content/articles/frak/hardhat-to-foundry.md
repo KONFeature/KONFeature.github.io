@@ -1,5 +1,5 @@
 ---
-title: "Maximizing Quality and Reliability in Solidity: Our Journey from Hardhat to Foundry"
+title: "Migrating Solidity Testing from Hardhat to Foundry"
 date: 2023-01-10T12:00:00Z
 draft: false
 subtitle: "Evaluating the performance difference of Hardhat and Foundry for Solidity contract unit testing & reason behind the switch"
@@ -20,6 +20,8 @@ As the head of smart contract at [Frak](https://frak.id), a web3 company that is
 One of the key tools we use to achieve this is unit testing, which allows us to validate the behavior of individual units of code and catch any issues early on in the development process.
 
 In this article, I’ll be sharing our experience with switching from Hardhat to Foundry for unit testing in Solidity. By sharing our journey, I hope to provide valuable insights and guidance for other Solidity developers who are considering a similar switch.
+
+If you want to see this setup in practice, we used it for the [Foundry unit tests of our ERC-2612 implementation](/articles/web3/erc-2612-part-3/).
 
 ## Hardhat vs Foundry
 
@@ -49,6 +51,8 @@ Since the tests are written in Solidity, we can also use **inheritance** to have
 
 The reason for the switch is quite obvious now, it allows us to test our code much faster, perform some gas optimization tests and see the impact on the whole ecosystem in less than a second (post compilation, so around **5 seconds** in our case).
 
+That speed is what made our work on [gasless ERC-20 approvals with ERC-2612](/articles/web3/erc-2612-part-1/) practical in the first place.
+
 ## Caveat
 
 Since Foundry is purely **Solidity-based** (for deployment scripts and tests), it required us to rewrite all of our unit tests in the Solidity form. Nonetheless, it allows us to incorporate some **fuzzing** tests for all of our contracts, giving us better **gas estimation** for their execution.
@@ -64,6 +68,8 @@ We decided to go with [PRBTest](https://github.com/paulrberg/prb-test) instead o
 In about **a week**, we managed to set up Foundry and migrate the majority of our unit tests to it. We encountered a few things that were not well-documented, but they remained easily solvable.
 
 Since the tests ran approximately **100 times faster**, it helped us a lot with our research on gas optimization, and it will help us in the future to add new features to our system, test them, and optimize our code even further.
+
+And testing is only half of the pre-audit work: we also documented [the free security tooling we set up before our audit](/articles/web3/securing-solidity-smart-contracts/).
 
 Stay tuned for another article where I will explain how we set up Foundry in our existing Hardhat project and how we set up base unit tests for our upgradeable contract!
 

@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln - Part 1: From 380V Industrial to 220V Smart Kiln"
+title: "Pico Kiln Part 1: Converting a 380V Kiln to 220V"
 date: 2025-11-14T12:00:00Z
 draft: false
 subtitle: "The electrical rewiring journey: Taming a 400kg vintage beast, converting 3-phase power, and solving critical ground faults."
@@ -7,7 +7,7 @@ category: "electronics"
 tags: ["Kiln", "Electrical Engineering", "IoT", "Safety", "Restoration"]
 icon: "zap"
 iconColor: "text-yellow-400"
-description: "A deep dive into rewiring a 1977 'Bretagne' pottery kiln. We cover converting 3-phase to single-phase, handling massive loads, and solving dangerous electrical noise issues."
+description: "Rewiring a 1977 pottery kiln from 380V three-phase power to 220V single-phase: star-to-parallel element conversion, breaker sizing, and ground faults."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
@@ -28,7 +28,7 @@ The kiln was originally rated for **9 kW** using 3 massive heating elements runn
 
 ### The Math Behind the Conversion
 
-Many assume you need a transformer to convert a 3-phase machine to single-phase, but with resistive loads (heating elements), it's often just a matter of topology.
+Many assume you need a transformer to convert a 3-phase machine to single-phase, but with resistive loads (heating elements), it's often just a matter of topology. (I applied the same love for electrical problem-solving when [wiring a house by algorithm with a 3-phase panel optimizer](/articles/side-projects/tableau-elec-3-phase-optimizer/).)
 
 Industrial kilns typically use a **"Star" (Y)** configuration. In a 380V Star setup, the voltage is distributed across the phases. Crucially, the voltage across any *single* heating element is actually the Phase-to-Neutral voltage, calculated as:
 
@@ -197,7 +197,7 @@ $$
 
 Splitting the load across 3 SSRs halves the total heat generation. Each SSR runs barely warm to the touch.
 
-**SSR Control from Firmware**: The Pico drives SSRs via GPIO pins using time-proportional control:
+**SSR Control from Firmware**: The Pico drives SSRs via GPIO pins using [time-proportional control](/articles/kiln/pico-kiln-firmware/):
 
 ```python
 # kiln/hardware.py
@@ -489,8 +489,8 @@ In the next post, we'll dive into the **IoT conversion**: using a Raspberry Pi P
 **Topics covered**:
 - MAX31856 thermocouple interfacing (SPI)
 - Dual-core architecture (Control vs. WiFi)
-- PID control with adaptive gain scheduling
-- Web-based firing profile management
+- [PID control with adaptive gain scheduling](/articles/kiln/pico-python-analysis/)
+- [Web-based firing profile management](/articles/kiln/pico-kiln-app/)
 - Real-time temperature monitoring and logging
 
 The hardware is ready. Time to add the brains.

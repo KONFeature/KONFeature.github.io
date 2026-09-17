@@ -7,7 +7,7 @@ category: "tooling"
 tags: ["WordPress", "MCP", "AI", "WooCommerce", "Self-Hosting", "Open Source"]
 icon: "hammer"
 iconColor: "text-cyan-400"
-description: "When my girlfriend needed an online pottery shop, I refused Shopify's centralized model. A Hetzner VPS, WordPress, and a custom MCP server later: she now manages her store through Claude conversations."
+description: "An open-source MCP server for WordPress and WooCommerce: manage posts, media, and products through Claude or OpenCode instead of the admin panel."
 githubUrl: "https://github.com/KONFeature/wordforge"
 group: "side-projects"
 ---
@@ -45,7 +45,7 @@ The real friction, though, came from an unexpected place: I couldn't use my AI d
 
 ## The Frustration: AI Tools Don't Speak WordPress
 
-I live in AI-assisted development. Claude, OpenCode, cursor: they're part of my daily workflow. But when it came to helping my girlfriend update her WordPress site, I was stuck in the admin panel clicking through menus like it's 2010.
+I live in AI-assisted development. Claude, OpenCode, cursor: they're part of my daily workflow. (I even built [an orchestrator so AI agents can run unsupervised](/articles/side-projects/atelier-stop-babysitting/).) But when it came to helping my girlfriend update her WordPress site, I was stuck in the admin panel clicking through menus like it's 2010.
 
 I could have built a custom theme with code she'd never touch. But she explicitly didn't want that, she wanted to understand and control her own site. Fair enough.
 
@@ -134,6 +134,8 @@ The plugin requires:
 - PHP 8.0+
 - WordPress 6.4+
 
+Working on your own WordPress plugin? I wrote about [shipping one that doesn't tank your store's performance](/articles/frak/wordpress-plugin-performance-native-webhooks/).
+
 ### 2. MCP Client Configuration
 
 **For Claude Desktop**: Download `wordforge.mcpb` from the releases and double-click to install.
@@ -202,7 +204,7 @@ I was genuinely surprised that no free, comprehensive WordPress MCP integration 
 
 So I built what I needed and open-sourced it. Maybe someone else has a partner starting a small business, or wants to manage their blog through Claude, or just prefers conversation over clicking.
 
-The WordPress ecosystem deserves AI tooling that isn't locked behind paywalls.
+The WordPress ecosystem deserves AI tooling that isn't locked behind paywalls. If you want to see MCP orchestrate more than a shop, [L'Atelier uses an MCP server to dispatch AI coding agents from Slack](/articles/side-projects/atelier-slack-mcp/).
 
 ---
 

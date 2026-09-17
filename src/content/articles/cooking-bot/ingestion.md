@@ -12,9 +12,9 @@ description: "Deep dive into our 7-stage recipe processing pipeline with intelli
 group: "cooking-bot"
 ---
 
-# The Sophisticated Recipe Processing Pipeline
+## The Sophisticated Recipe Processing Pipeline
 
-Processing 35,000+ French recipes isn't just about running them through a few algorithms. It's about building a **sophisticated, multi-stage pipeline** that can handle the chaos of real-world recipe data while maintaining perfect safety standards and optimizing costs at scale. This is the story of how we engineered a processing system that combines rule-based precision, machine learning intelligence, and human-like validation.
+Processing 35,000+ French recipes isn't just about running them through a few algorithms. It's about building a **sophisticated, multi-stage pipeline** that can handle the chaos of real-world recipe data while maintaining perfect safety standards and optimizing costs at scale. This is the story of how we engineered a processing system that combines rule-based precision, machine learning intelligence, and human-like validation. If you want the why before the how, start with [our safety-first cooking assistant overview](/articles/cooking-bot/introduction/).
 
 ## The Challenge: Real-World Recipe Data is Messy
 
@@ -306,7 +306,7 @@ When anomalies are detected, they're logged for review. The LLM can suggest corr
 
 ## Stage 8: Dual-Vector Embedding Generation
 
-One of our key design strategies is the **dual-vector embedding approach**. Instead of a single embedding, we generate two specialized vectors for each recipe:
+One of our key design strategies is the **dual-vector embedding approach**. Instead of a single embedding, we generate two specialized vectors for each recipe - the same pairing that powers [real-time recipe search at conversation time](/articles/cooking-bot/runtime/):
 
 ### **Strategy 1: Semantic Embedding**
 Captures the essence of what makes a recipe unique:

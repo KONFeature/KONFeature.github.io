@@ -1,5 +1,5 @@
 ---
-title: "The Uncomfortable Truth About ERC-7579 and Modular Smart Wallets"
+title: "ERC-7579 Modular Smart Wallets: The Uncomfortable Truth"
 date: 2025-12-29T15:00:00Z
 draft: false
 subtitle: "2-3 weeks building a ZK social login wallet. Most of the pain wasn't the ZK part."
@@ -7,7 +7,7 @@ category: "opinion"
 tags: ["ERC-7579", "Account Abstraction", "Rhinestone", "Smart Wallets", "ZK", "Social Login"]
 icon: "message-square-warning"
 iconColor: "text-amber-400"
-description: "After weeks building a fully-featured ZK social wallet with 7579 modules, I have thoughts. The tech is here. The ecosystem... isn't."
+description: "Two weeks building a ZK social login wallet on ERC-7579 modules: the tech works, but the ecosystem's registry checks, SDKs, and docs don't."
 group: "web3"
 ---
 
@@ -43,7 +43,7 @@ The target architecture:
 
 **Multichain**: With 7579's modular architecture and proper account deployment strategies, multichain support is almost free. Deploy the same account across chains with the same modules: done.
 
-**Monerium Integration**: Honestly, a breath of fresh air. Their API is clean, documentation is accurate, and integration took maybe half a day. This is what "production-ready" looks like.
+**Monerium Integration**: Honestly, a breath of fresh air. Their API is clean, documentation is accurate, and integration took maybe half a day. This is what "production-ready" looks like. For the full integration story, see [how we gave a smart contract a bank account](/articles/frak/monerium-onchain-iban/).
 
 ## Where I Actually Spent My Time (The 7579 Reality)
 
@@ -149,7 +149,7 @@ Here's what keeps me up at night: the technology for fully non-custodial social 
 - ZK proofs for OAuth token verification: Working
 - On-chain JWT signature verification: Doable (expensive, but getting cheaper)
 - Modular wallet architecture: Specified
-- Account abstraction for gas sponsorship: Mature
+- Account abstraction for gas sponsorship: Mature — [we run it in production on Polygon](/articles/frak/polygon-account-abstraction/)
 
 So why are projects still paying per-user fees for centralized social login providers?
 
@@ -179,7 +179,7 @@ Gas costs for ZK verification will drop. Recent Ethereum upgrades are reducing c
 
 What's missing is the last-mile work:
 - Polish the implementations
-- Audit the critical paths
+- Audit the critical paths (free tooling like Slither and Echidna get you started — see [our Solidity security tooling setup](/articles/web3/securing-solidity-smart-contracts/))
 - Build SDKs that respect developer autonomy
 - Document the actual state of things, not the aspirational spec
 

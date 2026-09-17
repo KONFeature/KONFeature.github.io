@@ -7,7 +7,7 @@ category: "system-design"
 tags: ["architecture", "competitive-parsing", "multi-strategy", "quality-selection", "self-healing"]
 icon: "layout"
 iconColor: "text-blue-400"
-description: "A complete system architecture overview of scenario-parser's 3-stage competitive parsing pipeline: extraction, 4 parallel parsing strategies with quality selection, and graph-theory + LLM hybrid analysis."
+description: "How scenario-parser parses screenplays with a 3-stage pipeline: PDF extraction, four competing parsing strategies, quality selection, and LLM analysis."
 # githubUrl: "https://github.com/KONFeature/scenario-parser"
 heroImage: "./assets/scenario-parser/hero-architecture.png"
 group: "scenario-parser"
@@ -84,7 +84,7 @@ flowchart TB
 
 **Location**: `packages/extractor/src/extractor.ts`
 
-The PDFExtractor orchestrates **two Python scripts sequentially** to produce three complementary representations of the screenplay:
+The PDFExtractor orchestrates **two Python scripts sequentially** to produce three complementary representations of the screenplay (the extraction layer itself is covered in detail in [From PDF to Structured Data: The Extraction Layer](/articles/scenario-parser/scenario-parser-extraction/)):
 
 ### 1.1 JSON Extraction (pdfplumber)
 
@@ -397,7 +397,7 @@ Based on 500 screenplay PDFs tested:
 
 **Location**: `packages/analyzer/src/analyzer.ts`
 
-Once we have the best screenplay from Stage 2, we run **three parallel analysis pipelines**:
+Once we have the best screenplay from Stage 2, we run **three parallel analysis pipelines** (the orchestration side — concurrency control, backpressure, and retries — gets its own deep dive in [Building a Resilient Analysis Pipeline](/articles/scenario-parser/scenario-parser-pipeline/)):
 
 ### 3.1 Synopsis Generation
 
@@ -424,6 +424,8 @@ const synopsis = await generateSynopsis(screenplay, language);
 **File**: `character-analysis-v2/orchestrator-v5.ts`  
 **Engine**: Graph theory + Gemini 2.5 Flash  
 **Method**: Hybrid approach
+
+For the full walkthrough of the prompt design and personality synthesis behind this stage, see [Modeling Character Psychology with LLMs](/articles/scenario-parser/scenario-parser-psychology/).
 
 #### Step 1: Social Network Analysis (SNA)
 

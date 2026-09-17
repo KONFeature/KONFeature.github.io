@@ -1,5 +1,5 @@
 ---
-title: "The Supporting Cast: L'Atelier's Infrastructure Beyond the Orchestrator"
+title: "L'Atelier Infrastructure: CLIProxy, Verdaccio, Zot and Helm"
 date: 2026-03-07T12:00:00Z
 draft: false
 subtitle: "The orchestrator gets all the glory, but it's the proxy, the cache, and the registry that make the system actually usable."
@@ -7,16 +7,16 @@ category: "tooling"
 tags: ["Kubernetes", "Infrastructure", "LLM", "DevOps", "Self-Hosting", "Verdaccio", "Zot", "CLIProxy"]
 icon: "layers"
 iconColor: "text-green-400"
-description: "An AI sandbox orchestrator needs more than just an orchestrator. Here's how CLIProxy, shared binary volumes, Verdaccio, and a single Helm chart turn L'Atelier from a VM launcher into a dev platform."
+description: "How L'Atelier runs CLIProxy for LLM rate limits, shared binary volumes, a Verdaccio npm cache, an in-cluster Zot registry, and one Helm chart to install it all."
 githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
 
-In my last post, I talked about the massive architectural shift of moving L'Atelier to Kubernetes and Kata Containers. Deleting 8,000 lines of code felt great, but an orchestrator alone doesn't make a development platform. It's just a way to start and stop VMs.
+In my last post, I talked about the massive architectural shift of [moving L'Atelier to Kubernetes and Kata Containers](/articles/side-projects/atelier-kubernetes-migration/). Deleting 8,000 lines of code felt great, but an orchestrator alone doesn't make a development platform. It's just a way to start and stop VMs.
 
 If the orchestrator is the heart of the system, the supporting infrastructure is the rest of the body. It's the stuff that handles LLM rate limits, caches npm packages so you aren't waiting ten minutes for a build, and manages the binaries that make the sandbox feel like a real IDE.
 
-When we moved to K8s, we didn't just move the sandbox pods. We moved the entire supporting cast. Here is how we built the infrastructure that makes L'Atelier work day-to-day.
+When we moved to K8s, we didn't just move the sandbox pods. We moved the entire supporting cast. Here is how we built the infrastructure that makes L'Atelier work day-to-day. New to L'Atelier? Start with [why I built it](/articles/side-projects/atelier-stop-babysitting/).
 
 ## CLIProxy: The LLM Load Balancer
 
@@ -153,7 +153,7 @@ Date:   Sun Mar 8 14:20:00 2026
 feat: implement the new billing logic
 ```
 
-On the dashboard kanban board, every task card shows the creator's avatar. It sounds like a minor UI polish, but it makes the system feel human. You aren't just looking at a list of AI tasks; you're looking at work your teammates have dispatched.
+On the dashboard kanban board, every task card shows the creator's avatar. It sounds like a minor UI polish, but it makes the system feel human. You aren't just looking at a list of AI tasks; you're looking at work your teammates have dispatched. Most of these tasks now come straight from Slack: [here's how the Slack bot and MCP server dispatch them](/articles/side-projects/atelier-slack-mcp/).
 
 ## The Helm Chart: One Install to Rule Them All
 

@@ -1,7 +1,7 @@
 ---
-title: "A Bank Account for a Smart Contract: Wiring Monerium Into a Self-Custodial Wallet"
+title: "Giving a Smart Wallet a Bank Account With Monerium"
 subtitle: "Why we plugged the wallet straight into a regulated e-money issuer instead of building our own rails, and how the integration actually works: browser-side OAuth2 with PKCE, an nginx proxy that defeats a broken CORS preflight, ERC-1271 address linking, delegated KYC, and a signed SEPA off-ramp"
-description: "How we gave Frak's self-custodial smart-account wallet a real IBAN by integrating Monerium, a licensed e-money institution: a backend-free OAuth2 + PKCE connect flow, token refresh coalescing, an nginx CORS workaround for Tauri, ERC-1271 wallet linking with deploy-before-sign, fully delegated KYC, and a signed EURe redeem off-ramp."
+description: "How we gave Frak's self-custodial smart wallet a real IBAN via Monerium: OAuth2 with PKCE, ERC-1271 linking, delegated KYC, and a signed EURe off-ramp."
 date: 2026-06-01T10:00:00Z
 draft: false
 category: "engineering"
@@ -36,7 +36,7 @@ One honest caveat up front: today this runs in **sandbox** (Arbitrum Sepolia, ag
 
 The first design decision is the one most people get wrong: there is **no backend**. The wallet talks straight to Monerium's REST API (v2) from the browser. No server holds tokens. No server places orders. It is a **public OAuth client using PKCE**, so there is no client secret anywhere in the stack, the access and refresh tokens live in the browser, and the only piece of server-side infrastructure involved does nothing but fix CORS.
 
-We also didn't pull in `@monerium/sdk`. The REST client is about 290 lines we own, because we wanted direct control over three things the SDK would have abstracted away from us: the proxy base URL, the refresh coalescing, and the platform quirks of running inside a Tauri WebView.
+We also didn't pull in `@monerium/sdk`. The REST client is about 290 lines we own, because we wanted direct control over three things the SDK would have abstracted away from us: the proxy base URL, the refresh coalescing, and the platform quirks of running inside a Tauri WebView (the same platform friction shows up in [our native WebAuthn plugin for iOS and Android](/articles/mobile/native-webauthn-tauri-plugin-ios-android/)).
 
 The entire configuration surface is this:
 
@@ -269,7 +269,7 @@ add_header Access-Control-Allow-Origin $cors_origin always;
 add_header Vary "Origin" always;
 ```
 
-Three things had to be true at once: reflect the WebView origin (because `*` and credentials don't mix), strip Monerium's wildcard first (because two `Access-Control-Allow-Origin` headers is an instant browser reject), and use a `map` rather than an `if` to dodge nginx's well-known "if is evil" footgun, where `add_header` inheritance across `if` blocks is undefined. `MONERIUM_API_HOST` is substituted at container startup via `envsubst` (`api.monerium.app` in prod, `api.monerium.dev` in sandbox), and in local dev Vite's proxy does the identical job.
+Three things had to be true at once: reflect the WebView origin (because `*` and credentials don't mix), strip Monerium's wildcard first (because two `Access-Control-Allow-Origin` headers is an instant browser reject), and use a `map` rather than an `if` to dodge nginx's well-known "if is evil" footgun, where `add_header` inheritance across `if` blocks is undefined. `MONERIUM_API_HOST` is substituted at container startup via `envsubst` (`api.monerium.app` in prod, `api.monerium.dev` in sandbox), and in local dev Vite's proxy does the identical job. For background on why we self-host Nginx in front of our services instead of leaning on a CDN, see [our frontend optimization write-up](/articles/frak/frak-frontend-optimization/).
 
 ## KYC We Never Run
 
@@ -309,7 +309,7 @@ The regulated work, government-ID verification, proof of address, sanctions and 
 
 ## Giving a Smart Contract a Bank Account
 
-This is the conceptual heart of the whole thing. The IBAN binds to an address, and our addresses are **ERC-4337 smart accounts**, not plain EOAs. That has two consequences, and the linking hook handles both:
+This is the conceptual heart of the whole thing. The IBAN binds to an address, and our addresses are **[ERC-4337 smart accounts](/articles/frak/4337-webauthn/)**, not plain EOAs. That has two consequences, and the linking hook handles both:
 
 ```ts
 // apps/wallet/app/module/monerium/hooks/useMoneriumLinkWallet.ts
@@ -385,7 +385,7 @@ The on-ramp, notably, has **no code at all**, and that is the point. On-ramp is 
 
 ## Orders Become History
 
-A redeem isn't instant, so the wallet tracks it. `useMoneriumOrders` reads `GET /orders?address=...` and the order walks a small state machine (`placed`, then `pending`, then `processed` or `rejected`). Those orders are merged into the same timeline as on-chain rewards:
+A redeem isn't instant, so the wallet tracks it. `useMoneriumOrders` reads `GET /orders?address=...` and the order walks a small state machine (`placed`, then `pending`, then `processed` or `rejected`). Those orders are merged into the same timeline as on-chain rewards (the infrastructure behind that reward layer is covered in [our cost-effective infrastructure post](/articles/frak/cost-effective-infra/)):
 
 ```ts
 // apps/wallet/app/module/history/utils/historyEntry.ts

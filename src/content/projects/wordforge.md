@@ -1,7 +1,7 @@
 ---
 name: "WordForge"
 tagline: "An open-source MCP server that lets WordPress be managed through AI conversation instead of admin-panel clicking."
-description: "When my girlfriend needed an online pottery shop, I refused Shopify's centralized, fee-heavy model. Built on a 3€/month Hetzner VPS with WordPress and WooCommerce, then extended with WordForge, a comprehensive MCP server so the store can be managed through Claude conversations instead of admin menus."
+description: "An open-source MCP server for WordPress and WooCommerce: manage a self-hosted pottery shop through Claude conversations instead of admin menus."
 status: "personal"
 role: "Creator"
 period: "Dec 2025"

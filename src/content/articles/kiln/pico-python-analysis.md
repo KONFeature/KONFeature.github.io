@@ -1,5 +1,5 @@
 ---
-title: "Pico Kiln - Part 4: Physics-Based PID Tuning with Python"
+title: "Pico Kiln Part 4: Physics-Based PID Tuning in Python"
 date: 2025-11-17T12:00:00Z
 draft: false
 subtitle: "From CSV Logs to Optimal Control Theory"
@@ -7,7 +7,7 @@ category: "engineering"
 tags: ["Kiln", "IoT", "Python", "Control Theory", "PID", "Data Analysis", "Physics"]
 icon: "chart-line"
 iconColor: "text-green-400"
-description: "Analyzing kiln performance with physics-based phase detection, thermal modeling, and multi-method PID tuning. Because eyeballing temperature curves doesn't cut it."
+description: "Tune a kiln PID controller with physics-based phase detection, FOPDT thermal modeling, and Ziegler-Nichols, Cohen-Coon, and AMIGO tuning methods."
 heroImage: "./assets/pico-python-analysis/plot-run.png"
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
@@ -261,7 +261,7 @@ graph TD
 
 ## Heat Loss: The Temperature-Dependent Problem
 
-Here's the issue: $K$ is not constant. At 100°C, the kiln loses 50W to the environment. At 1000°C, it loses 500W. The same SSR output produces less temperature rise at high temperatures.
+Here's the issue: $K$ is not constant. At 100°C, the kiln loses 50W to the environment. At 1000°C, it loses 500W. The same SSR output produces less temperature rise at high temperatures — one reason the [1977 kiln's aging insulation](/articles/kiln/kiln-hardware/) currently caps firings at 1100°C.
 
 We model this as a **heat loss coefficient** $h$:
 
@@ -308,7 +308,7 @@ def fit_heat_loss_coefficient(gain_points, base_gain, ambient_temp):
     return h_estimates[len(h_estimates) // 2]
 ```
 
-This coefficient feeds into **gain scheduling**: adjusting PID parameters dynamically based on temperature.
+This coefficient feeds into [gain scheduling](/articles/kiln/pico-kiln-firmware/): adjusting PID parameters dynamically based on temperature.
 
 $$
 K_p(T) = K_{p,\text{base}} \times (1 + h \cdot (T - T_{\text{ambient}}))
@@ -809,6 +809,8 @@ By modeling the **physics** (FOPDT + heat loss), we:
 - Provide **quantitative recommendations** ("reduce Kp by 15%") instead of vague advice ("tune the controller")
 
 The math is classical (Ziegler-Nichols is from 1942). The insight is applying it **rigorously** with **context-aware analysis**. A 10°C overshoot at 100°C is fine. At 1000°C, it ruins the firing. The grading system knows the difference.
+
+This same physics-first approach carried into the [bare-metal Rust rewrite](/articles/kiln/pico-kiln-rust/), where the control logic is pinned by golden-replay tests.
 
 ---
 

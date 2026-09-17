@@ -11,7 +11,7 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 	frak: {
 		id: 'frak',
 		name: 'Frak Labs',
-		description: 'Building the future of content monetization with Web3. From pioneering account abstraction and WebAuthn wallets to extreme frontend optimization and cost-effective blockchain infrastructure.',
+		description: 'Building content monetization with Web3: pioneering account abstraction, WebAuthn wallets, extreme frontend optimization, cost-effective infrastructure.',
 		icon: 'rocket',
 		iconColor: 'text-purple-400',
 		order: 1,
@@ -35,7 +35,7 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 	'side-projects': {
 		id: 'side-projects',
 		name: 'Side Projects',
-		description: 'Personal projects born from real problems. AI-powered WordPress management, home electrical panel optimization, building what I need, open-sourcing what might help others.',
+		description: 'Personal projects born from real problems: AI-powered WordPress management, home electrical optimization, and open-sourcing what might help others.',
 		icon: 'wrench',
 		iconColor: 'text-cyan-400',
 		order: 4,
@@ -43,7 +43,7 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 	atelier: {
 		id: 'atelier',
 		name: "L'Atelier",
-		description: 'A self-hosted cloud sandbox platform for AI coding agents, built on Kata Containers. From a monolithic orchestrator to a Kubernetes-native supporting infrastructure, plus a Slack bot and MCP server.',
+		description: 'A self-hosted cloud sandbox for AI coding agents on Kata Containers: Kubernetes-native orchestrator, supporting infrastructure, Slack bot and MCP server.',
 		icon: 'layers',
 		iconColor: 'text-orange-400',
 		order: 5,
@@ -51,7 +51,7 @@ export const ARTICLE_GROUPS: Record<string, ArticleGroup> = {
 	kiln: {
 		id: 'kiln',
 		name: 'Pico Kiln',
-		description: 'Hardware and firmware for a smart, high-temperature pottery kiln controller. From 380V industrial rewiring to bare-metal Rust firmware and physics-based PID tuning.',
+		description: 'Hardware and firmware for a smart pottery kiln controller: 380V rewiring, physics-based PID tuning, and bare-metal Rust firmware.',
 		icon: 'flame',
 		iconColor: 'text-red-400',
 		order: 6,

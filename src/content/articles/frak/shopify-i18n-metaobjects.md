@@ -1,7 +1,7 @@
 ---
-title: "One Translation Source for a Shopify App That Renders in Four Different Runtimes"
+title: "Shopify i18n: One Metaobject Source for Four Runtimes"
 subtitle: "Why we moved merchant-editable text out of metafields and into a merchant-owned metaobject, how a three-tier Liquid cascade resolves it, and the self-healing sync that never overwrites a merchant's edits"
-description: "How we localized Frak's Shopify app across a storefront banner, a product-page share button, and a post-purchase checkout card (three runtimes reading two different Shopify APIs) by making a single merchant-owned frak_i18n metaobject the source of truth, wired into Shopify's native Translate & Adapt."
+description: "A Shopify app's banner, share button, and checkout card localized from one frak_i18n metaobject, plugged into Shopify's Translate & Adapt."
 date: 2026-05-28T10:00:00Z
 draft: false
 category: "engineering"
@@ -16,8 +16,8 @@ A Shopify app isn't one program. It's several, each running in a different sandb
 
 - a **referral banner** injected into the storefront theme (**Liquid**);
 - a **share button** on the product page (also **Liquid**, different block);
-- a **post-purchase card** on the Thank You and Order Status pages (a **Preact** checkout UI extension in a Web Worker);
-- the **merchant admin dashboard** (a **React Router** app in an iframe).
+- a **post-purchase card** on the Thank You and Order Status pages (a **Preact** checkout UI extension in a Web Worker, the same lean-render choice behind [our ring architecture](/articles/frak/frak-listener-ring-architecture/));
+- the **merchant admin dashboard** (a **React Router** app in an iframe) — we later unified this stack on TanStack Router, see [our DevX overhaul post](/articles/frak/wallet-devx-revolution/).
 
 Three are buyer-facing and follow the storefront locale; one is merchant-facing and follows the admin locale. None can import a shared module, because they don't share a process: the Liquid runs on Shopify's servers, the checkout extension is sandboxed in the buyer's browser, the admin app runs on our Lambda. The only thing they can share is data living in Shopify. This is how that text comes from one place, survives an app upgrade, and stays editable by the merchant in the tool they already use: Shopify's **Translate & Adapt**.
 
@@ -272,3 +272,8 @@ No metaobject, no Translate & Adapt, no Storefront API: nothing here is merchant
 - **Regional locales find your locale bug.** BCP-47 `fr-CA` becomes the enum `FR_CA`, not `FR-CA`. Swap the separator and uppercase.
 
 The app lives in [frak-id/wallet](https://github.com/frak-id/wallet) under `apps/shopify`. The translation system is most of `app/services.server/metafields.ts` plus the `frak_i18n` references across the extensions: about 250 lines that make four runtimes say the same thing in the buyer's language, and keep saying it after we ship.
+
+**Related posts:**
+
+- [A fast WordPress + WooCommerce plugin in production](/articles/frak/wordpress-plugin-performance-native-webhooks/): the same wallet, wired into WooCommerce the lean way
+- [Giving a smart wallet a bank account with Monerium](/articles/frak/monerium-onchain-iban/): how the wallet these surfaces promote pays out in euros

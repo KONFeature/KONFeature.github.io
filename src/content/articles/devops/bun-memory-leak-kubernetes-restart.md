@@ -1,7 +1,7 @@
 ---
-title: "Chasing a Bun Memory Leak for 3 Days (The Answer Was 'Just Restart')"
+title: "Bun Memory Leak on Kubernetes: 3 Days to a Pod Restart"
 subtitle: "Two-pass builds, forced GC, --smol flags, and a health endpoint that lies to Kubernetes"
-description: "3 days debugging a Bun RSS memory leak on a Elysia.js backend. The fix was a scheduled pod restart via a health endpoint that lies to Kubernetes: and why we couldn't do anything else."
+description: "Debug a Bun RSS memory leak on a Elysia.js backend in Kubernetes: forced GC, heap snapshots, and why a lying health endpoint and pod restart won."
 date: 2026-03-30T18:00:00Z
 category: "devops"
 group: "frak"
@@ -148,7 +148,7 @@ We couldn't switch to Node. We couldn't fix the Bun bug. We couldn't safely cap 
 
 If the process eventually needs to die, the least bad way is a rolling restart triggered by a liveness probe. No OOM kill, no traffic drop, no 3am alerts.
 
-Make the health endpoint return 500 after 24 hours. Kubernetes liveness probe sees consecutive failures, triggers rolling restart. WebSocket connections drain during the termination grace period. Zero-downtime.
+Make the health endpoint return 500 after 24 hours. Kubernetes liveness probe sees consecutive failures, triggers rolling restart. WebSocket connections drain during the termination grace period. Zero-downtime. The cluster this runs on is managed as code - [SST and Pulumi instead of Terraform](/articles/frak/frak-infrastructure-iac/).
 
 ```ts
 const bootTime = Date.now();
@@ -187,7 +187,7 @@ Maximum observed RSS before restart: ~380MB. No OOM kills since deployment.
 
 ## Bonus: Shrinking the Bundle While We Were At It
 
-The memory debugging led us to look harder at startup cost and bundle size, which in turn led to some dependency surgery. The full journey: 4.4MB → 2.3MB.
+The memory debugging led us to look harder at startup cost and bundle size, which in turn led to some dependency surgery. The full journey: 4.4MB → 2.3MB. For the frontend side of the same fight, see [how we cut 30% off our wallet's bundle size](/articles/frak/frak-frontend-optimization/).
 
 The biggest single win was dropping `firebase-admin`. It's a massive package: ~900KB of the reduction came from replacing it with direct HTTP/2 FCM calls using `jose` (for JWT/OAuth2 token generation) and Node's built-in `node:http2` for multiplexed push delivery. Same functionality, fraction of the weight.
 

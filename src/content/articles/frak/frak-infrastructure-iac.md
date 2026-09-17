@@ -1,5 +1,5 @@
 ---
-title: "Modern Infrastructure as Code: Why We Chose SST & Pulumi over Terraform"
+title: "Why We Chose SST and Pulumi over Terraform for IaC"
 date: 2025-11-18T10:00:00Z
 draft: false
 subtitle: "Escaping the HCL Trap"
@@ -7,7 +7,7 @@ category: "devops"
 tags: ["IaC", "SST", "Pulumi", "Kubernetes", "GCP", "AWS", "TypeScript"]
 icon: "cloud-cog"
 iconColor: "text-cyan-400"
-description: "A deep dive into Frak's infrastructure stack, detailing why we abandoned HCL for TypeScript, how we architect multi-cloud deployments with SST, and managing GKE clusters with Pulumi."
+description: "Why Frak abandoned HCL for TypeScript: multi-cloud infrastructure with SST and Kubernetes cluster management with Pulumi."
 githubUrl: "https://github.com/frak-id/infra-core"
 heroImage: "./assets/frak-infrastructure-iac/hero.png"
 group: "frak"
@@ -66,7 +66,7 @@ Recently, we migrated our entire Kubernetes cluster from ARM to AMD64 architectu
 - Deployed across 3 repositories
 - **Zero downtime** - kept ARM nodes running during migration
 
-**Why?** Preparing to migrate to Hetzner as GCP credits expire. AMD64 gives us more provider options.
+**Why?** Preparing to migrate to Hetzner as GCP credits expire. AMD64 gives us more provider options. (I documented a very different Kubernetes migration on the side-project side: [deleting 8,702 lines of code to move L'Atelier to Kubernetes](/articles/side-projects/atelier-kubernetes-migration/).)
 
 ## The "Why Not Terraform?" Decision
 
@@ -512,6 +512,8 @@ These secrets are **encrypted and stored in S3** (not SSM Parameter Store - chea
 ## Fast Deployments: 4 Minutes From Code to Production
 
 Our wallet repository deploys **1 backend + 3 frontends** to Kubernetes in under 4 minutes. Here's how:
+
+This pipeline has since moved onto our own hardware: the [self-hosted Hetzner CI platform](/articles/frak/frak-hetzner-platform/) and the [wallet CI rebuild](/articles/frak/frak-wallet-ci-overhaul/) it enabled pushed deploy times down further still.
 
 ### Smart Path Filtering
 

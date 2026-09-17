@@ -1,7 +1,7 @@
 ---
 name: "Elle À Table Cooking Bot"
 tagline: "A safety-first AI cooking assistant for 35,000+ French recipes"
-description: "Client work for CMI Group (Elle magazine): a conversational, voice-guided cooking assistant built on a hybrid deterministic-safety + LLM architecture, with dual-vector semantic search and real-time audio generation. Production-grade engineering; shelved before launch for business reasons."
+description: "Conversational, voice-guided cooking assistant for Elle magazine: hybrid deterministic-safety + LLM architecture with dual-vector search and real-time audio."
 status: archived
 role: "Architect & Lead Developer"
 period: "Oct 2025"

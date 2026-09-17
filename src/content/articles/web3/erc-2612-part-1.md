@@ -1,5 +1,5 @@
 ---
-title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals - part 1"
+title: "ERC-2612 Part 1: How Gasless ERC-20 Approvals Work"
 date: 2023-03-13T12:00:00Z
 draft: false
 subtitle: "How to use EIP-712 signatures to save gas, batch approvals and increase security for your ERC-20 tokens."
@@ -24,7 +24,7 @@ But what if I told you that there is a better way to do approvals? A way that is
 
 I’ve discovered that [**ERC-2612**](https://eips.ethereum.org/EIPS/eip-2612) was the solution to those issues. It’s an extension for [**ERC-20**](https://eips.ethereum.org/EIPS/eip-20) tokens that allows users to approve spenders via [**EIP-712**](https://eips.ethereum.org/EIPS/eip-2612) signatures instead of transactions. EIP-712 is a standard for hashing and signing typed structured data as opposed to just bytestrings.
 
-In this article, I will explain what is ERC-2612 and how it can improve the **user experience** and **security** of ERC-20 approvals. I will also show you how to implement it in Solidity contracts and how to test it with [**Hardhat**](https://hardhat.org/) or [**Foundry**](https://github.com/foundry-rs/foundry). Finally, I will demonstrate how to use it with [**Ether.js**](https://github.com/ethers-io/ethers.js) and [**Fireblocks**](https://www.fireblocks.com/) libraries.
+In this article, I will explain what is ERC-2612 and how it can improve the **user experience** and **security** of ERC-20 approvals. I will also show you how to [implement it in Solidity contracts](/articles/web3/erc-2612-part-2/) and how to test it with [**Hardhat**](https://hardhat.org/) or [**Foundry**](https://github.com/foundry-rs/foundry). Finally, I will demonstrate how to use it with [**Ether.js**](https://github.com/ethers-io/ethers.js) and [**Fireblocks**](https://www.fireblocks.com/) libraries.
 
 By implementing ERC-2612 at Frak, we makes it easier and cheaper for users to interact with our platform and other DeFi protocols.
 
@@ -32,7 +32,7 @@ This will be a series of articles divided into four parts:
 
 *   _Part 1: General overview of ERC-2612 (March 13, 2023)_
 *   [Part 2: Solidity development of ERC-2612](https://medium.com/p/9c90c01eb69d)
-*   Part 3: Unit testing with Hardhat or Forge
+*   [Part 3: Unit testing with Hardhat or Forge](/articles/web3/erc-2612-part-3/)
 *   Part 4: Implementation with Ether.js and Fireblocks
 
 By the end of this series, you will be able to use ERC-2612 for your own ERC-20 tokens or interact with existing ones that support it. You will also learn how [**Frak**](https://frak.id/) leverages ERC-2612 to enable gasless token transfers and frictionless DeFi interactions.
@@ -91,7 +91,7 @@ Another challenge I have encountered is ensuring compatibility with different wa
 
 You also have to consider how your users will sign their permits. Will they use MetaMask, WalletConnect, Ledger, Trezor, etc.? Will they sign on-chain or off-chain? Will they sign using their private key or a smart contract (such as EIP-1271 )? These factors may affect how you implement and test your permit function.
 
-Finally, you have to be careful about security issues and edge cases when using permits. For instance, you have to prevent replay attacks by using nonces and validating chain ids . You also have to handle expiration dates and invalid signatures gracefully. You may also want to add some extra checks or events for debugging purposes.
+Finally, you have to be careful about security issues and edge cases when using permits. For instance, you have to prevent replay attacks by using nonces and validating chain ids . You also have to handle expiration dates and invalid signatures gracefully. You may also want to add some extra checks or events for debugging purposes. A good head start is [our free Solidity security tooling setup](/articles/web3/securing-solidity-smart-contracts/), covering Slither, Mythril, Manticore, and Echidna.
 
 As you can see, implementing ERC-2612 is not trivial and requires some attention to detail.
 

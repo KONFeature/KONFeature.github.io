@@ -1,7 +1,7 @@
 ---
-title: "Rich Share Sheets in a Tauri Mobile App (Without the Usual Compromises)"
+title: "Rich Native Share Sheets for Tauri on iOS and Android"
 subtitle: "Typed activity items on iOS, FileProvider thumbnails on Android, and a 2-second race against the share sheet"
-description: "How we built a native Tauri share plugin for iOS and Android that surfaces proper URL cards, LPLinkMetadata preview tiles, and FileProvider-backed thumbnails, with a bounded image race so the share sheet never stalls."
+description: "Build a native Tauri share plugin for iOS and Android: rich URL preview cards via LPLinkMetadata, FileProvider thumbnails, and a bounded image race."
 date: 2026-04-23T10:00:00Z
 draft: false
 category: "mobile"
@@ -12,7 +12,7 @@ iconColor: "text-cyan-400"
 githubUrl: "https://github.com/frak-id/wallet"
 ---
 
-`navigator.share()` looks like the right answer until you open the Tauri WebView and call it on iOS.
+`navigator.share()` looks like the right answer until you open the Tauri WebView and call it on iOS. It's the third Tauri mobile plugin we've shipped for this app, alongside [native WebAuthn passkey registration](/articles/mobile/native-webauthn-tauri-plugin-ios-android/) and [uninstall-proof passkey recovery hints](/articles/mobile/tauri-recovery-hint-uninstall-survival/).
 
 Nothing happens. No error, no prompt, nothing. The Web Share API is gated on browsing contexts that Tauri's WKWebView / WebView2 don't provide, and even when a polyfill fires, you get a text-only share: title glued to body glued to URL, no preview card, no thumbnail, and a link that the receiving app treats as raw text instead of a URL. Messages won't render a rich card. Safari Reading List can't save it. Mail won't set the subject.
 

@@ -1,5 +1,5 @@
 ---
-title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals - part 2"
+title: "ERC-2612 Part 2: Solidity Implementation with EIP-712"
 date: 2023-03-23T12:00:00Z
 draft: false
 subtitle: "A deep dive into the Solidity code of gasless ERC-20 approvals ERC-2612"
@@ -35,7 +35,7 @@ So let’s dive in!
 
 ## 1. Adding EIP-712 Support
 
-To implement EIP-712 in our existing ERC-20 token contract, we’ll first define the required domain separator type hashes.
+To implement EIP-712 in our existing ERC-20 token contract, we’ll first define the required domain separator type hashes. If you need the fundamentals first, start with the [general ERC-2612 overview](/articles/web3/erc-2612-part-1/).
 
 ![EIP712 domain type hash](./assets/erc-2612-part-2/eip712-domain-typehash.png)
 
@@ -85,7 +85,7 @@ When implementing the `permit` function, it's essential to manage deadlines effe
 
 ### 3.2 Signature Security
 
-Always be cautious about the security aspects of signature handling. For example, ensure that your implementation properly validates the recovered address to avoid potential vulnerabilities. Additionally, be aware that the `ecrecover` function returns the zero address if the signature is invalid, so always check for this scenario in your implementation.
+Always be cautious about the security aspects of signature handling. For example, ensure that your implementation properly validates the recovered address to avoid potential vulnerabilities. Static analysis tools catch many of these issues early — see [our free Solidity security tooling setup](/articles/web3/securing-solidity-smart-contracts/). Additionally, be aware that the `ecrecover` function returns the zero address if the signature is invalid, so always check for this scenario in your implementation.
 
 ### 3.3 Gas Costs
 
@@ -99,7 +99,7 @@ The EIP-712 domain separator includes the chain ID to prevent replay attacks acr
 
 During the implementation process, you may encounter issues related to signature verification. Debugging these issues can be challenging, as cryptographic functions tend to be less intuitive and harder to trace. To help overcome this pain point, it’s crucial to become familiar with the EIP-712 specification, understand the expected input format for the `ecrecover` function, and use test cases to verify the correctness of your signature generation and verification code.
 
-From my personal experience, I highly recommend setting up Foundry unit tests and emitting numerous events at each step of the process to confirm the accuracy of your implementation. Utilizing a Foundry test case with a high verbosity output (e.g., -vvvv) will allow you to monitor all events, making it much easier to identify and resolve potential issues that may arise.
+From my personal experience, I highly recommend setting up Foundry unit tests and emitting numerous events at each step of the process to confirm the accuracy of your implementation. For a full walkthrough, see [testing ERC-2612 with Hardhat and Forge](/articles/web3/erc-2612-part-3/). Utilizing a Foundry test case with a high verbosity output (e.g., -vvvv) will allow you to monitor all events, making it much easier to identify and resolve potential issues that may arise.
 
 By keeping these potential pitfalls in mind, you can ensure a robust and secure implementation of ERC-2612 and EIP-712 in your ERC-20 token contract.
 

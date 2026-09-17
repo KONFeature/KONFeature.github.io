@@ -1,5 +1,5 @@
 ---
-title: "Talk to Your AI Dev Team: L'Atelier Gets a Slack Bot and an MCP Server"
+title: "L'Atelier: Dispatch AI Agents from Slack with an MCP Server"
 date: 2026-03-01T12:00:00Z
 draft: false
 subtitle: "Three weeks of daily use revealed the real bottleneck. The dashboard was still one too many clicks away."
@@ -7,7 +7,7 @@ category: "tooling"
 tags: ["MCP", "Slack", "AI Agents", "Firecracker", "Self-Hosting", "AI Orchestration", "OpenCode", "LLM"]
 icon: "message-circle"
 iconColor: "text-purple-400"
-description: "L'Atelier now dispatches AI coding agents directly from Slack, powered by an MCP server and a system sandbox running an AI dispatcher agent. Here's how the architecture evolved."
+description: "How L'Atelier dispatches AI coding agents from Slack: an MCP server, an AI dispatcher in a sandboxed VM, and live progress updates in the thread."
 githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
@@ -59,7 +59,7 @@ OpenCode coding agent starts working
 Event Bridge (SSE) → Slack thread updates
 ```
 
-The dispatcher is itself an AI agent running in a lightweight system sandbox, 1 vCPU, 1GB RAM. It boots on the first integration event and stays warm for 30 minutes of idle time, then shuts down. After 6 hours it recycles regardless. This keeps costs near zero when you're not actively using it.
+The dispatcher is itself an AI agent running in a [lightweight system sandbox](/articles/side-projects/atelier-supporting-infrastructure/), 1 vCPU, 1GB RAM. It boots on the first integration event and stays warm for 30 minutes of idle time, then shuts down. After 6 hours it recycles regardless. This keeps costs near zero when you're not actively using it.
 
 For power users who know exactly what they want, there are slash commands:
 
@@ -110,7 +110,7 @@ list_session_templates : available session templates
 
 The dispatcher agent inside the system sandbox has access to exactly these tools and nothing else. All other tool categories are denied. It runs at temperature 0.1 with a max of 5 steps: it's not supposed to be creative, it's supposed to be reliable. Read the message, call `list_workspaces`, pick the right one, call `create_task`, done.
 
-What I like about this design is that the dispatcher doesn't need any special integration code. It's just an OpenCode agent with a restricted tool set. The same protocol that lets a coding agent read files and run tests now lets a dispatcher agent orchestrate infrastructure. MCP as a universal interface for both local dev tooling and distributed system control.
+What I like about this design is that the dispatcher doesn't need any special integration code. It's just an OpenCode agent with a restricted tool set. The same protocol that lets a coding agent read files and run tests now lets a dispatcher agent orchestrate infrastructure. MCP as a universal interface for both local dev tooling and distributed system control. I put the same protocol to work in [WordForge, an MCP server for managing a WordPress shop through Claude](/articles/side-projects/wordforge/).
 
 The loop in full:
 
@@ -235,3 +235,5 @@ The broader point: the interface for AI-assisted development shouldn't be a term
 The system is running in production. We use it every day at [Frak](https://frak.id). The Slack integration has become the primary interface; I open the dashboard maybe once a day now, mostly to look at system data.
 
 If you're building something similar or want to run this yourself, the repo is at [github.com/frak-id/atelier](https://github.com/frak-id/atelier). The setup docs cover the Firecracker prerequisites, LVM configuration, and Slack app setup. It's not a one-click install: you need a Linux host with KVM access, but the docs are thorough.
+
+Update: since this article, L'Atelier [moved from Firecracker to Kubernetes and Kata Containers](/articles/side-projects/atelier-kubernetes-migration/).

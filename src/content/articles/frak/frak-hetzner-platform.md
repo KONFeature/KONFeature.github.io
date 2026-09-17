@@ -1,5 +1,5 @@
 ---
-title: "Bringing CI Back Home: A Hetzner Platform for the Frak Stack"
+title: "A Self-Hosted Hetzner CI Platform for the Frak Stack"
 date: 2026-05-18T16:00:00Z
 draft: false
 subtitle: "In-cluster GitHub runners, mTLS BuildKit, an OCI cache nobody pays egress for, and the pulumi-Bun saga"
@@ -7,12 +7,12 @@ category: "devops"
 tags: ["Kubernetes", "Hetzner", "GitHub Actions", "ARC", "BuildKit", "Pulumi", "SST", "Self-hosting", "DevOps"]
 icon: "server"
 iconColor: "text-emerald-400"
-description: "How we stood up a Hetzner-based platform (ARC runners, remote BuildKit over mTLS, an in-cluster Zot OCI registry, a Verdaccio NPM mirror, and a Kyverno policy that rewrites every pod's NPM_REGISTRY), and what we'd do differently after fighting Pulumi for two days."
+description: "How we self-hosted CI on Hetzner: in-cluster GitHub runners, BuildKit over mTLS, a Zot OCI registry, and a Verdaccio NPM mirror on k3s."
 githubUrl: "https://github.com/frak-id/infra-core"
 group: "frak"
 ---
 
-We've previously written about [moving from AWS Lambda to GKE](/articles/frak-infrastructure-iac) and adopting SST + Pulumi for our control plane. That story is about the planes that decide what runs where. This one is about the factory floor underneath: the place where our images get built, our caches get warmed, and our deploys actually execute.
+We've previously written about [moving from AWS Lambda to GKE](/articles/frak/frak-infrastructure-iac) and adopting SST + Pulumi for our control plane. That story is about the planes that decide what runs where. This one is about the factory floor underneath: the place where our images get built, our caches get warmed, and our deploys actually execute.
 
 For four years we were happy paying GitHub for runner minutes and AWS / GCP for everything else. Then three things piled up: GCP credits started running out, Docker Hub rate limits kept biting our PRs, and the GitHub Actions cache grew a 10 GB ceiling we couldn't tune around. Each was annoying on its own. Together they were a signal that we were paying for *operational convenience* in places where it cost us more than self-hosting would.
 
@@ -438,6 +438,8 @@ A few pieces fill out the platform without deserving their own section.
 
 **CNPG** (CloudNativePG) backs the Postgres clusters our hosted apps (n8n, Twenty, WordPress demos) consume. Operator-managed, monitoring built in, point-in-time recovery available if we ever wire backups (we haven't; explicit TODO before this platform sees production data).
 
+Running stateful services on Kubernetes is a theme we keep returning to: see how we [replaced MongoDB with libSQL and RustFS](/articles/frak/mongodb-to-turso-rustfs/).
+
 **cert-manager** is the unsung hero. Every TLS surface on this cluster (BuildKit's mTLS chain, the Traefik HTTPS certs via the `letsencrypt-frak` ClusterIssuer, anything else that needs a cert) flows through it. One operator, zero manual cert rotations.
 
 **Demo workloads** (n8n, Twenty, WordPress, PrestaShop, openwebui) live here because we wanted somewhere cheap and disposable to run them. Adding a new service is a single TypeScript file in `infra/hetzner/` plus an entry in `sst.config.ts`. The platform makes that trivial.
@@ -461,4 +463,4 @@ A few pieces fill out the platform without deserving their own section.
 
 This platform is the foundation for what comes next. The wallet's CI pipeline went from 9 minutes to 2, and almost every win compounds out of the pieces above: the in-cluster runner kills network round-trip, the BuildKit pod kills setup-qemu and gives us a persistent layer cache, Zot replaces the GHA cache quota with something we control, and the Kyverno policy makes `bun install` hit Verdaccio without anyone having to think about it.
 
-That story is the next post. If you're considering self-hosting your own CI, read this article first and the CI overhaul second: they're the same project, told from two ends.
+That story is [the wallet CI overhaul](/articles/frak/frak-wallet-ci-overhaul/). If you're considering self-hosting your own CI, read this article first and the CI overhaul second: they're the same project, told from two ends.

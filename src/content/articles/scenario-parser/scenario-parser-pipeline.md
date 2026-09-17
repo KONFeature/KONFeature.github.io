@@ -1,5 +1,5 @@
 ---
-title: "The Orchestration Engine: Building a Resilient Analysis Pipeline"
+title: "The Orchestration Engine: A Resilient LLM Pipeline"
 date: 2025-10-19T15:00:00Z
 draft: false
 subtitle: "Event-Driven Architecture & Graph Theory"
@@ -17,7 +17,7 @@ group: "scenario-parser"
 
 When building `scenario-parser`, the primary challenge wasn't just "calling an LLM." It was orchestration. A typical screenplay analysis involves processing hundreds of entities, thousands of interactions, and maintaining a coherent state across multiple asynchronous stages.
 
-This article dissects the orchestration architecture of **Stage 3: Analysis**, specifically focusing on concurrency control with `p-limit` and the implementation of Social Network Analysis (SNA) using `graphology`.
+This article dissects the orchestration architecture of **Stage 3: Analysis**, specifically focusing on concurrency control with `p-limit` and the implementation of Social Network Analysis (SNA) using `graphology`. For the LLM side of Stage 3 — prompt design and the "Big Five" personality synthesis — see [Modeling Character Psychology with LLMs](/articles/scenario-parser/scenario-parser-psychology/).
 
 > **Note**: This article focuses on the analysis pipeline (Stage 3). For the complete system architecture including extraction and our 4-parser competitive strategy, see [The Complete Architecture](/articles/scenario-parser/architecture).
 
@@ -267,7 +267,7 @@ We employ several techniques to minimize memory footprint:
 
 ## Social Network Analysis (SNA)
 
-Once we have parsed the screenplay into structured data (Scenes, Characters, Dialogue), we don't just ask an LLM "who is important?". We *measure* it mathematically.
+Once we have [parsed the screenplay into structured data](/articles/scenario-parser/scenario-parser-extraction/) (Scenes, Characters, Dialogue), we don't just ask an LLM "who is important?". We *measure* it mathematically.
 
 We use the `graphology` library to build a weighted undirected graph where:
 *   **Nodes** are Characters.

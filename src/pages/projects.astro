@@ -11,7 +11,7 @@ const projects = (await getCollection('projects'))
 	.sort((a, b) => a.data.order - b.data.order);
 
 const pageTitle = `Projects | ${SITE_TITLE}`;
-const pageDescription = 'Real-world problems, the systems I built to solve them, and my role in each. From production Web3 infrastructure to self-hosted AI sandboxes and embedded firmware.';
+const pageDescription = 'Real-world problems, the systems built to solve them, and my role in each: Web3 infrastructure, self-hosted AI sandboxes, embedded firmware.';
 
 const projectsJsonLd = {
 	"@context": "https://schema.org",

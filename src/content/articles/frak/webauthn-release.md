@@ -1,5 +1,5 @@
 ---
-title: "From Idea to Innovation: Unveiling Our WebAuthN Smart Wallet Demo"
+title: "Our WebAuthN Smart Wallet Demo: What We Built and Why"
 date: 2025-02-23T12:00:00Z
 draft: false
 subtitle: ""
@@ -7,7 +7,7 @@ category: "solidity"
 tags: ["WebAuthN", "Smart Wallets", "Account Abstraction", "ERC-4337", "UX"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Welcome to an exciting milestone at [Frak-Labs](https://frak.id/)! Before we unveil our latest Proof of Concept (POC) and the unique challenge it aims to tackle, let's take a moment to revisit our ..."
+description: "How we built our first WebAuthn smart wallet POC: ERC-4337 accounts secured by biometrics, a paywall-replacement demo, and the architecture behind it."
 heroImage: "./assets/webauthn-release/webauthn-wallet-demo-hero.png"
 mediumUrl: "https://medium.com/frak-defi/from-idea-to-innovation-unveiling-our-webauthn-smart-wallet-demo-4310eae5ae66"
 group: "frak"
@@ -36,7 +36,7 @@ This ambition led to the creation of our latest POC, leveraging the power of Web
 
 Our journey with the MVP taught us valuable lessons about **user experience**. We’ve been creating numerous wallets, aiming for the simplest UX possible. This experience led us to believe in a better solution.
 
-Enter the world of **smart wallets** and **account abstraction**. This sector is on fire with innovations. Technologies like **WebAuthN** stand out, promising a future where accessing wallets through **biometrics** is streamlined, yet remains decentralized, no complex setups like MPC needed.
+Enter the world of **smart wallets** and **account abstraction**. This sector is on fire with innovations, though the ecosystem still has rough edges: see [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/opinion/erc7579-uncomfortable-truth/). Technologies like **WebAuthN** stand out, promising a future where accessing wallets through **biometrics** is streamlined, yet remains decentralized, no complex setups like MPC needed. For the technical deep dive, read [WebAuthn meets ERC-4337 smart wallets](/articles/frak/4337-webauthn/).
 
 This sparked an idea: What if we could **eliminate traditional paywalls** by instantly creating wallets for users? Imagine swapping the convoluted subscription process for a quick **biometric check**.
 
@@ -65,7 +65,7 @@ Dive into our Proof of Concept (POC) through this hands-on demo. It’s designed
 **3. The Wallet Website**
 
 *   A **Progressive Web App (PWA)**, installable on phones for offline use.
-*   Built using **account abstraction** (thanks to ZeroDev for the Kernel account, and Pimlico for the bundler and paymaster).
+*   Built using **account abstraction** (thanks to ZeroDev for the Kernel account, and Pimlico for the bundler and paymaster). The story of this transition is in [our move to account abstraction on Polygon](/articles/frak/polygon-account-abstraction/).
 *   Account creation and transactions are **WebAuthN** enabled, allowing for biometric operations.
 *   Soon to support **multiple asset types** and integration with WalletConnect, making it usable on any dApp in the market.
 *   Handles **Frak-SDK requests**, facilitating communication with the content provider.
@@ -112,7 +112,7 @@ This challenge led us to develop an SDK that simplifies the interaction between 
 
 **Communication Between Content Provider and Wallet**: Maintaining a secure and efficient communication line is crucial. Post-transaction, content providers can query the wallet for the transaction’s status, ensuring a seamless flow of information.
 
-**Implementing Secure and Efficient Communication**: We faced the challenge of ensuring robust communication that supports offline access and is easy for publishers to integrate, regardless of their technology stack. Our solution involves using an iframe for secure, cross-domain communication, establishing a direct and secure channel within the browser environment.
+**Implementing Secure and Efficient Communication**: We faced the challenge of ensuring robust communication that supports offline access and is easy for publishers to integrate, regardless of their technology stack. Our solution involves using an iframe for secure, cross-domain communication, establishing a direct and secure channel within the browser environment. The current evolution of that iframe design is covered in [the ring architecture for our embedded wallet](/articles/frak/frak-listener-ring-architecture/).
 
 **Security and Accessibility**: Security and user-friendliness are our top priorities. We’ve designed the system to be inclusive, allowing for easy integration across various technology levels while ensuring a secure exchange of information to prevent fraudulent access.
 

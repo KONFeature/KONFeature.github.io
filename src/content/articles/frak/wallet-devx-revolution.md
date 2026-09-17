@@ -1,5 +1,5 @@
 ---
-title: "The DevX Revolution: How We Cut Build Times by 10x at Frak"
+title: "DevX Overhaul: Cutting Build Times by 10x at Frak"
 date: 2025-11-20T10:00:00Z
 draft: false
 subtitle: "From Next.js to TanStack Start, Rollup to Rolldown, and 5-minute builds to 30 seconds"
@@ -7,7 +7,7 @@ category: "devops"
 tags: ["DevX", "Rolldown", "Vite", "TanStack Start", "Vitest", "Performance", "Monorepo"]
 icon: "rocket"
 iconColor: "text-red-500"
-description: "A technical deep-dive into migrating our entire monorepo from Next.js to TanStack Start, adopting Rolldown across the stack, unifying on Vitest, and achieving a complete deployment pipeline in under 4 minutes."
+description: "How we migrated a monorepo from Next.js to TanStack Start, adopted Rolldown, unified on Vitest, and got the full deploy pipeline under 4 minutes."
 githubUrl: "https://github.com/frak-id/wallet"
 heroImage: "./assets/wallet-devx-revolution/hero.jpg"
 group: "frak"
@@ -101,7 +101,7 @@ To enforce Rolldown across our entire monorepo without rewriting every package c
 ```
 
 ### Advanced Chunking Strategy
-Rolldown gave us granular control over chunk splitting. We configured it to isolate our heavy cryptographic dependencies from the UI code. This ensures that the user sees the interface immediately, while the blockchain logic loads in the background.
+Rolldown gave us granular control over chunk splitting. We configured it to isolate our heavy cryptographic dependencies from the UI code. This ensures that the user sees the interface immediately, while the blockchain logic loads in the background. We apply the same eager/lazy split at the application level in [the ring architecture for our embedded wallet](/articles/frak/frak-listener-ring-architecture/).
 
 ```typescript
 // vite.config.ts
@@ -132,7 +132,7 @@ export default defineConfig({
 });
 ```
 
-This change alone reduced our cold start time by **~40%**.
+This change alone reduced our cold start time by **~40%**, complementing the size work in [how we cut 30% off the wallet bundle](/articles/frak/frak-frontend-optimization/).
 
 ## 4. SDK Build Pipeline: From rslib to tsdown (Rolldown-powered)
 
@@ -216,12 +216,12 @@ With all these optimizations in place, our deployment pipeline is now:
    - Business SSR app (TanStack Start + Nitro)
 4. **Deploy to Kubernetes cluster**
 
-Total time: **4 minutes** from commit to production.
+Total time: **4 minutes** from commit to production. The self-hosted runners and in-cluster registry behind this pipeline are described in [our Hetzner platform post](/articles/frak/frak-hetzner-platform/).
 
 This is a massive improvement from our previous setup:
 - Business app alone took **2+ minutes** to build and deploy via SST + OpenNext to AWS Lambda
 - Fragmented build tools meant no parallelization opportunities
-- Now everything runs in Docker on our Kubernetes cluster: unified, fast, and under our control
+- Now everything runs in Docker on our Kubernetes cluster: unified, fast, and under our control, following the CI rebuild documented in [from 9 minutes to 2: rebuilding the wallet's CI](/articles/frak/frak-wallet-ci-overhaul/)
 
 ## The Results: By The Numbers
 

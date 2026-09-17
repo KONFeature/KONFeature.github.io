@@ -1,7 +1,7 @@
 ---
-title: "A Tauri Plugin That Survives an App Uninstall: Passkey Continuity on iOS and Android"
+title: "Passkey Recovery That Survives App Uninstalls in Tauri"
 subtitle: "iCloud KV + Keychain on iOS, Google Block Store + SharedPreferences on Android, and never storing anything sensitive"
-description: "How we shipped a cross-platform Tauri plugin that persists a tiny recovery hint through app uninstalls and new-device setups, without ever touching a private key. A tour through NSUbiquitousKeyValueStore, iCloud Keychain, Google Block Store, and Android Auto Backup."
+description: "Persist passkey recovery hints through app uninstalls with a Tauri plugin: NSUbiquitousKeyValueStore, iCloud Keychain, Google Block Store, Auto Backup."
 date: 2026-04-22T10:00:00Z
 draft: false
 category: "mobile"
@@ -12,7 +12,7 @@ iconColor: "text-indigo-400"
 githubUrl: "https://github.com/frak-id/wallet"
 ---
 
-A user downloads our wallet. Registers a passkey. Uses it for a week. Nukes the app. Reinstalls it a month later.
+A user downloads [our WebAuthn smart wallet](/articles/frak/webauthn-release/). Registers a passkey. Uses it for a week. Nukes the app. Reinstalls it a month later.
 
 From their point of view, they have an account. From the app's point of view, the passkey is gone. Not the credential itself, iCloud Keychain and Credential Manager still have it, but every scrap of context we had about *which* credential to ask the OS for. The first screen is cold-start onboarding. "Create a wallet" instead of "Welcome back, Quentin."
 

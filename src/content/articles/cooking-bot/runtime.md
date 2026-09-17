@@ -12,9 +12,9 @@ description: "Deep dive into our runtime LLM architecture, speech synthesis pipe
 group: "cooking-bot"
 ---
 
-# Real-Time AI Conversations and Audio Processing
+## Real-Time AI Conversations and Audio Processing
 
-Building a conversational cooking assistant requires more than just text responses – it demands **intelligent tool-enhanced conversations** and **on-demand audio generation** that guides users through their cooking journey. This is the story of how we engineered a runtime architecture that combines sophisticated LLM integration with efficient audio processing for hands-free cooking guidance.
+[Building a conversational cooking assistant](/articles/cooking-bot/introduction/) requires more than just text responses – it demands **intelligent tool-enhanced conversations** and **on-demand audio generation** that guides users through their cooking journey. This is the story of how we engineered a runtime architecture that combines sophisticated LLM integration with efficient audio processing for hands-free cooking guidance.
 
 ## The Challenge: Dual-Mode AI Experience
 
@@ -192,6 +192,8 @@ update_conversation_preferences: tool({
 ### **Tool 2: Dual-Vector Recipe Search**
 
 Our search tool uses **two separate vector embeddings** for different search strategies:
+
+Both vectors are produced up front by [our 9-stage recipe ingestion pipeline](/articles/cooking-bot/ingestion/) - one semantic, one ingredient-only.
 
 ```typescript
 search_recipes: tool({

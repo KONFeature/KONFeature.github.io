@@ -5,7 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Icon from '../components/Icon';
 import ArticleNavigation from '../components/ArticleNavigation';
 import TableOfContents from '../components/TableOfContents';
-import { SITE_TITLE, AUTHOR_NAME, SITE_URL } from '../consts';
+import { AUTHOR_NAME, SITE_URL } from '../consts';
 import { ARTICLE_GROUPS } from '../articleGroups';
 
 const { title, subtitle, icon, iconColor, readingTime, tags, category, mediumUrl, githubUrl, prevArticle, nextArticle, groupName, headings = [], date, description, heroImage, group, wordCount, lastModified } = Astro.props;
@@ -17,6 +17,15 @@ const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const imageUrl = heroImage ? new URL(heroImage.src ?? heroImage, Astro.site).toString() : undefined;
 const imageWidth = heroImage?.width;
 const imageHeight = heroImage?.height;
+
+// Visible publish/update info for the byline
+const publishedIso = date ? date.toISOString() : undefined;
+const publishedLabel = date ? date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : undefined;
+const modifiedDate = lastModified ? new Date(lastModified) : undefined;
+const modifiedIso = modifiedDate ? modifiedDate.toISOString() : undefined;
+const modifiedLabel = modifiedDate ? modifiedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : undefined;
+// Show "Updated" only when the modification is meaningful (more than 7 days after publish)
+const showUpdated = Boolean(modifiedDate && date && modifiedDate.getTime() - date.getTime() > 7 * 24 * 60 * 60 * 1000);
 
 // Build JSON-LD structured data
 const jsonLd = {
@@ -79,9 +88,9 @@ const breadcrumbJsonLd = {
 <html lang="en" class="scroll-smooth overflow-x-hidden">
 	<head>
 		<BaseHead
-			title={`${title} - ${SITE_TITLE}`}
+			title={title}
 			description={description || subtitle || title}
-			image={heroImage}
+			image={imageUrl}
 			imageWidth={imageWidth}
 			imageHeight={imageHeight}
 			article={{
@@ -312,6 +321,20 @@ const breadcrumbJsonLd = {
                                 </span>
                             ))}
                          </div>
+                    )}
+
+                    {date && (
+                        <div class="flex items-center gap-2 mt-6 text-sm text-gray-500 dark:text-gray-400">
+                            <span>By <a href="/" class="hover:text-gray-900 dark:hover:text-white transition-colors">{AUTHOR_NAME}</a></span>
+                            <span aria-hidden="true">·</span>
+                            <time datetime={publishedIso}>{publishedLabel}</time>
+                            {showUpdated && (
+                                <>
+                                    <span aria-hidden="true">·</span>
+                                    <span>Updated <time datetime={modifiedIso}>{modifiedLabel}</time></span>
+                                </>
+                            )}
+                        </div>
                     )}
                 </div>
                 <slot />

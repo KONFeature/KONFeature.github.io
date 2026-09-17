@@ -1,5 +1,5 @@
 ---
-title: "Wiring a House by Algorithm: A 3-Phase Panel Optimizer for NF C 15-100"
+title: "A 3-Phase Electrical Panel Optimizer for NF C 15-100"
 date: 2026-06-27T12:00:00Z
 draft: false
 subtitle: "Modelling rooms and sub-panels, auto-generating the tableau électrique, then minimising breaker count and balancing the three phases with a branch-and-bound search."
@@ -7,7 +7,7 @@ category: "engineering"
 tags: ["Side Project", "TypeScript", "Algorithms", "Optimization", "Bun", "React", "Domain Modelling"]
 icon: "zap"
 iconColor: "text-yellow-400"
-description: "Renovating a house means fighting French electrical norms. I built a tool that auto-generates sub-panels and runs a real optimizer to minimise breakers and balance the three phases."
+description: "I built a tool that models a French home electrical installation, auto-generates sub-panels, and optimizes breaker counts and 3-phase balance under NF C 15-100."
 githubUrl: "https://github.com/KONFeature/tableau-elec"
 group: "side-projects"
 ---
@@ -24,7 +24,7 @@ Then there's the other part. The norm demands a minimum number of sockets per ro
 
 And mine genuinely is several buildings: a main dwelling over two floors, an *atelier* (workshop), and a *hangar* (barn). That means not one **tableau électrique** (the electrical panel) but a main panel plus divisional sub-panels, each fed from the one above it, each with its own breakers and residual-current devices. Planning that by hand, staying inside the norm *and* keeping it cheap, is exactly the fiddly combinatorial problem I'd rather hand to a computer.
 
-So I built [tableau-elec](https://github.com/KONFeature/tableau-elec).
+So I built [tableau-elec](https://github.com/KONFeature/tableau-elec). This isn't my only home-electrical project: I also [rewired a 1977 industrial pottery kiln down to 220V](/articles/kiln/kiln-hardware/).
 
 ---
 
@@ -271,11 +271,11 @@ What's still coming, roughly in order:
 - The full NF C 15-100 rule set: the encoded rules are a partial, best-effort interpretation, and I'm working through the official extract.
 - Per-floor organisation and room adjacency, leading to cable-length estimation. This unlocks a *real* cost model in euros, not just the structural proxy.
 - Import/export (JSON first, then DXF for actual electrical drawings).
-- Eventually, a Tauri desktop/mobile build off the same zero-dependency core.
+- Eventually, a Tauri desktop/mobile build off the same zero-dependency core ([pico-kiln took exactly that web-to-native path](/articles/kiln/pico-kiln-app/)).
 
 And the standard disclaimer, which I mean sincerely: this is a planning aid, **not** a substitute for a certified electrician or the official text. Always have an installation validated by a qualified professional (Consuel). I'm building this to plan *my* renovation more cleverly, not to skip the inspection.
 
-The fun of it, for me, was that a deeply bureaucratic, deeply un-fun problem turned out to have a genuinely satisfying algorithmic core. A partition problem with a cost model, symmetry breaking, and a branch-and-bound search, all dressed up as wiring a house.
+The fun of it, for me, was that a deeply bureaucratic, deeply un-fun problem turned out to have a genuinely satisfying algorithmic core. A partition problem with a cost model, symmetry breaking, and a branch-and-bound search, all dressed up as wiring a house. It's the same pleasure I found in [scenario-parser's analysis pipeline](/articles/scenario-parser/scenario-parser-pipeline/), just with more volts.
 
 ---
 

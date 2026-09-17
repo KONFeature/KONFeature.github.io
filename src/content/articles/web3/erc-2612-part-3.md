@@ -1,5 +1,5 @@
 ---
-title: "ERC-2612: The Ultimate Guide to Gasless ERC-20 Approvals - part 3"
+title: "ERC-2612 Part 3: Unit Testing with Hardhat and Forge"
 date: 2023-04-14T12:00:00Z
 draft: false
 subtitle: "Perfecting ERC-2612: Boost Your DeFi Skills with Solidity Unit Testing in Hardhat and Forge"
@@ -109,7 +109,7 @@ By following these steps, you can successfully implement unit testing for your E
 
 ## Comparing Hardhat and Forge
 
-When it comes to unit testing smart contracts, Hardhat and Forge are both popular choices. However, there are some notable differences between the two that can impact your development experience. In this section, we’ll compare the two frameworks, highlighting their **strengths** and **weaknesses**.
+When it comes to unit testing smart contracts, Hardhat and Forge are both popular choices. However, there are some notable differences between the two that can impact your development experience. In this section, we’ll compare the two frameworks, highlighting their **strengths** and **weaknesses**. If you want the longer story of why we ultimately switched, read [our journey from Hardhat to Foundry](/articles/frak/hardhat-to-foundry/).
 
 ### Code Complexity and Readability
 
@@ -135,13 +135,13 @@ Forge offers some advanced testing features that can enhance the security of you
 
 With Forge, you can easily perform fuzz testing, invariant testing, and even test your contracts against mainnet data using the Cast feature.
 
-These advanced testing capabilities can help you uncover hidden vulnerabilities and ensure the robustness of your smart contracts.
+These advanced testing capabilities can help you uncover hidden vulnerabilities and ensure the robustness of your smart contracts. Pair them with static analysis: [our free Solidity security tooling setup](/articles/web3/securing-solidity-smart-contracts/) covers Slither, Mythril, and Echidna.
 
 In conclusion, both Hardhat and Forge are powerful unit testing frameworks with their own strengths and weaknesses. While Hardhat may be more familiar to some developers, Forge offers a clean, Solidity-centric approach to testing, along with advanced testing features that can significantly improve the security of your smart contracts. Ultimately, the choice between the two will depend on your personal preferences and requirements.
 
 ## Conclusion
 
-Congratulations on completing the third instalment of our series on ERC-2612! You’ve gained valuable insights into unit testing with Hardhat and Forge, and now understand their differences, strengths, and weaknesses. By choosing the right testing framework for your needs, you can ensure the robustness and security of your ERC-20 tokens and DeFi protocols.
+Congratulations on completing the third instalment of our series on ERC-2612! You’ve gained valuable insights into unit testing with Hardhat and Forge, and now understand their differences, strengths, and weaknesses. Need to catch up on the series? Start with the [ERC-2612 overview](/articles/web3/erc-2612-part-1/) or the [Solidity permit implementation](/articles/web3/erc-2612-part-2/). By choosing the right testing framework for your needs, you can ensure the robustness and security of your ERC-20 tokens and DeFi protocols.
 
 But we’re not done yet! The final article in this series will cover the implementation of ERC-2612 using Ether.js and Fireblocks, demonstrating how to make your smart contracts even more powerful and accessible.
 

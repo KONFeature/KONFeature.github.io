@@ -7,7 +7,7 @@ category: "mobile"
 tags: ["Kiln", "IoT", "React", "Tauri", "IoT", "Local-First"]
 icon: "smartphone"
 iconColor: "text-blue-400"
-description: "Building a kiln controller UI that runs as a web app, macOS app, and Android APK: all from a single React codebase. Solving the HTTP/HTTPS mixed content nightmare without compromise."
+description: "Ship one React kiln controller UI as a web app, macOS app, and Android APK with Tauri, and bypass the HTTP/HTTPS mixed-content problem entirely."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
@@ -63,7 +63,7 @@ The Tauri config is trivial:
 }
 ```
 
-The Rust backend is 17 lines of boilerplate. No platform-specific code. No WebView APIs. The React app doesn't even know it's running in a native shell.
+The Rust backend is 17 lines of boilerplate — the same language behind the [bare-metal firmware rewrite](/articles/kiln/pico-kiln-rust/). No platform-specific code. No WebView APIs. The React app doesn't even know it's running in a native shell.
 
 ### Android: The Cleartext Challenge
 
@@ -98,7 +98,7 @@ All from `bun run tauri:android:build`.
 
 ## Architecture: High-Frequency Polling
 
-WebSockets on the Pico are possible, but they're expensive. Each open socket consumes ~20KB of RAM (scarce on a microcontroller). Keep-alive packets eat CPU time that should be spent on PID calculations.
+WebSockets on the Pico are possible, but they're expensive. Each open socket consumes ~20KB of RAM (scarce on a microcontroller). Keep-alive packets eat CPU time that should be spent on [PID control](/articles/kiln/pico-kiln-firmware/).
 
 Instead, we poll `/api/status` every 1-2 seconds via `fetch()`. React Query handles caching, stale state, and automatic retries. If the Pico reboots mid-firing, the UI greys out and shows "Reconnecting..." while preserving the last known state.
 
@@ -173,6 +173,8 @@ Because:
 - **Network firewalls** sometimes block HTTP entirely (enterprise WiFi, etc.)
 
 The native apps bypass all of this. They're first-class OS citizens. No security warnings. No browser chrome. Just a clean, native UI that talks to a local device over HTTP.
+
+Tauri's native layer has paid off elsewhere too, like [native WebAuthn plugins written from scratch](/articles/mobile/native-webauthn-tauri-plugin-ios-android/) and [rich share sheets](/articles/mobile/tauri-native-sharing-rich-previews/) in Tauri mobile apps.
 
 ## The Build Process
 

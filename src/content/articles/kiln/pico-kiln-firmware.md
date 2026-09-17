@@ -416,7 +416,7 @@ class SSRController:
                 pin.value(0)
 ```
 
-**Why stagger?** Turning on multiple 1500W heaters simultaneously causes inrush current spikes. By delaying each SSR activation by 10ms, we spread the load and prevent voltage sag.
+**Why stagger?** Turning on multiple 1500W heaters simultaneously causes inrush current spikes — the same reason the [6.1 kW load is split across three SSRs](/articles/kiln/kiln-hardware/). By delaying each SSR activation by 10ms, we spread the load and prevent voltage sag.
 
 ---
 
@@ -757,7 +757,7 @@ class DataLogger:
             ])
 ```
 
-After tuning completes, you run `scripts/analyze_tuning.py` on the CSV to calculate optimal PID parameters using Ziegler-Nichols, Cohen-Coon, and AMIGO methods (see Part 4 of this series).
+After tuning completes, you run `scripts/analyze_tuning.py` on the CSV to calculate optimal PID parameters using Ziegler-Nichols, Cohen-Coon, and AMIGO methods ([see Part 4: physics-based PID tuning with Python](/articles/kiln/pico-python-analysis/)).
 
 ---
 
@@ -887,6 +887,8 @@ Total control loop jitter: <5ms (measured with oscilloscope on SSR pin).
 Total cost: $6.
 
 Industrial kiln controllers cost $300-$1000 and do less. We built ours for the price of a sandwich.
+
+Since this was written, the entire firmware has been [rewritten in bare-metal Rust on the RP2350](/articles/kiln/pico-kiln-rust/).
 
 ---
 

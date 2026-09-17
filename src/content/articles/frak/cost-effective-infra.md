@@ -1,5 +1,5 @@
 ---
-title: "Building Cost-Effective Blockchain Infrastructure: A Journey with eRPC and Ponder"
+title: "Cost-Effective Blockchain Infrastructure: eRPC and Ponder"
 date: 2025-01-07T12:00:00Z
 draft: false
 subtitle: ""
@@ -7,7 +7,7 @@ category: "devops"
 tags: ["Blockchain Infrastructure", "DevOps", "eRPC", "Ponder", "Cost Optimization"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Every blockchain project starts with a dream and a limited budget. At [Frak](https://frak.id), we built a platform for **automated on-chain reward distribution** that powers marketing campaigns thr..."
+description: "How Frak runs automated on-chain reward distribution on Arbitrum within a tight budget, using eRPC for RPC routing and Ponder for on-chain indexing."
 heroImage: "./assets/cost-effective-infra/cost-effective-blockchain-infrastructure-hero.png"
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
@@ -206,7 +206,7 @@ We’re not talking about toy contracts here. We’re indexing:
 
 *   Handles complex on-chain marketing campaigns
 *   Real-time statistics generation
-*   Shared database with Web2 backend (bye-bye, unnecessary data transfer)
+*   Shared database with Web2 backend (bye-bye, unnecessary data transfer) — we have since [retired MongoDB in favor of libSQL and RustFS](/articles/frak/mongodb-to-turso-rustfs/) on Kubernetes
 
 **Developer Experience That Doesn’t Suck**
 
@@ -216,7 +216,7 @@ We’re not talking about toy contracts here. We’re indexing:
 
 ## Deployment: Because YOLOing to Production is So 2017
 
-[SST](https://sst.dev/) v3 orchestrates our entire deployment with the elegance of a perfectly executed flash loan:
+[SST](https://sst.dev/) v3 orchestrates our entire deployment with the elegance of a perfectly executed flash loan (these days it deploys onto our own [self-hosted Hetzner CI platform](/articles/frak/frak-hetzner-platform/)):
 
 ![captionless image](./assets/cost-effective-infra/0*MsLG-cXUT1he-wl7)
 
@@ -226,6 +226,8 @@ We’re not talking about toy contracts here. We’re indexing:
 *   Version-controlled infrastructure
 *   Easy environment replication
 *   Pulumi under the hood (because when we eventually move to k8s, we won’t need therapy)
+
+We wrote a full deep dive on this stack: why we chose [SST and Pulumi over Terraform for our infrastructure as code](/articles/frak/frak-infrastructure-iac/).
 
 ### Open Source All The Way Down
 

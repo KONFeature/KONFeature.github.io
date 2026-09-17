@@ -1,5 +1,5 @@
 ---
-title: "Unlocking the Future: WebAuthN Meets ERC-4337 Smart Wallets"
+title: "WebAuthn Signatures for ERC-4337 Smart Wallets"
 date: 2024-05-26T12:00:00Z
 draft: false
 subtitle: ""
@@ -7,7 +7,7 @@ category: "solidity"
 tags: ["ERC-4337", "Account Abstraction", "WebAuthN", "Solidity", "Smart Wallets"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Hey there, fellow blockchain enthusiasts and developers! 🚀 In this piece, we're diving deep into the nitty-gritty of leveraging **WebAuthN signatures for validating user operations** within the exc..."
+description: "How we validate ERC-4337 user operations with WebAuthn signatures: P256 passkeys, the FCL on-chain verifier, and paymaster gas simulation."
 heroImage: "./assets/4337-webauthn/webauthn-account-abstraction-integration.png"
 mediumUrl: "https://medium.com/frak-defi/unlocking-the-future-webauthn-meets-erc-4337-smart-wallets-e472b340452b"
 group: "frak"
@@ -34,6 +34,8 @@ The traditional setup process, getting started with MetaMask, jotting down a see
 But here’s the rub: neither option clicked for us. The first scenario still demands users to set up an EOA beforehand: a no-go for true ease of use. The second? It paradoxically forces us to depend on a centralized platform for access to decentralized goodies. Quite the conundrum, right?
 
 This conundrum led us down a rabbit hole of research until we pioneered a novel solution that seamlessly integrates WebAuthn and account abstraction, enabling a truly frictionless onboarding experience for non-crypto natives. While solutions like Cometh’s also provided a smooth connect experience, our approach was tailored to our ecosystem, especially with our kernel accounts at the core.
+
+(For a candid look at where the smart wallet ecosystem has landed since, read [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/opinion/erc7579-uncomfortable-truth/).)
 
 ![captionless image](./assets/4337-webauthn/webauthn-account-abstraction-integration.png)
 
@@ -102,12 +104,14 @@ Enter **RIP-7212**: a beacon of hope designed to significantly reduce this cost.
 
 ![captionless image](./assets/4337-webauthn/rip-7212-precompile-comparison.png)
 
-However, as is often the case with cutting-edge solutions, RIP-7212’s recent finalization means its widespread availability is still on the horizon (currently, it’s only operational on Polygon Mumbai). This poses a question: How do we create an immutable validator without forcing our users through a costly migration once RIP-7212 becomes universally available, especially considering we aim to avoid any validator storage access?
+However, as is often the case with cutting-edge solutions, RIP-7212’s recent finalization means its widespread availability is still on the horizon (currently, it’s only operational on Polygon Mumbai, the chain where we later [pioneered account abstraction in the Polygon ecosystem](/articles/frak/polygon-account-abstraction/)). This poses a question: How do we create an immutable validator without forcing our users through a costly migration once RIP-7212 becomes universally available, especially considering we aim to avoid any validator storage access?
 
 The solution? Introduce a new flag within our signature protocol. This flag allows users to choose between the traditional on-chain P256 verification and the new, more efficient pre-compiled verification method. Of course, attempting to use the pre-compiled verification on a chain that doesn’t support it yet will result in failure. To address this, we’ve added a simple external function to the validator that checks for pre-compile support on the chain. During the initialization of the web2 client, this function is called to verify support; if pre-compile is available, we automatically adjust the signature flag for all subsequent operations.
 
 ## Conclusion
 
 And there you have it: a whirlwind tour through the intricacies of integrating WebAuthN with ERC-4337 smart wallets, navigating the P256 curve, and streamlining the process with innovations like RIP-7212. It’s been a journey of discovery, challenge, and ultimately, innovation, showcasing the power of collaboration and the relentless pursuit of making blockchain technology more accessible and efficient.
+
+This work didn't stay theoretical: it shipped as our [WebAuthn smart wallet demo](/articles/frak/webauthn-release/), and we later pushed WebAuthn beyond the browser with a [native WebAuthn plugin for iOS and Android](/articles/mobile/native-webauthn-tauri-plugin-ios-android/).
 
 If you found this deep dive enlightening, **please give us a clap and share this article** with your network. Your support fuels our continued exploration and sharing of breakthroughs in this exciting domain. Stay tuned for more posts as we further unravel the journey of WebAuthN implementation and its transformative potential in the blockchain ecosystem. Until then, happy coding, and let’s keep pushing the boundaries of what’s possible together!

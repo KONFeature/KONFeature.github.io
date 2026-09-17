@@ -1,7 +1,7 @@
 ---
 name: "Pico Kiln"
 tagline: "A 1977 industrial pottery kiln, rebuilt into a smart, dual-core controller that never crashes."
-description: "Converting a 400kg vintage 3-phase pottery kiln into a safely automated, WiFi-connected smart kiln: electrical rewiring, physics-based PID control, a cross-platform Tauri app, and eventually a bare-metal Rust rewrite for firmware you can trust unattended overnight."
+description: "Converting a 400kg vintage kiln into a safely automated smart kiln: electrical rewiring, physics-based PID control, a Tauri app, and bare-metal Rust firmware."
 status: "personal"
 role: "Creator"
 period: "Nov 2025 - Jun 2026"

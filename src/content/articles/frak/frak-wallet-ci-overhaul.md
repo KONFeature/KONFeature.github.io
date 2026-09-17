@@ -1,5 +1,5 @@
 ---
-title: "From 9 Minutes to 2: Rebuilding the Wallet's CI on Our Own Platform"
+title: "Rebuilding the Wallet's CI: From 9 Minutes to 2"
 date: 2026-05-19T10:00:00Z
 draft: false
 subtitle: "Killing Dockerfile.base, sharing cache mounts across six images, and what really moves the needle in Docker build pipelines"
@@ -7,7 +7,7 @@ category: "devops"
 tags: ["CI", "GitHub Actions", "Docker", "BuildKit", "Kubernetes", "Performance", "Monorepo"]
 icon: "gauge"
 iconColor: "text-orange-400"
-description: "How the wallet's deploy pipeline went from a 9-minute build to a 4-minute cold run and 2-minute cached run by killing a monolithic Dockerfile.base, moving BuildKit in-cluster, wiring a Zot registry cache, and sharing apt + bun caches across six images."
+description: "How we cut wallet CI from 9 minutes to 2: killing Dockerfile.base, in-cluster BuildKit, a Zot registry cache, and shared apt and bun caches across six images."
 githubUrl: "https://github.com/frak-id/wallet"
 group: "frak"
 ---
@@ -16,7 +16,7 @@ The deploy was 9 minutes. We weren't proud of it.
 
 The wallet repo builds six Docker images (wallet, listener, business, backend, bootstrap, credential-sync), pushes them to GCP Artifact Registry, and deploys to a GKE cluster via SST. None of those steps are individually slow. But put them together with `ubuntu-latest` runners, GitHub Actions cache, and a shared `Dockerfile.base` that rebuilt the world every time a package.json moved, and you get 9 minutes of waiting on every push.
 
-We've previously written about [making the wallet's framework stack scream](/articles/wallet-devx-revolution) by migrating to TanStack Start and Rolldown. That was about build-tool speed. This article is about the layer underneath: Docker build speed in CI, which is a different lever entirely.
+We've previously written about [making the wallet's framework stack scream](/articles/frak/wallet-devx-revolution) by migrating to TanStack Start and Rolldown. That was about build-tool speed. This article is about the layer underneath: Docker build speed in CI, which is a different lever entirely.
 
 The headline numbers, from the same workflow on the same repo:
 
@@ -24,7 +24,7 @@ The headline numbers, from the same workflow on the same repo:
 | -------------- | ------- | ---------- | ------------ |
 | Total wallclock | ~9 min | ~4 min    | ~2 min       |
 
-That's roughly half the time on a cold build and a quarter on a warm one. Most of the win compounds from four levers we pulled, all of which became possible once we'd stood up [our Hetzner platform](/articles/frak-hetzner-platform). If you haven't read that piece yet, the one-paragraph recap is: we run a single Hetzner k3s box that hosts in-cluster GitHub Actions runners (ARC), a BuildKit pod behind mTLS, a Zot OCI registry as a shared layer cache, a Verdaccio NPM mirror, and a Kyverno policy that auto-injects `NPM_CONFIG_REGISTRY` into every pod.
+That's roughly half the time on a cold build and a quarter on a warm one. Most of the win compounds from four levers we pulled, all of which became possible once we'd stood up [our Hetzner platform](/articles/frak/frak-hetzner-platform). If you haven't read that piece yet, the one-paragraph recap is: we run a single Hetzner k3s box that hosts in-cluster GitHub Actions runners (ARC), a BuildKit pod behind mTLS, a Zot OCI registry as a shared layer cache, a Verdaccio NPM mirror, and a Kyverno policy that auto-injects `NPM_CONFIG_REGISTRY` into every pod.
 
 This is how we wired the wallet's CI on top of it.
 
@@ -125,7 +125,7 @@ Three direct wins:
 
 Action note: by default `setup-buildx-action` marks the new builder as active. The `@pulumi/docker-build` resources in our SST config don't need to specify a builder explicitly; they pick up the Hetzner builder automatically once the action runs.
 
-The single point of contention is real: it's one BuildKit pod, one PVC. We tuned the `[worker.oci]` GC config (covered in detail in the [Hetzner platform article](/articles/frak-hetzner-platform)) so that 80 GiB of cache is the hard ceiling with a 30 GiB safety floor. We haven't seen it bottleneck under our current build load. If we do, the next step is profiling individual layer reuse and tightening which stages get exported to the cache.
+The single point of contention is real: it's one BuildKit pod, one PVC. We tuned the `[worker.oci]` GC config (covered in detail in the [Hetzner platform article](/articles/frak/frak-hetzner-platform)) so that 80 GiB of cache is the hard ceiling with a 30 GiB safety floor. We haven't seen it bottleneck under our current build load. If we do, the next step is profiling individual layer reuse and tightening which stages get exported to the cache.
 
 ## Lever 3: Cache moves to a registry we own
 
@@ -372,4 +372,4 @@ Three loose ends.
 
 The bigger picture is that with the Hetzner platform in place, the per-repo CI work becomes a 100-line PR rather than a 6-month project. The next time we onboard a service to this pipeline, the cost is one Dockerfile, one entry in `cachedImage`, one `runs-on` change. The platform earns its keep every time we don't have to re-explain how to make a build fast.
 
-If you're considering this kind of self-hosted CI investment, [start with the platform piece](/articles/frak-hetzner-platform); that's where most of the engineering lives. This article is the easier half: the application-side rewiring that consumes what the platform exposes.
+If you're considering this kind of self-hosted CI investment, [start with the platform piece](/articles/frak/frak-hetzner-platform); that's where most of the engineering lives. This article is the easier half: the application-side rewiring that consumes what the platform exposes.

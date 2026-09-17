@@ -1,5 +1,5 @@
 ---
-title: "L'Atelier: Why I Deleted 8,702 Lines of Code to Move to Kubernetes"
+title: "L'Atelier: Migrating Firecracker Sandboxes to Kubernetes"
 date: 2026-03-06T12:00:00Z
 draft: false
 subtitle: "Migrating from a custom Firecracker orchestrator to Kata Containers and k3s. Better portability, less maintenance, and a lot of deleted code."
@@ -7,14 +7,14 @@ category: "tooling"
 tags: ["Kubernetes", "Kata Containers", "Firecracker", "Cloud Hypervisor", "Self-Hosting", "Dev Environments", "LVM"]
 icon: "ship"
 iconColor: "text-blue-400"
-description: "L'Atelier just went through its biggest architectural shift yet. I swapped a custom bare-metal Firecracker orchestrator for Kubernetes and Kata Containers: deleted 8,702 lines of code, gained portability, and traded sub-second boots for a system I can actually maintain."
+description: "How I replaced a custom Firecracker orchestrator with k3s and Kata Containers: 8,702 lines deleted, TopoLVM snapshots, and portable sandbox infrastructure."
 githubUrl: "https://github.com/frak-id/atelier"
 group: "atelier"
 ---
 
-In the first article, I talked about why I built L'Atelier: I wanted a self-hosted, isolated environment where AI agents could code without me having to watch their every move. Firecracker was the perfect tool for that. It gave me sub-second boot times and hardware-level isolation on bare metal.
+In the [first article about L'Atelier](/articles/side-projects/atelier-stop-babysitting/), I talked about why I built it: I wanted a self-hosted, isolated environment where AI agents could code without me having to watch their every move. Firecracker was the perfect tool for that. It gave me sub-second boot times and hardware-level isolation on bare metal.
 
-As I wrote about in the second article, the dashboard was still one too many clicks away, which led to the Slack bot and MCP server. But even with those improvements, the underlying infrastructure was still a pet.
+As I wrote about in the second article, the dashboard was still one too many clicks away, which led to the [Slack bot and MCP server](/articles/side-projects/atelier-slack-mcp/). But even with those improvements, the underlying infrastructure was still a pet.
 
 But after a month of daily use, the cracks started to show. Not in Firecracker itself, but in the mountain of custom code I had to write to keep it running.
 
@@ -133,7 +133,7 @@ TopoLVM Thin Pool (LVM VG on node)
 ### 3. Networking: vsock to TCP
 Firecracker uses `vsock` for host-guest communication. It's secure but a pain to work with from a Node/Bun environment. In K8s, every pod gets its own IP. My Rust agent now listens on a standard TCP port (9998).
 
-The `AgentClient` shrank from 704 lines to about 200. No more vsock-to-tcp proxies or complex socket handling. The pods can talk to each other using standard K8s services, which makes things like the shared Verdaccio registry much easier to manage.
+The `AgentClient` shrank from 704 lines to about 200. No more vsock-to-tcp proxies or complex socket handling. The pods can talk to each other using standard K8s services, which makes things like the [shared Verdaccio registry](/articles/side-projects/atelier-supporting-infrastructure/) much easier to manage.
 
 ### 4. Dynamic Routing with Ingress
 I replaced the Caddy Admin API integration with standard K8s Ingress resources. When the manager spawns a sandbox, it creates an Ingress that routes traffic to the pod's internal services.

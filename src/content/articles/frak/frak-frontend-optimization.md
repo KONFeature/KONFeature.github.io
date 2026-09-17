@@ -1,5 +1,5 @@
 ---
-title: "Extreme Frontend Optimization: How We Cut 30% Off Our Wallet Size"
+title: "How We Cut Our Wallet Size by 30%: Frontend Optimization"
 date: 2025-11-19T14:00:00Z
 draft: false
 subtitle: "From Jotai to Zustand, AWS to Kubernetes, and achieving faster load times without a CDN"
@@ -7,7 +7,7 @@ category: "devops"
 tags: ["Frontend", "Performance", "Nginx", "Vite", "Rolldown", "Web3", "Zustand", "Kubernetes"]
 icon: "zap"
 iconColor: "text-indigo-400"
-description: "A deep-dive into the architectural and infrastructure optimizations that reduced our listener app size by 30%, migrated from AWS S3 to self-hosted Nginx, and achieved faster load times without a CDN."
+description: "How we cut our embedded wallet bundle by 30% by migrating Jotai to Zustand, splitting wallet from listener, and self-hosting Nginx over AWS S3."
 githubUrl: "https://github.com/frak-id/wallet"
 heroImage: "./assets/frak-frontend-optimization/hero.jpg"
 group: "frak"
@@ -128,6 +128,8 @@ We considered it. But:
 - Mental overhead: "Which chunks does the listener need? Which can be lazy-loaded?"
 - The split gives us **physical separation**: impossible to accidentally import wallet code in the listener
 
+This physical separation later became the foundation for our [eager/lazy ring architecture](/articles/frak/frak-listener-ring-architecture/), which rebuilt the listener around a 3-chunk eager bundle.
+
 ## 3. Infrastructure Migration: AWS S3 → Self-Hosted Nginx
 
 This was the most surprising win. We migrated from **AWS S3 with CloudFront CDN** to **self-hosted Nginx on our Kubernetes cluster**, and achieved **faster load times without a CDN**.
@@ -144,7 +146,7 @@ Yes, you read that right. No CDN, faster than CDN.
 ### The New Setup (Kubernetes + Nginx)
 
 - Wallet and listener served from **Docker containers with Nginx**
-- Deployed to our existing Kubernetes cluster (GCP/GKE)
+- Deployed to our existing Kubernetes cluster (GCP/GKE), managed with the [SST and Pulumi stack](/articles/frak/frak-infrastructure-iac/) from our IaC deep dive
 - Pre-compressed assets (gzip at build time)
 - Aggressive Nginx tuning (more on this below)
 - Routing: `wallet.frak.id/listener` redirects directly to the listener instance
@@ -216,6 +218,8 @@ The result: Every byte is compressed, but the server never wastes CPU doing it a
 ## 4. Build Strategy: Vite, Rolldown & Advanced Chunking
 
 We use **Vite** with **[Rolldown](https://rolldown.rs)** (the Rust-based bundler) to orchestrate our builds. The default chunking strategy of most bundlers is insufficient for our needs. We need to ensure that when the user loads the Listener, they don't download a single byte of React code.
+
+(The broader build pipeline this lives in — from Next.js to TanStack Start — is covered in [our 10x build-time overhaul](/articles/frak/wallet-devx-revolution/).)
 
 Here is our custom chunking strategy from `vite.config.ts`. We explicitly group dependencies to prevent "vendor bloat."
 

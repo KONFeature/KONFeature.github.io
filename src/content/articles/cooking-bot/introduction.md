@@ -12,9 +12,9 @@ description: "Building deterministic safety layers with hybrid NLP, streaming ar
 group: "cooking-bot"
 ---
 
-# Building a Safety-First AI Cooking Assistant
+## Building a Safety-First AI Cooking Assistant
 
-In the world of AI-powered food applications, there's no room for error when it comes to health and safety. A single mistake in allergen detection could have serious consequences. This is the story of how we built a sophisticated French cooking assistant that processes over 35,000 recipes with an unwavering commitment to safety, performance, and user experience.
+In the world of AI-powered food applications, there's no room for error when it comes to health and safety. A single mistake in allergen detection could have serious consequences. This is the story of how we built a sophisticated French cooking assistant that [processes over 35,000 recipes](/articles/cooking-bot/ingestion/) with an unwavering commitment to safety, performance, and user experience.
 
 ## The Challenge: Beyond Simple Recipe Search
 
@@ -23,7 +23,7 @@ When we set out to build our cooking assistant, we weren't just trying to create
 - **Health-critical accuracy**: Allergen detection must be 100% reliable
 - **Cultural complexity**: French cuisine has intricate terminology and preparation methods
 - **Scale**: Processing tens of thousands of recipes with consistent quality
-- **Real-time interaction**: Users expect instant, conversational cooking guidance
+- **Real-time interaction**: Users expect instant, [conversational cooking guidance](/articles/cooking-bot/runtime/)
 - **Cost efficiency**: AI operations at scale can become prohibitively expensive
 
 ## Our Dataset: The Foundation of Quality

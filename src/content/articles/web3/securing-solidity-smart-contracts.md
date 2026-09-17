@@ -7,7 +7,7 @@ category: "solidity"
 tags: ["Smart Contract Security", "Solidity", "Auditing", "Fuzzing", "Security Tools"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Setting up some free security tools, to prepare a security Audit"
+description: "Set up free Solidity security tooling in Docker: Slither, Mythril, Manticore, and Echidna to catch issues before a paid audit."
 heroImage: "./assets/securing-solidity-smart-contracts/security-tools-folder-structure.png"
 mediumUrl: "https://medium.com/frak-defi/securing-solidity-smart-contracts-61d070914886"
 group: "web3"
@@ -34,11 +34,11 @@ I will review some base security tools we have set up, to help us testing our co
 
 Of course, this is just a small portion of all the security tools existing, but I will focus on this one first, because they are free, relatively easy to set up, and can prevent a lot of security issues if rightly configured.
 
-Each one of this tools come with its own docker images. We are going with docker to prevent us from installing all the python dependencies of this tools on our machine, but also to ease the set up for new developers, and ease the automation of test in a CI pipeline.
+Each one of this tools come with its own docker images. We are going with docker to prevent us from installing all the python dependencies of this tools on our machine, but also to ease the set up for new developers, and ease the automation of test in a CI pipeline. (We later went further and [rebuilt our CI on our own platform](/articles/frak/frak-wallet-ci-overhaul/).)
 
 ## Including the tools inside the project structure
 
-We decided to go on a **tools** folder, at the root of our hardhat project, that will contain all the scripts necessary to run each tool individually, loosing a bit on performance, but gaining a lot on versatility, upgradeability, and readability.
+We decided to go on a **tools** folder, at the root of our hardhat project, that will contain all the scripts necessary to run each tool individually, loosing a bit on performance, but gaining a lot on versatility, upgradeability, and readability. (We have since [migrated our testing from Hardhat to Foundry](/articles/frak/hardhat-to-foundry/), but this tooling setup still applies.)
 
 Like that, we can add as many tools as we want, disable or remove some older ones etc. Let see the organisation inside our tools folder:
 
@@ -160,7 +160,7 @@ And secondly, all these tools are great, but they aren’t as powerful as a qual
 
 We only cover some base security tools, not really intuitive but really efficient.
 
-If you are searching for something more graphical, you can take a look at [**MythX**](https://mythx.io/) (it will handle basic security runs and a few fuzzing tests), and [**Diligence Fuzzing**](https://consensys.net/diligence/fuzzing/) (a lot more easier to understand and to set up than echidna).
+If you are searching for something more graphical, you can take a look at [**MythX**](https://mythx.io/) (it will handle basic security runs and a few fuzzing tests), and [**Diligence Fuzzing**](https://consensys.net/diligence/fuzzing/) (a lot more easier to understand and to set up than echidna). For fuzzing directly in Solidity, Forge supports it natively — see [our ERC-2612 testing walkthrough for Hardhat and Forge](/articles/web3/erc-2612-part-3/).
 
 If you are searching for really advanced security tools, you can check [**Karl**](https://github.com/cleanunicorn/karl) and [**Theo**](https://github.com/cleanunicorn/theo) from cleanunicorn.
 

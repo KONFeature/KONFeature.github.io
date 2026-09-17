@@ -60,7 +60,7 @@ We use a **three-format extraction strategy** in `packages/extractor`. Each PDF 
 2. **Markdown** (via `pymupdf4llm`) - Structured text for LLM parsing
 3. **Plain Text** (via `pymupdf4llm`) - Clean text fallback for LLM parsing
 
-**Why three formats?** Our system runs [4 parsing strategies in parallel](/articles/ARCHITECTURE#stage-2-parsing), and each strategy has different input requirements. The JSON feeds our fast heuristic parser (`parser-compute`), while the Markdown and Text feed our LLM-based parsers (`parser-llm-md`, `parser-llm-txt`, `parser-llm-pdf`).
+**Why three formats?** Our system runs [4 parsing strategies in parallel](/articles/scenario-parser/architecture/#stage-2-parsing), and each strategy has different input requirements. The JSON feeds our fast heuristic parser (`parser-compute`), while the Markdown and Text feed our LLM-based parsers (`parser-llm-md`, `parser-llm-txt`, `parser-llm-pdf`).
 
 ### Why `pymupdf4llm`?
 
@@ -344,7 +344,7 @@ The parser collects actual margin values and clusters them using density-based a
 
 ## Multi-Parser Architecture: Competitive Parsing
 
-Our system includes **four parsing strategies** that run in parallel. After all four complete, we calculate a quality score for each result and automatically select the winner. For the complete architecture and quality selection algorithm, see [ARCHITECTURE.md](/articles/ARCHITECTURE).
+Our system includes **four parsing strategies** that run in parallel. After all four complete, we calculate a quality score for each result and automatically select the winner. For the complete architecture and quality selection algorithm, see [The Complete Architecture](/articles/scenario-parser/architecture/).
 
 **The Four Strategies:**
 
@@ -484,4 +484,4 @@ The **three-tier confidence scoring system** ensures we're not just guessing ele
 6. **Multi-language support** (English/French) with automatic detection
 7. **Dual-parser architecture** for speed vs. accuracy trade-offs
 
-In the next article, we'll explore how this clean structured data enables sophisticated graph-based analysis and LLM orchestration.
+In the [next article on the analysis pipeline](/articles/scenario-parser/scenario-parser-pipeline/), we'll explore how this clean structured data enables sophisticated graph-based analysis and LLM orchestration.

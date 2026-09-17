@@ -1,7 +1,7 @@
 ---
 name: "Scenario Parser"
 tagline: "Turning screenplay PDFs into structured psychology and social-graph data"
-description: "Applied LLM research: a competitive multi-strategy pipeline that extracts structured data from screenplay PDFs, then models character psychology and relationship networks by combining social-network-analysis graph theory with multi-pass LLM orchestration."
+description: "A competitive multi-strategy pipeline extracting structured data from screenplay PDFs, then modeling character psychology with graph theory and LLMs."
 status: internal
 role: "Creator"
 period: "Oct 2025"

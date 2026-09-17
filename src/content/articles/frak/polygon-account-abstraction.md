@@ -1,5 +1,5 @@
 ---
-title: "Frak's Vanguard: Pioneering the Account Abstraction Revolution in the Polygon Ecosystem"
+title: "Account Abstraction on Polygon With ERC-4337"
 date: 2023-12-13T12:00:00Z
 draft: false
 subtitle: "Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon."
@@ -7,7 +7,7 @@ category: "solidity"
 tags: ["Account Abstraction", "ERC-4337", "Polygon", "Smart Wallets", "ZeroDev"]
 icon: "code-2"
 iconColor: "text-red-400"
-description: "Embracing the Future of Blockchain: Frak Leads with Account Abstraction, Redefining User Empowerment and Decentralization on Polygon."
+description: "How Frak moved from MPC wallets to ERC-4337 account abstraction on Polygon with ZeroDev and Pimlico, and what the transition taught us."
 heroImage: "./assets/polygon-account-abstraction/polygon-account-abstraction-hero.png"
 mediumUrl: "https://medium.com/frak-defi/fraks-vanguard-pioneering-the-account-abstraction-revolution-in-the-polygon-ecosystem-77876b8d9d52"
 group: "frak"
@@ -55,7 +55,7 @@ Up next, let’s take a closer look at AA, exploring how it became a game-change
 With our sights set on Account Abstraction (AA), we embarked on a path that redefined our approach to blockchain. AA, at its core, is about flexibility and user empowerment, and here’s what it brought to the table for Frak:
 
 *   **User-Centric Control**: AA shifts the control back to the users. It allows for more intricate transaction rules, enabling users to have a say in how their transactions are processed.
-*   **Enhanced Security**: By abstracting away from traditional wallet structures and integrating [**Kernel smart accounts**](https://github.com/zerodevapp/kernel) from ZeroDev, AA provides a more secure environment. These smart accounts reduce risks associated with key management by allowing multiple validators and introducing the capability for p256 signers.
+*   **Enhanced Security**: By abstracting away from traditional wallet structures and integrating [**Kernel smart accounts**](https://github.com/zerodevapp/kernel) from ZeroDev, AA provides a more secure environment. These smart accounts reduce risks associated with key management by allowing multiple validators and introducing the capability for p256 signers. We later went deep on this in [WebAuthn signatures for ERC-4337 user operations](/articles/frak/4337-webauthn/).
 *   **Developer Flexibility**: For devs, AA, coupled with Kernel smart accounts, becomes a playground of innovation. It allows for the creation of more complex and efficient smart contracts, offering a wider range of possibilities in contract design.
 *   **Streamlined Interactions**: AA simplifies interactions within the blockchain. It enables smoother transaction processes, making the user experience more intuitive and less technical.
 
@@ -66,7 +66,7 @@ Our dive into AA was significantly bolstered by our collaborative efforts with Z
 
 By integrating AA with Kernel smart accounts, we didn’t just upgrade our technology; we opened up a world of possibilities for both our developers and users. It was a step towards a more inclusive, secure, and innovative blockchain ecosystem.
 
-In the next section, we’ll explore how our partnerships with ZeroDev and Pimlico catalyzed this transformation.
+In the next section, we’ll explore how our partnerships with ZeroDev and Pimlico catalyzed this transformation. For a candid look at where the broader smart wallet ecosystem stands today, see [the uncomfortable truth about ERC-7579 and modular smart wallets](/articles/opinion/erc7579-uncomfortable-truth/).
 
 ## 3. Partnering with Pimlico and ZeroDev: A Strategic Move
 
@@ -100,7 +100,7 @@ Embracing Account Abstraction (AA) brought a host of benefits to Frak, aligning 
 *   **Increased Security and Trust**: The abstraction layer added by AA significantly improved security. By minimizing direct exposure of private keys and enabling more flexible transaction validation rules, we enhanced the overall trustworthiness of our platform.
 *   **Developer Creativity Unleashed**: For our developers, AA was a game-changer. It opened up new avenues for creativity in smart contract design, allowing them to innovate beyond the constraints of traditional wallet structures.
 *   **Scalability and Flexibility**: AA’s architecture provided us with the scalability and flexibility needed to adapt to future blockchain advancements and user needs. This adaptability is crucial for staying at the forefront of blockchain technology.
-*   **Cost-Effective Operations**: Transitioning to AA also meant more cost-effective operations. The efficiency it brought to transaction processing led to reduced costs, making our platform more economical to run.
+*   **Cost-Effective Operations**: Transitioning to AA also meant more cost-effective operations. The efficiency it brought to transaction processing led to reduced costs, making our platform more economical to run. Gas-level savings compound here too: see [our guide to gasless ERC-20 approvals with ERC-2612](/articles/web3/erc-2612-part-1/).
 
 Our move to AA was a calculated step towards a future where blockchain technology is more accessible, secure, and user-friendly. It was about creating a platform that not only meets the current demands of our users but is also poised to evolve with the ever-changing blockchain landscape.
 

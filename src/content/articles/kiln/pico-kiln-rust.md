@@ -7,7 +7,7 @@ category: "electronics"
 tags: ["Kiln", "IoT", "Rust", "Embassy", "no_std", "RP2350", "PID Control", "Real-Time Systems", "Firmware"]
 icon: "cpu"
 iconColor: "text-orange-400"
-description: "Migrating the pico-kiln firmware from MicroPython to bare-metal Rust on the RP2350: a compile-time safety boundary, golden-replay tests, hardware stack guards, and plug-and-play provisioning."
+description: "Migrating kiln firmware from MicroPython to bare-metal Rust on the RP2350: a compile-time safety wall, golden-replay tests, and MSPLIM stack guards."
 githubUrl: "https://github.com/KONFeature/pico-kiln"
 group: "kiln"
 ---
@@ -46,8 +46,8 @@ That MicroPython firmware (Parts 2 through 4) is still in the repo under `python
 
 The problems with MicroPython were never conceptual. The design was sound. I'd proven it on real clay. The problem was that **the runtime sat between me and the hardware**, and that gap got expensive the moment I stopped wanting a demo and started wanting something I could trust unattended.
 
-- **It was slow where it mattered.** Web requests, file writes, JSON serialisation: each one paid interpreter and allocation overhead. Part 2 is full of the workarounds: `@micropython.native` decorators to JIT hot paths, pre-allocated status templates, hand-rolled `ThreadSafeQueue`s. Clever, and necessary, and a sign I was fighting the runtime.
-- **The garbage collector punched in at random.** Part 2 literally schedules `gc.collect()` every 10 status copies to keep the heap from fragmenting over a multi-hour firing. A GC pause is a non-deterministic stall, and a non-deterministic stall in a loop that drives a 9 kW heating element is exactly the kind of thing you don't want to reason about at 2 a.m.
+- **It was slow where it mattered.** Web requests, file writes, JSON serialisation: each one paid interpreter and allocation overhead. [Part 2, the firmware architecture](/articles/kiln/pico-kiln-firmware/), is full of the workarounds: `@micropython.native` decorators to JIT hot paths, pre-allocated status templates, hand-rolled `ThreadSafeQueue`s. Clever, and necessary, and a sign I was fighting the runtime.
+- **The garbage collector punched in at random.** Part 2 literally schedules `gc.collect()` every 10 status copies to keep the heap from fragmenting over a multi-hour firing. A GC pause is a non-deterministic stall, and a non-deterministic stall in a loop that drives a [9 kW heating element](/articles/kiln/kiln-hardware/) is exactly the kind of thing you don't want to reason about at 2 a.m.
 - **The Pico would, occasionally, just freeze.** Not often. Often enough. For a device you leave running overnight, "occasionally freezes" is not a bug, it's a disqualification.
 - **Hardening it meant fighting an opaque box.** Every fix was a workaround for a layer I couldn't see into. The implementation stopped going anywhere, not because the features were missing, but because the reliability I needed wasn't reachable from inside the interpreter.
 
@@ -278,9 +278,9 @@ The cyw43 radio can't run station and access-point mode at once, so it's one or 
 After that, everything happens in the app, over the HTTP API:
 
 - **Configuration is in-app.** `GET` / `POST` / `PATCH /api/config` reads and merges the config; edits persist to flash and apply on reboot. No more editing a Python file and reflashing.
-- **Tuning is in-app, end to end.** Run an auto-tune on the kiln, and the app analyses the resulting curve *on the spot*, fitting a First-Order-Plus-Dead-Time model and computing suggested gains by Ziegler-Nichols, Cohen-Coon, and AMIGO. If that sounds familiar, it should: it's the exact analysis from Part 4's offline Python script, reimplemented in TypeScript and moved into the app. You push the suggested PID values straight back into the config from the same screen.
+- **Tuning is in-app, end to end.** Run an auto-tune on the kiln, and the app analyses the resulting curve *on the spot*, fitting a First-Order-Plus-Dead-Time model and computing suggested gains by Ziegler-Nichols, Cohen-Coon, and AMIGO. If that sounds familiar, it should: it's the exact analysis from [Part 4's offline Python script](/articles/kiln/pico-python-analysis/), reimplemented in TypeScript and moved into the app. You push the suggested PID values straight back into the config from the same screen.
 
-Flash the Pico. Join its network. Set your WiFi, run a tune, accept the gains, fire. Every step after the flash is done from the app, the same React/Tauri app from Part 3, which also bypasses the browser's mixed-content rules talking to a plain-HTTP device on your LAN.
+Flash the Pico. Join its network. Set your WiFi, run a tune, accept the gains, fire. Every step after the flash is done from the app, the same [React/Tauri app from Part 3](/articles/kiln/pico-kiln-app/), which also bypasses the browser's mixed-content rules talking to a plain-HTTP device on your LAN.
 
 ---
 

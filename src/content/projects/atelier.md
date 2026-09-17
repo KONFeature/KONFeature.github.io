@@ -1,7 +1,7 @@
 ---
 name: "L'Atelier"
 tagline: "Self-hosted sandboxes for AI coding agents, so they stop needing a babysitter"
-description: "A self-hosted orchestrator that gives every AI coding agent its own isolated, VM-grade sandbox. Dispatch a task from Slack or a dashboard, walk away, come back to a reviewed PR. Runs in daily production use at Frak."
+description: "A self-hosted orchestrator giving every AI coding agent its own VM-grade sandbox: dispatch from Slack, walk away, return to a reviewed PR."
 status: production
 role: "Creator"
 period: "Feb 2026 - present"

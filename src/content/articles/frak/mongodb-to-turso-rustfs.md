@@ -1,5 +1,5 @@
 ---
-title: "Pruning the Last MongoDB Dependency: libSQL, RustFS, and True Kubernetes Portability"
+title: "Replacing MongoDB With libSQL and RustFS on Kubernetes"
 date: 2026-04-05T10:00:00Z
 draft: false
 subtitle: "One lingering collection, zero cloud lock-in"
@@ -7,7 +7,7 @@ category: "devops"
 tags: ["Kubernetes", "libSQL", "Turso", "RustFS", "MongoDB", "Drizzle", "Pulumi", "WebAuthn"]
 icon: "database"
 iconColor: "text-emerald-400"
-description: "How we retired our last MongoDB dependency at Frak Labs by running sqld (libSQL) and RustFS on Kubernetes, with bottomless replication, a bidirectional sync safety net, and a 7-line Drizzle schema."
+description: "How we retired our last MongoDB dependency by running sqld (libSQL) and RustFS on Kubernetes, with bottomless replication and a 7-line Drizzle schema."
 githubUrl: "https://github.com/frak-id/infra-core"
 heroImage: "./assets/mongodb-to-turso-rustfs/hero.png"
 group: "frak"

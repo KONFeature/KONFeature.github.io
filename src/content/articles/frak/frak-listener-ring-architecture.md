@@ -1,5 +1,5 @@
 ---
-title: "The Ring Architecture: Shipping a Wallet That Costs Almost Nothing to Embed"
+title: "Ring Architecture: A Wallet That Costs Nothing to Embed"
 date: 2026-05-15T10:00:00Z
 draft: false
 subtitle: "Preact, vanilla-TS bootstraps, headless RPC, and the discipline of a 3-chunk eager bundle"
@@ -7,14 +7,14 @@ category: "devops"
 tags: ["Frontend", "Performance", "Preact", "React", "Vite", "Rolldown", "Code Splitting", "SDK"]
 icon: "layers"
 iconColor: "text-purple-400"
-description: "How we redesigned the listener iframe's boot so partner websites pay a 3-chunk price for our wallet on first paint, then preload the rest lazily: by migrating from React to Preact, splitting the app into eager and lazy rings, and teaching the SDK to predict which lazy chunks to fetch."
+description: "How our embedded wallet boots from a 3-chunk eager bundle: React to Preact, eager/lazy ring splitting, and SDK prefetching of lazy chunks."
 githubUrl: "https://github.com/frak-id/wallet"
 group: "frak"
 ---
 
 When your code runs on someone else's website, you don't get to think like an SPA team. You're a guest. Every kilobyte you ship is bandwidth your host pays for. Every parse-eval-execute cycle delays *their* time-to-interactive.
 
-The Frak wallet lives inside an iframe embedded on partner merchant sites. We've previously written about [shrinking that iframe by 30%](/articles/frak-frontend-optimization) by swapping Jotai for Zustand and ditching S3 + CDN for a self-hosted Nginx. Those wins came from picking better building blocks. They didn't change the *shape* of the bundle, which is where the next ceiling is.
+The Frak wallet lives inside an iframe embedded on partner merchant sites. We've previously written about [shrinking that iframe by 30%](/articles/frak/frak-frontend-optimization) by swapping Jotai for Zustand and ditching S3 + CDN for a self-hosted Nginx. Those wins came from picking better building blocks. They didn't change the *shape* of the bundle, which is where the next ceiling is.
 
 This is the story of how we redesigned that shape. The listener iframe now boots from a 3-chunk eager bundle. Everything else (Preact, i18next, the provider tree, the wallet, the modal, the sharing flow) is lazy. And the SDK running on the partner page predicts which lazy chunks the user will need, so by the time they click, the chunks are already in cache.
 
@@ -427,6 +427,8 @@ modulePreload: {
 
 The cost of tiny chunks is easy to underestimate. HTTP/2 multiplexing helps, but each chunk is still a request line on the waterfall, its own module record in the browser, and its own parse cost. Five tiny chunks merged into one eager `common` chunk is five fewer requests on cold boot and zero downside, because every consumer already needed all five.
 
+The same "earn every kilobyte" discipline shows up on the mobile side, where we built a [native Tauri share sheet with rich URL previews](/articles/mobile/tauri-native-sharing-rich-previews/) for the wallet's companion apps.
+
 ## 6. The SDK side: predicting what to preload
 
 This is the part of the architecture that doesn't have an analog in normal SPA work.
@@ -536,4 +538,4 @@ The Ring model gives us a budget envelope for new features. Anything Ring 0 ship
 
 An open question we haven't answered: should the SDK send a "predictive open" signal so the iframe pre-mounts Ring 2 invisibly when, say, the user scrolls a Frak component into view? That would make the click-to-paint latency effectively zero. The tradeoff is bandwidth: we'd ship Ring 1 + a Ring 2 chunk to every user who scrolls past one, not just those who click. We have the telemetry to answer it; we just haven't run the experiment yet.
 
-There's a sister story to this one on the platform side. Building this many small commits in a tight feedback loop only became cheap once we'd rebuilt our CI infrastructure. The next two articles are about that: a Hetzner-based platform with in-cluster GitHub runners, and the resulting CI rewrite that took the wallet's deploy from 9 minutes to 2.
+There's a sister story to this one on the platform side. Building this many small commits in a tight feedback loop only became cheap once we'd rebuilt our CI infrastructure: a [Hetzner-based platform with in-cluster GitHub runners](/articles/frak/frak-hetzner-platform/), and the resulting [CI rewrite that took the wallet's deploy from 9 minutes to 2](/articles/frak/frak-wallet-ci-overhaul/).

@@ -1,7 +1,7 @@
 ---
-title: "Writing a Native WebAuthn Tauri Plugin from Scratch (iOS + Android)"
+title: "Native WebAuthn Passkeys for Tauri on iOS and Android"
 subtitle: "Replacing simplewebauthn with platform-native passkey APIs - and surviving iOS attestation objects"
-description: "A step-by-step look at building a custom Tauri plugin for WebAuthn/passkeys on iOS and Android - including CBOR parsing, COSE key extraction, SPKI DER reconstruction, and the mobile dev TLS workaround."
+description: "Build a custom Tauri plugin exposing native WebAuthn passkeys on iOS and Android: platform APIs, CBOR and COSE key parsing, and the TLS dev workaround."
 date: 2026-03-30T12:00:00Z
 category: "mobile"
 group: "frak"
@@ -13,7 +13,7 @@ githubUrl: "https://github.com/frak-id/wallet"
 
 The 388-line CBOR parser was the first sign something had gone wrong architecturally.
 
-It lived in `wallet-shared/src/coseParser.ts`, shipped with 277 lines of tests, and existed for one reason: `simplewebauthn` returns a full WebAuthn response including attestation objects, and when you're running inside a Tauri WebView on iOS, the `tauri://localhost` origin breaks passkey registration entirely. The workaround was to intercept the native credential, manually decode the CBOR-encoded attestation object, extract the P-256 public key, repackage everything, and hand it to your smart contract. Functional. Fragile. A foot-gun pointed at anyone who touched it next.
+It lived in `wallet-shared/src/coseParser.ts`, shipped with 277 lines of tests, and existed for one reason: `simplewebauthn` returns a full WebAuthn response including attestation objects, and when you're running inside a Tauri WebView on iOS, the `tauri://localhost` origin breaks passkey registration entirely. The workaround was to intercept the native credential, manually decode the CBOR-encoded attestation object, extract the P-256 public key, repackage everything, and [hand it to your smart contract](/articles/frak/4337-webauthn/). Functional. Fragile. A foot-gun pointed at anyone who touched it next.
 
 The real problem was that we weren't using platform APIs at all. We were shimming WebAuthn through a JavaScript library inside a WebView, then parsing the results in TypeScript. On mobile, that's the wrong layer to be at. iOS has `ASAuthorizationController`. Android has `CredentialManager`. Both give you native passkey UX, correct origin binding, and: crucially: structured response objects you can trust. The question was whether I could expose them through a custom Tauri plugin without losing my mind.
 
@@ -21,7 +21,7 @@ There's almost no documentation on writing Tauri plugins that talk to native mob
 
 ## The Plugin Skeleton
 
-Tauri mobile plugins follow a specific structure. The Rust side is thin, it registers commands and delegates to platform-specific implementations. The actual logic lives in Swift (iOS) or Kotlin (Android).
+Tauri mobile plugins follow a specific structure. The Rust side is thin, it registers commands and delegates to platform-specific implementations. The actual logic lives in Swift (iOS) or Kotlin (Android). It's the same skeleton we used for our [native share plugin](/articles/mobile/tauri-native-sharing-rich-previews/).
 
 The plugin directory layout:
 
@@ -210,7 +210,7 @@ extension Data {
 
 Here's the first non-obvious thing that breaks silently: iOS passkeys are bound to an RP ID, and the origin embedded in `clientDataJSON` is `https://${rpId}` - not `tauri://localhost`, not your server URL. If your rpId is `wallet.frak.id`, iOS will embed `https://wallet.frak.id` as the origin, regardless of what the WebView thinks the current URL is.
 
-This is actually correct behavior per the WebAuthn spec. It's also what makes passkeys portable to the web - credentials registered in the native iOS app are accessible from `https://wallet.frak.id` in Safari, synced via iCloud Keychain. But it means:
+This is actually correct behavior per the WebAuthn spec. It's also what makes passkeys portable to the web - credentials registered in the native iOS app are accessible from `https://wallet.frak.id` in Safari, [synced across devices via iCloud Keychain](/articles/mobile/tauri-recovery-hint-uninstall-survival/). But it means:
 
 1. Your WebAuthn server's origin validation must allow `https://your-rp-id` from mobile registrations.
 2. Your Associated Domains entitlement must be configured correctly.

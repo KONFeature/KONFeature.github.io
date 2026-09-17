@@ -1,7 +1,7 @@
 ---
-title: "A WordPress Plugin That Doesn't Tank Your Store's Performance"
+title: "A Fast WordPress + WooCommerce Plugin in Production"
 subtitle: "Context-aware bootstrapping, manifest-based block registration, delegating webhooks to WooCommerce's native pipeline, and deleting every line of code we didn't need"
-description: "How we shipped a production WordPress + WooCommerce plugin that loads almost nothing per request, registers three Gutenberg blocks without scanning the disk, and offloads webhook delivery to WooCommerce's native engine with fingerprint-based orphan adoption."
+description: "How we shipped a production WordPress and WooCommerce plugin with near-zero request cost, manifest-based block registration, and native webhooks."
 date: 2026-04-21T10:00:00Z
 draft: false
 category: "engineering"
@@ -16,7 +16,7 @@ The stereotype about WordPress plugins is that they are performance train wrecks
 
 A typical plugin registers on `plugins_loaded`, scans the filesystem for block metadata on every `init`, hooks into ten filters *just in case* one of them fires, persists ten separate options rows that all autoload on every request, and ships a PHP webhook dispatcher that hand-rolls HMAC signing, retries, and logging with varying degrees of brokenness. Then it autoloads all of it eagerly so your TTFB degrades by 30 ms whether the plugin renders anything on the page or not.
 
-We just shipped the Frak WordPress plugin, about 2,400 lines across 18 files, three Gutenberg blocks, a WooCommerce integration, full CI with release automation, and we spent more time *deleting* code than writing it. The plugin's per-request cost on a page that doesn't render any Frak component is a single autoloaded option read and one composer classmap lookup. That's it. This post is the opinionated tour of how.
+We just shipped the Frak WordPress plugin, about 2,400 lines across 18 files, three Gutenberg blocks, a WooCommerce integration, full CI with release automation, and we spent more time *deleting* code than writing it. The plugin's per-request cost on a page that doesn't render any Frak component is a single autoloaded option read and one composer classmap lookup. That's it. This post is the opinionated tour of how. It's the WooCommerce sibling of our [Shopify app integration](/articles/frak/shopify-i18n-metaobjects/), which tackled a different storefront problem: one translation source across four runtimes.
 
 ## The First Thing That Was Wrong: Everything Loaded on Every Request
 
@@ -137,7 +137,7 @@ public static function enqueue_editor_assets() {
 }
 ```
 
-The injector is a handful of lines of vanilla JS that, from inside each block's `useEffect`, re-injects the SDK `<script>` and the forwarded `window.FrakSetup.config` into the iframe's document. Once it runs, `customElements.get('frak-banner')` resolves and the preview renders exactly as it will on the live site.
+The injector is a handful of lines of vanilla JS that, from inside each block's `useEffect`, re-injects the SDK `<script>` and the forwarded `window.FrakSetup.config` into the iframe's document. Once it runs, `customElements.get('frak-banner')` resolves and the preview renders exactly as it will on the live site. For the storefront side of our embedding work, see [the ring architecture behind our embedded wallet](/articles/frak/frak-listener-ring-architecture/).
 
 The config block for the editor also sets `waitForBackendConfig: false`, a flag our SDK respects to short-circuit the "wait for backend-resolved merchant config" gate, so previews render immediately without a real Frak client configured:
 
@@ -392,7 +392,7 @@ jobs:
     # Builds, uploads to GitHub Releases, publishes a tag.
 ```
 
-Two-step: a `workflow_dispatch` opens the release PR (version bump + changelog + CI), then merging that PR (label-gated on `release:wordpress`) triggers the build and publish. No release gets cut without going through review, no manual zip upload.
+Two-step: a `workflow_dispatch` opens the release PR (version bump + changelog + CI), then merging that PR (label-gated on `release:wordpress`) triggers the build and publish. No release gets cut without going through review, no manual zip upload. The self-hosted GitHub runners and in-cluster registry this workflow runs on are described in [our Hetzner platform post](/articles/frak/frak-hetzner-platform/).
 
 The version itself is a single source of truth. The plugin file header:
 
