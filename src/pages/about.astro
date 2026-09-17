@@ -25,8 +25,9 @@ const projects = (await getCollection('projects'))
 
 const articleCount = articles.length;
 
-const pageTitle = `About ${AUTHOR_NAME} — ${JOB_TITLE}`;
-const pageDescription = `${AUTHOR_NAME} is a ${JOB_TITLE}. ${articleCount} engineering deep-dives on account abstraction, WebAuthn wallets, smart contracts and production infrastructure.`;
+// Kept inside SERP limits: title <= 60 chars, description 150-160.
+const pageTitle = `About ${AUTHOR_NAME} | Web3 Infrastructure`;
+const pageDescription = `${AUTHOR_NAME}, CTO at Frak Labs: account abstraction, WebAuthn wallets and self-hosted infrastructure, across ${articleCount} engineering deep-dives.`;
 const aboutUrl = canonical('about');
 
 // Career history, sourced from src/components/Timeline.tsx.

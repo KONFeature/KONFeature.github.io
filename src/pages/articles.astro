@@ -9,6 +9,9 @@ import { personJsonLd, canonical } from '../lib/schema';
 
 const articles = (await getCollection('articles')).filter(article => !article.data.draft);
 
+// Count is derived so the description can never drift from the corpus.
+const ARCHIVE_DESCRIPTION = `All ${articles.length} engineering deep-dives: account abstraction, WebAuthn wallets, Solidity, Kubernetes, self-hosted infrastructure and embedded firmware.`;
+
 // Helper to calculate read time
 function getReadingTime(content: string) {
   const wordsPerMinute = 200;
@@ -45,7 +48,7 @@ const articlesJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "CollectionPage",
 	"name": `All Articles | ${SITE_TITLE}`,
-	"description": "Complete archive of engineering articles and technical deep-dives",
+	"description": ARCHIVE_DESCRIPTION,
 	"url": canonical('articles'),
 	"mainEntity": {
 		"@type": "ItemList",
@@ -66,7 +69,7 @@ const articlesJsonLd = {
 <!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
-		<BaseHead title={`All Articles | ${SITE_TITLE}`} description="Complete archive of engineering articles and technical deep-dives" />
+		<BaseHead title={`All Articles | ${SITE_TITLE}`} description={ARCHIVE_DESCRIPTION} />
 		<script type="application/ld+json" set:html={JSON.stringify(articlesJsonLd)} />
 	</head>
 	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
