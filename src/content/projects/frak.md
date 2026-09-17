@@ -24,7 +24,7 @@ metrics:
   - label: "Infra cost"
     value: "-85%"
   - label: "Wallet CI (cached)"
-    value: "9min → 2min"
+    value: "9min to 2min"
   - label: "Onboarding"
     value: "Seedless, biometric"
 links:

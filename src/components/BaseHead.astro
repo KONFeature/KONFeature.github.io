@@ -44,8 +44,9 @@ const ogImageHeight = imageHeight ?? (image === '/og-default.png' ? 630 : undefi
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
-<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<!-- Matches --c-paper in src/styles/global.css for both themes. -->
+<meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f5f6f7" media="(prefers-color-scheme: light)" />
 <meta name="color-scheme" content="dark light" />
 
 <!-- Preconnect to external origins -->
@@ -87,7 +88,8 @@ const ogImageHeight = imageHeight ?? (image === '/og-default.png' ? 630 : undefi
 		root.classList.toggle('dark', theme !== 'light');
 	};
 	applyTheme(document.documentElement);
-	window.localStorage.setItem('theme', getTheme());
+	// Only an explicit toggle is persisted. Writing the resolved OS preference
+	// here would latch the theme forever and ignore later system changes.
 	// Re-apply on view transitions: mutate the incoming document before swap to avoid flash
 	document.addEventListener('astro:before-swap', (event) => {
 		applyTheme(event.newDocument.documentElement);

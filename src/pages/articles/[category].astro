@@ -2,11 +2,12 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
-import Icon from '../../components/Icon';
+import { ArticleRow } from '../../components/ArticleGroups';
 import { getCollection } from 'astro:content';
 import { SITE_TITLE } from '../../consts';
 import { ARTICLE_GROUPS } from '../../articleGroups';
 import { personJsonLd, canonical } from '../../lib/schema';
+import { getReadingTime } from '../../lib/readingTime';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (async () => {
@@ -26,18 +27,27 @@ export const getStaticPaths = (async () => {
 
 const { articles, groupInfo } = Astro.props;
 
-// Helper to calculate read time
-function getReadingTime(content: string) {
-	const wordsPerMinute = 200;
-	const words = content.trim().split(/\s+/).length;
-	const minutes = Math.ceil(words / wordsPerMinute);
-	return `${minutes} min read`;
-}
-
 // Sort articles by date (newest first)
 const sortedArticles = articles.sort((a: any, b: any) => 
 	b.data.date.getTime() - a.data.date.getTime()
 );
+
+// The hub reuses the archive row, so both surfaces stay in one shape.
+const rows = sortedArticles.map((article: any) => ({
+	id: article.id,
+	title: article.data.title,
+	subtitle: article.data.subtitle,
+	category: article.data.category,
+	tags: article.data.tags,
+	readTime: getReadingTime(article.body || ''),
+	date: article.data.date,
+	icon: article.data.icon,
+	iconColor: article.data.iconColor,
+	description: article.data.description,
+	slug: article.id,
+	githubUrl: article.data.githubUrl,
+	group: article.data.group,
+}));
 
 const pageTitle = `${groupInfo.name} Articles | ${SITE_TITLE}`;
 const pageDescription = groupInfo.description;
@@ -97,110 +107,43 @@ const breadcrumbJsonLd = {
 		<script type="application/ld+json" set:html={JSON.stringify(collectionJsonLd)} />
 		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 	</head>
-	<body class="bg-white dark:bg-[#0a0a0a]">
-		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+	<body class="bg-paper">
+		<div class="min-h-screen bg-paper font-sans">
 			<Navigation client:load />
-			
-			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
-				{/* Category Header */}
-				<div class="mb-16">
-					<a 
-						href="/articles/" 
-						class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
-					>
-						<Icon name="arrow-left" className="w-4 h-4" />
-						All Articles
-					</a>
-					
-					<div class="flex items-center gap-4 mb-6">
-						<div class={`p-3 rounded-xl bg-gray-100 dark:bg-white/5 ${groupInfo.iconColor}`}>
-							<Icon name={groupInfo.icon} className="w-8 h-8" />
-						</div>
-						<div>
-							<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-								{groupInfo.name}
-							</h1>
-							<p class="text-sm font-mono text-gray-600">
-								{sortedArticles.length} {sortedArticles.length === 1 ? 'article' : 'articles'}
-							</p>
-						</div>
-					</div>
-					
-					<p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+
+			<main id="main" class="max-w-page mx-auto px-6 pt-28 pb-20">
+				<header class="border-b border-rule pb-8">
+					<a href="/articles/" class="link-quiet text-sm">All articles</a>
+
+					<h1 class="mt-5 text-3xl text-ink md:text-4xl">{groupInfo.name}</h1>
+
+					<p class="mt-3 max-w-measure text-ink-2">
 						{groupInfo.description}
 					</p>
-				</div>
 
-				{/* Articles List */}
-				<div class="space-y-8">
-					{sortedArticles.map((article: any) => (
-						<article class="group relative p-6 rounded-lg border border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-							<div class="flex items-start justify-between gap-4 mb-3">
-								<h2 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors flex-1">
-									{/* Stretched link: keeps the whole card clickable without nesting anchors. */}
-									<a href={`/articles/${article.id}/`} class="after:absolute after:inset-0 after:rounded-lg">
-										{article.data.title}
-									</a>
-								</h2>
-								<time class="font-mono text-xs text-gray-600 shrink-0 mt-1">
-									{article.data.date.toLocaleDateString('en-US', { 
-										month: 'short',
-										day: 'numeric',
-										year: 'numeric'
-									})}
-								</time>
-							</div>
-							
-							{article.data.subtitle && (
-								<p class="text-gray-700 dark:text-gray-300 mb-3 text-sm">
-									{article.data.subtitle}
-								</p>
-							)}
-							
-							<p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-								{article.data.description}
-							</p>
-							
-							<div class="flex items-center gap-4 flex-wrap">
-								<div class="flex flex-wrap gap-2">
-									{article.data.tags.map((tag: string) => (
-										<span class="text-[10px] font-mono text-gray-600 px-2 py-1 bg-gray-100 dark:bg-black/30 border border-gray-300 dark:border-white/5 rounded">
-											{tag}
-										</span>
-									))}
-								</div>
-								<span class="text-xs text-gray-600 ml-auto">
-									{getReadingTime(article.body || "")}
-								</span>
-							</div>
+					<p class="mt-4 text-sm text-ink-3">
+						<span class="metric-value">{sortedArticles.length}</span>{' '}{sortedArticles.length === 1 ? 'article' : 'articles'}
+					</p>
+				</header>
 
-							{article.data.githubUrl && (
-								<div class="mt-4 pt-4 border-t border-gray-200 dark:border-white/5">
-									{/* z-10 lifts this above the stretched link overlay. */}
-									<a 
-										href={article.data.githubUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="relative z-10 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:hover:text-white transition-colors"
-									>
-										<Icon name="github" className="w-4 h-4" />
-										View on GitHub
-									</a>
-								</div>
-							)}
-						</article>
-					))}
-				</div>
-
-				{/* Empty State */}
-				{sortedArticles.length === 0 && (
-					<div class="text-center py-12 text-gray-600">
-						<p>No articles in this category yet.</p>
+				{rows.length > 0 ? (
+					<ul class="mt-8">
+						{rows.map((article) => (
+							<ArticleRow article={article} titleAs="h2" />
+						))}
+					</ul>
+				) : (
+					<div class="mt-8 border-t border-rule py-16">
+						<p class="max-w-measure text-ink-2">
+							Nothing is published in this group yet. The rest of the archive is on the
+							all articles page.
+						</p>
+						<a href="/articles/" class="btn btn-secondary mt-5">Show all articles</a>
 					</div>
 				)}
-
-				<Footer client:load />
 			</main>
+
+			<Footer />
 		</div>
 	</body>
 </html>

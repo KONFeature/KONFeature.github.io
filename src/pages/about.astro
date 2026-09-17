@@ -10,12 +10,15 @@ import {
 	TAGLINE,
 	AVAILABILITY,
 	CALENDLY_URL,
+	CONTACT_LABEL,
 	TELEGRAM_URL,
 	TELEGRAM_HANDLE,
 	GITHUB_HANDLE,
 	LINKEDIN_URL,
-	links,
 } from '../consts';
+import { CAREER } from '../data/career';
+import { CONTRIBUTIONS } from '../data/contributions';
+import { GAS_GOLFING } from '../data/highlights';
 import { personJsonLd, personRef, canonical, X_PROFILE_URL } from '../lib/schema';
 
 const articles = (await getCollection('articles')).filter((article) => !article.data.draft);
@@ -29,76 +32,6 @@ const articleCount = articles.length;
 const pageTitle = `About ${AUTHOR_NAME} | Web3 Infrastructure`;
 const pageDescription = `${AUTHOR_NAME}, CTO at Frak Labs: account abstraction, WebAuthn wallets and self-hosted infrastructure, across ${articleCount} engineering deep-dives.`;
 const aboutUrl = canonical('about');
-
-// Career history, sourced from src/components/Timeline.tsx.
-const career = [
-	{
-		period: '2022 - present',
-		role: 'Co-Founder & CTO',
-		org: 'Frak Labs',
-		url: links.frak,
-		detail:
-			'Building content monetization infrastructure: a self-custodial WebAuthn smart wallet embedded into Shopify and WordPress stores, and the on-chain reward system behind it.',
-	},
-	{
-		period: '2021 - 2023',
-		role: 'Lead Android Engineer',
-		org: 'Sybel',
-		detail:
-			'Android and Android Automotive apps, including a partnership with Renault for their onboard system launch.',
-	},
-	{
-		period: '2019 - 2020',
-		role: 'Freelance Android Developer',
-		org: 'Various clients',
-		detail: 'Custom mobile experiences, including the Coyali app to help seniors use smartphones.',
-	},
-	{
-		period: '2017 - 2020',
-		role: 'Mobile Engineer Consultant',
-		org: 'Capgemini / SNCF',
-		detail:
-			'Android applications for onboard agents and ticket validation terminals on the French railway system.',
-	},
-	{
-		period: '2016 - 2017',
-		role: 'Full Stack Freelancer',
-		org: 'Construction sector (BTP)',
-		detail: 'PHP automation tools for inventory management and vehicle mileage tracking.',
-	},
-];
-
-// Open-source contributions, sourced from src/components/LandingPage.tsx.
-const contributions = [
-	{
-		project: 'ZeroDev Kernel',
-		context: 'Account Abstraction',
-		url: links.kernel,
-		items: [
-			{ label: 'WebAuthn validator', url: 'https://github.com/zerodevapp/kernel/pull/68' },
-			{ label: 'EIP-712 typed data', url: 'https://github.com/zerodevapp/kernel/pull/55' },
-			{ label: 'Gas optimizations', url: 'https://github.com/zerodevapp/kernel/pull/50' },
-		],
-	},
-	{
-		project: 'eRPC',
-		context: 'RPC Load Balancer',
-		url: links.erpc,
-		items: [
-			{ label: 'JS/TS config', url: 'https://github.com/erpc/erpc/pull/123' },
-			{ label: 'CLI tooling', url: 'https://github.com/erpc/erpc/pull/143' },
-			{ label: 'Config validation', url: 'https://github.com/erpc/erpc/pull/139' },
-		],
-	},
-	{
-		project: 'Permissionless.js',
-		context: 'Pimlico SDK',
-		url: links.permissionless,
-		items: [
-			{ label: 'Kernel wallet support', url: 'https://github.com/pimlicolabs/permissionless.js/pull/42' },
-		],
-	},
-];
 
 const profileJsonLd = {
 	'@context': 'https://schema.org',
@@ -129,175 +62,201 @@ const breadcrumbJsonLd = {
 		<script type="application/ld+json" set:html={JSON.stringify(profileJsonLd)} />
 		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 	</head>
-	<body class="bg-white dark:bg-[#0a0a0a]">
-		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+	<body class="bg-paper">
+		<div class="min-h-screen bg-paper font-sans text-ink-2">
 			<Navigation client:load />
 
-			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
-				{/* Intro */}
+			<main id="main" class="mx-auto max-w-page px-6 pt-28 pb-24">
 				<section class="mb-20">
-					<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">
-						About {AUTHOR_NAME}
-					</h1>
-					<p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-medium mb-6">
-						{JOB_TITLE}
-					</p>
+					<h1 class="text-3xl font-semibold text-ink md:text-4xl">About {AUTHOR_NAME}</h1>
+					<p class="mt-3 text-lg text-ink-2">{JOB_TITLE}</p>
 
-					<p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4 max-w-xl">
-						{TAGLINE}
-					</p>
-
-					<p class="text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl">
-						I write about what I actually ship: account abstraction and ERC-4337 wallets,
-						WebAuthn and passkeys, smart contract development, and the infrastructure that
-						keeps it all running. There are <a href="/articles/" class="text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors">{articleCount} articles</a> here,
-						most of them written from production systems rather than tutorials.
-					</p>
-
-					<div class="flex flex-wrap gap-6 text-sm font-mono mt-8">
-						<a href={`https://github.com/${GITHUB_HANDLE}`} target="_blank" rel="noopener noreferrer me" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
-							GitHub
-						</a>
-						<a href={X_PROFILE_URL} target="_blank" rel="noopener noreferrer me" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
-							X
-						</a>
-						<a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer me" class="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
-							LinkedIn
-						</a>
+					{/* Long copy stays on the reading column, under 80 characters a line. */}
+					<div class="mt-8 max-w-measure space-y-4 text-md">
+						<p>{TAGLINE}</p>
+						<p>
+							The substrates change, the job does not: smart contracts and account
+							abstraction wallets, self-hosted Kubernetes, bare-metal Rust firmware,
+							Android apps, and the tooling that keeps them shippable. Everything here is
+							written from a system that runs, not from a tutorial.
+						</p>
 					</div>
+
+					{/* Two measured facts, each linked to its source. */}
+					<dl class="mt-10 flex flex-wrap gap-x-12 gap-y-6">
+						{/* Reversed so the value reads first while dt stays before dd. */}
+						<div class="flex flex-col-reverse">
+							<dt class="mt-1 text-xs text-ink-3">articles written from production systems</dt>
+							<dd>
+								<a
+									href="/articles/"
+									class="metric-value text-2xl underline decoration-transparent underline-offset-4 transition-colors duration-150 hover:decoration-signal"
+								>
+									{articleCount}
+								</a>
+							</dd>
+						</div>
+						<div class="flex flex-col-reverse">
+							<dt class="mt-1 text-xs text-ink-3">{GAS_GOLFING.label}</dt>
+							<dd>
+								<a
+									href={GAS_GOLFING.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="metric-value text-2xl underline decoration-transparent underline-offset-4 transition-colors duration-150 hover:decoration-signal"
+								>
+									{GAS_GOLFING.value}
+								</a>
+							</dd>
+						</div>
+					</dl>
+
+					<ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+						<li>
+							<a
+								href={`https://github.com/${GITHUB_HANDLE}`}
+								target="_blank"
+								rel="noopener noreferrer me"
+								class="link">GitHub</a
+							>
+						</li>
+						<li>
+							<a href={X_PROFILE_URL} target="_blank" rel="noopener noreferrer me" class="link"
+								>X</a
+							>
+						</li>
+						<li>
+							<a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer me" class="link"
+								>LinkedIn</a
+							>
+						</li>
+					</ul>
 				</section>
 
-				{/* Career */}
 				<section class="mb-20">
-					<h2 class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
-						Career
-					</h2>
+					<h2 class="text-xl font-semibold text-ink">Career</h2>
 
-					<div class="space-y-8">
-						{career.map((item) => (
-							<div class="flex flex-col md:flex-row md:gap-8">
-								<span class="font-mono text-xs text-gray-500 shrink-0 w-28 pt-1">{item.period}</span>
-								<div class="flex-1">
-									<h3 class="text-gray-900 dark:text-white font-medium">
-										{item.role}
-										<span class="text-gray-400 dark:text-gray-600 mx-2">·</span>
-										{item.url ? (
-											<a href={item.url} target="_blank" rel="noopener noreferrer" class="hover:text-green-600 dark:hover:text-green-400 transition-colors">
-												{item.org}
+					{/* Period column at md and up, stacked above the role below it. */}
+					<div class="mt-6 border-t border-rule">
+						{CAREER.map((entry) => (
+							<div class="grid gap-x-10 gap-y-1 border-b border-rule py-6 md:grid-cols-12">
+								<p class="font-mono text-xs text-ink-3 md:col-span-3">{entry.period}</p>
+								<div class="md:col-span-9">
+									<h3 class="text-base font-medium text-ink">
+										{entry.role}
+										<span class="mx-2 text-ink-3" aria-hidden="true">·</span>
+										{entry.url ? (
+											<a href={entry.url} target="_blank" rel="noopener noreferrer" class="link">
+												{entry.org}
 											</a>
 										) : (
-											<span class="text-gray-600 dark:text-gray-400">{item.org}</span>
+											<span>{entry.org}</span>
 										)}
 									</h3>
-									<p class="text-sm text-gray-500 mt-1 leading-relaxed max-w-xl">{item.detail}</p>
+									<p class="mt-1 max-w-measure text-sm text-ink-2">{entry.detail}</p>
 								</div>
 							</div>
 						))}
 					</div>
 				</section>
 
-				{/* Projects */}
 				<section class="mb-20">
-					<div class="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
-						<h2 class="font-mono text-xs uppercase tracking-widest text-gray-500">
-							Projects
-						</h2>
-						<a href="/projects/" class="font-mono text-xs text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
-							All projects →
-						</a>
+					<div class="flex items-baseline justify-between gap-6">
+						<h2 class="text-xl font-semibold text-ink">Projects</h2>
+						<a href="/projects/" class="link-quiet text-sm">View all</a>
 					</div>
 
-					<div class="space-y-6">
+					<div class="mt-6 border-t border-rule">
 						{projects.map((project) => (
-							<div class="flex items-start gap-4">
-								<div class={`p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0 ${project.data.iconColor || 'text-gray-500'}`}>
-									<Icon name={project.data.icon} className="w-5 h-5" />
-								</div>
-								<div class="flex-1 min-w-0">
-									<h3 class="text-gray-900 dark:text-white font-medium">
-										<a href={`/projects/${project.id}/`} class="hover:text-green-600 dark:hover:text-green-400 transition-colors">
-											{project.data.name}
-										</a>
-										<span class="text-gray-400 dark:text-gray-600 mx-2">·</span>
-										<span class="text-xs font-mono text-gray-500">{project.data.role}</span>
+							<a
+								href={`/projects/${project.id}/`}
+								class="group -mx-4 grid gap-x-10 gap-y-1 border-b border-rule px-4 py-5 transition-colors duration-150 md:grid-cols-12"
+							>
+								<div class="flex items-center gap-3 md:col-span-4">
+									<Icon
+										name={project.data.icon}
+										className="h-5 w-5 shrink-0 text-ink-3 [stroke-width:1.5]"
+									/>
+									<h3 class="text-base font-medium text-ink underline decoration-transparent underline-offset-4 transition-colors duration-150 group-hover:decoration-rule-strong">
+										{project.data.name}
 									</h3>
-									<p class="text-sm text-gray-500 mt-1 leading-relaxed max-w-xl">{project.data.tagline}</p>
 								</div>
-							</div>
+								<p class="text-xs text-ink-3 md:col-span-2">{project.data.role}</p>
+								<p class="max-w-measure text-sm text-ink-2 md:col-span-6">
+									{project.data.tagline}
+								</p>
+							</a>
 						))}
 					</div>
 				</section>
 
-				{/* Open source */}
 				<section class="mb-20">
-					<h2 class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6 border-b border-gray-300 dark:border-white/10 pb-2">
-						Open Source
-					</h2>
-
-					<p class="text-sm text-gray-500 mb-6">
-						I don't just use the tools: I write the code for the tools you use.
+					<h2 class="text-xl font-semibold text-ink">Open source</h2>
+					<p class="mt-3 max-w-measure text-sm text-ink-2">
+						Upstream work on the tools other people ship on.
 					</p>
 
-					<div class="grid gap-4">
-						{contributions.map((contribution) => (
-							<div class="flex flex-col gap-2">
-								<div class="flex items-center gap-2">
-									<a href={contribution.url} target="_blank" rel="noopener noreferrer" class="text-gray-900 dark:text-white font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">
+					{/* Project column at md and up, stacked above the patches below it. */}
+					<div class="mt-6 border-t border-rule">
+						{CONTRIBUTIONS.map((contribution) => (
+							<div class="grid gap-x-10 gap-y-2 border-b border-rule py-5 md:grid-cols-12">
+								<div class="md:col-span-4">
+									<a
+										href={contribution.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="link text-base font-medium"
+									>
 										{contribution.project}
 									</a>
-									<span class="text-xs text-gray-500">{contribution.context}</span>
+									<p class="mt-1 text-xs text-ink-3">{contribution.context}</p>
 								</div>
-								<div class="flex flex-wrap gap-2 text-sm">
-									{contribution.items.map((item, i) => (
-										<>
-											{i > 0 && <span class="text-gray-400" aria-hidden="true">·</span>}
-											<a href={item.url} target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+								<ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm md:col-span-8">
+									{contribution.items.map((item) => (
+										<li>
+											<a href={item.url} target="_blank" rel="noopener noreferrer" class="link">
 												{item.label}
 											</a>
-										</>
+										</li>
 									))}
-								</div>
+								</ul>
 							</div>
 						))}
 					</div>
 				</section>
 
-				{/* Contact */}
-				<section class="py-12 border-t border-gray-200 dark:border-white/10">
-					<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-						Get in Touch
-					</h2>
-					<p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
-						Available {AVAILABILITY}. Want to chat about Web3 infrastructure, Account
-						Abstraction, or something you read here? Reach out.
+				<section class="border-t border-rule pt-12">
+					<h2 class="text-xl font-semibold text-ink">Contact</h2>
+					<p class="mt-3 max-w-measure text-ink-2">
+						Taking on new work from {AVAILABILITY}. Smart wallets, self-hosted
+						infrastructure, embedded work, or anything you read here.
 					</p>
 
-					<div class="flex flex-col sm:flex-row gap-4">
+					{/* Stacked buttons below sm, side by side above it. */}
+					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
 						<a
 							href={CALENDLY_URL}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+							class="btn btn-primary"
 						>
-							<Icon name="calendar" className="w-[18px] h-[18px]" />
-							Book a call
+							<Icon name="calendar" className="h-4 w-4 [stroke-width:1.5]" />
+							{CONTACT_LABEL}
 						</a>
 						<a
 							href={TELEGRAM_URL}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+							class="btn btn-secondary"
 						>
-							<Icon name="message-circle" className="w-[18px] h-[18px]" />
+							<Icon name="message-circle" className="h-4 w-4 [stroke-width:1.5]" />
 							{TELEGRAM_HANDLE}
 						</a>
 					</div>
 				</section>
 			</main>
 
-			<div class="max-w-3xl mx-auto px-6">
-				<Footer />
-			</div>
+			<Footer />
 		</div>
 	</body>
 </html>

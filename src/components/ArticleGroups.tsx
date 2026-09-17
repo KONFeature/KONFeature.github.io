@@ -1,15 +1,21 @@
 import React from 'react';
-import { ARTICLE_GROUPS } from '../articleGroups';
-import Icon from './Icon';
+import { ARTICLE_GROUPS, type ArticleGroup } from '../articleGroups';
 
-interface ArticleData {
+/**
+ * Shared pieces for the article archive and the per group hubs. The card grid
+ * that used to live here is gone: the groups are now the spine of
+ * ArticlesPage, so this file only holds the grouping data and the one row
+ * component both surfaces render.
+ */
+
+export interface ArticleData {
 	id: string;
 	title: string;
 	subtitle?: string;
 	category: string;
 	tags: string[];
 	readTime: string;
-	date: Date;
+	date: Date | string;
 	icon: string;
 	iconColor?: string;
 	description: string;
@@ -18,79 +24,167 @@ interface ArticleData {
 	group?: string;
 }
 
-interface ArticleGroupsProps {
+export interface ArticleGroupSection {
+	id: string;
+	name: string;
+	description: string;
+	/** Link to the group hub. Absent for articles with no known group. */
+	href?: string;
 	articles: ArticleData[];
 }
 
-const ArticleGroups: React.FC<ArticleGroupsProps> = ({ articles }) => {
-	// Group articles by their group field
-	const groupedArticles = React.useMemo(() => {
-		const groups = new Map<string, ArticleData[]>();
+/**
+ * Reading order of the archive: the long running project series first, then
+ * the looser collections. Groups outside this list fall back to the `order`
+ * field in ARTICLE_GROUPS.
+ */
+export const ARTICLE_GROUP_ORDER = [
+	'frak',
+	'atelier',
+	'kiln',
+	'cooking-bot',
+	'scenario-parser',
+	'web3',
+	'side-projects',
+];
 
-		articles.forEach(article => {
-			if (article.group && ARTICLE_GROUPS[article.group]) {
-				if (!groups.has(article.group)) {
-					groups.set(article.group, []);
-				}
-				groups.get(article.group)!.push(article);
-			}
-		});
+const UNGROUPED_ID = 'ungrouped';
 
-		// Sort articles within each group by date (newest first)
-		groups.forEach((groupArticles) => {
-			groupArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-		});
+function toTime(date: Date | string): number {
+	return new Date(date).getTime();
+}
 
-		// Return groups sorted by order
-		return Array.from(groups.entries())
-			.sort(([keyA], [keyB]) => ARTICLE_GROUPS[keyA].order - ARTICLE_GROUPS[keyB].order);
-	}, [articles]);
+function rank(groupId: string, group: ArticleGroup | undefined): number {
+	const explicit = ARTICLE_GROUP_ORDER.indexOf(groupId);
+	if (explicit !== -1) return explicit;
+	return ARTICLE_GROUP_ORDER.length + (group?.order ?? 0);
+}
 
-	if (groupedArticles.length === 0) {
-		return null;
+/**
+ * Buckets articles by their group, newest first inside each bucket. Articles
+ * with no known group are kept in a trailing section so nothing ever drops
+ * out of the archive.
+ */
+export function groupArticles(articles: ArticleData[]): ArticleGroupSection[] {
+	const buckets = new Map<string, ArticleData[]>();
+
+	for (const article of articles) {
+		const groupId = article.group && ARTICLE_GROUPS[article.group] ? article.group : UNGROUPED_ID;
+		const bucket = buckets.get(groupId);
+		if (bucket) {
+			bucket.push(article);
+		} else {
+			buckets.set(groupId, [article]);
+		}
 	}
 
-	// Just show category cards, no article listings
+	return Array.from(buckets.entries())
+		.sort(([a], [b]) => {
+			if (a === UNGROUPED_ID) return 1;
+			if (b === UNGROUPED_ID) return -1;
+			return rank(a, ARTICLE_GROUPS[a]) - rank(b, ARTICLE_GROUPS[b]);
+		})
+		.map(([groupId, groupArticleList]) => {
+			const sorted = [...groupArticleList].sort((a, b) => toTime(b.date) - toTime(a.date));
+			const group = ARTICLE_GROUPS[groupId];
+
+			if (!group) {
+				return {
+					id: UNGROUPED_ID,
+					name: 'Everything else',
+					description: 'Standalone pieces that are not part of a longer project series.',
+					articles: sorted,
+				};
+			}
+
+			return {
+				id: groupId,
+				name: group.name,
+				description: group.description,
+				href: `/articles/${groupId}/`,
+				articles: sorted,
+			};
+		});
+}
+
+export function formatArticleDate(date: Date | string): string {
+	return new Date(date).toLocaleDateString('en-US', {
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric',
+		timeZone: 'UTC',
+	});
+}
+
+/**
+ * Article `category` is a data-model slug (`system-design`, `devops`). This is the one
+ * place it is rendered to a visitor, so the mapping lives next to the row that needs it.
+ */
+const CATEGORY_LABELS: Record<string, string> = {
+	'system-design': 'System design',
+	devops: 'DevOps',
+	electronics: 'Electronics',
+	mobile: 'Mobile',
+	tooling: 'Tooling',
+	engineering: 'Engineering',
+	ai: 'AI',
+	opinion: 'Opinion',
+	solidity: 'Solidity',
+};
+
+export function formatCategory(category: string): string {
+	return CATEGORY_LABELS[category] ?? category;
+}
+
+interface ArticleRowProps {
+	article: ArticleData;
+	/**
+	 * Collapsed rows stay in the DOM and are hidden with CSS so crawlers and
+	 * Pagefind still see every article anchor.
+	 */
+	collapsed?: boolean;
+	/**
+	 * h3 under a group heading on the archive, h2 on a hub page where the
+	 * group name is the h1.
+	 */
+	titleAs?: 'h2' | 'h3';
+}
+
+/**
+ * One archive row: date column, title, one line of context, then the category
+ * and read time. Shared by /articles/ and every /articles/<group>/ hub.
+ */
+export const ArticleRow: React.FC<ArticleRowProps> = ({
+	article,
+	collapsed = false,
+	titleAs: Title = 'h3',
+}) => {
+	const date = new Date(article.date);
+	const context = article.subtitle || article.description;
+
 	return (
-		<section id="collections" className="mb-24">
-			<div className="flex items-center justify-between mb-8 border-b border-gray-300 dark:border-white/10 pb-2">
-				<h2 className="font-mono text-xs uppercase tracking-widest text-gray-500">
-					Browse by Category
-				</h2>
-			</div>
-
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{groupedArticles.map(([groupId, groupArticles]) => {
-					const group = ARTICLE_GROUPS[groupId];
-
-					return (
-						<a
-							key={groupId}
-							href={`/articles/${groupId}/`}
-							className="group/card p-6 rounded-lg border border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
-						>
-							<div className="flex items-start gap-4 mb-3">
-								<div className={`p-2.5 rounded-lg bg-gray-100 dark:bg-white/5 ${group.iconColor} shrink-0`}>
-									<Icon name={group.icon} className="w-6 h-6" />
-								</div>
-								<div className="flex-1 min-w-0">
-									<h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover/card:text-green-600 dark:group-hover/card:text-green-400 transition-colors mb-1">
-										{group.name}
-									</h3>
-									<p className="text-xs font-mono text-gray-600 mb-2">
-										{groupArticles.length} {groupArticles.length === 1 ? 'article' : 'articles'}
-									</p>
-								</div>
-							</div>
-							<p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-								{group.description}
-							</p>
-						</a>
-					);
-				})}
-			</div>
-		</section>
+		<li className={`border-t border-rule ${collapsed ? 'hidden' : ''}`}>
+			<a
+				href={`/articles/${article.slug}/`}
+				className="group grid grid-cols-1 gap-x-6 gap-y-1 py-3 md:grid-cols-[6.5rem_1fr] md:items-baseline lg:grid-cols-[6.5rem_minmax(0,1fr)_11rem]"
+			>
+				<time dateTime={date.toISOString()} className="font-mono text-xs text-ink-3">
+					{formatArticleDate(date)}
+				</time>
+				<div className="min-w-0 md:col-start-2">
+					<Title className="text-base font-medium text-ink underline-offset-4 decoration-rule-strong group-hover:underline md:text-lg">
+						{article.title}
+					</Title>
+					{context && <p className="mt-0.5 truncate text-sm text-ink-2">{context}</p>}
+				</div>
+				{/* Meta sits under the title until lg, where it moves to its own column, each on its own line so nothing chains into a dot pair. */}
+				<div className="text-xs text-ink-3 md:col-start-2 lg:col-start-3 lg:row-start-1 lg:text-right">
+					<p className="font-mono">{article.readTime}</p>
+					<p>{formatCategory(article.category)}</p>
+				</div>
+			</a>
+		</li>
 	);
 };
 
-export default ArticleGroups;
+export default ArticleRow;

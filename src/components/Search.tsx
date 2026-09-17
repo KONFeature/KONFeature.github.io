@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { Search as SearchIcon, X } from 'lucide-react';
 import { getPagefind } from '../lib/pagefind';
 
@@ -9,18 +9,87 @@ interface SearchResult {
 }
 
 const Search = () => {
-	const [isExpanded, setIsExpanded] = useState(false);
 	const [query, setQuery] = useState('');
 	const [results, setResults] = useState<SearchResult[]>([]);
 	const [isSearching, setIsSearching] = useState(false);
 	const [isReady, setIsReady] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const dialogRef = useRef<HTMLDialogElement>(null);
+	const triggerRef = useRef<HTMLButtonElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const inputId = useId();
+	const statusId = useId();
 
 	// Initialize Pagefind on mount
 	useEffect(() => {
 		getPagefind()
 			.then(() => setIsReady(true))
 			.catch(() => setIsReady(false));
+	}, []);
+
+	const openDialog = () => {
+		dialogRef.current?.showModal();
+	};
+
+	const closeDialog = () => {
+		dialogRef.current?.close();
+	};
+
+	// showModal() confines focus to the dialog, but wrap-around from the last
+	// focusable back to the first (and back) is not consistently reliable across
+	// browsers, so Tab is trapped explicitly as a safety net.
+	const trapTab = (e: React.KeyboardEvent<HTMLDialogElement>) => {
+		if (e.key !== 'Tab') return;
+		const dialog = dialogRef.current;
+		if (!dialog) return;
+
+		const focusables = Array.from(
+			dialog.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+		).filter((el) => el.offsetParent !== null);
+		if (focusables.length === 0) return;
+
+		const first = focusables[0];
+		const last = focusables[focusables.length - 1];
+
+		if (e.shiftKey && document.activeElement === first) {
+			e.preventDefault();
+			last.focus();
+		} else if (!e.shiftKey && document.activeElement === last) {
+			e.preventDefault();
+			first.focus();
+		}
+	};
+
+	// showModal() gives the focus trap and Escape handling for free. The native
+	// `close` event covers Escape, the backdrop click handler below, and the
+	// explicit close button, so focus return and state reset live in one place.
+	// showModal() moves focus onto the dialog itself by default, so the open path
+	// redirects it to the input.
+	useEffect(() => {
+		const dialog = dialogRef.current;
+		if (!dialog) return;
+
+		const handleClose = () => {
+			setIsOpen(false);
+			setQuery('');
+			setResults([]);
+			triggerRef.current?.focus();
+		};
+
+		dialog.addEventListener('close', handleClose);
+
+		const observer = new MutationObserver(() => {
+			if (dialog.open) {
+				setIsOpen(true);
+				inputRef.current?.focus();
+			}
+		});
+		observer.observe(dialog, { attributes: true, attributeFilter: ['open'] });
+
+		return () => {
+			dialog.removeEventListener('close', handleClose);
+			observer.disconnect();
+		};
 	}, []);
 
 	// Perform search with debouncing
@@ -35,7 +104,7 @@ const Search = () => {
 			try {
 				const pagefind = await getPagefind();
 				const search = await pagefind.search(query);
-				
+
 				const searchResults = await Promise.all(
 					search.results.slice(0, 8).map(async (result: any) => {
 						const data = await result.data();
@@ -59,139 +128,153 @@ const Search = () => {
 		return () => clearTimeout(timer);
 	}, [query]);
 
-	// Keyboard shortcuts
+	// Keyboard shortcut: Cmd/Ctrl+K opens. Escape is handled natively by <dialog>.
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
 				e.preventDefault();
-				setIsExpanded(true);
-			}
-			if (e.key === 'Escape' && isExpanded) {
-				setIsExpanded(false);
+				if (!dialogRef.current?.open) {
+					openDialog();
+				}
 			}
 		};
 
 		document.addEventListener('keydown', handleKeyDown);
 		return () => document.removeEventListener('keydown', handleKeyDown);
-	}, [isExpanded]);
+	}, []);
 
-	// Auto-focus input when expanded
-	useEffect(() => {
-		if (isExpanded) {
-			inputRef.current?.focus();
-		} else {
-			// Reset state when closed
-			setQuery('');
-			setResults([]);
-		}
-	}, [isExpanded]);
+	const resultStatus = !query
+		? ''
+		: isSearching
+			? 'Searching the archive.'
+			: results.length === 0
+				? `Nothing matches "${query}".`
+				: `${results.length} result${results.length !== 1 ? 's' : ''} for "${query}".`;
 
 	return (
 		<>
-			{/* Search Button */}
 			<button
-				onClick={() => setIsExpanded(true)}
-				className="p-2 hover:text-gray-900 dark:hover:text-white transition-colors"
-				aria-label="Search"
-				title="Search (⌘K)"
+				ref={triggerRef}
+				onClick={openDialog}
+				className="rounded-sm p-1.5 text-ink-2 transition-colors duration-150 hover:text-ink"
+				aria-label="Search the site"
+				aria-haspopup="dialog"
+				aria-expanded={isOpen}
+				title="Search (Cmd K)"
 			>
-				<SearchIcon size={18} />
+				<SearchIcon size={18} strokeWidth={1.5} />
 			</button>
 
-			{/* Search Overlay */}
-			{isExpanded && (
-				<>
-					{/* Backdrop */}
-					<div 
-						className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[45]"
-						onClick={() => setIsExpanded(false)}
-					/>
-
-					{/* Search Bar */}
-					<div className="fixed left-0 right-0 top-0 z-[60] bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-gray-200 dark:border-white/5">
-						<div className="max-w-3xl mx-auto px-6 h-16 flex items-center gap-3">
-							<SearchIcon size={18} className="text-gray-400 flex-shrink-0" />
-							<input
-								ref={inputRef}
-								type="text"
-								value={query}
-								onChange={(e) => setQuery(e.target.value)}
-								placeholder="Search articles..."
-								className="flex-1 bg-transparent text-gray-900 dark:text-white placeholder-gray-400 outline-none text-sm"
-							/>
-							{query && (
-								<button
-									onClick={() => setQuery('')}
-									className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-									aria-label="Clear search"
-								>
-									<X size={18} />
-								</button>
-							)}
+			<dialog
+				ref={dialogRef}
+				aria-label="Search"
+				onKeyDown={trapTab}
+				onClick={(e) => {
+					// Clicking the ::backdrop lands directly on the dialog element itself.
+					if (e.target === dialogRef.current) {
+						closeDialog();
+					}
+				}}
+				className="m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-paper/70 backdrop:backdrop-blur-sm open:flex open:flex-col"
+			>
+				{/* Input row, aligned with the navigation bar it replaces. */}
+				<div className="border-b border-rule bg-paper/95 backdrop-blur-sm">
+					<div className="mx-auto flex h-16 max-w-page items-center gap-3 px-6">
+						<SearchIcon
+							size={18}
+							strokeWidth={1.5}
+							className="shrink-0 text-ink-3"
+							aria-hidden="true"
+						/>
+						<label htmlFor={inputId} className="sr-only">
+							Search articles and projects
+						</label>
+						<input
+							ref={inputRef}
+							id={inputId}
+							type="text"
+							value={query}
+							onChange={(e) => setQuery(e.target.value)}
+							placeholder="Search articles and projects"
+							aria-describedby={statusId}
+							className="flex-1 rounded-sm bg-transparent px-1 py-1 text-base text-ink placeholder:text-ink-3"
+						/>
+						{query && (
 							<button
-								onClick={() => setIsExpanded(false)}
-								className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-								aria-label="Close search"
+								onClick={() => setQuery('')}
+								className="rounded-sm p-1 text-ink-3 transition-colors duration-150 hover:text-ink"
+								aria-label="Clear the search field"
 							>
-								<X size={20} />
+								<X size={18} strokeWidth={1.5} />
 							</button>
-						</div>
+						)}
+						<button
+							onClick={closeDialog}
+							className="rounded-sm p-1 text-ink-3 transition-colors duration-150 hover:text-ink"
+							aria-label="Close search"
+						>
+							<X size={20} strokeWidth={1.5} />
+						</button>
 					</div>
+				</div>
 
-					{/* Results Dropdown */}
-					{query && (
-						<div className="fixed left-0 right-0 top-16 z-[55]">
-							<div className="max-w-3xl mx-auto px-6 pt-2">
-								<div className="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-2xl border border-gray-200 dark:border-white/10 overflow-hidden">
-									<div className="max-h-[60vh] overflow-y-auto">
-										{!isReady ? (
-											<div className="p-8 text-center text-gray-600 dark:text-gray-400">
-												<p>Search is only available in production builds.</p>
-												<p className="text-sm mt-2">
-													Run <code className="bg-gray-100 dark:bg-[#262626] px-2 py-1 rounded">bun run build</code> to generate the search index.
-												</p>
-											</div>
-										) : isSearching ? (
-											<div className="p-8 text-center text-gray-500 dark:text-gray-400 text-sm">
-												Searching...
-											</div>
-										) : results.length === 0 ? (
-											<div className="p-8 text-center text-gray-500 dark:text-gray-400 text-sm">
-												No results found for "{query}"
-											</div>
-										) : (
-											<>
-												<div className="p-2">
-													{results.map((result, index) => (
-														<a
-															key={index}
-															href={result.url}
-															onClick={() => setIsExpanded(false)}
-															className="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors group"
-														>
-															<div className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-																{result.title}
-															</div>
-															<div 
-																className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2"
-																dangerouslySetInnerHTML={{ __html: result.excerpt }}
-															/>
-														</a>
-													))}
-												</div>
-												<div className="px-4 py-2 border-t border-gray-200 dark:border-white/10 text-xs text-gray-500 dark:text-gray-400 flex items-center justify-between">
-													<span>{results.length} result{results.length !== 1 ? 's' : ''}</span>
-													<span className="text-gray-400">ESC to close</span>
-												</div>
-											</>
-										)}
+				<div aria-live="polite" className="sr-only" id={statusId}>
+					{resultStatus}
+				</div>
+
+				{query && (
+					<div className="overflow-y-auto">
+						<div className="mx-auto max-w-page px-6 pt-2">
+							<div className="max-h-[60vh] overflow-y-auto rounded-sm border border-rule bg-paper">
+								{!isReady ? (
+									<div className="px-4 py-6 text-sm text-ink-2">
+										<p>Search runs on the index built with the site, so it is unavailable here.</p>
+										<p className="mt-2">
+											Run <code className="font-mono text-ink">bun run build</code> to generate
+											the index.
+										</p>
 									</div>
-								</div>
+								) : isSearching ? (
+									<p className="px-4 py-6 text-sm text-ink-2">Searching the archive.</p>
+								) : results.length === 0 ? (
+									<p className="px-4 py-6 text-sm text-ink-2">
+										Nothing matches "{query}". Try a shorter phrase or a single keyword.
+									</p>
+								) : (
+									<>
+										<div className="divide-y divide-rule">
+											{results.map((result, index) => (
+												<a
+													key={index}
+													href={result.url}
+													onClick={closeDialog}
+													className="block px-4 py-3 transition-colors duration-150 hover:bg-surface"
+												>
+													<span className="block font-medium text-ink">{result.title}</span>
+													{/* Pagefind wraps matches in <mark>, which otherwise renders as browser yellow. */}
+													<span
+														className="mt-1 line-clamp-2 block text-sm text-ink-2 [&_mark]:bg-transparent [&_mark]:font-medium [&_mark]:text-ink"
+														dangerouslySetInnerHTML={{ __html: result.excerpt }}
+													/>
+												</a>
+											))}
+										</div>
+										<div className="flex items-center justify-between border-t border-rule px-4 py-2 text-xs text-ink-3">
+											<span>
+												<span className="font-mono">{results.length}</span> result
+												{results.length !== 1 ? 's' : ''}
+											</span>
+											<span>
+												Press <span className="font-mono">Esc</span> to close
+											</span>
+										</div>
+									</>
+								)}
 							</div>
 						</div>
-					)}
-				</>
-			)}
+					</div>
+				)}
+			</dialog>
 		</>
 	);
 };

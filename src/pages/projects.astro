@@ -12,7 +12,7 @@ const projects = (await getCollection('projects'))
 	.sort((a, b) => a.data.order - b.data.order);
 
 const pageTitle = `Projects | ${SITE_TITLE}`;
-const pageDescription = 'Real-world problems, the systems built to solve them, and my role in each: Web3 infrastructure, self-hosted AI sandboxes, embedded firmware.';
+const pageDescription = 'Seven systems across Web3 infrastructure, self-hosted AI sandboxes and embedded firmware, each with the metrics that came out of running it.';
 
 const projectsJsonLd = {
 	"@context": "https://schema.org",
@@ -40,12 +40,16 @@ const statusLabel: Record<string, string> = {
 	archived: 'Archived',
 };
 
-const statusColor: Record<string, string> = {
-	production: 'text-emerald-600 dark:text-emerald-400',
-	internal: 'text-blue-600 dark:text-blue-400',
-	personal: 'text-cyan-600 dark:text-cyan-400',
-	archived: 'text-gray-500',
-};
+/**
+ * A metric only earns a row on this page when it carries a measured number. The
+ * qualitative entries in the frontmatter stay off the index and are rendered on
+ * the project page instead, so the accent keeps meaning "this was measured".
+ *
+ * Seven projects worth of accented numbers would flood the screen, so only the
+ * lead record spends the accent. The rest carry the same measurements in mono
+ * ink, which is also what makes the lead the focal point of the page.
+ */
+const isMeasured = (value: string) => /\d/.test(value);
 ---
 
 <!doctype html>
@@ -54,70 +58,97 @@ const statusColor: Record<string, string> = {
 		<BaseHead title={pageTitle} description={pageDescription} />
 		<script type="application/ld+json" set:html={JSON.stringify(projectsJsonLd)} />
 	</head>
-	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
-		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+	<body class="bg-paper" data-pagefind-ignore>
+		<div class="min-h-screen bg-paper font-sans text-ink-2">
 			<Navigation client:load />
 
-			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
-				<section class="mb-16">
-					<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">
-						Projects
-					</h1>
-					<p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-						Real-world problems, the systems I built to solve them, and the writing that documents how.
+			<main id="main" class="mx-auto max-w-page px-6 pt-28 pb-24">
+				<header class="mb-16">
+					<h1 class="mb-5 text-3xl font-semibold text-ink md:text-4xl">Projects</h1>
+					<p class="max-w-measure text-md text-ink-2">
+						Seven systems, each shipped end to end: the problem, the substrate, and the
+						measurements it produced.
 					</p>
-				</section>
+				</header>
 
-				<section class="space-y-8 mb-20">
-					{projects.map((project) => (
-						<a href={`/projects/${project.id}/`} class="group block">
-							<div class="border border-gray-200 dark:border-white/10 rounded-lg p-6 md:p-8 hover:border-gray-300 dark:hover:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
-								<div class="flex items-start gap-4 mb-4">
-									<div class={`p-2 rounded-lg bg-gray-100 dark:bg-white/5 shrink-0 ${project.data.iconColor || 'text-gray-500'}`}>
-										<Icon name={project.data.icon} className="w-6 h-6" />
-									</div>
-									<div class="flex-1 min-w-0">
-										<div class="flex items-center justify-between gap-4">
-											<h2 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-												{project.data.name}
-											</h2>
-											<span class={`text-xs font-mono shrink-0 ${statusColor[project.data.status]}`}>
-												{statusLabel[project.data.status]}
-											</span>
-										</div>
-										<p class="text-gray-500 text-sm mt-1">{project.data.tagline}</p>
-									</div>
-								</div>
+				{/* Records, separated by a single hairline. No card, no box. */}
+				<section class="border-t border-rule">
+					{projects.map((project, index) => {
+						const lead = index === 0;
+						const metrics = project.data.metrics
+							.filter((metric) => isMeasured(metric.value))
+							.slice(0, lead ? 4 : 3);
 
-								{project.data.metrics.length > 0 && (
-									<div class="grid grid-cols-3 gap-4 mb-6 py-4 border-y border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-lg">
-										{project.data.metrics.slice(0, 3).map((metric) => (
-											<div class="text-center px-2">
-												<div class="text-xs text-gray-500 uppercase tracking-wider mb-1">{metric.label}</div>
-												<div class="text-sm md:text-base font-bold text-green-600 dark:text-green-400">{metric.value}</div>
+						return (
+							<a
+								href={`/projects/${project.id}/`}
+								class={`group -mx-4 block border-b border-rule px-4 transition-colors duration-150 ${
+									lead ? 'py-10' : 'py-8'
+								}`}
+							>
+								{/* Two columns from md up, a single stacked column below it. */}
+								<div class="grid gap-x-10 gap-y-5 md:grid-cols-12">
+									<div class="md:col-span-4">
+										<div class="flex items-start gap-3">
+											<Icon
+												name={project.data.icon}
+												className={`${lead ? 'h-6 w-6' : 'h-5 w-5'} shrink-0 text-ink-3 [stroke-width:1.5]`}
+											/>
+											<div class="min-w-0">
+												<h2
+													class={`font-semibold text-ink underline decoration-transparent underline-offset-4 transition-colors duration-150 group-hover:decoration-rule-strong ${
+														lead ? 'text-2xl' : 'text-xl'
+													}`}
+												>
+													{project.data.name}
+												</h2>
+												<p class="mt-2 text-xs text-ink-3">{project.data.role}</p>
+												<p class="font-mono text-xs text-ink-3">{project.data.period}</p>
+												<p class="mt-2 text-xs text-ink-3">
+													{statusLabel[project.data.status]}
+												</p>
 											</div>
-										))}
+										</div>
 									</div>
-								)}
 
-								<p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-									{project.data.description}
-								</p>
+									<div class="md:col-span-8">
+										<p class={`text-ink ${lead ? 'text-md' : 'text-base'}`}>
+											{project.data.tagline}
+										</p>
+										<p class="mt-2 max-w-measure text-sm text-ink-2">
+											{project.data.description}
+										</p>
 
-								<div class="flex flex-wrap gap-2">
-									{project.data.tech.slice(0, 6).map((t) => (
-										<span class="px-2 py-1 text-xs font-mono rounded bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-white/5">
-											{t}
-										</span>
-									))}
+										{metrics.length > 0 && (
+											<dl class="mt-6 flex flex-wrap gap-x-10 gap-y-4">
+												{/* Each pair is reversed so the value reads first while dt stays before dd. */}
+												{metrics.map((metric) => (
+													<div class="flex flex-col-reverse">
+														<dt class="mt-1 text-xs text-ink-3">{metric.label}</dt>
+														<dd
+															class={lead ? 'metric-value text-2xl' : 'font-mono text-xl text-ink'}
+														>
+															{metric.value}
+														</dd>
+													</div>
+												))}
+											</dl>
+										)}
+
+										<ul class="mt-6 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-ink-3">
+											{project.data.tech.slice(0, 8).map((tech) => (
+												<li>{tech}</li>
+											))}
+										</ul>
+									</div>
 								</div>
-							</div>
-						</a>
-					))}
+							</a>
+						);
+					})}
 				</section>
-
-				<Footer client:load />
 			</main>
+
+			<Footer />
 		</div>
 	</body>
 </html>

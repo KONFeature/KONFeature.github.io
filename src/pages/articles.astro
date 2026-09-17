@@ -6,19 +6,12 @@ import ArticlesPage from '../components/ArticlesPage';
 import { getCollection } from 'astro:content';
 import { SITE_TITLE } from '../consts';
 import { personJsonLd, canonical } from '../lib/schema';
+import { getReadingTime } from '../lib/readingTime';
 
 const articles = (await getCollection('articles')).filter(article => !article.data.draft);
 
 // Count is derived so the description can never drift from the corpus.
 const ARCHIVE_DESCRIPTION = `All ${articles.length} engineering deep-dives: account abstraction, WebAuthn wallets, Solidity, Kubernetes, self-hosted infrastructure and embedded firmware.`;
-
-// Helper to calculate read time
-function getReadingTime(content: string) {
-  const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return `${minutes} min read`;
-}
 
 const processedArticles = articles.map(article => ({
   id: article.id,
@@ -37,12 +30,8 @@ const processedArticles = articles.map(article => ({
   group: article.data.group,
 }));
 
-// Sort by date
-processedArticles.sort((a, b) => {
-    const dateA = articles.find(art => art.id === a.id)?.data.date.getTime() || 0;
-    const dateB = articles.find(art => art.id === b.id)?.data.date.getTime() || 0;
-    return dateB - dateA;
-});
+// Newest first. `date` already lives on processedArticles.
+processedArticles.sort((a, b) => b.date.getTime() - a.date.getTime());
 
 const articlesJsonLd = {
 	"@context": "https://schema.org",
@@ -72,14 +61,15 @@ const articlesJsonLd = {
 		<BaseHead title={`All Articles | ${SITE_TITLE}`} description={ARCHIVE_DESCRIPTION} />
 		<script type="application/ld+json" set:html={JSON.stringify(articlesJsonLd)} />
 	</head>
-	<body class="bg-white dark:bg-[#0a0a0a]" data-pagefind-ignore>
-		<div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-300 font-sans selection:bg-gray-200 dark:selection:bg-white/20">
+	<body class="bg-paper" data-pagefind-ignore>
+		<div class="min-h-screen bg-paper font-sans">
 			<Navigation client:load />
-			
-			<main class="max-w-3xl mx-auto px-6 pt-32 pb-20">
+
+			<main id="main" class="max-w-page mx-auto px-6 pt-28 pb-20">
 				<ArticlesPage client:load articles={processedArticles} />
-				<Footer client:load />
 			</main>
+
+			<Footer />
 		</div>
 	</body>
 </html>

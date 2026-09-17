@@ -59,44 +59,47 @@ export default defineConfig({
         {
           strategy: 'img-svg',
           // Generate both light and dark versions
+          // Diagram palettes mirror the design tokens in src/styles/global.css.
+          // Mermaid needs literal values at build time, so these are the same
+          // hexes the token variables resolve to. Keep them in sync by hand.
           dark: {
-            theme: 'dark',
+            theme: 'base',
             themeVariables: {
               darkMode: true,
-              background: '#0a0a0a',
-              mainBkg: '#1a1a1a',
-              secondBkg: '#262626',
-              tertiaryBkg: '#333333',
-              
-              primaryTextColor: '#e5e5e5',
-              secondaryTextColor: '#a3a3a3',
-              tertiaryTextColor: '#737373',
-              
-              primaryBorderColor: 'rgba(255, 255, 255, 0.2)',
-              secondaryBorderColor: 'rgba(255, 255, 255, 0.1)',
-              
-              nodeBorder: 'rgba(255, 255, 255, 0.2)',
-              clusterBkg: '#1a1a1a',
-              clusterBorder: 'rgba(255, 255, 255, 0.1)',
-              
-              lineColor: 'rgba(255, 255, 255, 0.3)',
-              edgeLabelBackground: '#1a1a1a',
-              
-              primaryColor: '#3b82f6',
-              secondaryColor: '#8b5cf6',
-              tertiaryColor: '#10b981',
-              
-              errorBkgColor: '#dc2626',
-              errorTextColor: '#ffffff',
-              
-              git0: '#3b82f6',
-              git1: '#8b5cf6',
-              git2: '#10b981',
-              git3: '#f59e0b',
-              git4: '#ef4444',
-              git5: '#ec4899',
-              git6: '#14b8a6',
-              git7: '#f97316',
+              background: '#101418',
+              mainBkg: '#191e24',
+              secondBkg: '#1f252c',
+              tertiaryBkg: '#262d35',
+
+              primaryTextColor: '#eef1f4',
+              secondaryTextColor: '#aeb7c0',
+              tertiaryTextColor: '#9ba3ac',
+
+              primaryBorderColor: '#3a434d',
+              secondaryBorderColor: '#262d35',
+
+              nodeBorder: '#3a434d',
+              clusterBkg: '#151a20',
+              clusterBorder: '#262d35',
+
+              lineColor: '#5b656f',
+              edgeLabelBackground: '#191e24',
+
+              primaryColor: '#191e24',
+              secondaryColor: '#1f252c',
+              tertiaryColor: '#262d35',
+
+              errorBkgColor: '#2c1a14',
+              errorTextColor: '#ff6a3d',
+
+              git0: '#ff6a3d',
+              git1: '#aeb7c0',
+              git2: '#9ba3ac',
+              git3: '#3a434d',
+              git4: '#ff6a3d',
+              git5: '#aeb7c0',
+              git6: '#9ba3ac',
+              git7: '#3a434d',
             },
           },
           // Light mode config (default)
@@ -106,38 +109,38 @@ export default defineConfig({
               darkMode: false,
               background: 'transparent',
               mainBkg: '#ffffff',
-              secondBkg: '#f5f5f5',
-              tertiaryBkg: '#e5e5e5',
-              
-              primaryTextColor: '#171717',
-              secondaryTextColor: '#525252',
-              tertiaryTextColor: '#737373',
-              
-              primaryBorderColor: '#a3a3a3',
-              secondaryBorderColor: '#d4d4d4',
-              
-              nodeBorder: '#a3a3a3',
-              clusterBkg: '#ffffff',
-              clusterBorder: '#d4d4d4',
-              
-              lineColor: '#737373',
+              secondBkg: '#f5f6f7',
+              tertiaryBkg: '#eceef0',
+
+              primaryTextColor: '#101418',
+              secondaryTextColor: '#414951',
+              tertiaryTextColor: '#666e77',
+
+              primaryBorderColor: '#b6bcc3',
+              secondaryBorderColor: '#d5d9dd',
+
+              nodeBorder: '#b6bcc3',
+              clusterBkg: '#f5f6f7',
+              clusterBorder: '#d5d9dd',
+
+              lineColor: '#8a939c',
               edgeLabelBackground: '#ffffff',
-              
-              primaryColor: '#3b82f6',
-              secondaryColor: '#8b5cf6',
-              tertiaryColor: '#10b981',
-              
-              errorBkgColor: '#dc2626',
-              errorTextColor: '#ffffff',
-              
-              git0: '#3b82f6',
-              git1: '#8b5cf6',
-              git2: '#10b981',
-              git3: '#f59e0b',
-              git4: '#ef4444',
-              git5: '#ec4899',
-              git6: '#14b8a6',
-              git7: '#f97316',
+
+              primaryColor: '#ffffff',
+              secondaryColor: '#f5f6f7',
+              tertiaryColor: '#eceef0',
+
+              errorBkgColor: '#f6ded7',
+              errorTextColor: '#d23c15',
+
+              git0: '#d23c15',
+              git1: '#414951',
+              git2: '#666e77',
+              git3: '#b6bcc3',
+              git4: '#d23c15',
+              git5: '#414951',
+              git6: '#666e77',
+              git7: '#b6bcc3',
             },
             flowchart: {
               curve: 'basis',
@@ -157,6 +160,16 @@ export default defineConfig({
     }),
     syntaxHighlight: {
       excludeLangs: ['mermaid'],
+    },
+    // Dual themes with no default colour: Shiki emits both values as CSS
+    // variables and global.css picks the dark one under the .dark class.
+    shikiConfig: {
+      themes: {
+        light: 'vitesse-light',
+        dark: 'vitesse-dark',
+      },
+      defaultColor: false,
+      wrap: false,
     },
   },
 });

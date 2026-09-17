@@ -1,106 +1,244 @@
-import React, { useState, useEffect } from 'react';
-import { Terminal, Menu, X, Sun, Moon } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import Search from './Search';
-import { CALENDLY_URL } from '../consts';
+import { CALENDLY_URL, CONTACT_LABEL } from '../consts';
+
+/** The three navigation destinations. Contact is an action, so it sits apart. */
+const NAV_ITEMS = [
+	{ label: 'Writing', href: '/articles/' },
+	{ label: 'Projects', href: '/projects/' },
+	{ label: 'About', href: '/about/' },
+] as const;
+
+/** A section is current when the pathname sits inside it, so /articles/foo marks Writing. */
+const isCurrent = (pathname: string, href: string) =>
+	pathname === href || pathname.startsWith(href) || pathname === href.replace(/\/$/, '');
+
+/** The inline theme script in BaseHead applies the class before hydration, so reading
+ *  it here at first render avoids a flash of the wrong icon for light-theme visitors. */
+const getInitialTheme = (): 'light' | 'dark' => {
+	if (typeof document === 'undefined') return 'dark';
+	return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+};
+
+const getInitialPathname = () => (typeof window === 'undefined' ? '' : window.location.pathname);
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme);
+	const [pathname, setPathname] = useState(getInitialPathname);
+	const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark');
-    setTheme(isDark ? 'dark' : 'light');
-  }, []);
+	// Theme and current section are both read from the document, and re-read after a
+	// view transition so the active nav item survives ClientRouter navigation.
+	useEffect(() => {
+		const sync = () => {
+			setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+			setPathname(window.location.pathname);
+			setIsMenuOpen(false);
+		};
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    
-    localStorage.setItem('theme', newTheme);
-    
-    // Trigger mermaid re-render event
-    window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
-  };
+		document.addEventListener('astro:page-load', sync);
+		return () => document.removeEventListener('astro:page-load', sync);
+	}, []);
 
-  return (
-    <>
-      <nav className="fixed top-0 w-full z-50 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm border-b border-gray-200 dark:border-white/5">
-        <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 font-bold text-gray-900 dark:text-white text-lg tracking-tight">
-            <Terminal size={18} className="text-gray-600 dark:text-gray-400" />
-            <span>~/nivelais</span>
-          </a>
+	// Containment for the mobile panel: Escape closes it, body scroll is locked, and
+	// the page content is inert so Tab cannot reach links hidden behind the opaque
+	// overlay. Every page's content lives in <main> and <footer> regardless of how
+	// deep the nav sits in the component tree (the landing page mounts Navigation,
+	// main and Footer from one shared React root), so those are targeted directly
+	// instead of walking direct children of <body>.
+	useEffect(() => {
+		if (!isMenuOpen) return;
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <a href="/articles/" className="hover:text-gray-900 dark:hover:text-white transition-colors">Articles</a>
-            <a href="/projects/" className="hover:text-gray-900 dark:hover:text-white transition-colors">Projects</a>
-            <a href="/about/" className="hover:text-gray-900 dark:hover:text-white transition-colors">About</a>
-            <a 
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              Get in touch
-            </a>
-            <Search />
-            <button 
-              onClick={toggleTheme}
-              className="p-2 hover:text-gray-900 dark:hover:text-white transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          </div>
+		const outsideElements = Array.from(document.querySelectorAll('main, footer'));
+		outsideElements.forEach((el) => el.setAttribute('inert', ''));
 
-          {/* Mobile Nav */}
-          <div className="flex md:hidden items-center gap-3 text-gray-600 dark:text-gray-400">
-            <Search />
-            <button 
-              onClick={toggleTheme}
-              className="p-2"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button 
-              className="text-gray-600 dark:text-gray-300" 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-        </div>
-      </nav>
+		const previousOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-white dark:bg-[#0a0a0a] pt-20 px-6 md:hidden">
-          <div className="flex flex-col gap-6 text-xl font-medium text-gray-600 dark:text-gray-300">
-            <a href="/articles/" onClick={() => setIsMenuOpen(false)}>Articles</a>
-            <a href="/projects/" onClick={() => setIsMenuOpen(false)}>Projects</a>
-            <a href="/about/" onClick={() => setIsMenuOpen(false)}>About</a>
-            <a 
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get in touch
-            </a>
-          </div>
-        </div>
-      )}
-    </>
-  );
+		// Belt-and-braces Tab wrap: inert covers <main> and <footer>, but this keeps
+		// focus inside the nav and the panel even if something else sits at the top
+		// of <body> (the dev toolbar in local dev, for example).
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				setIsMenuOpen(false);
+				return;
+			}
+			if (e.key !== 'Tab') return;
+
+			const nav = document.querySelector('nav');
+			const panel = document.getElementById('mobile-menu');
+			const scopes = [nav, panel].filter((el): el is HTMLElement => el !== null);
+			const focusables = scopes.flatMap((scope) =>
+				Array.from(
+					scope.querySelectorAll<HTMLElement>(
+						'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+					)
+				).filter((el) => el.offsetParent !== null)
+			);
+			if (focusables.length === 0) return;
+
+			const first = focusables[0];
+			const last = focusables[focusables.length - 1];
+
+			if (e.shiftKey && document.activeElement === first) {
+				e.preventDefault();
+				last.focus();
+			} else if (!e.shiftKey && document.activeElement === last) {
+				e.preventDefault();
+				first.focus();
+			}
+		};
+		document.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			outsideElements.forEach((el) => el.removeAttribute('inert'));
+			document.body.style.overflow = previousOverflow;
+			document.removeEventListener('keydown', handleKeyDown);
+			menuButtonRef.current?.focus();
+		};
+	}, [isMenuOpen]);
+
+	const toggleTheme = () => {
+		const newTheme = theme === 'dark' ? 'light' : 'dark';
+		setTheme(newTheme);
+
+		if (newTheme === 'dark') {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+
+		localStorage.setItem('theme', newTheme);
+
+		// Trigger mermaid re-render event
+		window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
+	};
+
+	const themeLabel = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+
+	return (
+		<>
+			<a href="#main" className="skip-link">
+				Skip to main content
+			</a>
+
+			<nav className="fixed top-0 z-50 w-full border-b border-rule bg-paper/90 backdrop-blur-sm">
+				<div className="mx-auto flex h-16 max-w-page items-center justify-between gap-6 px-6">
+					<a
+						href="/"
+						className="rounded-sm text-base font-semibold text-ink transition-colors duration-150"
+					>
+						Quentin Nivelais
+					</a>
+
+					<div className="flex items-center gap-1 text-sm md:gap-6">
+						{/* Desktop-only section links. Collapse into the mobile panel below md. */}
+						<div className="hidden items-center gap-6 md:flex">
+							{NAV_ITEMS.map((item) => {
+								const current = isCurrent(pathname, item.href);
+								return (
+									<a
+										key={item.href}
+										href={item.href}
+										aria-current={current ? 'page' : undefined}
+										className={`relative rounded-sm transition-colors duration-150 ${
+											current ? 'font-medium text-ink' : 'text-ink-2 hover:text-ink'
+										}`}
+									>
+										{item.label}
+										{current && (
+											<span
+												aria-hidden="true"
+												className="absolute inset-x-0 -bottom-1.5 h-[2px] bg-signal"
+											/>
+										)}
+									</a>
+								);
+							})}
+						</div>
+
+						{/* Single instance: mounting Search once here (instead of once per
+						    responsive container) keeps Cmd/Ctrl+K and the dialog singular. */}
+						<Search />
+
+						<button
+							onClick={toggleTheme}
+							className="rounded-sm p-1.5 text-ink-2 transition-colors duration-150 hover:text-ink"
+							aria-label={themeLabel}
+							title={themeLabel}
+						>
+							{theme === 'dark' ? (
+								<Sun size={18} strokeWidth={1.5} />
+							) : (
+								<Moon size={18} strokeWidth={1.5} />
+							)}
+						</button>
+
+						<a
+							href={CALENDLY_URL}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="btn btn-secondary hidden px-3 py-1.5 text-sm md:inline-flex"
+						>
+							{CONTACT_LABEL}
+						</a>
+
+						<button
+							ref={menuButtonRef}
+							className="rounded-sm p-1.5 text-ink-2 transition-colors duration-150 hover:text-ink md:hidden"
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+							aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+							aria-expanded={isMenuOpen}
+							aria-controls="mobile-menu"
+						>
+							{isMenuOpen ? (
+								<X size={20} strokeWidth={1.5} />
+							) : (
+								<Menu size={20} strokeWidth={1.5} />
+							)}
+						</button>
+					</div>
+				</div>
+			</nav>
+
+			{isMenuOpen && (
+				<div id="mobile-menu" className="fixed inset-0 z-40 bg-paper px-6 pt-24 md:hidden">
+					<div className="flex flex-col items-start gap-6 text-lg">
+						{NAV_ITEMS.map((item) => {
+							const current = isCurrent(pathname, item.href);
+							return (
+								<a
+									key={item.href}
+									href={item.href}
+									onClick={() => setIsMenuOpen(false)}
+									aria-current={current ? 'page' : undefined}
+									className={`rounded-sm transition-colors duration-150 ${
+										current
+											? 'border-b-2 border-signal font-medium text-ink'
+											: 'text-ink-2 hover:text-ink'
+									}`}
+								>
+									{item.label}
+								</a>
+							);
+						})}
+
+						<a
+							href={CALENDLY_URL}
+							target="_blank"
+							rel="noopener noreferrer"
+							onClick={() => setIsMenuOpen(false)}
+							className="btn btn-secondary mt-2"
+						>
+							{CONTACT_LABEL}
+						</a>
+					</div>
+				</div>
+			)}
+		</>
+	);
 };
 
 export default Navigation;

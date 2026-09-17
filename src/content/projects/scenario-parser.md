@@ -12,7 +12,7 @@ tech: ["TypeScript", "Python", "pdfplumber", "pymupdf4llm", "Gemini", "grapholog
 metrics:
   - { label: "Parsing accuracy", value: "99%+" }
   - { label: "Zero-cost path", value: "68% of PDFs" }
-  - { label: "Tier accuracy", value: "65% → 92%" }
+  - { label: "Tier accuracy", value: "65% to 92%" }
 links: []
 articleGroups: ["scenario-parser"]
 featured: false

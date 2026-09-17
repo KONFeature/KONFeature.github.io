@@ -13,8 +13,8 @@ interface TableOfContentsProps {
 
 const TableOfContents: FC<TableOfContentsProps> = ({ headings }) => {
 	const [activeSlug, setActiveSlug] = useState<string>('');
-	const [isOpen, setIsOpen] = useState(false);
 
+	// Scroll spy runs on IntersectionObserver, never on a scroll listener.
 	useEffect(() => {
 		if (headings.length === 0) return;
 
@@ -32,7 +32,6 @@ const TableOfContents: FC<TableOfContentsProps> = ({ headings }) => {
 			}
 		);
 
-		// Observe all headings
 		headings.forEach((heading) => {
 			const element = document.getElementById(heading.slug);
 			if (element) {
@@ -40,32 +39,20 @@ const TableOfContents: FC<TableOfContentsProps> = ({ headings }) => {
 			}
 		});
 
-		return () => {
-			headings.forEach((heading) => {
-				const element = document.getElementById(heading.slug);
-				if (element) {
-					observer.unobserve(element);
-				}
-			});
-		};
+		return () => observer.disconnect();
 	}, [headings]);
 
 	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, slug: string) => {
-		e.preventDefault();
 		const element = document.getElementById(slug);
-		if (element) {
-			const offset = 100; // Offset for fixed navigation
-			const elementPosition = element.getBoundingClientRect().top;
-			const offsetPosition = elementPosition + window.scrollY - offset;
+		if (!element) return;
 
-			window.scrollTo({
-				top: offsetPosition,
-				behavior: 'smooth',
-			});
+		e.preventDefault();
 
-			// Close mobile menu after clicking
-			setIsOpen(false);
-		}
+		// global.css sets scroll-margin-top on headings, so the browser already
+		// clears the fixed nav; no bespoke offset math needed here.
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		element.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+		history.pushState(null, '', `#${slug}`);
 	};
 
 	if (headings.length === 0) {
@@ -73,79 +60,41 @@ const TableOfContents: FC<TableOfContentsProps> = ({ headings }) => {
 	}
 
 	return (
-		<>
-			{/* Mobile Toggle Button */}
-			<button
-				onClick={() => setIsOpen(!isOpen)}
-				className="xl:hidden fixed bottom-6 right-6 z-50 p-4 bg-gray-100/80 dark:bg-white/10 hover:bg-gray-200/90 dark:hover:bg-white/20 backdrop-blur-sm rounded-full border border-gray-300 dark:border-white/20 transition-colors shadow-lg"
-				aria-label="Toggle table of contents"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				>
-					<line x1="3" y1="12" x2="21" y2="12" />
-					<line x1="3" y1="6" x2="21" y2="6" />
-					<line x1="3" y1="18" x2="21" y2="18" />
-				</svg>
-			</button>
+		// Fixed, so it takes no layout space; below xl it is not rendered at all.
+		<nav
+			data-component="TableOfContents"
+			/*
+			 * The prose column is 46rem centred, so at exactly 1280px a 16rem panel
+			 * would touch it. It starts narrow and widens once there is room.
+			 */
+			className="hidden xl:block fixed top-28 right-6 z-40 w-48 2xl:w-64 max-h-[calc(100vh-9rem)] overflow-y-auto"
+			aria-label="Table of contents"
+		>
+			<p className="text-xs text-ink-3 mb-3">On this page</p>
+			<ul className="border-l border-rule">
+				{headings.map((heading) => {
+					const isActive = activeSlug === heading.slug;
+					const indent = Math.max(0, heading.depth - 2) * 12;
 
-			{/* Mobile Overlay */}
-			{isOpen && (
-				<div
-					className="xl:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-					onClick={() => setIsOpen(false)}
-				/>
-			)}
-
-			{/* Table of Contents */}
-			<nav
-				data-component="TableOfContents"
-				className={`
-					fixed top-32 right-0 w-72 max-h-[calc(100vh-10rem)] overflow-y-auto
-					bg-gray-100/80 dark:bg-white/5 backdrop-blur-sm rounded-lg border border-gray-300 dark:border-white/10 p-6
-					transition-transform duration-300 z-40
-					${isOpen ? 'translate-x-0 mr-6' : 'translate-x-full xl:translate-x-0 xl:mr-6'}
-				`}
-				aria-label="Table of contents"
-			>
-				<h2 className="text-sm font-mono uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-4">
-					On this page
-				</h2>
-				<ul className="space-y-2">
-					{headings.map((heading) => {
-						const isActive = activeSlug === heading.slug;
-						const paddingLeft = (heading.depth - 1) * 12;
-
-						return (
-							<li key={heading.slug} style={{ paddingLeft: `${paddingLeft}px` }}>
-								<a
-									href={`#${heading.slug}`}
-									onClick={(e) => handleClick(e, heading.slug)}
-									className={`
-										block text-sm transition-colors py-1 border-l-2 pl-3 -ml-3
-										${
-											isActive
-												? 'border-gray-900 dark:border-white text-gray-900 dark:text-white font-medium'
-												: 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:border-gray-400 dark:hover:border-gray-600'
-										}
-									`}
-								>
-									{heading.text}
-								</a>
-							</li>
-						);
-					})}
-				</ul>
-			</nav>
-		</>
+					return (
+						<li key={heading.slug}>
+							<a
+								href={`#${heading.slug}`}
+								onClick={(e) => handleClick(e, heading.slug)}
+								style={{ paddingLeft: `${16 + indent}px` }}
+								className={`block text-sm py-1 -ml-px border-l-2 transition-colors ${
+									isActive
+										? 'border-signal text-signal'
+										: 'border-transparent text-ink-3 hover:text-ink'
+								}`}
+							>
+								{heading.text}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</nav>
 	);
 };
 

@@ -1,67 +1,74 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface ArticleNavigationProps {
-	prevArticle?: {
-		title: string;
-		slug: string;
-	};
-	nextArticle?: {
-		title: string;
-		slug: string;
-	};
-	groupName?: string;
+interface SiblingArticle {
+	title: string;
+	slug: string;
+	position: number;
 }
 
-const ArticleNavigation: React.FC<ArticleNavigationProps> = ({ 
-	prevArticle, 
+interface ArticleNavigationProps {
+	prevArticle?: SiblingArticle;
+	nextArticle?: SiblingArticle;
+	groupName?: string;
+	groupTotal?: number;
+}
+
+// Previous/next carry real information instead of pagination chrome: the
+// sibling's title, its position in the group, and the group name. Next is
+// weighted heavier so it reads as the obvious continuation of the series
+// rather than a "next page" control.
+const ArticleNavigation: React.FC<ArticleNavigationProps> = ({
+	prevArticle,
 	nextArticle,
-	groupName 
+	groupName,
+	groupTotal
 }) => {
 	if (!prevArticle && !nextArticle) {
 		return null;
 	}
 
 	return (
-		<nav className="mt-16 pt-8 border-t border-gray-300 dark:border-white/10">
-			{groupName && (
-				<p className="text-xs font-mono text-gray-600 uppercase tracking-wider mb-6">
-					More from {groupName}
-				</p>
-			)}
-			
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{/* Previous Article */}
+		<nav aria-label="Article series navigation" className="mt-12 pt-6 border-t border-rule">
+			<div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 				{prevArticle ? (
-					<a 
+					<a
 						href={`/articles/${prevArticle.slug}/`}
-						className="group flex items-center gap-3 p-4 rounded-lg border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20 hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
+						className="group block"
 					>
-						<ChevronLeft className="w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors shrink-0" />
-						<div className="min-w-0">
-							<p className="text-xs font-mono text-gray-600 mb-1">Previous</p>
-							<p className="text-sm text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors truncate">
-								{prevArticle.title}
-							</p>
-						</div>
+						<span className="block text-xs text-ink-3">
+							{groupName ? `${groupName} · ` : ''}
+							{groupTotal ? (
+								<span className="font-mono">Part {prevArticle.position} of {groupTotal}</span>
+							) : (
+								'Previous'
+							)}
+						</span>
+						<span className="block mt-1 text-sm text-ink-2 group-hover:underline underline-offset-4 decoration-rule-strong">
+							{prevArticle.title}
+						</span>
 					</a>
 				) : (
 					<div className="hidden md:block" />
 				)}
 
-				{/* Next Article */}
 				{nextArticle && (
-					<a 
+					<a
 						href={`/articles/${nextArticle.slug}/`}
-						className="group flex items-center gap-3 p-4 rounded-lg border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/20 hover:bg-gray-100 dark:hover:bg-white/5 transition-all md:justify-end"
+						className="group block md:text-right"
 					>
-						<div className="min-w-0 text-left md:text-right">
-							<p className="text-xs font-mono text-gray-600 mb-1">Next</p>
-							<p className="text-sm text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors truncate">
-								{nextArticle.title}
-							</p>
-						</div>
-						<ChevronRight className="w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors shrink-0" />
+						<span className="block text-xs text-ink-3">
+							{groupTotal ? (
+								<>
+									Continuing{groupName ? ` ${groupName}` : ''} ·{' '}
+									<span className="font-mono">Part {nextArticle.position} of {groupTotal}</span>
+								</>
+							) : (
+								'Next'
+							)}
+						</span>
+						<span className="block mt-1 text-lg font-semibold text-ink group-hover:underline underline-offset-4 decoration-rule-strong">
+							{nextArticle.title}
+						</span>
 					</a>
 				)}
 			</div>
