@@ -2,7 +2,7 @@
 name: "WordForge"
 tagline: "An open-source MCP server that lets WordPress be managed through AI conversation instead of admin-panel clicking."
 description: "An open-source MCP server for WordPress and WooCommerce: manage a self-hosted pottery shop through Claude conversations instead of admin menus."
-status: "personal"
+status: personal
 role: "Creator"
 period: "Dec 2025"
 order: 6

@@ -2,7 +2,7 @@
 name: "3-Phase Panel Optimizer"
 tagline: "A constraint solver that auto-generates a house's electrical panels and balances the three phases, so I don't have to do it by hand."
 description: "A tool that models a French electrical installation and auto-generates compliant panels under NF C 15-100: optimized breaker counts, balanced 3-phase loads."
-status: "personal"
+status: personal
 role: "Creator"
 period: "Jun 2026"
 order: 7

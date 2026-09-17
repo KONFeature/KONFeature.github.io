@@ -1,7 +1,7 @@
 ---
 name: "Frak Labs"
 tagline: "On-chain reward infrastructure and a seedless smart wallet for e-commerce and content"
-description: "A web3 rewards platform with a self-custodial WebAuthn smart wallet, embedded via a near-zero-cost iframe into Shopify and WordPress stores."
+description: "A web3 rewards platform with a self-custodial WebAuthn smart wallet: JS and native mobile SDKs embedding it into Shopify, WooCommerce, Magento, and any custom site or app."
 status: production
 role: "Co-founder & CTO"
 period: "2022 - present"
@@ -54,13 +54,13 @@ Reward logic, referral tracking, and campaign accounting live in Solidity contra
 
 ## Backend, SDK, and the embeddable wallet
 
-The backend runs on Bun and Elysia. The part merchants actually integrate is the SDK plus a listener iframe that mounts the wallet UI on their storefront. That iframe is a guest on someone else's page, loading on hundreds of thousands of partner pageviews a day where the vast majority never trigger any wallet UI, so its cost had to round down to nearly zero. We rebuilt it around a ["ring architecture"](/articles/frak/frak-listener-ring-architecture): a 3-chunk eager bundle for the RPC bridge, with everything else (Preact, the modal, the sharing flow) split into lazy chunks the SDK preloads speculatively. Combined with an earlier pass that cut the wallet bundle by 30%, this is what keeps the embed invisible on partner sites' load times.
+The backend runs on Bun and Elysia. Integration has grown into a full SDK surface: a vanilla JS core SDK for the underlying protocol, a vanilla JS component SDK with prebuilt HTML components for teams that want drop-in UI, a React SDK for the same, and, newest, native Android and iOS SDKs so mobile apps get the same reward and referral flows as the web. The web SDKs mount a listener iframe on the merchant's page, a guest on someone else's page loading on hundreds of thousands of partner pageviews a day where the vast majority never trigger any wallet UI, so its cost had to round down to nearly zero. We rebuilt it around a ["ring architecture"](/articles/frak/frak-listener-ring-architecture): a 3-chunk eager bundle for the RPC bridge, with everything else (Preact, the modal, the sharing flow) split into lazy chunks the SDK preloads speculatively. Combined with an earlier pass that cut the wallet bundle by 30%, this is what keeps the embed invisible on partner sites' load times.
 
-The wallet itself also ships as a native mobile app via Tauri (React + Rust), including a from-scratch native WebAuthn plugin for iOS and Android so passkeys work outside the browser.
+Separately, the Frak wallet app itself also ships as a native consumer app via Tauri (React + Rust), including a from-scratch native WebAuthn plugin for iOS and Android so passkeys work outside the browser.
 
 ## E-commerce integrations
 
-Frak plugs into the platforms merchants already run: a Shopify app (storefront banner, product-page share button, and a post-purchase checkout extension, unified under one merchant-owned translation source across four different runtimes), and a WordPress/WooCommerce plugin built to add near-zero overhead to every page load, with webhook delivery delegated to WooCommerce's native pipeline rather than a hand-rolled dispatcher.
+Frak plugs into the platforms merchants already run: a Shopify app (storefront banner, product-page share button, and a post-purchase checkout extension, unified under one merchant-owned translation source across four different runtimes), a WordPress/WooCommerce plugin built to add near-zero overhead to every page load with webhook delivery delegated to WooCommerce's native pipeline rather than a hand-rolled dispatcher, and a Magento module for the same flows. Any other stack integrates through the base SDK directly, with a custom webhook acceptance flow standing in for a platform-specific plugin.
 
 ## Infrastructure
 
