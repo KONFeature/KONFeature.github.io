@@ -27,6 +27,14 @@ jobs:
     steps:
       - name: '🔨 Checkout'
         uses: actions/checkout@v6
+        with:
+          # Full history, not the default depth-1 shallow clone. Both
+          # scripts/add-sitemap-lastmod.mjs and remark-modified-time.mjs derive dates from
+          # `git log -1 --format=%cI -- <file>`, and a shallow clone has one parentless
+          # commit that git reports as having created every file. Every article then gets
+          # the same deploy-time <lastmod>, which resets on every push. `--follow` in the
+          # sitemap script needs the real history too.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v6
         with:
