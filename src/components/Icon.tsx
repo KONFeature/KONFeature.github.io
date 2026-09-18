@@ -27,7 +27,23 @@ import {
   Container,
   Hammer,
   Network,
-  Zap
+  Zap,
+  Brain,
+  Bug,
+  ChartLine,
+  CloudCog,
+  Cog,
+  Database,
+  FileText,
+  Gauge,
+  GitCompare,
+  Layout,
+  Lock,
+  Share2,
+  Ship,
+  Smartphone,
+  AudioWaveform,
+  Workflow
 } from 'lucide-react';
 import { GithubIcon, TwitterIcon, LinkedinIcon } from './BrandIcons';
 
@@ -63,7 +79,23 @@ export const IconMap: Record<string, React.ElementType> = {
   container: Container,
   hammer: Hammer,
   network: Network,
-  zap: Zap
+  zap: Zap,
+  brain: Brain,
+  bug: Bug,
+  "chart-line": ChartLine,
+  "cloud-cog": CloudCog,
+  cog: Cog,
+  database: Database,
+  "file-text": FileText,
+  gauge: Gauge,
+  "git-compare": GitCompare,
+  layout: Layout,
+  lock: Lock,
+  "share-2": Share2,
+  ship: Ship,
+  smartphone: Smartphone,
+  waveform: AudioWaveform,
+  workflow: Workflow
 };
 
 interface IconProps {
